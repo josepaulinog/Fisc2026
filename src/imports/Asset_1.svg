@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="Layer_2" data-name="Layer 2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 342.88 83.18">
+  <defs>
+    <style>
+      .cls-1 {
+        font-family: OpenSans-Medium, 'Open Sans';
+        font-weight: 500;
+      }
+
+      .cls-1, .cls-2, .cls-3, .cls-4, .cls-5, .cls-6 {
+        isolation: isolate;
+      }
+
+      .cls-1, .cls-4 {
+        font-size: 19.2px;
+      }
+
+      .cls-1, .cls-4, .cls-6 {
+        fill: #231f20;
+      }
+
+      .cls-7 {
+        fill: #eaeaea;
+      }
+
+      .cls-8 {
+        fill: #df5b26;
+      }
+
+      .cls-9 {
+        fill: #ec7333;
+      }
+
+      .cls-3 {
+        letter-spacing: .2em;
+      }
+
+      .cls-3, .cls-5 {
+        fill: #f36c22;
+      }
+
+      .cls-3, .cls-5, .cls-6 {
+        font-family: OpenSans, 'Open Sans';
+        font-size: 11.73px;
+      }
+
+      .cls-4 {
+        font-family: OpenSans-SemiBold, 'Open Sans';
+        font-weight: 600;
+      }
+
+      .cls-10 {
+        fill: #eb7233;
+      }
+
+      .cls-6 {
+        letter-spacing: .2em;
+      }
+
+      .cls-11 {
+        fill: none;
+        stroke: #bcbec0;
+        stroke-miterlimit: 10;
+        stroke-width: .5px;
+      }
+    </style>
+  </defs>
+  <g id="Layer_1-2" data-name="Layer 1">
+    <g>
+      <g>
+        <path class="cls-7" d="M7.19,68.31C3.21,68.31,0,72.16,0,68.18v-26.95c-.01-8.27,6.72-15,14.99-15h22.5c2.79,0,5.45,1.34,7.11,3.59l6.8,9.19c2.33,3.15,2.33,7.39,0,10.54l-6.8,9.19c-1.66,2.24-4.32,3.58-7.11,3.58H15.01c-.28,0-.53,0-.73.03-.59,3.39-3.54,5.97-7.09,5.97"/>
+        <path class="cls-7" d="M15.01,83.18C6.74,83.18.01,76.45.01,68.18s6.73-15,15-15,15,6.73,15,15-6.73,15-15,15"/>
+        <path class="cls-7" d="M7.19,42.04C3.21,42.04,0,49.16,0,45.18V15C0,6.73,6.72,0,14.99,0h35.94c2.79,0,5.45,1.34,7.11,3.58l6.81,9.19c2.33,3.15,2.33,7.38,0,10.53l-6.81,9.19c-1.66,2.24-4.32,3.58-7.11,3.58H15.01c-.29,0-.53.01-.74.03-.6,3.37-3.55,5.93-7.09,5.93"/>
+      </g>
+      <path class="cls-11" d="M83.5,76.65V3.35"/>
+    </g>
+    <g class="cls-2">
+      <text class="cls-4" transform="translate(102.49 27.66)"><tspan x="0" y="0">FreeBalance International</tspan></text>
+    </g>
+    <g class="cls-2">
+      <text class="cls-1" transform="translate(102.49 46.86)"><tspan x="0" y="0">Steering Committee</tspan></text>
+    </g>
+    <g class="cls-2">
+      <text class="cls-3" transform="translate(102.49 66.06)"><tspan x="0" y="0">202</tspan></text>
+      <text class="cls-5" transform="translate(129.66 66.06)"><tspan x="0" y="0">6</tspan></text>
+    </g>
+    <g class="cls-2">
+      <text class="cls-6" transform="translate(144.12 66.06)"><tspan x="0" y="0">TRINIDAD AND TOBAGO</tspan></text>
+    </g>
+    <g>
+      <path class="cls-10" d="M15.01,75.73c4.31,0,7.8-3.49,7.8-7.8s-3.49-7.8-7.8-7.8-7.8,3.49-7.8,7.8,3.49,7.8,7.8,7.8"/>
+      <path class="cls-9" d="M59.07,16.8l-6.81-9.19c-.31-.42-.8-.67-1.32-.67H15c-4.31,0-7.8,3.49-7.8,7.8v19.85c0-4.32,3.5-5.97,7.82-5.97h35.92c.52,0,1.01-.25,1.32-.67l6.81-9.19c.43-.58.43-1.38,0-1.96"/>
+      <path class="cls-10" d="M45.63,43.03l-6.81-9.19c-.31-.42-.8-.67-1.32-.67H15c-4.31,0-7.8,3.49-7.8,7.8v19.89c0-4.32,3.5-6.01,7.82-6.01h22.48c.52,0,1.01-.25,1.32-.67l6.81-9.19c.43-.58.43-1.38,0-1.96"/>
+      <g>
+        <path class="cls-8" d="M14.63,60.15c-4.13.2-7.42,3.6-7.42,7.78s3.29,7.58,7.42,7.78v-15.56Z"/>
+        <path class="cls-8" d="M14.71,33.2c-4.17.15-7.51,3.57-7.51,7.79v19.85c0-4.22,3.34-5.89,7.51-5.97v-21.67Z"/>
+        <path class="cls-8" d="M14.71,6.95c-4.17.15-7.51,3.57-7.51,7.79v19.85c0-4.22,3.34-5.89,7.51-5.97V6.95Z"/>
+      </g>
+    </g>
+  </g>
+</svg>
