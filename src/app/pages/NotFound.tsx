@@ -1,6 +1,6 @@
 import { Link } from "react-router";
 import { ArrowRight } from "lucide-react";
-import { Grain } from "../components/shared";
+import { Grain, GradientText } from "../components/shared";
 import { BRAND, INK } from "../data";
 
 export default function NotFound() {
@@ -11,7 +11,7 @@ export default function NotFound() {
       <div className="relative max-w-7xl mx-auto px-5 md:px-6 text-white">
         <div className="tracking-[0.25em] text-white/60 text-sm">ERROR · 404</div>
         <h1 className="mt-4 tracking-[-0.03em]" style={{ fontSize: "clamp(3rem, 10vw, 9rem)", lineHeight: 0.95 }}>
-          Lost in <span className="italic" style={{ color: BRAND }}>transit.</span>
+          Lost in <GradientText>transit.</GradientText>
         </h1>
         <p className="mt-6 max-w-xl text-white/70" style={{ fontSize: "1.125rem" }}>
           The page you were looking for doesn't exist — or it's still on the boat to Port of Spain.

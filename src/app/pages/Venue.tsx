@@ -15,7 +15,7 @@ import {
   Wind,
 } from "lucide-react";
 import { ImageWithFallback } from "../components/figma/ImageWithFallback";
-import { Grain, PageHero, SectionLabel } from "../components/shared";
+import { Grain, GradientText, PageHero, SectionLabel } from "../components/shared";
 import {
   BRAND,
   BRAND_SOFT,
@@ -64,16 +64,7 @@ export default function Venue() {
           <>
             Port of Spain.
             <br />
-            <span
-              className="italic"
-              style={{
-                background: `linear-gradient(120deg, ${BRAND_SOFT}, ${BRAND})`,
-                WebkitBackgroundClip: "text",
-                WebkitTextFillColor: "transparent",
-              }}
-            >
-              Twin islands.
-            </span>{" "}
+            <GradientText>Twin islands.</GradientText>{" "}
             One rhythm.
           </>
         }
@@ -186,7 +177,7 @@ export default function Venue() {
             <div>
               <SectionLabel>Around the islands</SectionLabel>
               <h2 className="tracking-[-0.02em] text-neutral-950" style={{ fontSize: "clamp(1.875rem, 4vw, 3rem)", lineHeight: 1.05 }}>
-                Stay a while. <span className="italic" style={{ color: BRAND }}>Trinidad invites it.</span>
+                Stay a while. <GradientText>Trinidad invites it.</GradientText>
               </h2>
             </div>
             <p className="max-w-md text-neutral-600">

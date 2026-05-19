@@ -32,6 +32,20 @@ export const HERO_VENUE =
   "https://images.unsplash.com/photo-1580541631950-7282082b53ce?w=2000&q=85";
 export const HERO_RESOURCES =
   "https://images.unsplash.com/photo-1568667256549-094345857637?w=2000&q=85";
+export const HERO_ATTENDEES =
+  "https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=2000&q=85";
+export const HERO_MATERIALS =
+  "https://images.unsplash.com/photo-1456513080510-7bf3a84b82f8?w=2000&q=85";
+export const HERO_GUIDE =
+  "https://images.unsplash.com/photo-1488646953014-85cb44e25828?w=2000&q=85";
+export const HERO_GALLERY =
+  "https://images.unsplash.com/photo-1492684223066-81342ee5ff30?w=2000&q=85";
+export const HERO_VIDEOS =
+  "https://images.unsplash.com/photo-1485846234645-a62644f84728?w=2000&q=85";
+export const HERO_MEDIA =
+  "https://images.unsplash.com/photo-1495020689067-958852a7765e?w=2000&q=85";
+export const HERO_SIGNIN =
+  "https://replicate.delivery/xezq/jWh9MKFLGZ61KBEdNPT1P2TyowbN0EMHzWeJv4pmILjfSlXUA/tmp6_134lj_.jpg";
 
 export const VENUE_HOTEL =
   "https://images.unsplash.com/photo-1455587734955-081b22074882?w=2000&q=85";
@@ -48,12 +62,26 @@ export const BRAND = "#fd6b18";
 export const BRAND_SOFT = "#ffb27a";
 export const INK = "#0a0a0a";
 
-export const navItems = [
+export type NavChild = { label: string; to: string; gated?: boolean };
+export type NavItem = { label: string; to?: string; children?: NavChild[] };
+
+export const navItems: NavItem[] = [
   { label: "About", to: "/about" },
   { label: "Agenda", to: "/agenda" },
   { label: "Speakers", to: "/speakers" },
   { label: "Venue", to: "/venue" },
-  { label: "Resources", to: "/resources" },
+  {
+    label: "Resources",
+    to: "/resources",
+    children: [
+      { label: "Delegate Guide", to: "/delegate-guide", gated: true },
+      { label: "Materials", to: "/materials", gated: true },
+      { label: "Videos", to: "/videos" },
+      { label: "Gallery", to: "/gallery" },
+      { label: "Media Coverage", to: "/media-coverage" },
+      { label: "Delegate Community", to: "/attendees", gated: true },
+    ],
+  },
 ];
 
 export const stats = [
@@ -70,6 +98,15 @@ export type Session = {
   tag?: "Presentation" | "Workshop" | "Demonstration" | "Panel";
   speakers?: { name: string; role: string; img?: string }[];
 };
+
+/**
+ * URL slug derived from a day's `short` label.
+ * "Welcome" → "welcome", "Day 1" → "day-1", etc.
+ * Used by the /agenda/:daySlug/:sessionIdx detail route.
+ */
+export function daySlugFor(day: { short: string }): string {
+  return day.short.toLowerCase().replace(/\s+/g, "-");
+}
 
 export type AgendaDay = {
   label: string;
@@ -182,10 +219,21 @@ export const TAG_COLORS: Record<string, string> = {
   Panel: "#a855f7",
 };
 
-export const speakers = [
-  { name: "Manuel Schiappa Pietra", role: "President and CEO", org: "FreeBalance", img: "https://fisc.freebalance.com/wp-content/uploads/2025/03/manuel-pietra-150x150.jpg", linkedin: "https://www.linkedin.com/in/manuel-schiappa-pietra/", twitter: "https://twitter.com/PietraCEO" },
-  { name: "Santina Viegas Cardoso", role: "Minister of Finance", org: "Government of Timor Leste", img: "https://fisc.freebalance.com/wp-content/uploads/2025/02/Santina-150x150.webp", email: "mailto:info@mof.gov.tl", linkedin: "https://www.linkedin.com/company/ministry-of-finance-timor-leste/" },
-  { name: "HE Kay Rala Xanana Gusmão", role: "Prime Minister", org: "Government of Timor Leste", img: "https://fisc.freebalance.com/wp-content/uploads/2025/04/prime1-150x150.jpg", linkedin: "#", twitter: "#" },
+export type SpeakerEntry = {
+  name: string;
+  role: string;
+  org: string;
+  img: string;
+  email?: string;
+  linkedin?: string;
+  twitter?: string;
+  featured?: boolean;
+};
+
+export const speakers: SpeakerEntry[] = [
+  { name: "Manuel Schiappa Pietra", role: "President and CEO", org: "FreeBalance", img: "https://fisc.freebalance.com/wp-content/uploads/2025/03/manuel-pietra-150x150.jpg", linkedin: "https://www.linkedin.com/in/manuel-schiappa-pietra/", twitter: "https://twitter.com/PietraCEO", featured: true },
+  { name: "Santina Viegas Cardoso", role: "Minister of Finance", org: "Government of Timor Leste", img: "https://fisc.freebalance.com/wp-content/uploads/2025/02/Santina-150x150.webp", email: "mailto:info@mof.gov.tl", linkedin: "https://www.linkedin.com/company/ministry-of-finance-timor-leste/", featured: true },
+  { name: "HE Kay Rala Xanana Gusmão", role: "Prime Minister", org: "Government of Timor Leste", img: "https://fisc.freebalance.com/wp-content/uploads/2025/04/prime1-150x150.jpg", featured: true },
   { name: "Doug Hadden", role: "EVP, Strategy and Innovation", org: "FreeBalance", img: "https://fisc.freebalance.com/wp-content/uploads/2025/03/doug-hadden-150x150.jpg", email: "mailto:dhadden@freebalance.com", linkedin: "https://www.linkedin.com/in/haddencatalyst/", twitter: "https://twitter.com/dalytics" },
   { name: "Aldo Sagastume", role: "VP, Public Financial Management", org: "FreeBalance", img: "https://fisc.freebalance.com/wp-content/uploads/2025/03/aldo-bustamante-150x150.png", email: "mailto:asagastume@freebalance.com", linkedin: "https://www.linkedin.com/in/aldo-sagastume-b2b7319/" },
   { name: "Carolyn Bowick", role: "Director of Marketing Communication", org: "FreeBalance", img: "https://fisc.freebalance.com/wp-content/uploads/2025/03/carolyn2-150x150.jpeg", email: "mailto:carolyn.bowick@freebalance.com", linkedin: "https://www.linkedin.com/in/carolynbowick" },
@@ -194,13 +242,21 @@ export const speakers = [
   { name: "Pedro Jorge", role: "VP, Research and Development", org: "FreeBalance", img: "https://fisc.freebalance.com/wp-content/uploads/2025/03/pedro-jorge-150x150.png", email: "mailto:pjorge@freebalance.com", linkedin: "https://www.linkedin.com/in/pedro-jorge-81a177b/" },
 ];
 
-export const resources = [
-  { icon: FileText, label: "Delegate Guide" },
-  { icon: Play, label: "Recorded Sessions" },
-  { icon: Download, label: "Presentations" },
-  { icon: ImageIcon, label: "Photo Gallery" },
-  { icon: Mic, label: "Blog & Media" },
-  { icon: Globe, label: "Country Stories" },
+export type ResourceCard = {
+  icon: typeof FileText;
+  label: string;
+  desc: string;
+  to: string;
+  gated?: boolean;
+};
+
+export const resources: ResourceCard[] = [
+  { icon: FileText, label: "Delegate Guide", desc: "Trinidad & Tobago essentials — visas, climate, shuttles, and on-the-ground tips.", to: "/delegate-guide", gated: true },
+  { icon: Play, label: "Recorded Sessions", desc: "Daily highlight reels and full plenary recordings from FISC 2026.", to: "/videos" },
+  { icon: Download, label: "Presentations", desc: "FISC Takeaways — every slide deck and one-pager from the programme.", to: "/materials", gated: true },
+  { icon: ImageIcon, label: "Photo Gallery", desc: "Curated photography from gala dinners, plenaries and pan-yard evenings.", to: "/gallery" },
+  { icon: Mic, label: "Media Coverage", desc: "Press articles, broadcast clips and partner posts covering the conference.", to: "/media-coverage" },
+  { icon: Globe, label: "Delegate Community", desc: "The ministers, secretaries and reformers shaping PFM across 40+ countries.", to: "/attendees", gated: true },
 ];
 
 export const countries = [
@@ -208,3 +264,267 @@ export const countries = [
   "Guyana", "Honduras", "Mongolia", "Kosovo", "Afghanistan", "Suriname",
   "St. Lucia", "Barbados", "Jamaica", "Antigua", "South Sudan",
 ];
+
+// ---------------------------------------------------------------------------
+// Attendees (delegate community) — gated content
+// ---------------------------------------------------------------------------
+
+export type AttendeeEntry = {
+  salutation?: "Mr." | "Mrs." | "Ms." | "Dr." | "HE";
+  name: string;
+  role: string;
+  org: string;
+  country: string;
+  img?: string;
+  email?: string;
+  linkedin?: string;
+  twitter?: string;
+  delegationLead?: boolean;
+};
+
+export const attendees: AttendeeEntry[] = [
+  { salutation: "HE", name: "Santina Viegas Cardoso", role: "Minister of Finance", org: "Ministry of Finance", country: "Timor-Leste", img: "https://fisc.freebalance.com/wp-content/uploads/2025/02/Santina-150x150.webp", linkedin: "https://www.linkedin.com/company/ministry-of-finance-timor-leste/", delegationLead: true },
+  { salutation: "Mr.", name: "Brandon Francis", role: "Senior Systems Analyst", org: "Government of Antigua and Barbuda", country: "Antigua", delegationLead: true },
+  { salutation: "Mr.", name: "Brendan J. Toner", role: "Finance Reform Director", org: "Government of Barbados", country: "Barbados" },
+  { salutation: "Ms.", name: "Christina Elnei", role: "Director, Budget Modernization", org: "Ministry of Finance", country: "South Sudan" },
+  { salutation: "Mr.", name: "Jerry Van Ommeren", role: "IT Manager, Ministry of Finance", org: "Ministry of Finance", country: "Suriname" },
+  { salutation: "Mr.", name: "Abraham Makur Mangok", role: "Principal Adviser to the Minister", org: "Ministry of Finance", country: "South Sudan" },
+  { salutation: "Mr.", name: "Arben Rama", role: "Senior Systems Administrator, IT", org: "Treasury", country: "Kosovo" },
+  { salutation: "Mr.", name: "Benjamin Wislon Jr.", role: "Deputy Comptroller and Accountant General", org: "Ministry of Finance", country: "Liberia" },
+  { salutation: "Mr.", name: "Dagvadorj Tserennadmid", role: "Specialist, Treasury Department", org: "Ministry of Finance", country: "Mongolia" },
+  { salutation: "Mr.", name: "Imer Rudari", role: "Government IT Officer", org: "Government of Kosovo", country: "Kosovo" },
+  { salutation: "Mr.", name: "Joseph K. Fahnbulleh", role: "Coordinator, Public Financial Management Reform", org: "Ministry of Finance", country: "Liberia", delegationLead: true },
+  { salutation: "Mr.", name: "Raymond A. Coker", role: "Deputy Director General, Resource Management", org: "Government of Sierra Leone", country: "Sierra Leone" },
+  { salutation: "Mr.", name: "Saythong Ouiphilavong", role: "Deputy Director General", org: "Ministry of Finance", country: "Laos" },
+  { salutation: "Mr.", name: "Yau Teulilo", role: "PFMC Specialist, MFED", org: "Ministry of Finance", country: "Tuvalu" },
+  { salutation: "Mr.", name: "Tsogbadrakh Beltreg", role: "Division Director, Treasury Department", org: "Ministry of Finance", country: "Mongolia" },
+  { salutation: "Mr.", name: "Viengkham Thongsavat", role: "National Academy of Finance and Accounting", org: "Government of Laos", country: "Laos" },
+  { salutation: "Mr.", name: "W.S.R. Jagath Kumara", role: "Additional Director General, Department of National Budget", org: "Treasury", country: "Sri Lanka" },
+  { salutation: "Mr.", name: "A.D.L.G. Kalansuriya", role: "Additional Director General", org: "Treasury", country: "Sri Lanka" },
+  { salutation: "Mrs.", name: "Jemima Jackline Lugala", role: "Director for IFMIS, Ministry of Finance", org: "Ministry of Finance", country: "South Sudan", delegationLead: true },
+  { salutation: "Mrs.", name: "Lauratu Johnson", role: "Resource Management Director", org: "Government of Sierra Leone", country: "Sierra Leone" },
+  { salutation: "Mrs.", name: "Noella Brioche", role: "Director of Budget", org: "Government of Seychelles", country: "Seychelles" },
+  { salutation: "Mrs.", name: "Shella Mohideen", role: "Chief Accountant", org: "Treasury", country: "Sri Lanka" },
+  { salutation: "Ms.", name: "Maaman Loakim", role: "Deputy Secretary, MFED", org: "Ministry of Finance", country: "Tuvalu" },
+  { salutation: "Ms.", name: "Sharlene Sookraj-Ablack", role: "Director of Public Budget", org: "Ministry of Finance", country: "Trinidad & Tobago", delegationLead: true },
+  { salutation: "Ms.", name: "Yvonne Neemacharan", role: "Deputy Permanent Secretary, Finance", org: "Government of Trinidad and Tobago", country: "Trinidad & Tobago" },
+  { name: "Nicola Callender", role: "Director, Information Systems", org: "Government of Antigua and Barbuda", country: "Antigua" },
+  { name: "Venicia Valentine-Ferris", role: "Senior Budget Analyst", org: "Government of Antigua and Barbuda", country: "Antigua" },
+  { name: "Vickey McConney", role: "Senior Budget Analyst", org: "Ministry of Finance", country: "Barbados" },
+  { name: "Vikash Mahabier", role: "Director, Public Financial Management", org: "Ministry of Finance", country: "Suriname" },
+  { salutation: "Mr.", name: "Kwame Asante", role: "Director, Macro-Fiscal Policy", org: "Ministry of Finance", country: "Ghana", delegationLead: true },
+  { salutation: "Mrs.", name: "Akosua Mensah", role: "Controller and Accountant General", org: "Government of Ghana", country: "Ghana" },
+  { salutation: "Ms.", name: "Marcia James", role: "Deputy Financial Secretary", org: "Ministry of Finance", country: "Jamaica", delegationLead: true },
+];
+
+// ---------------------------------------------------------------------------
+// Materials (FISC Takeaways)
+// ---------------------------------------------------------------------------
+
+export type MaterialEntry = {
+  title: string;
+  topic: "PFM" | "AI" | "Performance" | "Assessments" | "Product" | "Reform";
+  summary: string;
+  pdfUrl: string;
+  pages?: number;
+};
+
+export const materials: MaterialEntry[] = [
+  { title: "AI Tools to Consider", topic: "AI", summary: "A curated catalogue of AI tools relevant to public finance teams in 2026, with use-cases and procurement notes.", pdfUrl: "#", pages: 6 },
+  { title: "Balanced Scorecard", topic: "Performance", summary: "Applying the balanced scorecard model to government performance — finance, customer, internal, and learning perspectives.", pdfUrl: "#", pages: 4 },
+  { title: "Debt Management Performance (DeMPA)", topic: "Assessments", summary: "Field guide to running a DeMPA assessment and translating results into reform priorities.", pdfUrl: "#", pages: 8 },
+  { title: "FreeBalance Advisory Services", topic: "Product", summary: "How FreeBalance Advisory engagements scope, deliver and measure PFM reform programmes.", pdfUrl: "#", pages: 5 },
+  { title: "FreeBalance Chart of Goals", topic: "Performance", summary: "Mapping a national development strategy onto a Chart of Goals integrated with the Chart of Accounts.", pdfUrl: "#", pages: 7 },
+  { title: "FreeBalance Suite Functionality", topic: "Product", summary: "Module-by-module overview of the FreeBalance Accountability Suite — Budget, Treasury, Revenue, Payroll.", pdfUrl: "#", pages: 10 },
+  { title: "Government Performance Management", topic: "Performance", summary: "Building a performance culture inside the ministry of finance: cadence, dashboards, and accountability loops.", pdfUrl: "#", pages: 6 },
+  { title: "Key Performance Indicators", topic: "Performance", summary: "A taxonomy of public-finance KPIs with definitions, formulas and reporting frequencies.", pdfUrl: "#", pages: 5 },
+  { title: "MAPS — Methodology for Assessing Procurement Systems", topic: "Assessments", summary: "What MAPS measures, how to prepare, and how to use results in reform sequencing.", pdfUrl: "#", pages: 6 },
+  { title: "Objectives and Key Results", topic: "Performance", summary: "Applying OKRs in a public-sector context without losing strategic alignment.", pdfUrl: "#", pages: 4 },
+  { title: "PEFA Assessments", topic: "Assessments", summary: "Understanding PEFA 2025 indicators and turning results into a reform sequencing plan.", pdfUrl: "#", pages: 8 },
+  { title: "PFM Research and News", topic: "Reform", summary: "Selected research and journalism on PFM reform from the last 12 months, with FreeBalance commentary.", pdfUrl: "#", pages: 6 },
+  { title: "Public Investment Management (PIMA)", topic: "Assessments", summary: "PIMA-light checklist for ministries planning large infrastructure programmes.", pdfUrl: "#", pages: 7 },
+  { title: "Tax Administration Diagnostic (TADAT)", topic: "Assessments", summary: "Running a TADAT and integrating findings with broader PFM reform efforts.", pdfUrl: "#", pages: 7 },
+  { title: "Value for Money", topic: "PFM", summary: "Defining, measuring and demonstrating value for money across the budget cycle.", pdfUrl: "#", pages: 5 },
+  { title: "Digital Public Finance Framework", topic: "Reform", summary: "FreeBalance's framework for digital PFM — readiness, scope, maturity, and digital core.", pdfUrl: "#", pages: 9 },
+];
+
+// ---------------------------------------------------------------------------
+// Videos
+// ---------------------------------------------------------------------------
+
+export type VideoEntry = {
+  title: string;
+  day?: "Welcome" | "Day 1" | "Day 2" | "Day 3" | "Day 4" | "Feature";
+  duration: string;
+  thumb: string;
+  url: string;
+  description?: string;
+};
+
+export const videos: VideoEntry[] = [
+  { title: "Welcome to FISC 2026", day: "Welcome", duration: "2:14", thumb: "https://images.unsplash.com/photo-1492684223066-81342ee5ff30?w=1200&q=80", url: "#", description: "Opening cinematic from the gala reception at Hyatt Regency, Port of Spain." },
+  { title: "Day 1 Highlights — National Strategies", day: "Day 1", duration: "4:32", thumb: "https://images.unsplash.com/photo-1505373877841-8d25f7d46678?w=1200&q=80", url: "#", description: "Country-led keynotes and the opening workshop on aligning PFM with national strategies." },
+  { title: "Day 2 Highlights — Product Co-Creation", day: "Day 2", duration: "5:08", thumb: "https://images.unsplash.com/photo-1591115765373-5207764f72e7?w=1200&q=80", url: "#", description: "Workshops on the FreeBalance Suite roadmap and customer-driven feature prioritisation." },
+  { title: "Day 3 Highlights — AI in Public Finance", day: "Day 3", duration: "4:55", thumb: "https://images.unsplash.com/photo-1551434678-e076c223a692?w=1200&q=80", url: "#", description: "From human-augmented PFM to prompt patterns the secretariat actually uses." },
+  { title: "Day 4 Highlights — Resilience & Roadmap Voting", day: "Day 4", duration: "6:21", thumb: "https://images.unsplash.com/photo-1517457373958-b7bdd4587205?w=1200&q=80", url: "#", description: "Closing panels on resilience and the customer-driven product roadmap vote." },
+  { title: "Why Trinidad? — A Letter from the Minister", day: "Feature", duration: "3:45", thumb: "https://images.unsplash.com/photo-1602002418082-a4443e081dd1?w=1200&q=80", url: "#", description: "The Minister of Finance on hosting FISC 2026 in Port of Spain." },
+];
+
+// ---------------------------------------------------------------------------
+// Media coverage
+// ---------------------------------------------------------------------------
+
+export type MediaItem = {
+  title: string;
+  source: string;
+  date: string;
+  url: string;
+  type: "Article" | "Video" | "Social";
+  excerpt?: string;
+};
+
+export const mediaItems: MediaItem[] = [
+  { title: "Trinidad & Tobago to Host FreeBalance International Steering Committee 2026", source: "Trinidad Express", date: "2026-04-18", url: "#", type: "Article", excerpt: "Government of Trinidad and Tobago confirms it will host the 2026 edition of FISC, bringing 300+ public finance delegates to Port of Spain." },
+  { title: "FISC 2026: Why Public Financial Management Matters Now", source: "FreeBalance Insights", date: "2026-05-02", url: "#", type: "Article", excerpt: "A deep-dive interview with Doug Hadden on the themes shaping the 2026 programme." },
+  { title: "Minister Highlights Digital PFM Ahead of FISC", source: "Newsday TT", date: "2026-05-09", url: "#", type: "Article", excerpt: "Minister of Finance discusses the digital transformation agenda Trinidad will showcase at the event." },
+  { title: "FISC 2026 Trailer — Watch on YouTube", source: "FreeBalance · YouTube", date: "2026-05-12", url: "#", type: "Video", excerpt: "Two minutes of Caribbean rhythm and Hyatt Regency previews." },
+  { title: "Sharlene Sookraj-Ablack on Trinidad's Reform Journey", source: "Caribbean Finance Review", date: "2026-04-30", url: "#", type: "Article", excerpt: "The Director of Public Budget on what hosting FISC means for the country." },
+  { title: "Live from Port of Spain — Day 1 Recap", source: "FreeBalance · LinkedIn", date: "2026-06-29", url: "#", type: "Social", excerpt: "Field updates and photos from the first day of plenary sessions." },
+  { title: "Tatoli Sai Uma Sai Nain: Cobertura FISC 2026", source: "Tatoli", date: "2026-07-01", url: "#", type: "Article", excerpt: "Cobertura em português sobre a participação de Timor-Leste no FISC 2026." },
+  { title: "Roadmap Voting Drives FreeBalance Product Direction", source: "Public Finance Today", date: "2026-07-03", url: "#", type: "Article", excerpt: "How the customer roadmap vote at FISC has shaped the 2026–2028 product cycle." },
+];
+
+// ---------------------------------------------------------------------------
+// Gallery
+// ---------------------------------------------------------------------------
+
+export type GalleryPhoto = {
+  src: string;
+  caption: string;
+  span?: "wide" | "tall";
+};
+
+// FISC 2026 gallery only. When future editions are added, this list will be
+// re-tagged with a `year` field and the Gallery page will reintroduce a year filter.
+export const galleryPhotos: GalleryPhoto[] = [
+  { src: "https://images.unsplash.com/photo-1517457373958-b7bdd4587205?w=1200&q=80", caption: "Plenary applause", span: "wide" },
+  { src: "https://images.unsplash.com/photo-1559136555-9303baea8ebd?w=1200&q=80", caption: "Roadmap voting session" },
+  { src: "https://images.unsplash.com/photo-1492684223066-81342ee5ff30?w=1200&q=80", caption: "Welcome gala at the Hyatt" },
+  { src: "https://images.unsplash.com/photo-1543007630-9710e4a00a20?w=1200&q=80", caption: "Country breakout" },
+  { src: "https://images.unsplash.com/photo-1505373877841-8d25f7d46678?w=1200&q=80", caption: "Opening keynote" },
+  { src: "https://images.unsplash.com/photo-1573164574572-cb89e39749b4?w=1200&q=80", caption: "Coffee break in the lobby" },
+  { src: "https://images.unsplash.com/photo-1591115765373-5207764f72e7?w=1200&q=80", caption: "Workshop tables", span: "wide" },
+  { src: "https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=1200&q=80", caption: "Audience in the round" },
+  { src: "https://images.unsplash.com/photo-1559223607-a43c990c692c?w=1200&q=80", caption: "On stage in Port of Spain" },
+  { src: "https://images.unsplash.com/photo-1455587734955-081b22074882?w=1200&q=80", caption: "Hyatt Regency at dusk" },
+  { src: "https://images.unsplash.com/photo-1602002418082-a4443e081dd1?w=1200&q=80", caption: "Downtown Port of Spain" },
+  { src: "https://images.unsplash.com/photo-1519225421980-715cb0215aed?w=1200&q=80", caption: "Cultural performance" },
+];
+
+// ---------------------------------------------------------------------------
+// Delegate Guide (Trinidad & Tobago, 2026 edition)
+// ---------------------------------------------------------------------------
+
+export type ChecklistItem = { task: string; detail?: string; deadline?: string };
+export type EssentialGroup = {
+  category: "Passport & Visa" | "Health & Vaccinations" | "Money & Payments" | "Connectivity" | "Etiquette & Dress";
+  items: string[];
+};
+
+export type DelegateGuide = {
+  countryName: string;
+  edition: string;
+  dates: string;
+  intro: string;
+  keyFacts: { capital: string; languages: string[]; currency: string; timezone: string; voltage: string; population: string };
+  flight: { airport: string; code: string; transit: string; majorRoutes: string[] };
+  weather: { season: string; tempC: string; humidity: string; notes: string };
+  checklist: ChecklistItem[];
+  essentials: EssentialGroup[];
+  emergency: { service: string; number: string }[];
+};
+
+export const delegateGuide: DelegateGuide = {
+  countryName: "Trinidad & Tobago",
+  edition: "FISC 2026",
+  dates: "June 29 – July 2, 2026",
+  intro:
+    "Welcome to Trinidad & Tobago. This pre-arrival guide walks you through what to pack, how to land, and how to make the most of four days in Port of Spain. The secretariat will follow up with personalised travel details two weeks before arrival.",
+  keyFacts: {
+    capital: "Port of Spain",
+    languages: ["English (official)", "Trinidadian Creole"],
+    currency: "Trinidad & Tobago Dollar (TTD)",
+    timezone: "AST · UTC−4 (no daylight saving)",
+    voltage: "115 V / 230 V · Type A, B",
+    population: "≈ 1.4 million",
+  },
+  flight: {
+    airport: "Piarco International Airport",
+    code: "POS",
+    transit: "~30 minutes by shuttle to the Hyatt Regency",
+    majorRoutes: ["Miami (MIA)", "New York (JFK)", "London (LGW)", "Toronto (YYZ)", "Panama City (PTY)", "Bridgetown (BGI)"],
+  },
+  weather: {
+    season: "Late dry season → early wet season",
+    tempC: "28 – 32 °C",
+    humidity: "Humidity 70 – 85%",
+    notes: "Pack light, breathable layers and a compact umbrella. Sessions are air-conditioned; consider a light jacket.",
+  },
+  checklist: [
+    { task: "Confirm your delegation lead with the secretariat", deadline: "10 weeks out" },
+    { task: "Request a formal invitation letter from the secretariat for visa purposes", deadline: "8 weeks out" },
+    { task: "Book international flights routed to Piarco International (POS)", deadline: "8 weeks out" },
+    { task: "Reserve your room using delegate code FISC26 at the Hyatt Regency", deadline: "6 weeks out" },
+    { task: "Upload your delegate profile and headshot in the portal", deadline: "4 weeks out" },
+    { task: "Complete the consent form for photography and recording", deadline: "2 weeks out" },
+    { task: "Download the offline-capable delegate companion app", deadline: "1 week out" },
+  ],
+  essentials: [
+    {
+      category: "Passport & Visa",
+      items: [
+        "Passport must be valid for at least six months beyond arrival.",
+        "Most delegations enter visa-free for up to 90 days; the secretariat coordinates official invitation letters for visa-required nationalities.",
+        "Keep a digital and a paper copy of your invitation letter while in transit.",
+      ],
+    },
+    {
+      category: "Health & Vaccinations",
+      items: [
+        "No vaccinations are currently required for entry; routine immunisations recommended.",
+        "Yellow fever certificate required only if arriving from a country with risk of transmission.",
+        "Tap water at the Hyatt Regency is potable. Bottled water is widely available.",
+      ],
+    },
+    {
+      category: "Money & Payments",
+      items: [
+        "TTD is the local currency; USD is widely accepted at the venue and major hotels.",
+        "Visa and Mastercard accepted almost everywhere; American Express coverage is partial.",
+        "ATMs are available at the airport, the venue, and along Wrightson Road.",
+      ],
+    },
+    {
+      category: "Connectivity",
+      items: [
+        "Hyatt Regency offers complimentary high-speed Wi-Fi for delegates.",
+        "Local SIMs (bmobile, Digicel) available at Piarco arrivals.",
+        "Mobile coverage on the north coast (Maracas Bay) can be spotty.",
+      ],
+    },
+    {
+      category: "Etiquette & Dress",
+      items: [
+        "Plenaries: business smart. Workshops: business casual is fine.",
+        "Gala dinner: smart cocktail or national dress.",
+        "Greet using a handshake; titles are appreciated on first introduction.",
+      ],
+    },
+  ],
+  emergency: [
+    { service: "Police", number: "999" },
+    { service: "Ambulance", number: "811" },
+    { service: "Fire", number: "990" },
+    { service: "Secretariat (24h)", number: "+1 868 555 0126" },
+  ],
+};

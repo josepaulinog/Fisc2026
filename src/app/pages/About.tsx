@@ -1,7 +1,7 @@
 import { motion } from "motion/react";
 import { ArrowUpRight } from "lucide-react";
 import { ImageWithFallback } from "../components/figma/ImageWithFallback";
-import { PageHero, SectionLabel } from "../components/shared";
+import { GradientText, PageHero, SectionLabel } from "../components/shared";
 import { ABOUT_IMG, BRAND, HERO_ABOUT } from "../data";
 
 export default function About() {
@@ -9,7 +9,7 @@ export default function About() {
     <>
       <PageHero
         label="About FISC"
-        title={<>A global forum for country-led <span className="italic" style={{ color: BRAND }}>public finance reform.</span></>}
+        title={<>A global forum for country-led <GradientText>public finance reform.</GradientText></>}
         subtitle="FISC is the annual gathering of the FreeBalance customer community — finance ministers, treasurers, budget directors and PFM practitioners from emerging and developing nations."
         image={HERO_ABOUT}
         imageCaption="FISC 2019 · Plenary session"

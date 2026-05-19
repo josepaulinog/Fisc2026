@@ -1,6 +1,32 @@
 import { motion } from "motion/react";
-import { BRAND, countries } from "../data";
+import { BRAND, BRAND_SOFT, countries } from "../data";
 import { ImageWithFallback } from "./figma/ImageWithFallback";
+
+/**
+ * GradientText — italic, brand-orange gradient phrase used to highlight
+ * the accent word(s) in PageHero titles. Centralised so every hero
+ * across the site shares the exact same look.
+ */
+export function GradientText({
+  children,
+  className = "",
+}: {
+  children: React.ReactNode;
+  className?: string;
+}) {
+  return (
+    <span
+      className={`italic ${className}`}
+      style={{
+        background: `linear-gradient(120deg, ${BRAND_SOFT}, ${BRAND})`,
+        WebkitBackgroundClip: "text",
+        WebkitTextFillColor: "transparent",
+      }}
+    >
+      {children}
+    </span>
+  );
+}
 
 export function Grain() {
   return (

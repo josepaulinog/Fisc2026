@@ -1,0 +1,18 @@
+# Dependencies
+node_modules/
+
+# Build output
+dist/
+
+# Vite
+.vite/
+
+# macOS
+.DS_Store
+
+# Editor scratch
+*.local
+
+# Claude Code harness state (worktrees, transcripts, etc.)
+.claude/
+.superpowers-sage/

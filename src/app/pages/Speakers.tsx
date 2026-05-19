@@ -2,7 +2,7 @@ import { useMemo, useState } from "react";
 import { motion } from "motion/react";
 import { ArrowUpRight, Linkedin, Mail, Search, Twitter } from "lucide-react";
 import { ImageWithFallback } from "../components/figma/ImageWithFallback";
-import { Grain, PageHero } from "../components/shared";
+import { Grain, GradientText, PageHero } from "../components/shared";
 import { BRAND, BRAND_SOFT, HERO_SPEAKERS, INK, speakers } from "../data";
 
 type Speaker = (typeof speakers)[number];
@@ -173,16 +173,7 @@ export default function Speakers() {
           <>
             Voices shaping
             <br />
-            <span
-              className="italic"
-              style={{
-                background: `linear-gradient(120deg, ${BRAND_SOFT}, ${BRAND})`,
-                WebkitBackgroundClip: "text",
-                WebkitTextFillColor: "transparent",
-              }}
-            >
-              public finance.
-            </span>
+            <GradientText>public finance.</GradientText>
           </>
         }
         subtitle="A global lineup of finance ministers, FreeBalance leaders and public sector innovators driving the next chapter of Public Financial Management."

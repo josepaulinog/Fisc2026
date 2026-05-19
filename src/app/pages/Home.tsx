@@ -2,7 +2,7 @@ import { Link } from "react-router";
 import { motion, useScroll, useTransform } from "motion/react";
 import { ArrowRight, ArrowUpRight, Play, Sun } from "lucide-react";
 import { ImageWithFallback } from "../components/figma/ImageWithFallback";
-import { Grain, Marquee } from "../components/shared";
+import { Grain, GradientText, Marquee } from "../components/shared";
 import { BRAND, BRAND_SOFT, HERO_IMG, INK, stats, navItems } from "../data";
 
 function Hero() {
@@ -46,9 +46,7 @@ function Hero() {
           <br />
           meets the{" "}
           <span className="relative inline-block">
-            <span className="italic" style={{ background: `linear-gradient(120deg, ${BRAND_SOFT} 0%, ${BRAND} 100%)`, WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}>
-              Caribbean
-            </span>
+            <GradientText>Caribbean</GradientText>
             <Sun className="absolute -top-4 -right-12 hidden md:block" size={48} style={{ color: BRAND }} />
           </span>.
         </motion.h1>

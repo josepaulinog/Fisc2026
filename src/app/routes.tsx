@@ -3,13 +3,22 @@ import { Root } from "./layout/Root";
 import Home from "./pages/Home";
 import About from "./pages/About";
 import Agenda from "./pages/Agenda";
+import AgendaSession from "./pages/AgendaSession";
 import Speakers from "./pages/Speakers";
 import Venue from "./pages/Venue";
 import Resources from "./pages/Resources";
+import Attendees from "./pages/Attendees";
+import Materials from "./pages/Materials";
+import DelegateGuide from "./pages/DelegateGuide";
+import Gallery from "./pages/Gallery";
+import Videos from "./pages/Videos";
+import MediaCoverage from "./pages/MediaCoverage";
 import SignIn from "./pages/SignIn";
 import NotFound from "./pages/NotFound";
 
 export const router = createBrowserRouter([
+  // Auth pages render full-bleed, without the global Header/Footer chrome.
+  { path: "/sign-in", Component: SignIn },
   {
     path: "/",
     Component: Root,
@@ -17,10 +26,16 @@ export const router = createBrowserRouter([
       { index: true, Component: Home },
       { path: "about", Component: About },
       { path: "agenda", Component: Agenda },
+      { path: "agenda/:daySlug/:sessionIdx", Component: AgendaSession },
       { path: "speakers", Component: Speakers },
       { path: "venue", Component: Venue },
       { path: "resources", Component: Resources },
-      { path: "sign-in", Component: SignIn },
+      { path: "attendees", Component: Attendees },
+      { path: "materials", Component: Materials },
+      { path: "delegate-guide", Component: DelegateGuide },
+      { path: "gallery", Component: Gallery },
+      { path: "videos", Component: Videos },
+      { path: "media-coverage", Component: MediaCoverage },
       { path: "*", Component: NotFound },
     ],
   },

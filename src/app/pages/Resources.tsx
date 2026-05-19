@@ -1,7 +1,7 @@
 import { motion } from "motion/react";
 import { Link } from "react-router";
-import { ArrowUpRight } from "lucide-react";
-import { PageHero } from "../components/shared";
+import { ArrowUpRight, Lock } from "lucide-react";
+import { GradientText, PageHero } from "../components/shared";
 import { BRAND, HERO_RESOURCES, INK, resources } from "../data";
 
 export default function Resources() {
@@ -9,7 +9,13 @@ export default function Resources() {
     <>
       <PageHero
         label="Resources"
-        title={<>The full archive,<br />in one place.</>}
+        title={
+          <>
+            The full archive,
+            <br />
+            <GradientText>in one place.</GradientText>
+          </>
+        }
         subtitle="Registered delegates can access every session, slide, photo and recording — and keep the conversation going long after Port of Spain."
         image={HERO_RESOURCES}
         imageCaption="Archive · 18 editions"
@@ -35,20 +41,32 @@ export default function Resources() {
             </div>
             <div className="lg:col-span-7 grid sm:grid-cols-2 gap-3">
               {resources.map((r, i) => (
-                <motion.a
-                  key={r.label} href="#"
+                <motion.div
+                  key={r.label}
                   initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}
                   transition={{ delay: i * 0.06 }}
-                  className="group relative p-5 md:p-6 rounded-2xl border border-neutral-200 hover:border-neutral-950 transition-all overflow-hidden bg-white"
                 >
-                  <div className="flex items-center justify-between">
-                    <div className="w-12 h-12 rounded-xl flex items-center justify-center" style={{ backgroundColor: `${BRAND}15`, color: BRAND }}>
-                      <r.icon size={20} />
+                  <Link
+                    to={r.to}
+                    className="group block p-5 md:p-6 rounded-2xl border border-neutral-200 hover:border-neutral-950 hover:bg-neutral-950 hover:text-white transition-all overflow-hidden bg-white h-full"
+                  >
+                    <div className="flex items-center justify-between">
+                      <div className="w-12 h-12 rounded-xl flex items-center justify-center" style={{ backgroundColor: `${BRAND}15`, color: BRAND }}>
+                        <r.icon size={20} />
+                      </div>
+                      <div className="flex items-center gap-2">
+                        {r.gated && (
+                          <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-md bg-neutral-100 text-neutral-500 group-hover:bg-white/10 group-hover:text-white/70 text-xs">
+                            <Lock size={11} /> Gated
+                          </span>
+                        )}
+                        <ArrowUpRight size={18} className="text-neutral-400 group-hover:text-white group-hover:-translate-y-1 group-hover:translate-x-1 transition-all" />
+                      </div>
                     </div>
-                    <ArrowUpRight size={18} className="text-neutral-400 group-hover:text-neutral-950 group-hover:-translate-y-1 group-hover:translate-x-1 transition-all" />
-                  </div>
-                  <div className="mt-5 tracking-tight text-neutral-950" style={{ fontSize: "1.125rem" }}>{r.label}</div>
-                </motion.a>
+                    <div className="mt-5 tracking-tight text-neutral-950 group-hover:text-white" style={{ fontSize: "1.125rem" }}>{r.label}</div>
+                    <p className="mt-2 text-neutral-600 group-hover:text-white/70 text-sm" style={{ lineHeight: 1.55 }}>{r.desc}</p>
+                  </Link>
+                </motion.div>
               ))}
             </div>
           </div>

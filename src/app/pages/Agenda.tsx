@@ -1,18 +1,26 @@
 import { useState } from "react";
+import { Link } from "react-router";
 import { motion } from "motion/react";
-import { Download, MapPin } from "lucide-react";
+import { ArrowUpRight, Download, MapPin } from "lucide-react";
 import { ImageWithFallback } from "../components/figma/ImageWithFallback";
-import { Grain, PageHero } from "../components/shared";
-import { BRAND, HERO_AGENDA, INK, TAG_COLORS, agenda } from "../data";
+import { Grain, GradientText, PageHero } from "../components/shared";
+import { BRAND, BRAND_SOFT, HERO_AGENDA, INK, TAG_COLORS, agenda, daySlugFor } from "../data";
 
 export default function Agenda() {
   const [active, setActive] = useState(1);
   const current = agenda[active];
+  const currentSlug = daySlugFor(current);
   return (
     <>
       <PageHero
         label="Programme"
-        title={<>Four days.<br />One PFM agenda.</>}
+        title={
+          <>
+            Four days.
+            <br />
+            One <GradientText>PFM agenda.</GradientText>
+          </>
+        }
         subtitle="Country-led workshops, presentations and panels — alongside cultural moments across Trinidad and Tobago."
         image={HERO_AGENDA}
         imageCaption="Hyatt Regency · Port of Spain"
@@ -25,8 +33,8 @@ export default function Agenda() {
         <div className="relative max-w-7xl mx-auto px-5 md:px-6">
           <div className="flex flex-wrap items-end justify-between gap-4 md:gap-6 mb-8 md:mb-12">
             <p className="text-neutral-600 max-w-2xl">
-              Choose a day to explore the full programme. Some sessions are open
-              roundtables; others are workshops with assigned breakouts.
+              Choose a day to explore the full programme. Click any session for the full briefing —
+              time, speakers and context.
             </p>
             <a href="#" className="group inline-flex items-center gap-2 px-5 py-3 rounded-lg border border-neutral-300 bg-white hover:bg-neutral-950 hover:text-white hover:border-neutral-950 transition">
               Download programme
@@ -78,7 +86,11 @@ export default function Agenda() {
 
             <div>
               {current.sessions.map((s, i) => (
-                <div key={i} className="grid grid-cols-12 gap-3 md:gap-8 px-5 md:px-10 py-5 md:py-6 border-t first:border-t-0 border-neutral-100 hover:bg-neutral-50/60 transition">
+                <Link
+                  to={`/agenda/${currentSlug}/${i}`}
+                  key={i}
+                  className="group grid grid-cols-12 gap-3 md:gap-8 px-5 md:px-10 py-5 md:py-6 border-t first:border-t-0 border-neutral-100 hover:bg-neutral-50/60 transition"
+                >
                   <div className="col-span-12 md:col-span-3">
                     <div className="text-neutral-500 tabular-nums text-sm md:text-base">{s.time}</div>
                     {s.tag && (
@@ -88,7 +100,15 @@ export default function Agenda() {
                     )}
                   </div>
                   <div className="col-span-12 md:col-span-9">
-                    <div className="tracking-tight text-neutral-950" style={{ fontSize: "1.125rem", lineHeight: 1.3 }}>{s.title}</div>
+                    <div className="flex items-start justify-between gap-3">
+                      <div className="tracking-tight text-neutral-950 group-hover:text-neutral-950" style={{ fontSize: "1.125rem", lineHeight: 1.3 }}>
+                        {s.title}
+                      </div>
+                      <ArrowUpRight
+                        size={18}
+                        className="shrink-0 text-neutral-300 group-hover:text-neutral-950 group-hover:-translate-y-0.5 group-hover:translate-x-0.5 transition"
+                      />
+                    </div>
                     {s.desc && <p className="mt-2 text-neutral-600" style={{ lineHeight: 1.6 }}>{s.desc}</p>}
                     {s.speakers && s.speakers.length > 0 && (
                       <div className="mt-4 flex flex-wrap gap-x-6 gap-y-3">
@@ -108,7 +128,7 @@ export default function Agenda() {
                       </div>
                     )}
                   </div>
-                </div>
+                </Link>
               ))}
             </div>
           </motion.div>

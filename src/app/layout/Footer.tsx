@@ -1,9 +1,9 @@
 import { Link } from "react-router";
 import { motion } from "motion/react";
 import { ArrowUpRight, Calendar, Mail, MapPin, Linkedin, Twitter, Youtube } from "lucide-react";
-import { ImageWithFallback } from "../components/figma/ImageWithFallback";
+import { Lockup } from "../components/brand/Lockup";
 import { Grain, SectionLabel } from "../components/shared";
-import { BRAND, BRAND_SOFT, FB_LOGO, INK, navItems } from "../data";
+import { BRAND, BRAND_SOFT, INK, navItems } from "../data";
 
 export function Newsletter() {
   return (
@@ -141,7 +141,7 @@ export function Footer() {
         {/* Link columns */}
         <div className="grid sm:grid-cols-2 lg:grid-cols-12 gap-10 md:gap-12 pb-10 md:pb-14 border-b border-white/10">
           <div className="lg:col-span-5">
-            <ImageWithFallback src={FB_LOGO} alt="FISC 2026" className="h-12 md:h-14 w-auto bg-white rounded-xl p-2" />
+            <Lockup variant="light" size="lg" />
             <p className="mt-5 md:mt-6 max-w-md text-white/65" style={{ lineHeight: 1.7 }}>
               The FreeBalance International Steering Committee unites
               governments and partners advancing the digital transformation
