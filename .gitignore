@@ -16,3 +16,7 @@ dist/
 # Claude Code harness state (worktrees, transcripts, etc.)
 .claude/
 .superpowers-sage/
+
+# Reference archive of the previous year's site (~40 MB of HTML + screenshots,
+# kept locally for design reference only — not part of the 2026 prototype)
+FISC2025/
