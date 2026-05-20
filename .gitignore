@@ -20,3 +20,8 @@ dist/
 # Reference archive of the previous year's site (~40 MB of HTML + screenshots,
 # kept locally for design reference only — not part of the 2026 prototype)
 FISC2025/
+
+# Raw editorial assets (AdobeStock JPEGs + videos, ~1.3 GB) — the JPEGs we
+# actually use are copied into src/imports/ and bundled by Vite; this folder
+# is the unprocessed source dump and stays local.
+resources/

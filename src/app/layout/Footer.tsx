@@ -1,11 +1,43 @@
+import { useState } from "react";
 import { Link } from "react-router";
 import { motion } from "motion/react";
-import { ArrowUpRight, Calendar, Mail, MapPin, Linkedin, Twitter, Youtube } from "lucide-react";
+import {
+  AlertCircle,
+  ArrowUpRight,
+  Calendar,
+  CheckCircle2,
+  Linkedin,
+  Mail,
+  MapPin,
+  Twitter,
+  Youtube,
+} from "lucide-react";
 import { Lockup } from "../components/brand/Lockup";
 import { Grain, SectionLabel } from "../components/shared";
+import { looksLikeEmail } from "../auth";
 import { BRAND, BRAND_SOFT, INK, navItems } from "../data";
 
 export function Newsletter() {
+  const [value, setValue] = useState("");
+  const [error, setError] = useState<string | null>(null);
+  const [submitted, setSubmitted] = useState(false);
+
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const trimmed = value.trim();
+    if (!trimmed) {
+      setError("Email is required.");
+      return;
+    }
+    if (!looksLikeEmail(trimmed)) {
+      setError("Enter a valid email address.");
+      return;
+    }
+    // Stub: real flow posts to the FreeBalance newsletter endpoint at WP-port time.
+    setError(null);
+    setSubmitted(true);
+  };
+
   return (
     <section className="py-16 md:py-24 bg-white">
       <div className="max-w-7xl mx-auto px-5 md:px-6">
@@ -32,23 +64,66 @@ export function Newsletter() {
                 global PFM community.
               </p>
             </div>
-            <form className="md:col-span-2 flex flex-col gap-3" onSubmit={(e) => e.preventDefault()}>
-              <div className="flex items-center bg-white rounded-lg p-1.5 pl-4">
-                <Mail size={18} className="text-neutral-500 shrink-0" />
-                <input
-                  type="email"
-                  placeholder="Your work email"
-                  className="flex-1 min-w-0 bg-transparent px-3 py-2 text-neutral-900 outline-none placeholder:text-neutral-400"
-                />
-                <button
-                  style={{ backgroundColor: BRAND }}
-                  className="px-4 md:px-5 py-2.5 rounded-lg text-white hover:opacity-90 transition shrink-0"
+
+            <div className="md:col-span-2">
+              {submitted ? (
+                <div
+                  role="status"
+                  className="flex items-start gap-3 p-4 rounded-xl bg-white/10 border border-white/20 text-white backdrop-blur"
                 >
-                  Follow
-                </button>
-              </div>
-              <p className="text-white/50 text-sm pl-2">Public updates only · Unsubscribe anytime.</p>
-            </form>
+                  <span
+                    className="w-8 h-8 rounded-full flex items-center justify-center shrink-0"
+                    style={{ backgroundColor: `${BRAND}33`, color: "#fff" }}
+                  >
+                    <CheckCircle2 size={16} />
+                  </span>
+                  <div>
+                    <div className="tracking-tight" style={{ fontSize: "0.95rem" }}>
+                      You're on the list.
+                    </div>
+                    <div className="text-white/70 text-sm mt-0.5">
+                      Public dispatches will arrive in your inbox.
+                    </div>
+                  </div>
+                </div>
+              ) : (
+                <form className="flex flex-col gap-3" onSubmit={handleSubmit} noValidate>
+                  <div
+                    className={`flex items-center bg-white rounded-lg p-1.5 pl-4 border ${
+                      error ? "border-red-400" : "border-transparent"
+                    }`}
+                  >
+                    <Mail size={18} className="text-neutral-500 shrink-0" />
+                    <input
+                      type="email"
+                      aria-label="Your work email"
+                      aria-invalid={!!error}
+                      placeholder="Your work email"
+                      value={value}
+                      onChange={(e) => {
+                        setValue(e.target.value);
+                        if (error) setError(null);
+                      }}
+                      className="flex-1 min-w-0 bg-transparent px-3 py-2 text-neutral-900 outline-none placeholder:text-neutral-400"
+                    />
+                    <button
+                      type="submit"
+                      style={{ backgroundColor: BRAND }}
+                      className="px-4 md:px-5 py-2.5 rounded-lg text-white hover:opacity-90 transition shrink-0"
+                    >
+                      Follow
+                    </button>
+                  </div>
+                  {error ? (
+                    <p className="text-red-200 text-sm pl-2 inline-flex items-center gap-1.5">
+                      <AlertCircle size={12} /> {error}
+                    </p>
+                  ) : (
+                    <p className="text-white/50 text-sm pl-2">Public updates only · Unsubscribe anytime.</p>
+                  )}
+                </form>
+              )}
+            </div>
           </div>
         </div>
       </div>

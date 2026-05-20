@@ -1,4 +1,5 @@
 import { useMemo, useState } from "react";
+import { Link } from "react-router";
 import { motion } from "motion/react";
 import { ArrowUpRight, Linkedin, Mail, Search, Twitter } from "lucide-react";
 import { ImageWithFallback } from "../components/figma/ImageWithFallback";
@@ -60,50 +61,51 @@ function FeaturedCard({ s, accent = false }: { s: Speaker; accent?: boolean }) {
       initial={{ opacity: 0, y: 30 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
-      className={`relative group rounded-3xl overflow-hidden border ${
-        accent ? "border-transparent" : "border-neutral-200"
-      } bg-neutral-950 text-white aspect-[4/5] md:aspect-[4/5]`}
     >
-      <ImageWithFallback
-        src={s.img}
-        alt={s.name}
-        className="absolute inset-0 w-full h-full object-cover opacity-90 group-hover:scale-105 transition-transform duration-1000"
-      />
-      <div
-        className="absolute inset-0"
-        style={{
-          background: accent
-            ? `linear-gradient(180deg, transparent 30%, ${INK}cc 70%, ${INK} 100%), radial-gradient(ellipse at 80% 10%, ${BRAND}66 0%, transparent 50%)`
-            : `linear-gradient(180deg, transparent 35%, ${INK}cc 75%, ${INK} 100%)`,
-        }}
-      />
-      <Grain />
-      <div className="absolute top-5 left-5 right-5 flex items-start justify-between">
-        <span className="inline-flex items-center gap-2 px-2.5 py-1 rounded-md bg-white/10 backdrop-blur border border-white/15 text-white/80 text-xs tracking-[0.2em]">
-          KEYNOTE
-        </span>
-        <span
-          className="w-10 h-10 rounded-full flex items-center justify-center backdrop-blur border border-white/20 group-hover:rotate-45 transition-transform"
-          style={{ backgroundColor: accent ? BRAND : "rgba(255,255,255,0.1)" }}
-        >
-          <ArrowUpRight size={16} />
-        </span>
-      </div>
-      <div className="absolute bottom-0 left-0 right-0 p-6 md:p-7">
-        <div className="text-xs tracking-[0.25em] text-white/60">{s.org.toUpperCase()}</div>
-        <h3
-          className="mt-2 tracking-[-0.02em]"
-          style={{ fontSize: "clamp(1.5rem, 2.5vw, 2rem)", lineHeight: 1.05 }}
-        >
-          {s.name}
-        </h3>
-        <p className="mt-1.5" style={{ color: BRAND_SOFT }}>
-          {s.role}
-        </p>
-        <div className="mt-5">
-          <Socials s={s} dark />
+      <Link
+        to={`/speakers/${s.slug}`}
+        className={`relative block group rounded-3xl overflow-hidden border ${
+          accent ? "border-transparent" : "border-neutral-200"
+        } bg-neutral-950 text-white aspect-[4/5] md:aspect-[4/5]`}
+      >
+        <ImageWithFallback
+          src={s.img}
+          alt={s.name}
+          className="absolute inset-0 w-full h-full object-cover opacity-90 group-hover:scale-105 transition-transform duration-1000"
+        />
+        <div
+          className="absolute inset-0"
+          style={{
+            background: accent
+              ? `linear-gradient(180deg, transparent 30%, ${INK}cc 70%, ${INK} 100%), radial-gradient(ellipse at 80% 10%, ${BRAND}66 0%, transparent 50%)`
+              : `linear-gradient(180deg, transparent 35%, ${INK}cc 75%, ${INK} 100%)`,
+          }}
+        />
+        <Grain />
+        <div className="absolute top-5 left-5 right-5 flex items-start justify-between">
+          <span className="inline-flex items-center gap-2 px-2.5 py-1 rounded-md bg-white/10 backdrop-blur border border-white/15 text-white/80 text-xs tracking-[0.2em]">
+            KEYNOTE
+          </span>
+          <span
+            className="w-10 h-10 rounded-full flex items-center justify-center backdrop-blur border border-white/20 group-hover:rotate-45 transition-transform"
+            style={{ backgroundColor: accent ? BRAND : "rgba(255,255,255,0.1)" }}
+          >
+            <ArrowUpRight size={16} />
+          </span>
         </div>
-      </div>
+        <div className="absolute bottom-0 left-0 right-0 p-6 md:p-7">
+          <div className="text-xs tracking-[0.25em] text-white/60">{s.org.toUpperCase()}</div>
+          <h3
+            className="mt-2 tracking-[-0.02em]"
+            style={{ fontSize: "clamp(1.5rem, 2.5vw, 2rem)", lineHeight: 1.05 }}
+          >
+            {s.name}
+          </h3>
+          <p className="mt-1.5" style={{ color: BRAND_SOFT }}>
+            {s.role}
+          </p>
+        </div>
+      </Link>
     </motion.div>
   );
 }
@@ -115,30 +117,34 @@ function MiniCard({ s, i }: { s: Speaker; i: number }) {
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
       transition={{ delay: (i % 4) * 0.06 }}
-      className="group rounded-2xl border border-neutral-200 bg-white p-5 hover:border-neutral-950 hover:bg-neutral-950 hover:text-white transition-all"
     >
-      <div className="flex items-center gap-4">
-        <div className="relative shrink-0">
-          <div className="w-16 h-16 rounded-full overflow-hidden bg-neutral-100 ring-2 ring-white shadow-sm">
-            <ImageWithFallback src={s.img} alt={s.name} className="w-full h-full object-cover" />
+      <Link
+        to={`/speakers/${s.slug}`}
+        className="group block rounded-2xl border border-neutral-200 bg-white p-5 hover:border-neutral-950 hover:bg-neutral-950 hover:text-white transition-all"
+      >
+        <div className="flex items-center gap-4">
+          <div className="relative shrink-0">
+            <div className="w-16 h-16 rounded-full overflow-hidden bg-neutral-100 ring-2 ring-white shadow-sm">
+              <ImageWithFallback src={s.img} alt={s.name} className="w-full h-full object-cover" />
+            </div>
+            <span
+              className="absolute -bottom-1 -right-1 w-5 h-5 rounded-full border-2 border-white group-hover:border-neutral-950 transition"
+              style={{ backgroundColor: BRAND }}
+            />
           </div>
-          <span
-            className="absolute -bottom-1 -right-1 w-5 h-5 rounded-full border-2 border-white group-hover:border-neutral-950 transition"
-            style={{ backgroundColor: BRAND }}
+          <div className="min-w-0 flex-1">
+            <div className="tracking-tight text-neutral-950 group-hover:text-white truncate" style={{ fontSize: "1.0625rem" }}>
+              {s.name}
+            </div>
+            <div className="text-neutral-500 group-hover:text-white/70 text-sm truncate">{s.role}</div>
+            <div className="text-neutral-400 group-hover:text-white/50 text-xs tracking-widest uppercase mt-0.5 truncate">{s.org}</div>
+          </div>
+          <ArrowUpRight
+            size={16}
+            className="text-neutral-400 group-hover:text-white opacity-0 group-hover:opacity-100 group-hover:-translate-y-0.5 group-hover:translate-x-0.5 transition shrink-0"
           />
         </div>
-        <div className="min-w-0 flex-1">
-          <div className="tracking-tight text-neutral-950 group-hover:text-white truncate" style={{ fontSize: "1.0625rem" }}>
-            {s.name}
-          </div>
-          <div className="text-neutral-500 group-hover:text-white/70 text-sm truncate">{s.role}</div>
-          <div className="text-neutral-400 group-hover:text-white/50 text-xs tracking-widest uppercase mt-0.5 truncate">{s.org}</div>
-        </div>
-        <ArrowUpRight
-          size={16}
-          className="text-neutral-400 group-hover:text-white opacity-0 group-hover:opacity-100 group-hover:-translate-y-0.5 group-hover:translate-x-0.5 transition shrink-0"
-        />
-      </div>
+      </Link>
     </motion.div>
   );
 }

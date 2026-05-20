@@ -2,6 +2,7 @@ import { useEffect } from "react";
 import { Outlet, useLocation } from "react-router";
 import { Header } from "./Header";
 import { Footer, Newsletter } from "./Footer";
+import { OnboardingTour } from "../components/OnboardingTour";
 
 // Routes that render the Newsletter section above the Footer.
 // Auth pages (/sign-in) bypass Root entirely; the 404 catch-all stays inside Root
@@ -19,6 +20,7 @@ const NEWSLETTER_ROUTES = new Set([
   "/gallery",
   "/videos",
   "/media-coverage",
+  "/profile",
 ]);
 
 export function Root() {
@@ -28,9 +30,11 @@ export function Root() {
   }, [pathname]);
 
   // Exact match for top-level routes; prefix match for nested content routes
-  // like /agenda/:daySlug/:sessionIdx so session detail pages also keep the newsletter.
+  // (/agenda/:day/:idx, /speakers/:slug) so detail pages also keep the newsletter.
   const showNewsletter =
-    NEWSLETTER_ROUTES.has(pathname) || pathname.startsWith("/agenda/");
+    NEWSLETTER_ROUTES.has(pathname) ||
+    pathname.startsWith("/agenda/") ||
+    pathname.startsWith("/speakers/");
 
   return (
     <div className="min-h-screen bg-white text-neutral-900 overflow-x-hidden">
@@ -40,6 +44,7 @@ export function Root() {
       </main>
       {showNewsletter && <Newsletter />}
       <Footer />
+      <OnboardingTour />
     </div>
   );
 }

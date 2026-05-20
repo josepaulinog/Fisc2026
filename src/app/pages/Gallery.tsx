@@ -2,6 +2,7 @@ import { useState } from "react";
 import { AnimatePresence, motion } from "motion/react";
 import { Camera, X } from "lucide-react";
 import { ImageWithFallback } from "../components/figma/ImageWithFallback";
+import { GatedBody } from "../components/GatedBody";
 import { GradientText, PageHero } from "../components/shared";
 import { BRAND, HERO_GALLERY, galleryPhotos, type GalleryPhoto } from "../data";
 
@@ -49,6 +50,7 @@ export default function Gallery() {
         imageCaption={`${galleryPhotos.length} photos · 2026 edition`}
       />
 
+      <GatedBody>
       <section className="py-12 md:py-20 bg-white">
         <div className="max-w-7xl mx-auto px-5 md:px-6">
           <div className="flex flex-wrap items-center justify-between gap-4 mb-8 md:mb-10">
@@ -111,6 +113,7 @@ export default function Gallery() {
           </motion.div>
         )}
       </AnimatePresence>
+      </GatedBody>
     </>
   );
 }

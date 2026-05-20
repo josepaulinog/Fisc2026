@@ -1,7 +1,9 @@
 import { useMemo, useState } from "react";
 import { motion } from "motion/react";
 import { Linkedin, Lock, Mail, Search, Twitter, Users } from "lucide-react";
+import { CountryFlag } from "../components/CountryFlag";
 import { ImageWithFallback } from "../components/figma/ImageWithFallback";
+import { GatedBody } from "../components/GatedBody";
 import { GradientText, PageHero } from "../components/shared";
 import { BRAND, BRAND_SOFT, HERO_ATTENDEES, attendees, type AttendeeEntry } from "../data";
 
@@ -54,8 +56,8 @@ function AttendeeCard({ a, i }: { a: AttendeeEntry; i: number }) {
           <div className="text-neutral-600 group-hover:text-white/70 text-sm leading-snug mt-0.5">
             {a.role}
           </div>
-          <div className="mt-1.5 inline-flex items-center gap-1 text-xs tracking-widest uppercase text-neutral-400 group-hover:text-white/55">
-            <span className="w-1 h-1 rounded-full" style={{ backgroundColor: BRAND }} />
+          <div className="mt-1.5 inline-flex items-center gap-1.5 text-xs tracking-widest uppercase text-neutral-400 group-hover:text-white/55">
+            <CountryFlag country={a.country} className="h-2.5 w-auto rounded-[1px] shadow-sm shrink-0" />
             {a.country}
           </div>
         </div>
@@ -123,6 +125,7 @@ export default function Attendees() {
         imageCaption="Audience · FISC plenary"
       />
 
+      <GatedBody>
       <section className="py-12 md:py-20 bg-white">
         <div className="max-w-7xl mx-auto px-5 md:px-6">
           <div className="grid lg:grid-cols-12 gap-6 md:gap-10 mb-8 md:mb-12">
@@ -190,14 +193,20 @@ export default function Attendees() {
               .sort((a, b) => b[1] - a[1])
               .slice(0, 8)
               .map(([country, n]) => (
-                <div key={country} className="rounded-2xl border border-neutral-200 bg-white p-4 flex items-center justify-between">
-                  <div>
-                    <div className="text-neutral-500 text-xs tracking-widest uppercase">Delegation</div>
-                    <div className="mt-1 tracking-tight text-neutral-950" style={{ fontSize: "1rem" }}>
-                      {country}
+                <div key={country} className="rounded-2xl border border-neutral-200 bg-white p-4 flex items-center justify-between gap-3">
+                  <div className="flex items-center gap-3 min-w-0">
+                    <CountryFlag
+                      country={country}
+                      className="h-6 w-auto rounded-sm shadow-sm shrink-0"
+                    />
+                    <div className="min-w-0">
+                      <div className="text-neutral-500 text-xs tracking-widest uppercase">Delegation</div>
+                      <div className="mt-1 tracking-tight text-neutral-950 truncate" style={{ fontSize: "1rem" }}>
+                        {country}
+                      </div>
                     </div>
                   </div>
-                  <div className="w-9 h-9 rounded-full flex items-center justify-center tracking-tight" style={{ backgroundColor: BRAND_SOFT, color: "#7a3000" }}>
+                  <div className="w-9 h-9 rounded-full flex items-center justify-center tracking-tight shrink-0" style={{ backgroundColor: BRAND_SOFT, color: "#7a3000" }}>
                     {n}
                   </div>
                 </div>
@@ -205,6 +214,7 @@ export default function Attendees() {
           </div>
         </div>
       </section>
+      </GatedBody>
     </>
   );
 }

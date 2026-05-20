@@ -6,36 +6,39 @@ import {
   ArrowUpRight,
   Calendar,
   Clock,
+  Download,
+  FileText,
   MapPin,
   Mic,
 } from "lucide-react";
 import { ImageWithFallback } from "../components/figma/ImageWithFallback";
-import { GradientText, PageHero } from "../components/shared";
+import { GradientText, PageHero, SectionLabel } from "../components/shared";
 import {
   BRAND,
+  BRAND_SOFT,
   HERO_AGENDA,
+  INK,
   TAG_COLORS,
   agenda,
   daySlugFor,
+  materials,
+  speakers,
+  type MaterialEntry,
 } from "../data";
 
-type SessionLocator = {
-  dayIdx: number;
-  sessionIdx: number;
-};
+type SessionLocator = { dayIdx: number; sessionIdx: number };
 
-function neighbourOf(loc: SessionLocator, direction: "prev" | "next"): SessionLocator | null {
-  const { dayIdx, sessionIdx } = loc;
+/**
+ * Jump to the first session of the previous or next day. Day-level navigation
+ * is more useful at the bottom of a session brief than session-level (the agenda
+ * list is one click away if you want to browse adjacent sessions).
+ */
+function neighbourDayOf(loc: SessionLocator, direction: "prev" | "next"): SessionLocator | null {
+  const { dayIdx } = loc;
   if (direction === "prev") {
-    if (sessionIdx > 0) return { dayIdx, sessionIdx: sessionIdx - 1 };
-    if (dayIdx > 0) {
-      const prevDay = agenda[dayIdx - 1];
-      return { dayIdx: dayIdx - 1, sessionIdx: prevDay.sessions.length - 1 };
-    }
+    if (dayIdx > 0) return { dayIdx: dayIdx - 1, sessionIdx: 0 };
     return null;
   }
-  const day = agenda[dayIdx];
-  if (sessionIdx < day.sessions.length - 1) return { dayIdx, sessionIdx: sessionIdx + 1 };
   if (dayIdx < agenda.length - 1) return { dayIdx: dayIdx + 1, sessionIdx: 0 };
   return null;
 }
@@ -43,6 +46,16 @@ function neighbourOf(loc: SessionLocator, direction: "prev" | "next"): SessionLo
 function pathOf(loc: SessionLocator): string {
   return `/agenda/${daySlugFor(agenda[loc.dayIdx])}/${loc.sessionIdx}`;
 }
+
+// Topic-coloured pill matching the Materials page treatment.
+const TOPIC_TONES: Record<MaterialEntry["topic"], { bg: string; fg: string }> = {
+  PFM: { bg: "#fd6b1815", fg: "#fd6b18" },
+  AI: { bg: "#2563eb15", fg: "#2563eb" },
+  Performance: { bg: "#16a34a15", fg: "#16a34a" },
+  Assessments: { bg: "#a855f715", fg: "#a855f7" },
+  Product: { bg: "#0a0a0a15", fg: "#0a0a0a" },
+  Reform: { bg: "#c2410c15", fg: "#c2410c" },
+};
 
 export default function AgendaSession() {
   const { daySlug, sessionIdx: sessionIdxParam } = useParams<{ daySlug: string; sessionIdx: string }>();
@@ -52,17 +65,24 @@ export default function AgendaSession() {
 
   const day = agenda[dayIdx];
   const sessionIdx = Number(sessionIdxParam);
-  if (
-    !Number.isInteger(sessionIdx) ||
-    sessionIdx < 0 ||
-    sessionIdx >= day.sessions.length
-  ) {
+  if (!Number.isInteger(sessionIdx) || sessionIdx < 0 || sessionIdx >= day.sessions.length) {
     return <Navigate to="/agenda" replace />;
   }
 
   const session = day.sessions[sessionIdx];
-  const prev = neighbourOf({ dayIdx, sessionIdx }, "prev");
-  const next = neighbourOf({ dayIdx, sessionIdx }, "next");
+  const prev = neighbourDayOf({ dayIdx, sessionIdx }, "prev");
+  const next = neighbourDayOf({ dayIdx, sessionIdx }, "next");
+
+  // Enrich speakers: pull slug + org from the speakers directory when names match.
+  const enrichedSpeakers = (session.speakers ?? []).map((sp) => {
+    const full = speakers.find((s) => s.name === sp.name);
+    return { ...sp, slug: full?.slug, org: full?.org };
+  });
+
+  // Look up related downloads from the global materials list by exact title match.
+  const relatedMaterials: MaterialEntry[] = (session.materials ?? [])
+    .map((title) => materials.find((m) => m.title === title))
+    .filter((m): m is MaterialEntry => !!m);
 
   const tagColor = session.tag ? TAG_COLORS[session.tag] : undefined;
 
@@ -76,191 +96,359 @@ export default function AgendaSession() {
         imageCaption={`Session ${sessionIdx + 1} of ${day.sessions.length}`}
       />
 
+      {/* Key facts strip */}
+      <section className="bg-white border-b border-neutral-100">
+        <div className="max-w-7xl mx-auto px-5 md:px-6 grid grid-cols-2 md:grid-cols-4">
+          {[
+            { icon: Clock, k: "Time", v: session.time },
+            { icon: Calendar, k: "Day", v: `${day.short}`, sub: day.date },
+            { icon: MapPin, k: "Venue", v: "Hyatt Regency", sub: "Port of Spain" },
+            session.tag && tagColor
+              ? { icon: Mic, k: "Format", v: session.tag, tone: tagColor }
+              : { icon: Mic, k: "Format", v: "Plenary" },
+          ].map((f, i) => (
+            <div
+              key={i}
+              className="py-6 md:py-7 px-4 md:px-5 border-l first:border-l-0 [&:nth-child(3)]:border-l-0 md:[&:nth-child(3)]:border-l border-neutral-100 flex items-center gap-3 md:gap-4"
+            >
+              <div
+                className="w-9 h-9 md:w-10 md:h-10 rounded-lg flex items-center justify-center shrink-0"
+                style={{
+                  backgroundColor: "tone" in f && f.tone ? `${f.tone}18` : `${BRAND}15`,
+                  color: "tone" in f && f.tone ? f.tone : BRAND,
+                }}
+              >
+                <f.icon size={15} />
+              </div>
+              <div className="min-w-0">
+                <div className="text-[10px] tracking-[0.25em] uppercase text-neutral-500">{f.k}</div>
+                <div className="mt-0.5 tracking-tight text-neutral-950 truncate tabular-nums" style={{ fontSize: "0.95rem" }}>
+                  {f.v}
+                </div>
+                {"sub" in f && f.sub && (
+                  <div className="text-neutral-500 text-xs mt-0.5 truncate">{f.sub}</div>
+                )}
+              </div>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* About this session */}
       <section className="py-12 md:py-20 bg-white">
         <div className="max-w-7xl mx-auto px-5 md:px-6">
           <div className="grid lg:grid-cols-12 gap-8 md:gap-12">
-            {/* Sidebar — schedule + meta */}
-            <aside className="lg:col-span-4">
-              <div className="rounded-2xl border border-neutral-200 bg-neutral-50/50 p-6 md:p-7 sticky top-28">
-                <div className="text-xs tracking-[0.25em] uppercase text-neutral-500 mb-4">
-                  Schedule
-                </div>
-                <dl className="space-y-4">
-                  <div className="flex items-start gap-3">
-                    <div className="w-9 h-9 rounded-lg flex items-center justify-center shrink-0" style={{ backgroundColor: `${BRAND}15`, color: BRAND }}>
-                      <Clock size={15} />
+            <div className="lg:col-span-4">
+              <SectionLabel>{session.desc ? "About this session" : "Logistics"}</SectionLabel>
+              <h2
+                className="tracking-[-0.02em] text-neutral-950"
+                style={{ fontSize: "clamp(1.5rem, 2.75vw, 2rem)", lineHeight: 1.1 }}
+              >
+                What you'll <GradientText>take away.</GradientText>
+              </h2>
+            </div>
+            <div className="lg:col-span-8">
+              <p
+                className="text-neutral-700"
+                style={{ fontSize: "1.125rem", lineHeight: 1.75 }}
+              >
+                {session.desc ??
+                  "A pause in the formal programme. Refreshments and informal conversation in the lobby — secretariat staff are on hand if you need anything."}
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Speakers */}
+      {enrichedSpeakers.length > 0 && (
+        <section className="py-12 md:py-20" style={{ backgroundColor: "#fafaf9" }}>
+          <div className="max-w-7xl mx-auto px-5 md:px-6">
+            <div className="mb-8 md:mb-12">
+              <SectionLabel>Speakers</SectionLabel>
+              <h2
+                className="tracking-[-0.02em] text-neutral-950"
+                style={{ fontSize: "clamp(1.5rem, 3vw, 2.25rem)", lineHeight: 1.05 }}
+              >
+                On this <GradientText>session.</GradientText>
+              </h2>
+            </div>
+
+            <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-5">
+              {enrichedSpeakers.map((sp, i) => {
+                const cardInner = (
+                  <div className="flex items-center gap-4">
+                    <div className="shrink-0">
+                      {sp.img ? (
+                        <div className="w-16 h-16 rounded-full overflow-hidden bg-neutral-100">
+                          <ImageWithFallback src={sp.img} alt={sp.name} className="w-full h-full object-cover" />
+                        </div>
+                      ) : (
+                        <div
+                          className="w-16 h-16 rounded-full flex items-center justify-center text-white tracking-tight"
+                          style={{ backgroundColor: BRAND, fontSize: "0.95rem" }}
+                        >
+                          FB
+                        </div>
+                      )}
                     </div>
-                    <div>
-                      <dt className="text-xs tracking-[0.2em] uppercase text-neutral-500">Time</dt>
-                      <dd className="mt-1 tracking-tight text-neutral-950 tabular-nums" style={{ fontSize: "1rem" }}>
-                        {session.time}
-                      </dd>
-                    </div>
-                  </div>
-                  <div className="flex items-start gap-3">
-                    <div className="w-9 h-9 rounded-lg flex items-center justify-center shrink-0" style={{ backgroundColor: `${BRAND}15`, color: BRAND }}>
-                      <Calendar size={15} />
-                    </div>
-                    <div>
-                      <dt className="text-xs tracking-[0.2em] uppercase text-neutral-500">Day</dt>
-                      <dd className="mt-1 tracking-tight text-neutral-950" style={{ fontSize: "1rem" }}>
-                        {day.label}
-                      </dd>
-                      <div className="text-neutral-500 text-sm mt-0.5">{day.date}</div>
-                    </div>
-                  </div>
-                  <div className="flex items-start gap-3">
-                    <div className="w-9 h-9 rounded-lg flex items-center justify-center shrink-0" style={{ backgroundColor: `${BRAND}15`, color: BRAND }}>
-                      <MapPin size={15} />
-                    </div>
-                    <div>
-                      <dt className="text-xs tracking-[0.2em] uppercase text-neutral-500">Venue</dt>
-                      <dd className="mt-1 tracking-tight text-neutral-950" style={{ fontSize: "1rem" }}>
-                        Hyatt Regency
-                      </dd>
-                      <div className="text-neutral-500 text-sm mt-0.5">Port of Spain</div>
-                    </div>
-                  </div>
-                  {session.tag && tagColor && (
-                    <div className="flex items-start gap-3">
-                      <div className="w-9 h-9 rounded-lg flex items-center justify-center shrink-0" style={{ backgroundColor: `${tagColor}18`, color: tagColor }}>
-                        <Mic size={15} />
+                    <div className="min-w-0 flex-1">
+                      <div className="tracking-tight text-neutral-950 group-hover:text-white truncate" style={{ fontSize: "1.0625rem" }}>
+                        {sp.name}
                       </div>
-                      <div>
-                        <dt className="text-xs tracking-[0.2em] uppercase text-neutral-500">Format</dt>
-                        <dd className="mt-1">
-                          <span className="inline-flex items-center px-2.5 py-0.5 rounded-md text-xs" style={{ backgroundColor: `${tagColor}18`, color: tagColor }}>
-                            {session.tag}
-                          </span>
-                        </dd>
-                      </div>
+                      {sp.role && (
+                        <div className="text-neutral-500 group-hover:text-white/70 text-sm truncate">{sp.role}</div>
+                      )}
+                      {sp.org && (
+                        <div className="text-neutral-400 group-hover:text-white/50 text-xs tracking-widest uppercase mt-0.5 truncate">
+                          {sp.org}
+                        </div>
+                      )}
                     </div>
-                  )}
-                </dl>
-
-                <Link
-                  to="/agenda"
-                  className="mt-8 inline-flex items-center gap-2 text-sm text-neutral-600 hover:text-neutral-950 transition"
-                >
-                  <ArrowLeft size={14} /> All sessions
-                </Link>
-              </div>
-            </aside>
-
-            {/* Main — description + speakers */}
-            <motion.div
-              initial={{ opacity: 0, y: 16 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.4 }}
-              className="lg:col-span-8"
-            >
-              {session.desc ? (
-                <>
-                  <div className="text-xs tracking-[0.25em] uppercase text-neutral-500 mb-4">
-                    About this session
+                    {sp.slug && (
+                      <ArrowUpRight
+                        size={16}
+                        className="text-neutral-400 group-hover:text-white opacity-0 group-hover:opacity-100 group-hover:-translate-y-0.5 group-hover:translate-x-0.5 transition shrink-0"
+                      />
+                    )}
                   </div>
-                  <p className="text-neutral-700" style={{ fontSize: "1.125rem", lineHeight: 1.7 }}>
-                    {session.desc}
-                  </p>
-                </>
-              ) : (
-                <>
-                  <div className="text-xs tracking-[0.25em] uppercase text-neutral-500 mb-4">
-                    Logistics
-                  </div>
-                  <p className="text-neutral-600" style={{ fontSize: "1.0625rem", lineHeight: 1.7 }}>
-                    A pause in the formal programme. Refreshments and informal conversation in the lobby — secretariat staff are on hand if you need anything.
-                  </p>
-                </>
-              )}
-
-              {session.speakers && session.speakers.length > 0 && (
-                <div className="mt-10 md:mt-14">
-                  <div className="text-xs tracking-[0.25em] uppercase text-neutral-500 mb-5">
-                    Speakers
-                  </div>
-                  <div className="grid sm:grid-cols-2 gap-3 md:gap-4">
-                    {session.speakers.map((sp) => (
-                      <div
-                        key={sp.name}
-                        className="flex items-center gap-4 p-5 rounded-2xl border border-neutral-200 bg-white"
+                );
+                const baseClass =
+                  "group block rounded-2xl border border-neutral-200 bg-white p-5 transition-all";
+                return (
+                  <motion.div
+                    key={`${sp.name}-${i}`}
+                    initial={{ opacity: 0, y: 16 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ delay: (i % 3) * 0.06 }}
+                  >
+                    {sp.slug ? (
+                      <Link
+                        to={`/speakers/${sp.slug}`}
+                        className={`${baseClass} hover:border-neutral-950 hover:bg-neutral-950 hover:text-white`}
                       >
-                        <div className="shrink-0">
-                          {sp.img ? (
-                            <div className="w-14 h-14 rounded-full overflow-hidden bg-neutral-100">
-                              <ImageWithFallback src={sp.img} alt={sp.name} className="w-full h-full object-cover" />
-                            </div>
-                          ) : (
-                            <div
-                              className="w-14 h-14 rounded-full flex items-center justify-center text-white tracking-tight"
-                              style={{ backgroundColor: BRAND, fontSize: "0.95rem" }}
-                            >
-                              FB
-                            </div>
-                          )}
-                        </div>
-                        <div className="min-w-0">
-                          <div className="tracking-tight text-neutral-950 truncate" style={{ fontSize: "1rem" }}>
-                            {sp.name}
-                          </div>
-                          {sp.role && (
-                            <div className="text-neutral-500 text-sm mt-0.5">{sp.role}</div>
-                          )}
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              )}
+                        {cardInner}
+                      </Link>
+                    ) : (
+                      <div className={baseClass}>{cardInner}</div>
+                    )}
+                  </motion.div>
+                );
+              })}
+            </div>
+          </div>
+        </section>
+      )}
 
-              {/* Prev / Next session nav */}
-              <div className="mt-12 md:mt-16 grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-4 border-t border-neutral-100 pt-8">
-                {prev ? (
-                  <Link
-                    to={pathOf(prev)}
-                    className="group p-5 rounded-2xl border border-neutral-200 hover:border-neutral-950 transition"
-                  >
-                    <div className="flex items-center gap-2 text-xs tracking-[0.25em] uppercase text-neutral-500">
-                      <ArrowLeft size={12} /> Previous
-                    </div>
-                    <div className="mt-2 tracking-tight text-neutral-950 group-hover:text-neutral-950" style={{ fontSize: "1rem", lineHeight: 1.3 }}>
-                      {agenda[prev.dayIdx].sessions[prev.sessionIdx].title}
-                    </div>
-                    <div className="mt-1 text-neutral-500 text-sm">
-                      {agenda[prev.dayIdx].short} · {agenda[prev.dayIdx].sessions[prev.sessionIdx].time}
-                    </div>
-                  </Link>
-                ) : (
-                  <div />
-                )}
-                {next ? (
-                  <Link
-                    to={pathOf(next)}
-                    className="group p-5 rounded-2xl border border-neutral-200 hover:border-neutral-950 transition md:text-right"
-                  >
-                    <div className="flex items-center md:justify-end gap-2 text-xs tracking-[0.25em] uppercase text-neutral-500">
-                      Next <ArrowRight size={12} />
-                    </div>
-                    <div className="mt-2 tracking-tight text-neutral-950 group-hover:text-neutral-950" style={{ fontSize: "1rem", lineHeight: 1.3 }}>
-                      {agenda[next.dayIdx].sessions[next.sessionIdx].title}
-                    </div>
-                    <div className="mt-1 text-neutral-500 text-sm">
-                      {agenda[next.dayIdx].short} · {agenda[next.dayIdx].sessions[next.sessionIdx].time}
-                    </div>
-                  </Link>
-                ) : (
-                  <div />
-                )}
+      {/* Related materials */}
+      {relatedMaterials.length > 0 && (
+        <section className="py-12 md:py-20 bg-white">
+          <div className="max-w-7xl mx-auto px-5 md:px-6">
+            <div className="flex flex-wrap items-end justify-between gap-4 mb-8 md:mb-10">
+              <div>
+                <SectionLabel>Related downloads</SectionLabel>
+                <h2
+                  className="tracking-[-0.02em] text-neutral-950"
+                  style={{ fontSize: "clamp(1.5rem, 3vw, 2.25rem)", lineHeight: 1.05 }}
+                >
+                  Take this <GradientText>home with you.</GradientText>
+                </h2>
               </div>
+              <Link
+                to="/materials"
+                className="group inline-flex items-center gap-2 px-5 py-3 rounded-lg border border-neutral-300 hover:bg-neutral-950 hover:text-white hover:border-neutral-950 transition"
+              >
+                Full library
+                <ArrowUpRight size={16} className="group-hover:rotate-45 transition-transform" />
+              </Link>
+            </div>
+
+            <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-5">
+              {relatedMaterials.map((m, i) => {
+                const tone = TOPIC_TONES[m.topic];
+                return (
+                  <motion.a
+                    key={m.title}
+                    href={m.pdfUrl}
+                    initial={{ opacity: 0, y: 18 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ delay: (i % 3) * 0.06 }}
+                    className="group rounded-2xl border border-neutral-200 bg-white overflow-hidden hover:border-neutral-950 transition-all block"
+                  >
+                    <div className="p-5 md:p-6">
+                      <div className="flex items-center justify-between mb-4">
+                        <span
+                          className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md text-xs"
+                          style={{ backgroundColor: tone.bg, color: tone.fg }}
+                        >
+                          <FileText size={11} />
+                          {m.topic}
+                        </span>
+                        <span className="text-xs tracking-widest text-neutral-400 uppercase">
+                          {m.pages ? `${m.pages} pp` : "PDF"}
+                        </span>
+                      </div>
+                      <div
+                        className="tracking-tight text-neutral-950"
+                        style={{ fontSize: "1.0625rem", lineHeight: 1.3 }}
+                      >
+                        {m.title}
+                      </div>
+                      <p className="mt-2 text-neutral-600 text-sm" style={{ lineHeight: 1.55 }}>
+                        {m.summary.length > 110 ? m.summary.slice(0, 110) + "…" : m.summary}
+                      </p>
+                      <div className="mt-5 flex items-center justify-between border-t border-neutral-100 pt-4">
+                        <span
+                          className="inline-flex items-center gap-1.5 text-sm"
+                          style={{ color: BRAND }}
+                        >
+                          Download <Download size={14} />
+                        </span>
+                        <ArrowUpRight
+                          size={16}
+                          className="text-neutral-400 group-hover:text-neutral-950 group-hover:-translate-y-0.5 group-hover:translate-x-0.5 transition"
+                        />
+                      </div>
+                    </div>
+                  </motion.a>
+                );
+              })}
+            </div>
+          </div>
+        </section>
+      )}
+
+      {/* Location & map */}
+      <section className="py-12 md:py-20" style={{ backgroundColor: "#fafaf9" }}>
+        <div className="max-w-7xl mx-auto px-5 md:px-6">
+          <div className="mb-8 md:mb-10">
+            <SectionLabel>Where it happens</SectionLabel>
+            <h2
+              className="tracking-[-0.02em] text-neutral-950"
+              style={{ fontSize: "clamp(1.5rem, 3vw, 2.25rem)", lineHeight: 1.05 }}
+            >
+              Hyatt Regency · <GradientText>Port of Spain.</GradientText>
+            </h2>
+          </div>
+
+          <div className="grid lg:grid-cols-12 gap-4 md:gap-5">
+            <div className="lg:col-span-8 relative rounded-3xl overflow-hidden border border-neutral-200 bg-white">
+              <iframe
+                title="Hyatt Regency Port of Spain — interactive map"
+                src="https://www.openstreetmap.org/export/embed.html?bbox=-61.530,10.640,-61.505,10.658&layer=mapnik&marker=10.6488,-61.5179"
+                className="w-full block"
+                style={{ height: "440px", border: 0 }}
+                loading="lazy"
+              />
+            </div>
+
+            <div className="lg:col-span-4 rounded-3xl overflow-hidden border border-neutral-200 bg-white p-6 md:p-7 flex flex-col">
+              <div
+                className="w-11 h-11 rounded-xl flex items-center justify-center mb-5"
+                style={{ backgroundColor: `${BRAND}15`, color: BRAND }}
+              >
+                <MapPin size={18} />
+              </div>
+              <div className="tracking-tight text-neutral-950" style={{ fontSize: "1.125rem", lineHeight: 1.2 }}>
+                1 Wrightson Road
+              </div>
+              <div className="text-neutral-500 text-sm mt-1">Port of Spain, Trinidad &amp; Tobago</div>
+
+              <div className="mt-5 pt-5 border-t border-neutral-100 grid grid-cols-2 gap-3 text-sm">
+                <div>
+                  <div className="text-xs tracking-[0.2em] uppercase text-neutral-500">Lat</div>
+                  <div className="mt-1 text-neutral-950 tabular-nums">10.6488° N</div>
+                </div>
+                <div>
+                  <div className="text-xs tracking-[0.2em] uppercase text-neutral-500">Long</div>
+                  <div className="mt-1 text-neutral-950 tabular-nums">61.5179° W</div>
+                </div>
+              </div>
+
+              <a
+                href="https://www.openstreetmap.org/?mlat=10.6488&mlon=-61.5179#map=16/10.6488/-61.5179"
+                target="_blank"
+                rel="noreferrer"
+                className="mt-6 group inline-flex items-center justify-between gap-2 px-4 py-3 rounded-lg text-white hover:opacity-95 transition"
+                style={{ backgroundColor: INK }}
+              >
+                Open in OpenStreetMap
+                <span
+                  className="w-7 h-7 rounded-full flex items-center justify-center"
+                  style={{ backgroundColor: BRAND }}
+                >
+                  <ArrowUpRight size={13} className="group-hover:rotate-45 transition-transform" />
+                </span>
+              </a>
 
               <Link
-                to="/agenda"
-                className="mt-8 inline-flex items-center gap-2 text-sm text-neutral-600 hover:text-neutral-950 transition"
+                to="/venue"
+                className="mt-3 inline-flex items-center gap-2 px-4 py-3 rounded-lg border border-neutral-300 text-neutral-800 hover:border-neutral-950 transition text-sm"
               >
-                Back to full agenda <ArrowUpRight size={14} />
+                Venue & arrival details
+                <ArrowUpRight size={14} />
               </Link>
-            </motion.div>
+            </div>
           </div>
+        </div>
+      </section>
+
+      {/* Day-level navigation — jump to the first session of the previous/next day */}
+      <section className="py-12 md:py-16 bg-white">
+        <div className="max-w-7xl mx-auto px-5 md:px-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-4 border-t border-neutral-100 pt-8">
+            {prev ? (
+              <Link
+                to={pathOf(prev)}
+                className="group p-5 md:p-6 rounded-2xl border border-neutral-200 hover:border-neutral-950 transition"
+              >
+                <div className="flex items-center gap-2 text-xs tracking-[0.25em] uppercase text-neutral-500">
+                  <ArrowLeft size={12} /> Previous day
+                </div>
+                <div
+                  className="mt-3 tracking-tight text-neutral-950"
+                  style={{ fontSize: "1.25rem", lineHeight: 1.2 }}
+                >
+                  {agenda[prev.dayIdx].label}
+                </div>
+                <div className="mt-1 text-neutral-500 text-sm">
+                  {agenda[prev.dayIdx].date} · {agenda[prev.dayIdx].sessions.length} sessions
+                </div>
+              </Link>
+            ) : (
+              <div className="hidden md:block" />
+            )}
+            {next ? (
+              <Link
+                to={pathOf(next)}
+                className="group p-5 md:p-6 rounded-2xl border border-neutral-200 hover:border-neutral-950 transition md:text-right"
+              >
+                <div className="flex items-center md:justify-end gap-2 text-xs tracking-[0.25em] uppercase text-neutral-500">
+                  Next day <ArrowRight size={12} />
+                </div>
+                <div
+                  className="mt-3 tracking-tight text-neutral-950"
+                  style={{ fontSize: "1.25rem", lineHeight: 1.2 }}
+                >
+                  {agenda[next.dayIdx].label}
+                </div>
+                <div className="mt-1 text-neutral-500 text-sm">
+                  {agenda[next.dayIdx].date} · {agenda[next.dayIdx].sessions.length} sessions
+                </div>
+              </Link>
+            ) : (
+              <div className="hidden md:block" />
+            )}
+          </div>
+
+          <Link
+            to="/agenda"
+            className="mt-8 inline-flex items-center gap-2 text-sm text-neutral-600 hover:text-neutral-950 transition"
+          >
+            <ArrowLeft size={14} /> Back to full agenda
+          </Link>
         </div>
       </section>
     </>

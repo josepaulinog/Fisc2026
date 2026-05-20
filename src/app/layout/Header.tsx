@@ -1,8 +1,10 @@
 import { useEffect, useState } from "react";
 import { Link, NavLink, useLocation } from "react-router";
 import { AnimatePresence, motion } from "motion/react";
-import { ArrowUpRight, ChevronDown, Lock, Menu, X } from "lucide-react";
+import { ArrowUpRight, ChevronDown, LogOut, Lock, Menu, X } from "lucide-react";
 import { Lockup } from "../components/brand/Lockup";
+import { useAuth } from "../auth";
+import { firstNameOf, initialsOf, useProfile } from "../profile";
 import { BRAND, INK, navItems } from "../data";
 
 export function Header() {
@@ -10,6 +12,8 @@ export function Header() {
   const [open, setOpen] = useState(false);
   const [mobileExpanded, setMobileExpanded] = useState<string | null>(null);
   const location = useLocation();
+  const { user, isAuthed, signOut } = useAuth();
+  const [profile] = useProfile(user);
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 20);
@@ -128,23 +132,56 @@ export function Header() {
               )}
             </nav>
             <div className="flex items-center gap-2">
-              <span className="hidden md:inline-flex items-center gap-2 px-3 py-1.5 rounded-lg bg-neutral-100 text-neutral-600 text-sm">
-                <span className="w-1.5 h-1.5 rounded-full bg-neutral-400" />
-                Invitation only
-              </span>
-              <Link
-                to="/sign-in"
-                style={{ backgroundColor: INK }}
-                className="group hidden sm:inline-flex items-center gap-2 text-white pl-5 pr-2 py-2 rounded-lg hover:opacity-90 transition"
-              >
-                Delegate sign in
-                <span
-                  className="w-7 h-7 rounded-full flex items-center justify-center"
-                  style={{ backgroundColor: BRAND }}
-                >
-                  <ArrowUpRight size={14} className="group-hover:rotate-45 transition-transform" />
-                </span>
-              </Link>
+              {isAuthed && user ? (
+                <>
+                  <Link
+                    to="/profile"
+                    aria-label="Your profile"
+                    className="group inline-flex items-center gap-2 pl-1 pr-3 py-1 rounded-full bg-neutral-100 hover:bg-neutral-200 transition"
+                  >
+                    <span
+                      className="w-7 h-7 rounded-full overflow-hidden flex items-center justify-center text-white text-xs ring-2 ring-white"
+                      style={{ backgroundColor: BRAND, fontWeight: 600 }}
+                    >
+                      {profile?.photoUrl ? (
+                        <img src={profile.photoUrl} alt="" className="w-full h-full object-cover" />
+                      ) : (
+                        initialsOf(user.name)
+                      )}
+                    </span>
+                    <span className="hidden md:inline text-sm text-neutral-800 truncate max-w-[120px]">
+                      {firstNameOf(user.name)}
+                    </span>
+                  </Link>
+                  <button
+                    onClick={signOut}
+                    aria-label="Sign out"
+                    className="group hidden sm:inline-flex items-center justify-center w-9 h-9 rounded-full bg-neutral-100 hover:bg-neutral-950 hover:text-white text-neutral-700 transition"
+                  >
+                    <LogOut size={14} />
+                  </button>
+                </>
+              ) : (
+                <>
+                  <span className="hidden md:inline-flex items-center gap-2 px-3 py-1.5 rounded-lg bg-neutral-100 text-neutral-600 text-sm">
+                    <span className="w-1.5 h-1.5 rounded-full bg-neutral-400" />
+                    Invitation only
+                  </span>
+                  <Link
+                    to="/sign-in"
+                    style={{ backgroundColor: INK }}
+                    className="group hidden sm:inline-flex items-center gap-2 text-white pl-5 pr-2 py-2 rounded-lg hover:opacity-90 transition"
+                  >
+                    Delegate sign in
+                    <span
+                      className="w-7 h-7 rounded-full flex items-center justify-center"
+                      style={{ backgroundColor: BRAND }}
+                    >
+                      <ArrowUpRight size={14} className="group-hover:rotate-45 transition-transform" />
+                    </span>
+                  </Link>
+                </>
+              )}
               <button
                 className="lg:hidden p-2 text-neutral-700 rounded-lg hover:bg-neutral-100"
                 onClick={() => setOpen(true)}
@@ -260,23 +297,67 @@ export function Header() {
                 })}
               </nav>
               <div className="p-5 border-t border-neutral-100 space-y-3">
-                <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-lg bg-neutral-100 text-neutral-600 text-sm">
-                  <span className="w-1.5 h-1.5 rounded-full bg-neutral-400" />
-                  Invitation only
-                </div>
-                <Link
-                  to="/sign-in"
-                  style={{ backgroundColor: INK }}
-                  className="group w-full inline-flex items-center justify-between text-white pl-5 pr-2 py-3 rounded-xl hover:opacity-90 transition"
-                >
-                  Delegate sign in
-                  <span
-                    className="w-8 h-8 rounded-full flex items-center justify-center"
-                    style={{ backgroundColor: BRAND }}
-                  >
-                    <ArrowUpRight size={14} />
-                  </span>
-                </Link>
+                {isAuthed && user ? (
+                  <>
+                    <Link
+                      to="/profile"
+                      className="flex items-center gap-3 px-3 py-2.5 rounded-xl bg-neutral-100 hover:bg-neutral-200 transition"
+                    >
+                      <span
+                        className="w-10 h-10 rounded-full overflow-hidden flex items-center justify-center text-white text-sm ring-2 ring-white"
+                        style={{ backgroundColor: BRAND, fontWeight: 600 }}
+                      >
+                        {profile?.photoUrl ? (
+                          <img src={profile.photoUrl} alt="" className="w-full h-full object-cover" />
+                        ) : (
+                          initialsOf(user.name)
+                        )}
+                      </span>
+                      <span className="flex-1 min-w-0">
+                        <span className="block tracking-tight text-neutral-950 truncate" style={{ fontSize: "0.95rem" }}>
+                          {user.name}
+                        </span>
+                        <span className="block text-xs text-neutral-500 truncate">View profile</span>
+                      </span>
+                    </Link>
+                    <button
+                      onClick={() => {
+                        signOut();
+                        setOpen(false);
+                      }}
+                      style={{ backgroundColor: INK }}
+                      className="group w-full inline-flex items-center justify-between text-white pl-5 pr-2 py-3 rounded-xl hover:opacity-90 transition"
+                    >
+                      Sign out
+                      <span
+                        className="w-8 h-8 rounded-full flex items-center justify-center"
+                        style={{ backgroundColor: BRAND }}
+                      >
+                        <LogOut size={14} />
+                      </span>
+                    </button>
+                  </>
+                ) : (
+                  <>
+                    <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-lg bg-neutral-100 text-neutral-600 text-sm">
+                      <span className="w-1.5 h-1.5 rounded-full bg-neutral-400" />
+                      Invitation only
+                    </div>
+                    <Link
+                      to="/sign-in"
+                      style={{ backgroundColor: INK }}
+                      className="group w-full inline-flex items-center justify-between text-white pl-5 pr-2 py-3 rounded-xl hover:opacity-90 transition"
+                    >
+                      Delegate sign in
+                      <span
+                        className="w-8 h-8 rounded-full flex items-center justify-center"
+                        style={{ backgroundColor: BRAND }}
+                      >
+                        <ArrowUpRight size={14} />
+                      </span>
+                    </Link>
+                  </>
+                )}
               </div>
             </motion.div>
           </>

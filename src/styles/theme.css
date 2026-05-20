@@ -179,3 +179,170 @@
     line-height: 1.5;
   }
 }
+
+/* ---------------------------------------------------------------------------
+ * Marquee — seamless infinite horizontal scroll.
+ * The track contains two copies of the source list, so animating from 0 to
+ * -50% lands the second copy exactly where the first started — no seam.
+ * ------------------------------------------------------------------------- */
+@keyframes marquee-scroll {
+  from { transform: translate3d(0, 0, 0); }
+  to   { transform: translate3d(-50%, 0, 0); }
+}
+
+.marquee-track {
+  animation: marquee-scroll 60s linear infinite;
+  will-change: transform;
+}
+
+/* Respect users who prefer reduced motion — stop the scroll. */
+@media (prefers-reduced-motion: reduce) {
+  .marquee-track {
+    animation: none;
+  }
+}
+
+/* -------------------------------------------------------------------------
+ * Hero video boot-up
+ * -------------------------------------------------------------------------
+ * The YouTube iframe paints a single frame of its own player chrome — the
+ * big centred play/pause icon — during the brief window between when the
+ * iframe DOM is ready and when YouTube's player JS reaches the PLAYING
+ * state and dismisses its boot UI. Even with `controls=0` we can't
+ * suppress that initial frame from URL params alone.
+ *
+ * The fix is timing, not styling: hold the iframe at opacity 0 long
+ * enough for YouTube to start playing (so the boot chrome is already
+ * gone by the time the iframe becomes visible), then fade it in. The
+ * static HERO_IMG poster sits underneath at full opacity so users see
+ * the destination photo instead of a black hole during the hold.
+ *
+ * 64% of 2.5s = 1.6s of pure poster, then an 0.9s fade — comfortably
+ * past YouTube's typical first-play moment on a warm cache, and a soft
+ * cross-dissolve when it takes longer.
+ * ------------------------------------------------------------------------- */
+@keyframes hero-video-fade-in {
+  0%, 64% { opacity: 0; }
+  100%    { opacity: 1; }
+}
+
+.hero-video-fade-in {
+  animation: hero-video-fade-in 2.5s ease-in forwards;
+}
+
+/* Reduced-motion users get the static poster path anyway, but if anyone
+   ever reuses this class outside that branch, skip the fade. */
+@media (prefers-reduced-motion: reduce) {
+  .hero-video-fade-in {
+    animation: none;
+  }
+}
+
+/* -------------------------------------------------------------------------
+ * Sun rotate
+ * -------------------------------------------------------------------------
+ * Slow continuous spin for the decorative <Sun /> mark beside the hero
+ * headline. 20s/turn is intentionally lazy — the motion registers as
+ * "alive" without competing with the hero copy for attention. Origin is
+ * forced to the centre because the Lucide Sun icon's bounding box is
+ * slightly off-centre from its visual centre on some renders.
+ * ------------------------------------------------------------------------- */
+@keyframes sun-rotate {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+
+.sun-rotate {
+  animation: sun-rotate 20s linear infinite;
+  transform-origin: 50% 50%;
+  will-change: transform;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sun-rotate {
+    animation: none;
+  }
+}
+
+/* -------------------------------------------------------------------------
+ * IconMark (FreeBalance "F") — load + hover animations
+ * -------------------------------------------------------------------------
+ * The mark is composed of three SVG shapes stacked top-to-bottom:
+ *   .iconmark-piece-1  → top horizontal bar
+ *   .iconmark-piece-2  → middle horizontal bar
+ *   .iconmark-piece-3  → bottom circular dot (also tagged .iconmark-dot)
+ *
+ * LOAD: each piece animates in with a 150ms cascade so the F looks like
+ * it's being assembled. The first two slide+fade down from above; the dot
+ * pops in with a soft overshoot for a confident "click" at the end.
+ *
+ * HOVER: the whole mark scales up subtly (1.06) for a tactile lift, and
+ * the dot does a single 4px hop — letting the eye know the mark is alive
+ * without being noisy.
+ *
+ * SVG transform gotcha: transform-origin on SVG children defaults to the
+ * SVG viewBox origin (0,0). transform-box:fill-box makes the origin the
+ * shape's own bounding box, which is what we want for scaling the dot
+ * from its centre.
+ * ------------------------------------------------------------------------- */
+@keyframes iconmark-rise {
+  from { opacity: 0; transform: translateY(-8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes iconmark-pop {
+  0%   { opacity: 0; transform: scale(0); }
+  65%  { opacity: 1; transform: scale(1.18); }
+  100% { opacity: 1; transform: scale(1); }
+}
+
+@keyframes iconmark-hop {
+  0%, 100% { transform: translateY(0); }
+  45%      { transform: translateY(-4px); }
+}
+
+.iconmark-svg {
+  /* Hover lift on the whole mark. */
+  transition: transform 320ms cubic-bezier(0.2, 0.7, 0.3, 1);
+  transform-origin: 50% 50%;
+  will-change: transform;
+}
+
+.iconmark-svg:hover {
+  transform: scale(1.06);
+}
+
+.iconmark-svg .iconmark-piece {
+  transform-box: fill-box;
+  transform-origin: 50% 50%;
+}
+
+.iconmark-svg .iconmark-piece-1 {
+  animation: iconmark-rise 600ms cubic-bezier(0.2, 0.7, 0.3, 1) 0ms both;
+}
+
+.iconmark-svg .iconmark-piece-2 {
+  animation: iconmark-rise 600ms cubic-bezier(0.2, 0.7, 0.3, 1) 150ms both;
+}
+
+.iconmark-svg .iconmark-piece-3 {
+  animation: iconmark-pop 550ms cubic-bezier(0.2, 0.7, 0.3, 1) 300ms both;
+}
+
+.iconmark-svg:hover .iconmark-dot {
+  /* Re-uses the same element the load animation finished on; the hop
+     overrides the static final state for its 500ms run, then the dot
+     settles back to the load animation's end keyframe (scale 1). */
+  animation: iconmark-hop 500ms cubic-bezier(0.2, 0.7, 0.3, 1);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .iconmark-svg,
+  .iconmark-svg .iconmark-piece {
+    animation: none;
+    transition: none;
+  }
+  .iconmark-svg:hover {
+    transform: none;
+  }
+}

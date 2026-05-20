@@ -1,6 +1,7 @@
 import { useMemo, useState } from "react";
 import { motion } from "motion/react";
 import { Download, FileText, Lock, Search } from "lucide-react";
+import { GatedBody } from "../components/GatedBody";
 import { GradientText, PageHero } from "../components/shared";
 import { BRAND, BRAND_SOFT, HERO_MATERIALS, INK, materials, type MaterialEntry } from "../data";
 
@@ -99,6 +100,7 @@ export default function Materials() {
         imageCaption={`${materials.length} takeaways · 2026 edition`}
       />
 
+      <GatedBody>
       <section className="py-12 md:py-20 bg-white">
         <div className="max-w-7xl mx-auto px-5 md:px-6">
           <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-4 mb-8 md:mb-12">
@@ -183,6 +185,7 @@ export default function Materials() {
           </div>
         </div>
       </section>
+      </GatedBody>
     </>
   );
 }

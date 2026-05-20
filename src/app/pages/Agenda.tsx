@@ -23,7 +23,7 @@ export default function Agenda() {
         }
         subtitle="Country-led workshops, presentations and panels — alongside cultural moments across Trinidad and Tobago."
         image={HERO_AGENDA}
-        imageCaption="Hyatt Regency · Port of Spain"
+        imageCaption="Workshop session · Country breakout"
       />
       <section className="py-16 md:py-24 relative overflow-hidden" style={{ backgroundColor: "#fafaf9" }}>
         <div

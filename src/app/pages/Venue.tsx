@@ -48,11 +48,11 @@ const essentials = [
 
 const experiences = [
   { img: VENUE_IMG_1, title: "Maracas Bay", subtitle: "North Coast · 40 min drive", icon: Waves },
-  { img: VENUE_STREET, title: "Downtown Port of Spain", subtitle: "Architecture & street life", icon: Landmark },
+  { img: VENUE_STREET, title: "Downtown Port of Spain", subtitle: "Aerial · waterfront capital", icon: Landmark },
   { img: VENUE_FOOD, title: "Doubles & Roti", subtitle: "Street food culture", icon: Utensils },
-  { img: VENUE_STEELPAN, title: "Pan Yard Sessions", subtitle: "Birthplace of the steelpan", icon: Sparkles },
-  { img: VENUE_NATURE, title: "Northern Range", subtitle: "Rainforest & waterfalls", icon: Compass },
-  { img: VENUE_IMG_2, title: "Port of Spain Skyline", subtitle: "Conference district", icon: Sun },
+  { img: VENUE_STEELPAN, title: "Carnival Mas", subtitle: "Feathers, music, mas", icon: Sparkles },
+  { img: VENUE_NATURE, title: "Scarlet Ibis", subtitle: "Caroni Swamp · national bird", icon: Compass },
+  { img: VENUE_IMG_2, title: "Queen's Royal College", subtitle: "Historic architecture, Port of Spain", icon: Sun },
 ];
 
 export default function Venue() {

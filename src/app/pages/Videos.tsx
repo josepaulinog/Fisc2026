@@ -1,6 +1,7 @@
 import { motion } from "motion/react";
 import { Clock, Film, Play } from "lucide-react";
 import { ImageWithFallback } from "../components/figma/ImageWithFallback";
+import { GatedBody } from "../components/GatedBody";
 import { Grain, GradientText, PageHero, SectionLabel } from "../components/shared";
 import { BRAND, BRAND_SOFT, HERO_VIDEOS, INK, videos, type VideoEntry } from "../data";
 
@@ -108,6 +109,7 @@ export default function Videos() {
         imageCaption={`${videos.length} videos · ${Math.round(totalMinutes)} min total`}
       />
 
+      <GatedBody>
       <section className="py-12 md:py-20 bg-white">
         <div className="max-w-7xl mx-auto px-5 md:px-6 space-y-10 md:space-y-12">
           {featured && <FeatureCard v={featured} />}
@@ -151,6 +153,7 @@ export default function Videos() {
           </div>
         </div>
       </section>
+      </GatedBody>
     </>
   );
 }

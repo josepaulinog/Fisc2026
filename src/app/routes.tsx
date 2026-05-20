@@ -5,6 +5,7 @@ import About from "./pages/About";
 import Agenda from "./pages/Agenda";
 import AgendaSession from "./pages/AgendaSession";
 import Speakers from "./pages/Speakers";
+import SpeakerDetail from "./pages/SpeakerDetail";
 import Venue from "./pages/Venue";
 import Resources from "./pages/Resources";
 import Attendees from "./pages/Attendees";
@@ -14,6 +15,7 @@ import Gallery from "./pages/Gallery";
 import Videos from "./pages/Videos";
 import MediaCoverage from "./pages/MediaCoverage";
 import SignIn from "./pages/SignIn";
+import Profile from "./pages/Profile";
 import NotFound from "./pages/NotFound";
 
 export const router = createBrowserRouter([
@@ -28,6 +30,7 @@ export const router = createBrowserRouter([
       { path: "agenda", Component: Agenda },
       { path: "agenda/:daySlug/:sessionIdx", Component: AgendaSession },
       { path: "speakers", Component: Speakers },
+      { path: "speakers/:slug", Component: SpeakerDetail },
       { path: "venue", Component: Venue },
       { path: "resources", Component: Resources },
       { path: "attendees", Component: Attendees },
@@ -36,6 +39,7 @@ export const router = createBrowserRouter([
       { path: "gallery", Component: Gallery },
       { path: "videos", Component: Videos },
       { path: "media-coverage", Component: MediaCoverage },
+      { path: "profile", Component: Profile },
       { path: "*", Component: NotFound },
     ],
   },

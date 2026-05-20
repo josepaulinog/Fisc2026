@@ -17,7 +17,9 @@ import {
   Plus,
   Users,
 } from "lucide-react";
+import { CountryFlag } from "../components/CountryFlag";
 import { ImageWithFallback } from "../components/figma/ImageWithFallback";
+import { GatedBody } from "../components/GatedBody";
 import { Grain, GradientText, PageHero, SectionLabel } from "../components/shared";
 import {
   BRAND,
@@ -52,6 +54,7 @@ export default function DelegateGuide() {
         imageCaption={delegateGuide.dates}
       />
 
+      <GatedBody>
       <section className="bg-white pt-6 md:pt-10">
         <div className="max-w-7xl mx-auto px-5 md:px-6">
           <div className="flex items-center gap-3 px-4 py-3 rounded-2xl border border-neutral-200 bg-neutral-50">
@@ -68,6 +71,15 @@ export default function DelegateGuide() {
           <div className="grid lg:grid-cols-12 gap-6 md:gap-10 items-start">
             <div className="lg:col-span-5">
               <SectionLabel>About {delegateGuide.countryName}</SectionLabel>
+              <div className="flex items-center gap-3 mb-2">
+                <CountryFlag
+                  country={delegateGuide.countryName}
+                  className="h-6 md:h-7 w-auto rounded-sm shadow-sm shrink-0"
+                />
+                <span className="text-xs tracking-[0.22em] uppercase text-neutral-500">
+                  {delegateGuide.countryName}
+                </span>
+              </div>
               <h2 className="tracking-[-0.02em] text-neutral-950" style={{ fontSize: "clamp(1.75rem, 3.5vw, 2.5rem)", lineHeight: 1.05 }}>
                 Two islands. <span style={{ color: BRAND }}>One welcome.</span>
               </h2>
@@ -230,7 +242,7 @@ export default function DelegateGuide() {
             </div>
             <h2 className="tracking-[-0.02em] text-white" style={{ fontSize: "clamp(1.75rem, 3.5vw, 2.5rem)", lineHeight: 1.05 }}>
               Land prepared.<br />
-              <GradientText>Land ready.</GradientText>
+              <GradientText tone="light">Land ready.</GradientText>
             </h2>
             <p className="mt-5 text-white/70 max-w-md" style={{ lineHeight: 1.7 }}>
               Tap a topic to expand the details. Country-specific notes are sent in your personalised pack.
@@ -302,6 +314,7 @@ export default function DelegateGuide() {
           </div>
         </div>
       </section>
+      </GatedBody>
     </>
   );
 }

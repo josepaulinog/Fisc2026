@@ -1,6 +1,7 @@
 import { useMemo, useState } from "react";
 import { motion } from "motion/react";
 import { ArrowUpRight, ExternalLink, Newspaper, Play, Rss, Share2 } from "lucide-react";
+import { GatedBody } from "../components/GatedBody";
 import { GradientText, PageHero } from "../components/shared";
 import { BRAND, HERO_MEDIA, mediaItems, type MediaItem } from "../data";
 
@@ -79,6 +80,7 @@ export default function MediaCoverage() {
         imageCaption={`${mediaItems.length} items · Updated weekly`}
       />
 
+      <GatedBody>
       <section className="py-12 md:py-20 bg-white">
         <div className="max-w-7xl mx-auto px-5 md:px-6">
           <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-8 md:mb-12">
@@ -122,6 +124,7 @@ export default function MediaCoverage() {
           )}
         </div>
       </section>
+      </GatedBody>
     </>
   );
 }

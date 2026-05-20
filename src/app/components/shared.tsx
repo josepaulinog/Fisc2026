@@ -1,26 +1,67 @@
-import { motion } from "motion/react";
+import { createContext, useContext } from "react";
 import { BRAND, BRAND_SOFT, countries } from "../data";
+import { CountryFlag } from "./CountryFlag";
 import { ImageWithFallback } from "./figma/ImageWithFallback";
 
 /**
- * GradientText — italic, brand-orange gradient phrase used to highlight
- * the accent word(s) in PageHero titles. Centralised so every hero
- * across the site shares the exact same look.
+ * GradientText — italic brand-orange phrase used to highlight accent word(s)
+ * in headings. Has two tones tuned for two backgrounds:
+ *
+ *   - `dark`  (default) — saturated orange → burnt orange. Reads on white.
+ *   - `light`           — peach → primary orange. Reads on the dark INK hero.
+ *
+ * Components that always render on a dark surface (e.g. PageHero) push the
+ * tone via `GradientToneScope` so individual call-sites don't need to know.
+ * Anything outside such a scope falls back to the dark tone (white-safe).
  */
+type GradientTone = "light" | "dark";
+
+const GradientToneContext = createContext<GradientTone>("dark");
+
+const GRADIENT_BY_TONE: Record<GradientTone, string> = {
+  // Dark text on light backgrounds (sections on white / off-white).
+  dark: `linear-gradient(120deg, ${BRAND} 0%, #c2410c 100%)`,
+  // Lighter text on dark backgrounds (hero bands, dark sections).
+  light: `linear-gradient(120deg, ${BRAND_SOFT} 0%, ${BRAND} 100%)`,
+};
+
+/** Wraps children in a tone scope. Most callers won't use this directly. */
+export function GradientToneScope({
+  tone,
+  children,
+}: {
+  tone: GradientTone;
+  children: React.ReactNode;
+}) {
+  return <GradientToneContext.Provider value={tone}>{children}</GradientToneContext.Provider>;
+}
+
 export function GradientText({
   children,
   className = "",
+  tone,
 }: {
   children: React.ReactNode;
   className?: string;
+  /** Override the tone for this single instance. */
+  tone?: GradientTone;
 }) {
+  const ctxTone = useContext(GradientToneContext);
+  const effectiveTone = tone ?? ctxTone;
   return (
     <span
       className={`italic ${className}`}
       style={{
-        background: `linear-gradient(120deg, ${BRAND_SOFT}, ${BRAND})`,
+        background: GRADIENT_BY_TONE[effectiveTone],
         WebkitBackgroundClip: "text",
         WebkitTextFillColor: "transparent",
+        // Italic glyphs (especially descenders like *p* and *j*) lean left
+        // of their advance-width box. Without this padding the gradient
+        // stops at the box edge and the overflowing ink renders unfilled,
+        // making the letter look clipped. The negative margin counter-shifts
+        // so the visible position of the word doesn't move in the line.
+        paddingInline: "0.1em",
+        marginInline: "-0.1em",
       }}
     >
       {children}
@@ -49,28 +90,57 @@ export function SectionLabel({ children }: { children: React.ReactNode }) {
   );
 }
 
+/**
+ * Marquee — countries scroll horizontally on a continuous loop.
+ *
+ * CSS keyframes drive the animation (defined in theme.css as `marquee-scroll`)
+ * because Motion's array-keyframe loops can stutter on tab-focus changes,
+ * whereas a pure CSS transform stays buttery and GPU-accelerated.
+ *
+ * The track contains TWO copies of the countries list and animates from
+ * `translateX(0)` to `translateX(-50%)`, so the moment one copy scrolls off
+ * the left, its duplicate is exactly in position — no visible seam.
+ *
+ * Full-bleed band (top + bottom rules only) — sits as its own horizontal
+ * stripe between page sections. Edge-fade gradients on left + right keep
+ * items from clipping abruptly at the viewport boundary.
+ */
 export function Marquee() {
   return (
     <div
-      className="relative border-y border-white/10 overflow-hidden py-5"
+      className="relative border-y border-white/10 py-5"
       style={{ backgroundColor: "rgba(0,0,0,0.4)" }}
     >
-      <motion.div
-        className="flex gap-12 whitespace-nowrap"
-        animate={{ x: ["0%", "-50%"] }}
-        transition={{ duration: 60, repeat: Infinity, ease: "linear" }}
-      >
-        {[...countries, ...countries].map((c, i) => (
-          <span
-            key={i}
-            className="inline-flex items-center gap-12 text-white/70 tracking-[0.2em]"
-            style={{ fontSize: "1rem" }}
-          >
-            {c}
-            <span style={{ color: BRAND }}>✦</span>
-          </span>
-        ))}
-      </motion.div>
+      {/* The band itself is full-bleed (matches the hero width) but the
+          scrolling track is contained inside max-w-7xl so items align with
+          the rest of the page content. Edge fades live inside the contained
+          column too, so the dissolve sits exactly at the content gutters. */}
+      <div className="relative max-w-7xl mx-auto px-5 md:px-6 overflow-hidden">
+        <div
+          className="pointer-events-none absolute inset-y-0 left-0 z-10 w-12 md:w-20"
+          style={{ background: "linear-gradient(to right, rgba(0,0,0,0.95), rgba(0,0,0,0))" }}
+        />
+        <div
+          className="pointer-events-none absolute inset-y-0 right-0 z-10 w-12 md:w-20"
+          style={{ background: "linear-gradient(to left, rgba(0,0,0,0.95), rgba(0,0,0,0))" }}
+        />
+
+        <div className="marquee-track flex gap-12 whitespace-nowrap w-max">
+          {[...countries, ...countries].map((c, i) => (
+            <span
+              key={i}
+              className="inline-flex items-center gap-4 md:gap-5 text-white/70 tracking-[0.2em]"
+              style={{ fontSize: "1rem" }}
+            >
+              <CountryFlag
+                country={c}
+                className="h-3 w-auto rounded-[1px] shadow-sm shrink-0"
+              />
+              <span>{c}</span>
+            </span>
+          ))}
+        </div>
+      </div>
     </div>
   );
 }
@@ -103,7 +173,7 @@ export function PageHero({
         className="absolute inset-0"
         style={{
           background: image
-            ? `radial-gradient(ellipse at 85% 0%, ${BRAND}55 0%, transparent 55%), linear-gradient(180deg, rgba(10,10,10,0.85) 0%, rgba(10,10,10,0.55) 40%, #0a0a0a 100%)`
+            ? `radial-gradient(ellipse at 85% 0%, ${BRAND}55 0%, transparent 55%), linear-gradient(180deg, rgba(10,10,10,0.85) 0%, rgba(10,10,10,0.55) 40%, rgba(10,10,10,0.7) 100%)`
             : `radial-gradient(ellipse at 80% 10%, ${BRAND}55 0%, transparent 50%), linear-gradient(180deg, #0a0a0a 0%, transparent 40%, #0a0a0a 100%)`,
         }}
       />
@@ -115,9 +185,13 @@ export function PageHero({
         </div>
         <h1
           className="text-white tracking-[-0.03em]"
-          style={{ fontSize: "clamp(2.5rem, 7vw, 6rem)", lineHeight: 1 }}
+          // lineHeight is slightly > 1 because the italic <GradientText> spans
+          // have ascenders/descenders that collide with adjacent lines when
+          // line-height equals the font size. 1.05 gives them breathing room
+          // without making the headline feel airy.
+          style={{ fontSize: "clamp(2.5rem, 7vw, 6rem)", lineHeight: 1.05 }}
         >
-          {title}
+          <GradientToneScope tone="light">{title}</GradientToneScope>
         </h1>
         {subtitle && (
           <p className="mt-6 max-w-2xl text-white/80" style={{ fontSize: "1.125rem", lineHeight: 1.6 }}>
