@@ -40,53 +40,31 @@ function Hero() {
         {prefersReducedMotion ? (
           <ImageWithFallback src={HERO_IMG} alt="Caribbean coast" className="w-full h-full object-cover opacity-50" />
         ) : (
-          // YouTube background embed. Best-practice flags:
-          //   - youtube-nocookie host avoids dropping tracking cookies until the
-          //     user interacts (GDPR-friendlier, recommended by Google for embeds)
-          //   - mute=1 + autoplay=1 + playsinline=1 satisfy every browser's
+          // Native <video> for the hero loop. hero-video.mp4 lives in /public
+          // so Vite serves it directly (range-requestable, not bundled into the
+          // JS chunk). The native element gives us instant first-frame paint
+          // from `poster`, browser-native autoplay-on-mute, and no boot chrome
+          // to mask — unlike the YouTube iframe it replaces.
+          //   - muted + autoPlay + playsInline satisfy every browser's
           //     autoplay policy (iOS Safari especially)
-          //   - loop=1 + playlist=<id> is the only way YouTube loops a single
-          //     video — without playlist=, loop is silently ignored
-          //   - controls/showinfo/modestbranding/iv_load_policy/rel/disablekb/fs/
-          //     cc_load_policy strip every piece of player chrome so it renders
-          //     as a pure video plate
-          //   - vq=hd2160 hints the player to fetch 4K when bandwidth + display
-          //     size allow it (YouTube ultimately decides, but this is the best
-          //     signal a URL param can send)
-          // The poster image and iframe both sit inside a 50% opacity wrapper so
-          // the dim treatment composites identically during boot and after the
-          // iframe paints, and pointer-events:none lets clicks pass through to
-          // the hero CTAs below.
-          <div className="absolute inset-0 opacity-50">
-            <ImageWithFallback
-              src={HERO_IMG}
-              alt=""
-              className="absolute inset-0 w-full h-full object-cover"
-              aria-hidden="true"
-            />
-            <iframe
-              title="FISC 2026 hero loop"
-              src="https://www.youtube-nocookie.com/embed/BfeRh9KDsHM?autoplay=1&mute=1&loop=1&playlist=BfeRh9KDsHM&controls=0&showinfo=0&modestbranding=1&iv_load_policy=3&disablekb=1&fs=0&playsinline=1&rel=0&vq=hd2160&cc_load_policy=0"
-              allow="autoplay; encrypted-media; picture-in-picture"
-              referrerPolicy="strict-origin-when-cross-origin"
-              tabIndex={-1}
-              aria-hidden="true"
-              className="hero-video-fade-in pointer-events-none absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2"
-              style={{
-                // Canonical YouTube background-cover sizing: lock a strict 16:9
-                // box and grow it to whichever dimension covers the viewport.
-                // width/height dominate on landscape viewports; min-width and
-                // min-height kick in on portrait viewports so the iframe always
-                // exceeds the section in both axes and the video never
-                // letterboxes (the parent's overflow:hidden does the cropping).
-                width: "100vw",
-                height: "56.25vw",
-                minWidth: "177.78vh",
-                minHeight: "100vh",
-                border: 0,
-              }}
-            />
-          </div>
+          //   - loop keeps it cycling indefinitely
+          //   - preload="auto" tells the browser this is above-the-fold and
+          //     worth fetching eagerly
+          //   - poster paints HERO_IMG instantly while bytes arrive, so the
+          //     hero is never empty
+          //   - opacity-50 dims the source to match the design's near-black
+          //     canvas treatment; pointer-events:none keeps CTAs clickable
+          <video
+            src="/hero-video.mp4"
+            poster={HERO_IMG}
+            autoPlay
+            muted
+            loop
+            playsInline
+            preload="auto"
+            aria-hidden="true"
+            className="pointer-events-none absolute inset-0 w-full h-full object-cover opacity-50"
+          />
         )}
       </motion.div>
       <div
@@ -158,25 +136,59 @@ function Hero() {
 }
 
 function StatsBar() {
+  // Thin one-line ticker: four columns on desktop, 2×2 on mobile. Number and
+  // label share a baseline so the row reads as a single horizontal beat,
+  // matching the mono cadence of the country marquee directly above. The
+  // brand-orange "+" is split off the value at render time so only the plus
+  // gets coloured — the digits stay near-ink. Replaces the earlier centred-
+  // billboard pattern, which read as a loading state at full viewport width.
   return (
     <section className="bg-white border-b border-neutral-100">
-      <div className="max-w-7xl mx-auto px-5 md:px-6 grid grid-cols-2 md:grid-cols-4">
-        {stats.map((s, i) => (
-          <motion.div
-            key={s.label}
-            initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}
-            transition={{ delay: i * 0.1 }}
-            className="py-8 md:py-10 px-3 md:px-4 border-l first:border-l-0 [&:nth-child(3)]:border-l-0 md:[&:nth-child(3)]:border-l border-neutral-100 flex items-center gap-3 md:gap-4"
-          >
-            <div className="w-10 h-10 md:w-12 md:h-12 rounded-full flex items-center justify-center shrink-0" style={{ backgroundColor: `${BRAND}15`, color: BRAND }}>
-              <s.icon size={18} />
-            </div>
-            <div>
-              <div className="tracking-tight text-neutral-950" style={{ fontSize: "clamp(1.25rem, 3vw, 1.75rem)", lineHeight: 1 }}>{s.value}</div>
-              <div className="text-neutral-500 text-sm md:text-base mt-1">{s.label}</div>
-            </div>
-          </motion.div>
-        ))}
+      <div className="max-w-7xl mx-auto px-5 md:px-6">
+        <div className="grid grid-cols-2 md:grid-cols-4">
+          {stats.map((s, i) => {
+            const hasPlus = s.value.endsWith("+");
+            const numPart = hasPlus ? s.value.slice(0, -1) : s.value;
+            return (
+              <motion.div
+                key={s.label}
+                initial={{ opacity: 0, y: 12 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: i * 0.08 }}
+                className={
+                  // Border logic: every cell has a left border, except the
+                  // first overall. On mobile the 3rd cell starts a new row
+                  // so its left border drops and a top border picks up the
+                  // separation; the 4th gets a top border too. Desktop
+                  // reverses both (the 3rd cell needs its left border back).
+                  "py-10 md:py-14 px-4 md:px-6 flex items-baseline gap-3 md:gap-5 " +
+                  "border-l first:border-l-0 " +
+                  "[&:nth-child(3)]:border-l-0 md:[&:nth-child(3)]:border-l " +
+                  "[&:nth-child(3)]:border-t md:[&:nth-child(3)]:border-t-0 " +
+                  "[&:nth-child(4)]:border-t md:[&:nth-child(4)]:border-t-0 " +
+                  "border-neutral-100"
+                }
+              >
+                <span
+                  className="tracking-tight text-neutral-950 tabular-nums"
+                  style={{
+                    fontSize: "clamp(2.25rem, 4.4vw, 3.25rem)",
+                    lineHeight: 1,
+                    letterSpacing: "-0.025em",
+                    fontWeight: 500,
+                  }}
+                >
+                  {numPart}
+                  {hasPlus && <span style={{ color: BRAND }}>+</span>}
+                </span>
+                <span className="text-neutral-500 text-xs md:text-sm tracking-[0.22em] uppercase">
+                  {s.label}
+                </span>
+              </motion.div>
+            );
+          })}
+        </div>
       </div>
     </section>
   );
@@ -186,13 +198,13 @@ function StatsBar() {
 function FeaturedSpeakers() {
   const featured = speakers.filter((s) => s.featured);
   return (
-    <section className="py-16 md:py-24" style={{ backgroundColor: "#fafaf9" }}>
+    <section className="py-16 md:py-24" style={{ backgroundColor: "#f6f4ef" }}>
       <div className="max-w-7xl mx-auto px-5 md:px-6">
         <div className="flex flex-wrap items-end justify-between gap-4 mb-10 md:mb-14">
           <div>
             <SectionLabel>Featured speakers</SectionLabel>
             <h2 className="tracking-[-0.02em] text-neutral-950" style={{ fontSize: "clamp(1.875rem, 4vw, 3rem)", lineHeight: 1.05 }}>
-              Voices shaping <GradientText>the programme.</GradientText>
+              Voices shaping <em className="italic">the programme.</em>
             </h2>
           </div>
           <Link
@@ -270,7 +282,7 @@ function Highlights() {
           <div>
             <SectionLabel>Programme highlights</SectionLabel>
             <h2 className="tracking-[-0.02em] text-neutral-950" style={{ fontSize: "clamp(1.875rem, 4vw, 3rem)", lineHeight: 1.05 }}>
-              Four days, <GradientText>built around you.</GradientText>
+              Four days, <em className="italic">built around you.</em>
             </h2>
           </div>
           <Link
@@ -322,11 +334,11 @@ function Highlights() {
                     {session.title}
                   </h3>
                   {session.desc && (
-                    <p className="mt-3 text-neutral-600 group-hover:text-white/70 text-sm" style={{ lineHeight: 1.6 }}>
+                    <p className="mt-3 text-neutral-600 group-hover:text-white/78 text-sm" style={{ lineHeight: 1.6 }}>
                       {session.desc.length > 150 ? session.desc.slice(0, 150) + "…" : session.desc}
                     </p>
                   )}
-                  <div className="mt-5 flex items-center gap-2 text-sm text-neutral-500 group-hover:text-white/55">
+                  <div className="mt-5 flex items-center gap-2 text-sm text-neutral-500 group-hover:text-white/65">
                     <Clock size={14} />
                     <span className="tabular-nums">{session.time}</span>
                   </div>
@@ -342,13 +354,13 @@ function Highlights() {
 
 function Destination() {
   return (
-    <section className="py-16 md:py-24" style={{ backgroundColor: "#fafaf9" }}>
+    <section className="py-16 md:py-24" style={{ backgroundColor: "#f6f4ef" }}>
       <div className="max-w-7xl mx-auto px-5 md:px-6">
         <div className="grid lg:grid-cols-12 gap-10 md:gap-14 items-center">
           <div className="lg:col-span-5">
             <SectionLabel>The destination</SectionLabel>
             <h2 className="tracking-[-0.02em] text-neutral-950" style={{ fontSize: "clamp(2rem, 4.5vw, 3.5rem)", lineHeight: 1.05 }}>
-              Port of Spain <GradientText>awaits.</GradientText>
+              Port of Spain <em className="italic">awaits.</em>
             </h2>
             <p className="mt-5 text-neutral-600" style={{ fontSize: "1.125rem", lineHeight: 1.7 }}>
               FISC 2026 is hosted on the Hyatt Regency's waterfront floor — air-conditioned
@@ -455,11 +467,11 @@ function Teasers() {
                 className="group block p-7 rounded-2xl border border-neutral-200 hover:border-neutral-950 hover:bg-neutral-950 hover:text-white transition-all h-full"
               >
                 <div className="flex items-start justify-between">
-                  <span className="tracking-widest text-neutral-400 group-hover:text-white/50 text-sm">0{i + 1}</span>
+                  <span className="tracking-widest text-neutral-400 group-hover:text-white/65 text-sm">0{i + 1}</span>
                   <ArrowUpRight size={18} className="opacity-60 group-hover:opacity-100 group-hover:-translate-y-1 group-hover:translate-x-1 transition" />
                 </div>
                 <div className="mt-3 tracking-tight" style={{ fontSize: "1.375rem" }}>{it.label}</div>
-                <p className="mt-2 text-neutral-600 group-hover:text-white/70">{it.desc}</p>
+                <p className="mt-2 text-neutral-600 group-hover:text-white/78">{it.desc}</p>
               </Link>
             </motion.div>
           ))}

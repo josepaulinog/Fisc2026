@@ -25,7 +25,7 @@ export default function Agenda() {
         image={HERO_AGENDA}
         imageCaption="Workshop session · Country breakout"
       />
-      <section className="py-16 md:py-24 relative overflow-hidden" style={{ backgroundColor: "#fafaf9" }}>
+      <section className="py-16 md:py-24 relative overflow-hidden" style={{ backgroundColor: "#f6f4ef" }}>
         <div
           className="absolute top-0 right-0 w-[40rem] h-[40rem] rounded-full opacity-[0.07] blur-3xl -translate-y-1/2 translate-x-1/3"
           style={{ backgroundColor: BRAND }}
@@ -109,7 +109,14 @@ export default function Agenda() {
                         className="shrink-0 text-neutral-300 group-hover:text-neutral-950 group-hover:-translate-y-0.5 group-hover:translate-x-0.5 transition"
                       />
                     </div>
-                    {s.desc && <p className="mt-2 text-neutral-600" style={{ lineHeight: 1.6 }}>{s.desc}</p>}
+                    {s.desc && (
+                      <p className="mt-2 text-neutral-600" style={{ lineHeight: 1.6 }}>
+                        {/* Row-level synopsis: ~110 chars so delegates can scan a
+                            day in one view. Full briefing lives on the detail
+                            route (one click away). */}
+                        {s.desc.length > 110 ? s.desc.slice(0, 110).trimEnd() + "…" : s.desc}
+                      </p>
+                    )}
                     {s.speakers && s.speakers.length > 0 && (
                       <div className="mt-4 flex flex-wrap gap-x-6 gap-y-3">
                         {s.speakers.map((sp) => (

@@ -162,7 +162,7 @@ export function Footer() {
           initial={{ opacity: 0, y: 24 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="tracking-[-0.04em] text-white mb-14 md:mb-20 leading-[0.9]"
+          className="tracking-[-0.04em] text-white mb-14 md:mb-20 leading-[0.95]"
           style={{ fontSize: "clamp(3.5rem, 14vw, 14rem)" }}
         >
           See you in
@@ -173,6 +173,13 @@ export function Footer() {
               background: `linear-gradient(120deg, ${BRAND_SOFT} 0%, ${BRAND} 60%, #c64b00 100%)`,
               WebkitBackgroundClip: "text",
               WebkitTextFillColor: "transparent",
+              // Italic word's optical position drifts right of the upright "in"
+              // before it; nudge -0.05em to align kerning visually. The matching
+              // padding keeps the gradient-clipped descenders from being cropped
+              // (the gradient background only fills the box, so italics that
+              // overflow appear unfilled).
+              paddingInline: "0.05em",
+              marginInline: "-0.05em",
             }}
           >
             Trinidad.

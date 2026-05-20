@@ -171,13 +171,13 @@ export default function Venue() {
       </section>
 
       {/* Around the islands — bento */}
-      <section className="py-16 md:py-24" style={{ backgroundColor: "#fafaf9" }}>
+      <section className="py-16 md:py-24" style={{ backgroundColor: "#f6f4ef" }}>
         <div className="max-w-7xl mx-auto px-5 md:px-6">
           <div className="flex flex-wrap items-end justify-between gap-4 mb-8 md:mb-12">
             <div>
               <SectionLabel>Around the islands</SectionLabel>
               <h2 className="tracking-[-0.02em] text-neutral-950" style={{ fontSize: "clamp(1.875rem, 4vw, 3rem)", lineHeight: 1.05 }}>
-                Stay a while. <GradientText>Trinidad invites it.</GradientText>
+                Stay a while. <em className="italic">Trinidad invites it.</em>
               </h2>
             </div>
             <p className="max-w-md text-neutral-600">

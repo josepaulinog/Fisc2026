@@ -53,10 +53,10 @@ function AttendeeCard({ a, i }: { a: AttendeeEntry; i: number }) {
             {a.salutation ? `${a.salutation} ` : ""}
             {a.name}
           </div>
-          <div className="text-neutral-600 group-hover:text-white/70 text-sm leading-snug mt-0.5">
+          <div className="text-neutral-600 group-hover:text-white/78 text-sm leading-snug mt-0.5">
             {a.role}
           </div>
-          <div className="mt-1.5 inline-flex items-center gap-1.5 text-xs tracking-widest uppercase text-neutral-400 group-hover:text-white/55">
+          <div className="mt-1.5 inline-flex items-center gap-1.5 text-xs tracking-widest uppercase text-neutral-400 group-hover:text-white/65">
             <CountryFlag country={a.country} className="h-2.5 w-auto rounded-[1px] shadow-sm shrink-0" />
             {a.country}
           </div>
@@ -64,21 +64,21 @@ function AttendeeCard({ a, i }: { a: AttendeeEntry; i: number }) {
       </div>
       <div className="mt-4 flex items-center gap-2">
         {a.email && (
-          <a href={a.email} aria-label="Email" className="w-8 h-8 rounded-full border border-neutral-200 group-hover:border-white/20 text-neutral-500 group-hover:text-white/70 hover:text-white flex items-center justify-center transition" onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = BRAND)} onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = "")}>
+          <a href={a.email} aria-label="Email" className="w-8 h-8 rounded-full border border-neutral-200 group-hover:border-white/20 text-neutral-500 group-hover:text-white/78 hover:text-white flex items-center justify-center transition" onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = BRAND)} onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = "")}>
             <Mail size={13} />
           </a>
         )}
         {a.linkedin && (
-          <a href={a.linkedin} target="_blank" rel="noreferrer" aria-label="LinkedIn" className="w-8 h-8 rounded-full border border-neutral-200 group-hover:border-white/20 text-neutral-500 group-hover:text-white/70 hover:text-white flex items-center justify-center transition" onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = BRAND)} onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = "")}>
+          <a href={a.linkedin} target="_blank" rel="noreferrer" aria-label="LinkedIn" className="w-8 h-8 rounded-full border border-neutral-200 group-hover:border-white/20 text-neutral-500 group-hover:text-white/78 hover:text-white flex items-center justify-center transition" onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = BRAND)} onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = "")}>
             <Linkedin size={13} />
           </a>
         )}
         {a.twitter && (
-          <a href={a.twitter} target="_blank" rel="noreferrer" aria-label="X" className="w-8 h-8 rounded-full border border-neutral-200 group-hover:border-white/20 text-neutral-500 group-hover:text-white/70 hover:text-white flex items-center justify-center transition" onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = BRAND)} onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = "")}>
+          <a href={a.twitter} target="_blank" rel="noreferrer" aria-label="X" className="w-8 h-8 rounded-full border border-neutral-200 group-hover:border-white/20 text-neutral-500 group-hover:text-white/78 hover:text-white flex items-center justify-center transition" onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = BRAND)} onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = "")}>
             <Twitter size={13} />
           </a>
         )}
-        <span className="ml-auto text-xs text-neutral-400 group-hover:text-white/40 truncate">
+        <span className="ml-auto text-xs text-neutral-400 group-hover:text-white/65 truncate">
           {a.org}
         </span>
       </div>

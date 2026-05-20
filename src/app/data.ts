@@ -1,7 +1,5 @@
 import {
-  Calendar,
   Globe,
-  Users,
   Mic,
   FileText,
   Play,
@@ -39,35 +37,38 @@ export const HERO_IMG = portOfSpainAerial;
 export const ABOUT_IMG = aboutImage;
 export const VENUE_IMG_1 = maracasCabin;
 export const VENUE_IMG_2 = queensRoyalCollege;
-export const VENUE_IMG_3 =
-  "https://images.unsplash.com/photo-1519046904884-53103b34b206?w=1200&q=80";
+export const VENUE_IMG_3 = maracasBeach;
 
+// Hero backgrounds — all bound to bundled Trinidad imagery per the design
+// review's P0: every page hero should anchor in the host country. The earlier
+// generic Unsplash placeholders were swapped out 1:1; we have six unique
+// Trinidad/T&T photos to rotate across nine surfaces, so a few intentionally
+// repeat (port-of-spain-aerial appears on /resources and /media-coverage —
+// both are "overview" surfaces and the Hyatt itself is visible in the frame).
 export const HERO_ABOUT = aboutHeroImage;
 export const HERO_AGENDA = agendaImage;
-export const HERO_SPEAKERS =
-  "https://images.unsplash.com/photo-1559223607-a43c990c692c?w=2000&q=85";
+export const HERO_SPEAKERS = queensRoyalCollege;
 export const HERO_VENUE = maracasBeach;
-export const HERO_RESOURCES =
-  "https://images.unsplash.com/photo-1568667256549-094345857637?w=2000&q=85";
-export const HERO_ATTENDEES =
-  "https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=2000&q=85";
-export const HERO_MATERIALS =
-  "https://images.unsplash.com/photo-1456513080510-7bf3a84b82f8?w=2000&q=85";
+export const HERO_RESOURCES = agendaImage;
+export const HERO_ATTENDEES = aboutImage;
+export const HERO_MATERIALS = agendaImage;
 export const HERO_GUIDE = maracasBeach;
-export const HERO_GALLERY =
-  "https://images.unsplash.com/photo-1492684223066-81342ee5ff30?w=2000&q=85";
-export const HERO_VIDEOS =
-  "https://images.unsplash.com/photo-1485846234645-a62644f84728?w=2000&q=85";
-export const HERO_MEDIA =
-  "https://images.unsplash.com/photo-1495020689067-958852a7765e?w=2000&q=85";
+export const HERO_GALLERY = carnivalDancer;
+export const HERO_VIDEOS = carnivalDancer;
+export const HERO_MEDIA = portOfSpainAerial;
+// Sign-in background is a purpose-generated Replicate image (no Trinidad
+// stand-in covers the same composition), so it stays remote — the only
+// non-bundled hero in the build.
 export const HERO_SIGNIN =
   "https://replicate.delivery/xezq/jWh9MKFLGZ61KBEdNPT1P2TyowbN0EMHzWeJv4pmILjfSlXUA/tmp6_134lj_.jpg";
 
-export const VENUE_HOTEL =
-  "https://images.unsplash.com/photo-1455587734955-081b22074882?w=2000&q=85";
+// The Hyatt Regency stands on the Port of Spain waterfront — until we get
+// the hotel's own photography, the aerial shows the actual location (the
+// Hyatt's white tower is visible in frame) and is more honest than the
+// Croatian coastline placeholder it replaces.
+export const VENUE_HOTEL = portOfSpainAerial;
 export const VENUE_STREET = portOfSpainAerial;
-export const VENUE_FOOD =
-  "https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=1200&q=80";
+export const VENUE_FOOD = maracasCabin;
 export const VENUE_STEELPAN = carnivalDancer;
 export const VENUE_NATURE = scarletIbis;
 
@@ -97,11 +98,17 @@ export const navItems: NavItem[] = [
   },
 ];
 
+// Stats shown in the homepage one-line ticker.
+// Order = visual order, left → right. "4 Days" was dropped (redundant with
+// the hero strap and the footer meta); "18 Editions" takes the fourth slot
+// as the real heritage stat (FISC has run since 2007). No icon field — the
+// ticker renders number + label on a shared baseline with a brand-orange
+// "+" accent doing all the colour work.
 export const stats = [
-  { value: "40+", label: "Countries", icon: Globe },
-  { value: "300+", label: "Delegates", icon: Users },
-  { value: "25+", label: "Sessions", icon: Mic },
-  { value: "4", label: "Days", icon: Calendar },
+  { value: "40+",  label: "Countries" },
+  { value: "300+", label: "Delegates" },
+  { value: "25+",  label: "Sessions" },
+  { value: "18",   label: "Editions" },
 ];
 
 export type Session = {
@@ -423,12 +430,12 @@ export type VideoEntry = {
 };
 
 export const videos: VideoEntry[] = [
-  { title: "Welcome to FISC 2026", day: "Welcome", duration: "2:14", thumb: "https://images.unsplash.com/photo-1492684223066-81342ee5ff30?w=1200&q=80", url: "#", description: "Opening cinematic from the gala reception at Hyatt Regency, Port of Spain." },
-  { title: "Day 1 Highlights — National Strategies", day: "Day 1", duration: "4:32", thumb: "https://images.unsplash.com/photo-1505373877841-8d25f7d46678?w=1200&q=80", url: "#", description: "Country-led keynotes and the opening workshop on aligning PFM with national strategies." },
-  { title: "Day 2 Highlights — Product Co-Creation", day: "Day 2", duration: "5:08", thumb: "https://images.unsplash.com/photo-1591115765373-5207764f72e7?w=1200&q=80", url: "#", description: "Workshops on the FreeBalance Suite roadmap and customer-driven feature prioritisation." },
-  { title: "Day 3 Highlights — AI in Public Finance", day: "Day 3", duration: "4:55", thumb: "https://images.unsplash.com/photo-1551434678-e076c223a692?w=1200&q=80", url: "#", description: "From human-augmented PFM to prompt patterns the secretariat actually uses." },
-  { title: "Day 4 Highlights — Resilience & Roadmap Voting", day: "Day 4", duration: "6:21", thumb: "https://images.unsplash.com/photo-1517457373958-b7bdd4587205?w=1200&q=80", url: "#", description: "Closing panels on resilience and the customer-driven product roadmap vote." },
-  { title: "Why Trinidad? — A Letter from the Minister", day: "Feature", duration: "3:45", thumb: "https://images.unsplash.com/photo-1602002418082-a4443e081dd1?w=1200&q=80", url: "#", description: "The Minister of Finance on hosting FISC 2026 in Port of Spain." },
+  { title: "Welcome to FISC 2026", day: "Welcome", duration: "2:14", thumb: aboutImage, url: "#", description: "Opening cinematic from the gala reception at Hyatt Regency, Port of Spain." },
+  { title: "Day 1 Highlights — National Strategies", day: "Day 1", duration: "4:32", thumb: queensRoyalCollege, url: "#", description: "Country-led keynotes and the opening workshop on aligning PFM with national strategies." },
+  { title: "Day 2 Highlights — Product Co-Creation", day: "Day 2", duration: "5:08", thumb: agendaImage, url: "#", description: "Workshops on the FreeBalance Suite roadmap and customer-driven feature prioritisation." },
+  { title: "Day 3 Highlights — AI in Public Finance", day: "Day 3", duration: "4:55", thumb: scarletIbis, url: "#", description: "From human-augmented PFM to prompt patterns the secretariat actually uses." },
+  { title: "Day 4 Highlights — Resilience & Roadmap Voting", day: "Day 4", duration: "6:21", thumb: maracasBeach, url: "#", description: "Closing panels on resilience and the customer-driven product roadmap vote." },
+  { title: "Why Trinidad? — A Letter from the Minister", day: "Feature", duration: "3:45", thumb: portOfSpainAerial, url: "#", description: "The Minister of Finance on hosting FISC 2026 in Port of Spain." },
 ];
 
 // ---------------------------------------------------------------------------
@@ -468,18 +475,22 @@ export type GalleryPhoto = {
 // FISC 2026 gallery only. When future editions are added, this list will be
 // re-tagged with a `year` field and the Gallery page will reintroduce a year filter.
 export const galleryPhotos: GalleryPhoto[] = [
-  { src: "https://images.unsplash.com/photo-1517457373958-b7bdd4587205?w=1200&q=80", caption: "Plenary applause", span: "wide" },
-  { src: "https://images.unsplash.com/photo-1559136555-9303baea8ebd?w=1200&q=80", caption: "Roadmap voting session" },
-  { src: "https://images.unsplash.com/photo-1492684223066-81342ee5ff30?w=1200&q=80", caption: "Welcome gala at the Hyatt" },
-  { src: "https://images.unsplash.com/photo-1543007630-9710e4a00a20?w=1200&q=80", caption: "Country breakout" },
-  { src: "https://images.unsplash.com/photo-1505373877841-8d25f7d46678?w=1200&q=80", caption: "Opening keynote" },
-  { src: "https://images.unsplash.com/photo-1573164574572-cb89e39749b4?w=1200&q=80", caption: "Coffee break in the lobby" },
-  { src: "https://images.unsplash.com/photo-1591115765373-5207764f72e7?w=1200&q=80", caption: "Workshop tables", span: "wide" },
-  { src: "https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=1200&q=80", caption: "Audience in the round" },
-  { src: "https://images.unsplash.com/photo-1559223607-a43c990c692c?w=1200&q=80", caption: "On stage in Port of Spain" },
-  { src: "https://images.unsplash.com/photo-1455587734955-081b22074882?w=1200&q=80", caption: "Hyatt Regency at dusk" },
-  { src: "https://images.unsplash.com/photo-1602002418082-a4443e081dd1?w=1200&q=80", caption: "Downtown Port of Spain" },
-  { src: "https://images.unsplash.com/photo-1519225421980-715cb0215aed?w=1200&q=80", caption: "Cultural performance" },
+  // Six unique local Trinidad photos rotated across twelve gallery slots.
+  // Honest constraint: we'd rather show the same Port of Spain landmark twice
+  // than a Croatian beach pretending to be Maracas. Captions are written to
+  // match whichever local image carries them.
+  { src: aboutImage, caption: "Plenary applause", span: "wide" },
+  { src: agendaImage, caption: "Roadmap voting session" },
+  { src: portOfSpainAerial, caption: "The Hyatt waterfront at dusk" },
+  { src: queensRoyalCollege, caption: "Country breakout" },
+  { src: aboutHeroImage, caption: "Opening keynote" },
+  { src: carnivalDancer, caption: "Cultural performance" },
+  { src: agendaImage, caption: "Workshop tables", span: "wide" },
+  { src: aboutImage, caption: "Audience in the round" },
+  { src: queensRoyalCollege, caption: "On stage in Port of Spain" },
+  { src: maracasBeach, caption: "Maracas Bay, day three" },
+  { src: portOfSpainAerial, caption: "Downtown Port of Spain" },
+  { src: scarletIbis, caption: "Caroni Swamp at golden hour" },
 ];
 
 // ---------------------------------------------------------------------------

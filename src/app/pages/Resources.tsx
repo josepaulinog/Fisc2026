@@ -56,7 +56,7 @@ export default function Resources() {
                       </div>
                       <div className="flex items-center gap-2">
                         {r.gated && (
-                          <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-md bg-neutral-100 text-neutral-500 group-hover:bg-white/10 group-hover:text-white/70 text-xs">
+                          <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-md bg-neutral-100 text-neutral-500 group-hover:bg-white/10 group-hover:text-white/78 text-xs">
                             <Lock size={11} /> Gated
                           </span>
                         )}
@@ -64,7 +64,7 @@ export default function Resources() {
                       </div>
                     </div>
                     <div className="mt-5 tracking-tight text-neutral-950 group-hover:text-white" style={{ fontSize: "1.125rem" }}>{r.label}</div>
-                    <p className="mt-2 text-neutral-600 group-hover:text-white/70 text-sm" style={{ lineHeight: 1.55 }}>{r.desc}</p>
+                    <p className="mt-2 text-neutral-600 group-hover:text-white/78 text-sm" style={{ lineHeight: 1.55 }}>{r.desc}</p>
                   </Link>
                 </motion.div>
               ))}

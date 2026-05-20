@@ -10,7 +10,7 @@ type Speaker = (typeof speakers)[number];
 
 function Socials({ s, dark = false }: { s: Speaker; dark?: boolean }) {
   const base = dark
-    ? "border-white/20 text-white/70"
+    ? "border-white/20 text-white/78"
     : "border-neutral-200 text-neutral-500";
   return (
     <div className="flex items-center gap-2">
@@ -136,8 +136,8 @@ function MiniCard({ s, i }: { s: Speaker; i: number }) {
             <div className="tracking-tight text-neutral-950 group-hover:text-white truncate" style={{ fontSize: "1.0625rem" }}>
               {s.name}
             </div>
-            <div className="text-neutral-500 group-hover:text-white/70 text-sm truncate">{s.role}</div>
-            <div className="text-neutral-400 group-hover:text-white/50 text-xs tracking-widest uppercase mt-0.5 truncate">{s.org}</div>
+            <div className="text-neutral-500 group-hover:text-white/78 text-sm truncate">{s.role}</div>
+            <div className="text-neutral-400 group-hover:text-white/65 text-xs tracking-widest uppercase mt-0.5 truncate">{s.org}</div>
           </div>
           <ArrowUpRight
             size={16}

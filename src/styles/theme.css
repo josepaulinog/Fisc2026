@@ -203,42 +203,6 @@
 }
 
 /* -------------------------------------------------------------------------
- * Hero video boot-up
- * -------------------------------------------------------------------------
- * The YouTube iframe paints a single frame of its own player chrome — the
- * big centred play/pause icon — during the brief window between when the
- * iframe DOM is ready and when YouTube's player JS reaches the PLAYING
- * state and dismisses its boot UI. Even with `controls=0` we can't
- * suppress that initial frame from URL params alone.
- *
- * The fix is timing, not styling: hold the iframe at opacity 0 long
- * enough for YouTube to start playing (so the boot chrome is already
- * gone by the time the iframe becomes visible), then fade it in. The
- * static HERO_IMG poster sits underneath at full opacity so users see
- * the destination photo instead of a black hole during the hold.
- *
- * 64% of 2.5s = 1.6s of pure poster, then an 0.9s fade — comfortably
- * past YouTube's typical first-play moment on a warm cache, and a soft
- * cross-dissolve when it takes longer.
- * ------------------------------------------------------------------------- */
-@keyframes hero-video-fade-in {
-  0%, 64% { opacity: 0; }
-  100%    { opacity: 1; }
-}
-
-.hero-video-fade-in {
-  animation: hero-video-fade-in 2.5s ease-in forwards;
-}
-
-/* Reduced-motion users get the static poster path anyway, but if anyone
-   ever reuses this class outside that branch, skip the fade. */
-@media (prefers-reduced-motion: reduce) {
-  .hero-video-fade-in {
-    animation: none;
-  }
-}
-
-/* -------------------------------------------------------------------------
  * Sun rotate
  * -------------------------------------------------------------------------
  * Slow continuous spin for the decorative <Sun /> mark beside the hero

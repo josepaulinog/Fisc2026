@@ -144,7 +144,7 @@ export default function AgendaSession() {
                 className="tracking-[-0.02em] text-neutral-950"
                 style={{ fontSize: "clamp(1.5rem, 2.75vw, 2rem)", lineHeight: 1.1 }}
               >
-                What you'll <GradientText>take away.</GradientText>
+                What you'll <em className="italic">take away.</em>
               </h2>
             </div>
             <div className="lg:col-span-8">
@@ -162,7 +162,7 @@ export default function AgendaSession() {
 
       {/* Speakers */}
       {enrichedSpeakers.length > 0 && (
-        <section className="py-12 md:py-20" style={{ backgroundColor: "#fafaf9" }}>
+        <section className="py-12 md:py-20" style={{ backgroundColor: "#f6f4ef" }}>
           <div className="max-w-7xl mx-auto px-5 md:px-6">
             <div className="mb-8 md:mb-12">
               <SectionLabel>Speakers</SectionLabel>
@@ -170,7 +170,7 @@ export default function AgendaSession() {
                 className="tracking-[-0.02em] text-neutral-950"
                 style={{ fontSize: "clamp(1.5rem, 3vw, 2.25rem)", lineHeight: 1.05 }}
               >
-                On this <GradientText>session.</GradientText>
+                On this <em className="italic">session.</em>
               </h2>
             </div>
 
@@ -197,10 +197,10 @@ export default function AgendaSession() {
                         {sp.name}
                       </div>
                       {sp.role && (
-                        <div className="text-neutral-500 group-hover:text-white/70 text-sm truncate">{sp.role}</div>
+                        <div className="text-neutral-500 group-hover:text-white/78 text-sm truncate">{sp.role}</div>
                       )}
                       {sp.org && (
-                        <div className="text-neutral-400 group-hover:text-white/50 text-xs tracking-widest uppercase mt-0.5 truncate">
+                        <div className="text-neutral-400 group-hover:text-white/65 text-xs tracking-widest uppercase mt-0.5 truncate">
                           {sp.org}
                         </div>
                       )}
@@ -252,7 +252,7 @@ export default function AgendaSession() {
                   className="tracking-[-0.02em] text-neutral-950"
                   style={{ fontSize: "clamp(1.5rem, 3vw, 2.25rem)", lineHeight: 1.05 }}
                 >
-                  Take this <GradientText>home with you.</GradientText>
+                  Take this <em className="italic">home with you.</em>
                 </h2>
               </div>
               <Link
@@ -321,7 +321,7 @@ export default function AgendaSession() {
       )}
 
       {/* Location & map */}
-      <section className="py-12 md:py-20" style={{ backgroundColor: "#fafaf9" }}>
+      <section className="py-12 md:py-20" style={{ backgroundColor: "#f6f4ef" }}>
         <div className="max-w-7xl mx-auto px-5 md:px-6">
           <div className="mb-8 md:mb-10">
             <SectionLabel>Where it happens</SectionLabel>
@@ -329,7 +329,7 @@ export default function AgendaSession() {
               className="tracking-[-0.02em] text-neutral-950"
               style={{ fontSize: "clamp(1.5rem, 3vw, 2.25rem)", lineHeight: 1.05 }}
             >
-              Hyatt Regency · <GradientText>Port of Spain.</GradientText>
+              Hyatt Regency · <em className="italic">Port of Spain.</em>
             </h2>
           </div>
 

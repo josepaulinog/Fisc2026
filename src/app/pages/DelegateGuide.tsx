@@ -133,7 +133,7 @@ export default function DelegateGuide() {
         </div>
       </section>
 
-      <section className="py-12 md:py-16" style={{ backgroundColor: "#fafaf9" }}>
+      <section className="py-12 md:py-16" style={{ backgroundColor: "#f6f4ef" }}>
         <div className="max-w-7xl mx-auto px-5 md:px-6 grid md:grid-cols-2 gap-4 md:gap-6">
           <div className="relative rounded-3xl overflow-hidden text-white" style={{ backgroundColor: INK }}>
             <div className="absolute inset-0" style={{ background: `radial-gradient(circle at 80% 10%, ${BRAND}55, transparent 55%)` }} />
@@ -192,7 +192,7 @@ export default function DelegateGuide() {
             <div>
               <SectionLabel>Pre-arrival checklist</SectionLabel>
               <h2 className="tracking-[-0.02em] text-neutral-950" style={{ fontSize: "clamp(1.75rem, 3.5vw, 2.5rem)", lineHeight: 1.05 }}>
-                Seven steps, <GradientText>ten weeks out.</GradientText>
+                Seven steps, <em className="italic">ten weeks out.</em>
               </h2>
             </div>
             <div className="text-sm text-neutral-500">{checked.size} / {delegateGuide.checklist.length} complete</div>
@@ -242,9 +242,9 @@ export default function DelegateGuide() {
             </div>
             <h2 className="tracking-[-0.02em] text-white" style={{ fontSize: "clamp(1.75rem, 3.5vw, 2.5rem)", lineHeight: 1.05 }}>
               Land prepared.<br />
-              <GradientText tone="light">Land ready.</GradientText>
+              <em className="italic">Land ready.</em>
             </h2>
-            <p className="mt-5 text-white/70 max-w-md" style={{ lineHeight: 1.7 }}>
+            <p className="mt-5 text-white/78 max-w-md" style={{ lineHeight: 1.7 }}>
               Tap a topic to expand the details. Country-specific notes are sent in your personalised pack.
             </p>
           </div>

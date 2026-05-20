@@ -76,7 +76,7 @@ export default function SpeakerDetail() {
         <div className="relative max-w-7xl mx-auto px-5 md:px-6">
           <Link
             to="/speakers"
-            className="inline-flex items-center gap-2 text-sm text-white/70 hover:text-white transition mb-6"
+            className="inline-flex items-center gap-2 text-sm text-white/78 hover:text-white transition mb-6"
           >
             <ArrowLeft size={14} /> All presenters
           </Link>
@@ -105,7 +105,7 @@ export default function SpeakerDetail() {
               transition={{ duration: 0.5, delay: 0.08 }}
               className="lg:col-span-8 text-white"
             >
-              <div className="text-xs tracking-[0.25em] uppercase text-white/60 mb-4">
+              <div className="text-xs tracking-[0.25em] uppercase text-white/65 mb-4">
                 {speaker.org}{speaker.featured ? " · Keynote" : ""}
               </div>
               <h1
@@ -245,7 +245,7 @@ export default function SpeakerDetail() {
 
       {/* Other speakers */}
       {otherSpeakers.length > 0 && (
-        <section className="py-12 md:py-20" style={{ backgroundColor: "#fafaf9" }}>
+        <section className="py-12 md:py-20" style={{ backgroundColor: "#f6f4ef" }}>
           <div className="max-w-7xl mx-auto px-5 md:px-6">
             <div className="flex flex-wrap items-end justify-between gap-4 mb-8 md:mb-10">
               <div>
@@ -254,7 +254,7 @@ export default function SpeakerDetail() {
                   className="tracking-[-0.02em] text-neutral-950"
                   style={{ fontSize: "clamp(1.5rem, 3vw, 2.25rem)", lineHeight: 1.05 }}
                 >
-                  Other <GradientText>presenters.</GradientText>
+                  Other <em className="italic">presenters.</em>
                 </h2>
               </div>
               <Link
