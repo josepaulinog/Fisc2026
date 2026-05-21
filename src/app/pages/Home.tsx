@@ -264,19 +264,14 @@ function CountdownAndActions() {
               countries spend four days co-creating the next generation of
               public financial management — country-led, no intermission.
             </motion.p>
-            <motion.div variants={fadeUpTight}>
-              <Link
+            <motion.div variants={fadeUpTight} className="mt-6 md:mt-8 w-fit">
+              <NestedCTA
                 to="/about"
-                className="group mt-6 md:mt-8 inline-flex items-center gap-2 text-neutral-950 transition-fluid hover:gap-3 w-fit"
-                style={{ fontSize: "1rem", fontWeight: 500 }}
+                variant="ghost"
+                icon={<BracketArrow size={13} strokeWidth={1.75} />}
               >
                 More about FISC
-                <BracketArrow
-                  size={12}
-                  strokeWidth={1.75}
-                  className="transition-fluid group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
-                />
-              </Link>
+              </NestedCTA>
             </motion.div>
           </motion.div>
 
@@ -353,7 +348,7 @@ function CountdownAndActions() {
                   <ImageWithFallback
                     src={ABOUT_IMG}
                     alt="FISC delegates"
-                    className="absolute inset-0 w-full h-full object-cover"
+                    className="absolute inset-0 w-full h-full object-cover object-[center_30%]"
                   />
                 </motion.div>
                 <span
@@ -834,7 +829,7 @@ function TheRoom() {
                   country={c}
                   className="h-10 md:h-16 w-auto rounded shadow-sm ring-1 ring-black/5"
                 />
-                <div className="mt-3 text-neutral-700 text-sm tracking-tight truncate w-full">
+                <div className="mt-3 text-neutral-700 text-[15px] tracking-tight truncate w-full">
                   {c}
                 </div>
               </motion.div>
@@ -987,10 +982,10 @@ function WhatsNew() {
                     </span>
                   </div>
                   <div className="md:col-span-6 min-w-0">
-                    <div className="tracking-tight text-neutral-950" style={{ fontSize: "1.0625rem", lineHeight: 1.3 }}>
+                    <div className="tracking-tight text-neutral-950" style={{ fontSize: "1.0625rem", lineHeight: 1.3, fontWeight: 500 }}>
                       {u.title}
                     </div>
-                    <p className="mt-1 text-neutral-600 text-sm" style={{ lineHeight: 1.55 }}>
+                    <p className="mt-1 text-neutral-600 text-[15px]" style={{ lineHeight: 1.55 }}>
                       {u.excerpt}
                     </p>
                   </div>

@@ -93,15 +93,16 @@ function variantStyles(v: Variant): VariantSpec {
         shadowHover: "group-hover:shadow-[0_8px_20px_-8px_rgba(0,0,0,0.36)]",
       };
     case "ghost":
+      // True ghost — no fill, just a hairline border. Background stays
+      // transparent so the surface underneath (cream, white, INK) shows
+      // through. Ring darkens on hover; inner well stays subtle so the
+      // icon has a home, but it doesn't read as a filled button.
       return {
-        wrapper: "bg-white text-neutral-950 ring-1 ring-black/[0.08] group-hover:ring-black/[0.14]",
-        well: "bg-black/[0.04]",
-        // Subtle darken — was a full ink-inversion before (too dramatic).
-        // Now the well just steps from 4% → 7% black so the icon "lights up"
-        // without the surface changing colour mode.
-        wellHover: "group-hover:bg-black/[0.07]",
-        shadow: "shadow-[0_2px_6px_-3px_rgba(0,0,0,0.06)]",
-        shadowHover: "group-hover:shadow-[0_6px_14px_-6px_rgba(0,0,0,0.12)]",
+        wrapper: "bg-transparent text-neutral-950 ring-1 ring-black/15 group-hover:ring-black/35",
+        well: "bg-black/[0.05]",
+        wellHover: "group-hover:bg-black/[0.1]",
+        shadow: "",
+        shadowHover: "",
       };
   }
 }
