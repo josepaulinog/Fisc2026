@@ -66,7 +66,7 @@ export default function Agenda() {
               className={`snap-start shrink-0 px-3 md:px-5 py-2 md:py-3 rounded-sm text-left transition-fluid will-change-transform ${
                 isActive
                   ? ""
-                  : "bg-white ring-1 ring-neutral-200 hover:ring-neutral-400 hover:shadow-[0_2px_10px_-6px_rgba(0,0,0,0.12)]"
+                  : "bg-white ring-1 ring-black/[0.07] hover:shadow-[0_2px_10px_-6px_rgba(0,0,0,0.12)] focus:outline-none focus-visible:ring-2 focus-visible:ring-neutral-950 focus-visible:ring-offset-2 focus-visible:ring-offset-[#f6f4ef]"
               }`}
               style={
                 isActive
