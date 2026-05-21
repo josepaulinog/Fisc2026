@@ -265,7 +265,44 @@ function CountdownAndActions() {
               reform journeys, and strengthen the systems that support
               accountable government.
             </motion.p>
-            <motion.div variants={fadeUpTight} className="mt-6 md:mt-8 w-fit">
+
+            {/* Editorial stats row — no card chrome, just typography. Brand-
+                orange numerals in light weight with uppercase tracking-wide
+                labels underneath. Matches the StatsBar values but reads as
+                inline editorial content, not a separate band. */}
+            <motion.div
+              variants={fadeUp}
+              className="mt-8 md:mt-10 flex flex-wrap items-baseline gap-x-8 sm:gap-x-10 md:gap-x-14 gap-y-4"
+            >
+              {[
+                { v: "18", l: "Editions" },
+                { v: "40+", l: "Countries" },
+                { v: "300+", l: "Delegates" },
+              ].map((s) => (
+                <div key={s.l} className="flex flex-col">
+                  <span
+                    className="tabular-nums tracking-tight"
+                    style={{
+                      color: BRAND,
+                      fontSize: "clamp(2.25rem, 4.5vw, 3.25rem)",
+                      lineHeight: 1,
+                      fontWeight: 300,
+                      letterSpacing: "-0.02em",
+                    }}
+                  >
+                    {s.v}
+                  </span>
+                  <span
+                    className="mt-2 text-neutral-500 uppercase"
+                    style={{ fontSize: "0.6875rem", letterSpacing: "0.22em", fontWeight: 500 }}
+                  >
+                    {s.l}
+                  </span>
+                </div>
+              ))}
+            </motion.div>
+
+            <motion.div variants={fadeUpTight} className="mt-8 md:mt-10 w-fit">
               <NestedCTA
                 to="/about"
                 variant="ghost"
