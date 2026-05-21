@@ -71,13 +71,13 @@ export default function Agenda() {
               className={`snap-start shrink-0 px-3 md:px-5 py-2 md:py-3 rounded-sm text-left transition-fluid will-change-transform ${
                 isActive
                   ? ""
-                  : "bg-white hover:shadow-[0_2px_10px_-6px_rgba(0,0,0,0.12)] focus:outline-none focus-visible:ring-2 focus-visible:ring-neutral-950 focus-visible:ring-offset-2 focus-visible:ring-offset-[#f6f4ef]"
+                  : "bg-white ring-1 ring-black/[0.07] hover:shadow-[0_2px_10px_-6px_rgba(0,0,0,0.12)] focus:outline-none focus-visible:ring-2 focus-visible:ring-neutral-950 focus-visible:ring-offset-2 focus-visible:ring-offset-[#f6f4ef]"
               }`}
               style={
                 isActive
                   ? {
                       backgroundColor: BRAND,
-                      boxShadow: "inset 0 1px 0 rgba(255,255,255,0.18), 0 8px 24px -10px rgba(253,107,24,0.55)",
+                      boxShadow: "inset 0 1px 0 rgba(255,255,255,0.18)",
                     }
                   : undefined
               }

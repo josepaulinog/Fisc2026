@@ -163,7 +163,7 @@ export function Marquee() {
             <span
               key={i}
               className="inline-flex items-center gap-4 md:gap-5 text-white/85 tracking-[0.18em]"
-              style={{ fontSize: "1.0625rem" }}
+              style={{ fontSize: "0.9rem" }}
             >
               <CountryFlag
                 country={c}
