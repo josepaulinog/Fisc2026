@@ -184,6 +184,17 @@ function CountdownAndActions() {
   const tileBottomLeftY = useTransform(aboutProgress, [0, 1], prefersReducedMotion ? [0, 0] : [20, -20]);
   const tileRightY = useTransform(aboutProgress, [0, 1], prefersReducedMotion ? [0, 0] : [60, -60]);
 
+  // Stats row counters — animate from 0 → target when each numeral enters
+  // the viewport. Staggered durations (1.2s / 1.4s / 1.8s) make the larger
+  // numbers feel earned: the 300+ delegates ticker keeps spinning slightly
+  // after the 18 editions has settled, so the eye lands on Editions first
+  // and the bigger numbers reward continued attention. The "+" suffix is
+  // baked into the format function so it appears only after the count
+  // finishes, mirroring the existing useCountUp pattern in TheRoom.
+  const editionsCount = useCountUp(18, { duration: 1.2 });
+  const countriesCount = useCountUp(40, { duration: 1.4, format: (v) => `${v}+` });
+  const homeDelegatesCount = useCountUp(300, { duration: 1.8, format: (v) => `${v}+` });
+
   const diff = Math.max(0, EVENT_START.getTime() - now);
   const days = Math.floor(diff / (1000 * 60 * 60 * 24));
   const hrs = Math.floor((diff / (1000 * 60 * 60)) % 24);
@@ -276,12 +287,13 @@ function CountdownAndActions() {
               className="mt-6 md:mt-8 flex flex-wrap items-baseline gap-x-7 sm:gap-x-9 md:gap-x-12 gap-y-3"
             >
               {[
-                { v: "18", l: "Editions" },
-                { v: "40+", l: "Countries" },
-                { v: "300+", l: "Delegates" },
+                { ref: editionsCount.ref, value: editionsCount.value, l: "Editions" },
+                { ref: countriesCount.ref, value: countriesCount.value, l: "Countries" },
+                { ref: homeDelegatesCount.ref, value: homeDelegatesCount.value, l: "Delegates" },
               ].map((s) => (
                 <div key={s.l} className="flex flex-col">
                   <span
+                    ref={s.ref}
                     className="tabular-nums tracking-tight"
                     style={{
                       color: BRAND,
@@ -291,7 +303,7 @@ function CountdownAndActions() {
                       letterSpacing: "-0.02em",
                     }}
                   >
-                    {s.v}
+                    {s.value}
                   </span>
                   <span
                     className="mt-1.5 text-neutral-500 uppercase"
