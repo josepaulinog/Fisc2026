@@ -17,7 +17,7 @@ import eventsImage from "../imports/events.jpg";
 // Unsplash placeholders so the prototype reads as the actual destination.
 import portOfSpainAerial from "../imports/port-of-spain-aerial.jpg";
 import collage1Img from "../imports/collage1.png";
-import delegationImg from "../imports/delegation.png";
+import delegationImg from "../imports/delegation3.png";
 import tobagoImg from "../imports/tobago.png";
 import maracasBeach from "../imports/maracas-beach.jpg";
 import maracasCabin from "../imports/maracas-cabin.jpg";
