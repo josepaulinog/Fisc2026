@@ -61,17 +61,29 @@ export default function Agenda() {
   // lets the scroll track bleed to the screen edge on mobile (so the last
   // tab doesn't appear cut off by container padding) while preserving the
   // max-w-7xl alignment on desktop.
+  // Day tabs — rendered as a PageHero slot so they live inside the dark
+  // hero surface. On mobile, tabs are compact pills (smaller padding,
+  // year dropped from the date) so 2-3 fit in the visible viewport with
+  // gentle horizontal scroll for the rest. scrollbar-hide kills the
+  // browser's native scroll affordance which would otherwise paint a
+  // gray bar across the bottom of the row on iOS Safari / Chromium.
+  // The negative-margin/padding trick lets the scroll track bleed to
+  // the screen edge so the last tab isn't cropped by container padding.
   const tabs = (
     <div className="-mx-5 md:mx-0 px-5 md:px-0 overflow-x-auto overscroll-x-contain touch-pan-x snap-x snap-proximity scrollbar-hide">
-      <div className="flex gap-2 md:gap-3 pb-1 min-w-min">
+      <div className="flex gap-1.5 md:gap-3 pb-1 min-w-min">
         {agenda.map((d, i) => {
           const isActive = i === active;
+          // Strip the trailing ", 2026" on mobile — the year is redundant
+          // when the whole event is 2026, and dropping it lets each pill
+          // fit comfortably in a 360px viewport.
+          const dateShort = d.date.replace(/,\s*\d{4}$/, "");
           return (
             <button
               key={d.label}
               onClick={() => selectDay(i)}
               aria-pressed={isActive}
-              className={`snap-start shrink-0 px-3.5 md:px-5 py-2.5 md:py-3 rounded-sm text-left transition-fluid will-change-transform ${
+              className={`snap-start shrink-0 px-3 md:px-5 py-2 md:py-3 rounded-sm text-left transition-fluid will-change-transform ${
                 isActive
                   ? ""
                   : "ring-1 ring-white/10 hover:ring-white/25 hover:bg-white/[0.06]"
@@ -87,7 +99,7 @@ export default function Agenda() {
             >
               <div
                 className={`uppercase ${isActive ? "text-white/85" : "text-white/55"}`}
-                style={{ fontSize: "0.625rem", letterSpacing: "0.22em", fontWeight: 500 }}
+                style={{ fontSize: "0.5625rem", letterSpacing: "0.2em", fontWeight: 500 }}
               >
                 {d.short.toUpperCase()}
               </div>
@@ -96,12 +108,13 @@ export default function Agenda() {
                   isActive ? "text-white" : "text-white/85"
                 }`}
                 style={{
-                  fontSize: "clamp(0.8125rem, 2.4vw, 0.9375rem)",
+                  fontSize: "clamp(0.75rem, 2.2vw, 0.9375rem)",
                   lineHeight: 1.2,
                   fontWeight: 400,
                 }}
               >
-                {d.date}
+                <span className="md:hidden">{dateShort}</span>
+                <span className="hidden md:inline">{d.date}</span>
               </div>
             </button>
           );

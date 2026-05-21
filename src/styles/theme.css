@@ -116,6 +116,25 @@
   stroke-width: 1.5;
 }
 
+/* -------------------------------------------------------------------------
+ * scrollbar-hide utility — Tailwind doesn't ship this by default
+ * -------------------------------------------------------------------------
+ * Used by horizontal scroll surfaces (Agenda day tabs, mobile filter rails,
+ * any touch-pan-x carousel). Hides the visible scrollbar across all three
+ * engines while keeping the element scrollable. Without this rule, mobile
+ * Safari and certain Android browsers paint a 1-3px scroll affordance that
+ * breaks the "this is a list of pills, not a scrollable widget" read.
+ * ------------------------------------------------------------------------- */
+.scrollbar-hide {
+  -ms-overflow-style: none; /* IE/Edge legacy */
+  scrollbar-width: none; /* Firefox */
+}
+.scrollbar-hide::-webkit-scrollbar {
+  display: none; /* Chromium / WebKit */
+  width: 0;
+  height: 0;
+}
+
 :root {
   /* Bumped 16 → 17 to give paragraph copy a +1px lift without touching every
      inline fontSize. Cascades through every rem-based dimension — body text,
