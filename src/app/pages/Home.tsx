@@ -33,10 +33,11 @@ import { useAuth } from "../auth";
 import { useChecklist } from "../checklist";
 import { firstNameOf } from "../profile";
 import {
-  ABOUT_IMG,
   BRAND,
+  COLLAGE_1,
+  COLLAGE_2,
+  COLLAGE_3,
   EVENT_START,
-  HERO_GALLERY,
   HERO_IMG,
   INK,
   attendees,
@@ -355,8 +356,8 @@ function CountdownAndActions() {
                   className="group aspect-[4/5] relative overflow-hidden rounded-xl bg-neutral-100 ring-1 ring-black/[0.06]"
                 >
                   <ImageWithFallback
-                    src={HERO_IMG}
-                    alt="Port of Spain waterfront"
+                    src={COLLAGE_1}
+                    alt="FISC 2026 — Trinidad and Tobago"
                     className="absolute inset-0 w-full h-full object-cover transition-fluid group-hover:scale-[1.03]"
                   />
                 </motion.div>
@@ -369,8 +370,8 @@ function CountdownAndActions() {
                   className="group aspect-square relative overflow-hidden rounded-xl bg-neutral-100 ring-1 ring-black/[0.06]"
                 >
                   <ImageWithFallback
-                    src={HERO_GALLERY}
-                    alt="Trinidad culture"
+                    src={COLLAGE_2}
+                    alt="FISC 2026 — Trinidad and Tobago"
                     className="absolute inset-0 w-full h-full object-cover transition-fluid group-hover:scale-[1.03]"
                   />
                 </motion.div>
@@ -394,8 +395,8 @@ function CountdownAndActions() {
                   transition={{ duration: 24, ease: "easeInOut", repeat: Infinity, repeatType: "loop" }}
                 >
                   <ImageWithFallback
-                    src={ABOUT_IMG}
-                    alt="FISC delegates"
+                    src={COLLAGE_3}
+                    alt="FISC 2026 — Trinidad and Tobago"
                     className="absolute inset-0 w-full h-full object-cover object-[center_30%]"
                   />
                 </motion.div>

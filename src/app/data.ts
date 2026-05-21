@@ -16,6 +16,9 @@ import eventsImage from "../imports/events.jpg";
 // into src/imports/ during the prototype build. Replaces the earlier generic
 // Unsplash placeholders so the prototype reads as the actual destination.
 import portOfSpainAerial from "../imports/port-of-spain-aerial.jpg";
+import collage1Img from "../imports/collage1.png";
+import collage2Img from "../imports/collage2.png";
+import collage3Img from "../imports/collage3.png";
 import maracasBeach from "../imports/maracas-beach.jpg";
 import maracasCabin from "../imports/maracas-cabin.jpg";
 import scarletIbis from "../imports/scarlet-ibis.jpg";
@@ -38,6 +41,13 @@ import manuelPietra from "../imports/manuel-pietra.png";
 export const FB_LOGO = logoUrl;
 export const HERO_IMG = portOfSpainAerial;
 export const ABOUT_IMG = aboutImage;
+// Dedicated tiles for the Home About-FISC photo collage. Kept separate
+// from HERO_IMG / HERO_GALLERY / ABOUT_IMG (which are also consumed by
+// the homepage hero video poster, Gallery page, About hero, Footer aerial)
+// so we can swap the collage independently of every other surface.
+export const COLLAGE_1 = collage1Img;
+export const COLLAGE_2 = collage2Img;
+export const COLLAGE_3 = collage3Img;
 export const VENUE_IMG_1 = maracasCabin;
 export const VENUE_IMG_2 = queensRoyalCollege;
 export const VENUE_IMG_3 = maracasBeach;
