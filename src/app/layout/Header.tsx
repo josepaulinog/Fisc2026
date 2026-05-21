@@ -112,7 +112,7 @@ export function Header() {
                         panel "lifts into place" rather than popping. */}
                     <div className="absolute top-full left-1/2 -translate-x-1/2 pt-1 opacity-0 invisible translate-y-1 group-hover:opacity-100 group-hover:visible group-hover:translate-y-0 transition-fluid">
                       <div
-                        className="bg-white/75 backdrop-blur-2xl ring-1 ring-black/[0.08] rounded-md overflow-hidden min-w-[19rem]"
+                        className="bg-white ring-1 ring-black/[0.08] rounded-md overflow-hidden min-w-[19rem]"
                         style={{ boxShadow: "0 30px 70px -18px rgba(0,0,0,0.32), 0 10px 24px -8px rgba(0,0,0,0.16), 0 2px 6px -2px rgba(0,0,0,0.1)" }}
                       >
                         <div className="py-1.5">
