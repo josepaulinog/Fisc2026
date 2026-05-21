@@ -1,8 +1,10 @@
 import { createContext, useContext } from "react";
+import { motion } from "motion/react";
 import { BRAND, BRAND_SOFT, countries } from "../data";
 import { CountryFlag } from "./CountryFlag";
 import { ImageWithFallback } from "./figma/ImageWithFallback";
 import { Breadcrumbs, type BreadcrumbItem } from "./ui/Breadcrumbs";
+import { fadeUp, fadeUpTight, staggerHero } from "../motion";
 
 /**
  * GradientText — italic brand-orange phrase used to highlight accent word(s)
@@ -221,13 +223,26 @@ export function PageHero({
         }}
       />
       <Grain />
-      <div className="relative max-w-7xl mx-auto px-5 md:px-6">
-        {breadcrumbs && breadcrumbs.length > 0 ? (
-          <Breadcrumbs tone="light" items={breadcrumbs} className="mb-5 md:mb-6" />
-        ) : (
-          <SectionLabel tone="light">{label}</SectionLabel>
-        )}
-        <h1
+      {/* Narrative reveal — eyebrow first, then headline, then body, then
+          caption. Each piece arrives with a 80ms stagger after the parent
+          waits 150ms (delayChildren) so the page settles before the
+          choreography begins. The user's eye is pulled through the reading
+          order rather than hit with everything at once. */}
+      <motion.div
+        className="relative max-w-7xl mx-auto px-5 md:px-6"
+        variants={staggerHero}
+        initial="hidden"
+        animate="show"
+      >
+        <motion.div variants={fadeUpTight}>
+          {breadcrumbs && breadcrumbs.length > 0 ? (
+            <Breadcrumbs tone="light" items={breadcrumbs} className="mb-5 md:mb-6" />
+          ) : (
+            <SectionLabel tone="light">{label}</SectionLabel>
+          )}
+        </motion.div>
+        <motion.h1
+          variants={fadeUp}
           className="text-white tracking-[-0.03em]"
           // lineHeight is slightly > 1 because the italic <GradientText> spans
           // (now Instrument Serif) have ascenders/descenders that collide with
@@ -238,22 +253,29 @@ export function PageHero({
           style={{ fontSize: "clamp(2.25rem, 7vw, 6rem)", lineHeight: 1.05 }}
         >
           <GradientToneScope tone="light">{title}</GradientToneScope>
-        </h1>
+        </motion.h1>
         {subtitle && (
-          <p className="mt-4 md:mt-6 max-w-2xl text-white/80 text-[1rem] md:text-[1.125rem]" style={{ lineHeight: 1.6 }}>
+          <motion.p
+            variants={fadeUp}
+            className="mt-4 md:mt-6 max-w-2xl text-white/80 text-[1rem] md:text-[1.125rem]"
+            style={{ lineHeight: 1.6 }}
+          >
             {subtitle}
-          </p>
+          </motion.p>
         )}
         {imageCaption && (
           /* Mobile caption gap halved — 40px gap on mobile (mt-10) wasted
              vertical space below the subtitle. 24px lands the caption inside
              the same visual block as the headline. */
-          <div className="mt-6 md:mt-16 inline-flex items-center gap-2 text-white/50 text-[10.5px] md:text-xs tracking-[0.2em] uppercase">
+          <motion.div
+            variants={fadeUpTight}
+            className="mt-6 md:mt-16 inline-flex items-center gap-2 text-white/50 text-[10.5px] md:text-xs tracking-[0.2em] uppercase"
+          >
             <span className="w-1.5 h-1.5 rounded-full" style={{ backgroundColor: BRAND }} />
             {imageCaption}
-          </div>
+          </motion.div>
         )}
-      </div>
+      </motion.div>
     </section>
   );
 }

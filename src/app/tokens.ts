@@ -19,11 +19,11 @@
 
 export const TYPE = {
   /** Once-per-page hero anchor. Used by Home/Hero only. */
-  display: "clamp(2.75rem, 9vw, 8rem)",
+  display: "clamp(3rem, 9vw, 8rem)",
   /** Inner-page hero (PageHero default). */
   hero: "clamp(2.5rem, 7vw, 6rem)",
   /** Section h2 — the biggest non-hero heading. */
-  h1: "clamp(2.25rem, 6vw, 4.5rem)",
+  h1: "clamp(2.45rem, 6vw, 4.5rem)",
   /** Standard section h2. */
   h2: "clamp(2rem, 4.5vw, 3.25rem)",
   /** Sub-section h3 / featured card title. */

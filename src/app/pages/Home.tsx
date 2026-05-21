@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Link } from "react-router";
 import { motion, useReducedMotion, useScroll, useTransform } from "motion/react";
 import {
@@ -19,13 +19,24 @@ import { Grain, GradientText, Marquee, SectionLabel } from "../components/shared
 import { NestedCTA } from "../components/ui/NestedCTA";
 import { BezelCard } from "../components/ui/BezelCard";
 import { BracketArrow } from "../components/ui/BracketArrow";
+import {
+  REVEAL_VIEWPORT,
+  fadeUp,
+  fadeUpTight,
+  scaleIn,
+  staggerList,
+  staggerSection,
+  useCountUp,
+} from "../motion";
 import { TYPE, TRACKING } from "../tokens";
 import { useAuth } from "../auth";
 import { useChecklist } from "../checklist";
 import { firstNameOf } from "../profile";
 import {
+  ABOUT_IMG,
   BRAND,
   EVENT_START,
+  HERO_GALLERY,
   HERO_IMG,
   INK,
   attendees,
@@ -79,7 +90,7 @@ function Hero() {
       <div className="relative max-w-7xl mx-auto px-5 md:px-6 pt-0 pb-8 md:pt-6 md:pb-12">
         <motion.div
           initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8 }}
-          className="flex items-center gap-3 mb-8 md:mb-10"
+          className="flex items-center gap-3 mb-6 md:mb-8"
         >
           <span className="inline-flex items-center gap-2 px-3 py-1.5 rounded border border-white/20 bg-white/5 backdrop-blur">
             <span className="relative flex h-2 w-2">
@@ -163,6 +174,20 @@ function CountdownAndActions() {
     return () => window.clearInterval(id);
   }, []);
 
+  // Scroll-linked parallax for the About + collage row. Each tile drifts
+  // at a different speed as the user scrolls the section through the
+  // viewport, giving the composition Z-depth. Reduced-motion users get
+  // static tiles.
+  const aboutRef = useRef<HTMLDivElement>(null);
+  const prefersReducedMotion = useReducedMotion();
+  const { scrollYProgress: aboutProgress } = useScroll({
+    target: aboutRef,
+    offset: ["start end", "end start"],
+  });
+  const tileTopLeftY = useTransform(aboutProgress, [0, 1], prefersReducedMotion ? [0, 0] : [40, -40]);
+  const tileBottomLeftY = useTransform(aboutProgress, [0, 1], prefersReducedMotion ? [0, 0] : [20, -20]);
+  const tileRightY = useTransform(aboutProgress, [0, 1], prefersReducedMotion ? [0, 0] : [60, -60]);
+
   const diff = Math.max(0, EVENT_START.getTime() - now);
   const days = Math.floor(diff / (1000 * 60 * 60 * 24));
   const hrs = Math.floor((diff / (1000 * 60 * 60)) % 24);
@@ -172,7 +197,7 @@ function CountdownAndActions() {
   // First five pre-arrival actions, ordered by deadline upstream in data.ts.
   // Signed-in delegates can tick them off; state is persisted per-user via
   // useChecklist and shared with the full checklist on /delegate-guide.
-  const actions = delegateGuide.checklist.slice(0, 5);
+  const actions = delegateGuide.checklist.slice(0, 3);
   const totalActions = delegateGuide.checklist.length;
   const completedCount = isAuthed ? checked.size : 0;
 
@@ -204,6 +229,154 @@ function CountdownAndActions() {
       style={{ backgroundColor: "#f6f4ef" }}
     >
       <div className="max-w-7xl mx-auto px-5 md:px-6">
+        {/* About + photo collage — editorial intro row that grounds the
+            countdown below. Left column: brand framing copy with a small
+            "More about FISC" link. Right column: blocky 3-photo collage
+            (1 tall + 2 stacked squares) anchoring the abstract concept
+            in real Trinidad imagery. */}
+        <motion.div
+          ref={aboutRef}
+          variants={staggerSection}
+          initial="hidden"
+          whileInView="show"
+          viewport={REVEAL_VIEWPORT}
+          className="grid lg:grid-cols-12 gap-10 md:gap-12 items-center"
+        >
+          {/* Text column — children stagger via own staggerSection: eyebrow
+              first, then headline, then body, then link. Each piece arrives
+              with its own fade-up after the parent orchestration cascades. */}
+          <motion.div
+            variants={staggerSection}
+            className="lg:col-span-6 flex flex-col"
+          >
+            <motion.div variants={fadeUpTight}>
+              <SectionLabel>About FISC</SectionLabel>
+            </motion.div>
+            <motion.h2
+              variants={fadeUp}
+              className="tracking-[-0.025em] text-neutral-950"
+              style={{ fontSize: TYPE.h2, lineHeight: 1.05, letterSpacing: TRACKING.snug }}
+            >
+              The annual gathering where <GradientText>PFM reform gets done.</GradientText>
+            </motion.h2>
+            <motion.p
+              variants={fadeUp}
+              className="mt-5 md:mt-6 text-neutral-600 max-w-md"
+              style={{ fontSize: "1.0625rem", lineHeight: 1.6 }}
+            >
+              Finance ministers, treasurers and budget directors from 40+
+              countries spend four days co-creating the next generation of
+              public financial management — country-led, no intermission.
+            </motion.p>
+            <motion.div variants={fadeUpTight}>
+              <Link
+                to="/about"
+                className="group mt-6 md:mt-8 inline-flex items-center gap-2 text-neutral-950 transition-fluid hover:gap-3 w-fit"
+                style={{ fontSize: "1rem", fontWeight: 500 }}
+              >
+                More about FISC
+                <BracketArrow
+                  size={12}
+                  strokeWidth={1.75}
+                  className="transition-fluid group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
+                />
+              </Link>
+            </motion.div>
+          </motion.div>
+
+          <div className="lg:col-span-6">
+            {/* 3-photo blocky collage — matches the reference layout:
+                Left column: medium tile (top, 4:5 aspect) + small square
+                  (bottom). Bottom-left is roughly half the height of top-left
+                  so the eye doesn't read it as equal weight.
+                Right column: tall hero tile (3:5 aspect — very vertical) with
+                  a `mt-[6%]` offset so it sits below the top edge of the
+                  left column AND extends below the bottom-left tile. This
+                  asymmetric overhang is the key visual move from the
+                  reference — the right tile "floats" past the left grid.
+                Independent flex/grid columns let each tile own its aspect
+                ratio without being squeezed by a shared grid track. */}
+            <motion.div
+              variants={staggerList}
+              initial="hidden"
+              whileInView="show"
+              viewport={REVEAL_VIEWPORT}
+              className="grid grid-cols-[5fr_6fr] gap-4 md:gap-5 items-start"
+            >
+              {/* Left column — 2 stacked tiles with parallax drift */}
+              <div className="flex flex-col gap-4 md:gap-5">
+                {/* Top-left: medium tile (4:5 — slightly tall).
+                    Parallax y: 40 → -40 across scroll progress = subtle
+                    upward drift as user scrolls past. scaleIn entry sets
+                    scale/blur/opacity (no y), so style.y composes cleanly
+                    via the merged transform. */}
+                <motion.div
+                  variants={scaleIn}
+                  style={{ y: tileTopLeftY }}
+                  className="group aspect-[4/5] relative overflow-hidden rounded-xl bg-neutral-100 ring-1 ring-black/[0.06]"
+                >
+                  <ImageWithFallback
+                    src={HERO_IMG}
+                    alt="Port of Spain waterfront"
+                    className="absolute inset-0 w-full h-full object-cover transition-fluid group-hover:scale-[1.03]"
+                  />
+                </motion.div>
+
+                {/* Bottom-left: small square. Slower parallax (±20) so the
+                    smaller tile doesn't compete with the larger ones. */}
+                <motion.div
+                  variants={scaleIn}
+                  style={{ y: tileBottomLeftY }}
+                  className="group aspect-square relative overflow-hidden rounded-xl bg-neutral-100 ring-1 ring-black/[0.06]"
+                >
+                  <ImageWithFallback
+                    src={HERO_GALLERY}
+                    alt="Trinidad culture"
+                    className="absolute inset-0 w-full h-full object-cover transition-fluid group-hover:scale-[1.03]"
+                  />
+                </motion.div>
+              </div>
+
+              {/* Right column — tall hero with vertical offset + the deepest
+                  parallax (±60) so it drifts the most during scroll, creating
+                  a clear Z-depth hierarchy. The image inside also runs a
+                  slow Ken-Burns scale loop (24s) so the photograph "breathes"
+                  continuously — Trinidad feels alive in the frame, not
+                  static. The Ken-Burns runs on a wrapper div so the tile's
+                  hover-scale interaction doesn't fight a continuous animation. */}
+              <motion.div
+                variants={scaleIn}
+                style={{ y: tileRightY }}
+                className="group aspect-[3/5] relative overflow-hidden rounded-xl bg-neutral-100 ring-1 ring-black/[0.06] mt-[6%]"
+              >
+                <motion.div
+                  className="absolute inset-0"
+                  animate={prefersReducedMotion ? undefined : { scale: [1, 1.06, 1] }}
+                  transition={{ duration: 24, ease: "easeInOut", repeat: Infinity, repeatType: "loop" }}
+                >
+                  <ImageWithFallback
+                    src={ABOUT_IMG}
+                    alt="FISC delegates"
+                    className="absolute inset-0 w-full h-full object-cover"
+                  />
+                </motion.div>
+                <span
+                  className="absolute bottom-3 left-3 inline-flex items-center gap-1.5 px-2 py-1 rounded-sm bg-white/85 backdrop-blur text-[10px] tracking-[0.18em] uppercase text-neutral-700 z-10"
+                  style={{ fontWeight: 500 }}
+                >
+                  <span className="w-1 h-1 rounded-full" style={{ backgroundColor: BRAND }} />
+                  The delegation
+                </span>
+              </motion.div>
+            </motion.div>
+          </div>
+        </motion.div>
+
+        {/* Hidden by user request — countdown + pre-arrival queue row is
+            preserved inline (not deleted) so it can be re-enabled instantly
+            by flipping `false` → `true` below. All hooks and state above
+            still run; only the JSX render is short-circuited. */}
+        {false && (
         <div className="grid lg:grid-cols-12 gap-10 md:gap-16 items-start">
           {/* Countdown — sticks to the top of the viewport (below the floating
               header pill) on lg+ so it stays in view while the user scrolls
@@ -448,6 +621,7 @@ function CountdownAndActions() {
             </motion.div>
           </div>
         </div>
+        )}
       </div>
     </section>
   );
@@ -468,6 +642,10 @@ function TheRoom() {
   // full 40+ list, so the Room's purpose is a deliberate scannable read.
   const publicCountries = countries.slice(0, 8);
   const visibleDelegates = attendees.slice(0, 12);
+  // CountUp on the "300+ confirmed" stat — animates from 0 → 300 when the
+  // stat enters the viewport. Makes the number feel earned rather than
+  // hardcoded. Format prepends "+" once the count completes.
+  const delegatesCount = useCountUp(300, { duration: 1.6, format: (v) => `${v}+` });
   // Host country delegation — public officials (PM + Minister of Finance)
   // already advertised on /speakers as keynotes, so showing them here doesn't
   // break the gate on the /attendees directory. The `&& a.img` clause is
@@ -508,14 +686,17 @@ function TheRoom() {
             <div className="mb-6 text-xs tracking-[0.25em] uppercase text-neutral-500" style={{ fontWeight: 500 }}>
               Hosted by
             </div>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-5 md:gap-6 mb-14 md:mb-16">
-              {hosts.map((h, i) => (
+            <motion.div
+              variants={staggerSection}
+              initial="hidden"
+              whileInView="show"
+              viewport={REVEAL_VIEWPORT}
+              className="grid grid-cols-1 md:grid-cols-2 gap-5 md:gap-6 mb-14 md:mb-16"
+            >
+              {hosts.map((h) => (
                 <motion.article
                   key={h.name}
-                  initial={{ opacity: 0, y: 24, filter: "blur(8px)" }}
-                  whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
-                  viewport={{ once: true }}
-                  transition={{ delay: i * 0.08, duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
+                  variants={fadeUp}
                   className="group relative overflow-hidden rounded-md bg-white ring-1 ring-black/[0.05] shadow-[0_12px_40px_-20px_rgba(0,0,0,0.18)] transition-fluid hover:shadow-[0_20px_60px_-20px_rgba(0,0,0,0.22)]"
                 >
                   {/* Horizontal layout — photo column (40% via 2fr/3fr split)
@@ -584,7 +765,7 @@ function TheRoom() {
                   </div>
                 </motion.article>
               ))}
-            </div>
+            </motion.div>
           </>
         )}
 
@@ -596,14 +777,17 @@ function TheRoom() {
         {isAuthed ? (
           // Faces — signed-in delegates only. Country flag floats in the
           // corner of each portrait so the eye can scan for region.
-          <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 gap-3 md:gap-4">
+          <motion.div
+            variants={staggerList}
+            initial="hidden"
+            whileInView="show"
+            viewport={REVEAL_VIEWPORT}
+            className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 gap-3 md:gap-4"
+          >
             {visibleDelegates.map((a, i) => (
               <motion.div
                 key={`${a.name}-${i}`}
-                initial={{ opacity: 0, y: 12 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: (i % 6) * 0.04 }}
+                variants={fadeUpTight}
                 className="text-center"
               >
                 <div className="relative w-full aspect-square rounded-lg overflow-hidden bg-neutral-100">
@@ -630,21 +814,24 @@ function TheRoom() {
                 <div className="text-neutral-500 text-xs truncate">{a.country}</div>
               </motion.div>
             ))}
-          </div>
+          </motion.div>
         ) : (
           // Flag mosaic — no faces, no names. The gate stays intact. Eight
           // flags in a single row on desktop, 4×2 on mobile. Each cell now
           // has roughly 2× the horizontal space it had at 16 flags, so the
           // flag itself scales up (h-10 → h-16) to fill the room and read
           // as a deliberate directory rather than a token strip.
-          <div className="grid grid-cols-4 md:grid-cols-8 gap-4 md:gap-6">
-            {publicCountries.map((c, i) => (
+          <motion.div
+            variants={staggerList}
+            initial="hidden"
+            whileInView="show"
+            viewport={REVEAL_VIEWPORT}
+            className="grid grid-cols-4 md:grid-cols-8 gap-4 md:gap-6"
+          >
+            {publicCountries.map((c) => (
               <motion.div
                 key={c}
-                initial={{ opacity: 0, y: 10 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: (i % 8) * 0.04 }}
+                variants={fadeUpTight}
                 className="flex flex-col items-center text-center"
               >
                 <CountryFlag
@@ -656,7 +843,7 @@ function TheRoom() {
                 </div>
               </motion.div>
             ))}
-          </div>
+          </motion.div>
         )}
 
         <div className="mt-8 md:mt-10 flex flex-wrap items-center justify-between gap-4">
@@ -664,7 +851,14 @@ function TheRoom() {
             <span className="w-1.5 h-1.5 rounded-full" style={{ backgroundColor: BRAND }} />
             {isAuthed
               ? "Updated daily by the secretariat"
-              : <><span className="tabular-nums">300+ confirmed</span> · sign in to see the room</>}
+              : (
+                <>
+                  <span ref={delegatesCount.ref} className="tabular-nums" style={{ fontWeight: 600, color: "#0a0a0a" }}>
+                    {delegatesCount.value}
+                  </span>
+                  <span className="ml-1">confirmed · sign in to see the room</span>
+                </>
+              )}
           </div>
           <NestedCTA
             to={isAuthed ? "/attendees" : "/sign-in?return=/attendees"}
@@ -768,17 +962,17 @@ function WhatsNew() {
           </div>
         </div>
 
-        <div className="space-y-3 md:space-y-4">
-          {SITE_UPDATES.map((u, i) => {
+        <motion.div
+          variants={staggerList}
+          initial="hidden"
+          whileInView="show"
+          viewport={REVEAL_VIEWPORT}
+          className="space-y-3 md:space-y-4"
+        >
+          {SITE_UPDATES.map((u) => {
             const tone = CATEGORY_TONES[u.category];
             return (
-              <motion.div
-                key={u.title}
-                initial={{ opacity: 0, y: 16 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: (i % 4) * 0.05 }}
-              >
+              <motion.div key={u.title} variants={fadeUpTight}>
                 <Link
                   to={u.to}
                   className="group grid md:grid-cols-12 gap-3 md:gap-6 items-start md:items-center rounded-md border border-neutral-200 bg-white p-5 md:p-6 hover:border-neutral-950 transition"
@@ -826,7 +1020,7 @@ function WhatsNew() {
               </motion.div>
             );
           })}
-        </div>
+        </motion.div>
       </div>
     </section>
   );

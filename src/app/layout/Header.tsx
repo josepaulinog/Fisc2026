@@ -53,10 +53,10 @@ export function Header() {
       >
         <div className="mx-auto max-w-7xl px-5 md:px-6 transition-fluid">
           <div
-            className={`flex items-center justify-between rounded-sm ring-1 transition-fluid px-3 md:px-5 ${
+            className={`flex items-center justify-between rounded-md ring-1 transition-fluid px-3 md:px-5 ${
               scrolled
-                ? "ring-black/[0.08] bg-white/92 backdrop-blur-2xl h-14 md:h-16 shadow-[0_12px_36px_-14px_rgba(0,0,0,0.18)]"
-                : "ring-black/[0.05] bg-white/75 backdrop-blur-2xl h-16 md:h-[68px] shadow-[0_8px_30px_-12px_rgba(0,0,0,0.12)]"
+                ? "ring-black/[0.08] bg-white/98 backdrop-blur-2xl h-14 md:h-16 shadow-[0_12px_36px_-14px_rgba(0,0,0,0.18)]"
+                : "ring-black/[0.05] bg-white/95 backdrop-blur-2xl h-16 md:h-[68px] shadow-[0_8px_30px_-12px_rgba(0,0,0,0.12)]"
             }`}
           >
             <Link to="/" className="flex items-center shrink-0" aria-label="FISC 2026 home">
@@ -81,19 +81,12 @@ export function Header() {
                         `inline-flex items-center gap-1.5 pl-3 pr-3 py-2 rounded-sm transition-fluid ${
                           isActive
                             ? "bg-neutral-950 text-white shadow-[inset_0_1px_0_rgba(255,255,255,0.08)]"
-                            : "text-neutral-700 hover:bg-black/[0.05] hover:text-neutral-950"
+                            : "text-neutral-800 hover:bg-black/[0.05] hover:text-neutral-950"
                         }`
                       }
                     >
-                      {({ isActive }) => (
+                      {() => (
                         <>
-                          {isActive && (
-                            <span
-                              aria-hidden
-                              className="w-1.5 h-1.5 rounded-full shrink-0"
-                              style={{ backgroundColor: BRAND }}
-                            />
-                          )}
                           <span>{n.label}</span>
                           <ChevronDown
                             size={13}
@@ -151,15 +144,8 @@ export function Header() {
                             >
                               {({ isActive }) => (
                                 <>
-                                  <span className="inline-flex items-center gap-2 transition-fluid group-hover/item:translate-x-0.5">
-                                    {isActive && (
-                                      <span
-                                        aria-hidden
-                                        className="w-1 h-1 rounded-full shrink-0"
-                                        style={{ backgroundColor: BRAND }}
-                                      />
-                                    )}
-                                    <span>{c.label}</span>
+                                  <span className="transition-fluid group-hover/item:translate-x-0.5">
+                                    {c.label}
                                   </span>
                                   {c.gated && (
                                     <span className={`inline-flex items-center gap-1 text-[10px] tracking-[0.15em] uppercase transition-fluid ${
@@ -189,18 +175,7 @@ export function Header() {
                       }`
                     }
                   >
-                    {({ isActive }) => (
-                      <>
-                        {isActive && (
-                          <span
-                            aria-hidden
-                            className="w-1.5 h-1.5 rounded-full shrink-0"
-                            style={{ backgroundColor: BRAND }}
-                          />
-                        )}
-                        <span>{n.label}</span>
-                      </>
-                    )}
+                    {n.label}
                   </NavLink>
                 )
               )}

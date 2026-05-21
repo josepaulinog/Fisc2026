@@ -21,6 +21,7 @@ import {
 import { GradientText, PageHero, SectionLabel } from "../components/shared";
 import { CountryDropdown } from "../components/ui/CountryDropdown";
 import { BracketArrow } from "../components/ui/BracketArrow";
+import { SkeletonHero, SkeletonPill, SkeletonText } from "../components/ui/Skeletons";
 import { useToasts } from "../components/ui/Toast";
 import { useOnboardingTour } from "../components/OnboardingTour";
 import { useAuth } from "../auth";
@@ -267,7 +268,12 @@ export default function Profile() {
   if (!isAuthed) {
     return <Navigate to="/sign-in?return=/profile" replace />;
   }
-  if (!user || !profile) return null;
+  // Loading state — `user` resolves from AuthContext, `profile` from localStorage
+  // via loadProfile() inside the mount useEffect. On hot loads this is sub-50ms;
+  // on cold loads (first visit / new tab) it can be a few hundred ms. Render
+  // a skeleton mirror of the loaded form instead of a blank screen so the page
+  // dimensions don't pop when content arrives.
+  if (!user || !profile) return <ProfileSkeleton />;
 
   const fieldBorder = (hasError: boolean) =>
     hasError
@@ -735,4 +741,100 @@ function formatBytes(bytes: number): string {
   if (bytes < 1024) return `${bytes} B`;
   if (bytes < 1024 * 1024) return `${(bytes / 1024).toFixed(0)} KB`;
   return `${(bytes / 1024 / 1024).toFixed(2)} MB`;
+}
+
+// ---------------------------------------------------------------------------
+// ProfileSkeleton — mirror of the loaded form layout, rendered while
+// `user` / `profile` are still resolving. Dimensions match the real form
+// so there's no layout pop when content arrives. Pure CSS animation via
+// the `skeleton-shimmer` class (see theme.css) — no JS dependency, ports
+// 1:1 to Sage Blade at WP-port time.
+// ---------------------------------------------------------------------------
+
+function ProfileSkeleton() {
+  return (
+    <>
+      {/* Hero — INK background mirrors PageHero; SkeletonHero from the
+          library handles the eyebrow + heading + subtitle skeleton blocks
+          in the dark tone variant. */}
+      <section
+        className="relative overflow-hidden pt-24 pb-14 md:pt-36 md:pb-24"
+        style={{ backgroundColor: INK }}
+      >
+        <div className="relative max-w-7xl mx-auto px-5 md:px-6">
+          <SkeletonHero tone="dark" />
+        </div>
+      </section>
+
+      {/* Form layout — 4 cards stacked + footer, exact spacing of the
+          loaded form (`space-y-6 md:space-y-8`, `max-w-4xl`, etc). */}
+      <section className="py-12 md:py-20 bg-white">
+        <div className="max-w-4xl mx-auto px-5 md:px-6 space-y-6 md:space-y-8">
+          {/* Profile photo card */}
+          <div className="rounded-md border border-neutral-200 bg-neutral-50/60 p-5 md:p-8">
+            <SkeletonPill w="w-32" className="mb-6" />
+            <div className="flex flex-col sm:flex-row sm:items-center gap-5 sm:gap-7">
+              <div
+                aria-hidden="true"
+                className="skeleton-shimmer w-24 h-24 md:w-28 md:h-28 rounded-full shrink-0 ring-1 ring-black/[0.06]"
+              />
+              <div className="flex-1 min-w-0 space-y-2.5">
+                <SkeletonText w="w-40" size="lg" />
+                <SkeletonText w="w-32" size="sm" />
+                <div className="pt-1">
+                  <SkeletonPill w="w-32" />
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Identity card — 6 fields in a 2-col grid (Display name, Email,
+              Position, Organisation, Country, Website) */}
+          <SkeletonFieldsCard label="w-20" fieldCount={6} cols="sm:grid-cols-2" />
+
+          {/* Where delegates can find you — 2 fields (LinkedIn, X.com) */}
+          <SkeletonFieldsCard label="w-44" fieldCount={2} cols="sm:grid-cols-2" />
+
+          {/* About you — single textarea */}
+          <div className="rounded-md border border-neutral-200 p-5 md:p-8">
+            <SkeletonPill w="w-20" className="mb-6" />
+            <SkeletonText w="w-80" size="sm" className="mb-3" />
+            <div aria-hidden="true" className="skeleton-shimmer h-32 rounded-sm" />
+          </div>
+
+          {/* Footer — signed-in label + Update profile button */}
+          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+            <SkeletonText w="w-56" size="sm" />
+            <div aria-hidden="true" className="skeleton-shimmer h-12 w-44 rounded-sm" />
+          </div>
+        </div>
+      </section>
+    </>
+  );
+}
+
+/** A single field-grid card (eyebrow + N labelled inputs). Used by the
+ *  Identity and Where-to-find-you sections. */
+function SkeletonFieldsCard({
+  label,
+  fieldCount,
+  cols,
+}: {
+  label: string;
+  fieldCount: number;
+  cols: string;
+}) {
+  return (
+    <div className="rounded-md border border-neutral-200 p-5 md:p-8">
+      <SkeletonPill w={label} className="mb-6" />
+      <div className={`grid ${cols} gap-4`}>
+        {Array.from({ length: fieldCount }).map((_, i) => (
+          <div key={i} className="space-y-2">
+            <SkeletonText w="w-24" size="sm" />
+            <div aria-hidden="true" className="skeleton-shimmer h-12 rounded-sm" />
+          </div>
+        ))}
+      </div>
+    </div>
+  );
 }

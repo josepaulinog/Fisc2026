@@ -42,6 +42,63 @@
 }
 
 /* -------------------------------------------------------------------------
+ * Skeleton shimmer — pure-CSS loading state primitive
+ * -------------------------------------------------------------------------
+ * A diagonal gradient sweep that loops continuously across any element
+ * with the `.skeleton-shimmer` class. Replaces the bare `animate-pulse`
+ * default — pulse just fades opacity (binary on/off feel); shimmer reads
+ * as "content is actively loading" with directional motion.
+ *
+ * Pure CSS by design — no JS dependency means the same animation works
+ * server-rendered in Sage Blade templates without React. At WordPress
+ * port time, the same class can be applied to any <div> or <span> in a
+ * `<x-skeleton>` Blade component (see Skeletons.tsx for the React
+ * primitives + a Blade port note).
+ *
+ * Performance: animates `background-position` only (cheap on GPU). The
+ * gradient direction is 110deg so the sweep matches the page's editorial
+ * left-to-right reading rhythm.
+ * ------------------------------------------------------------------------- */
+@keyframes skeleton-shimmer {
+  0%   { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+.skeleton-shimmer {
+  background-color: rgba(0, 0, 0, 0.05);
+  background-image: linear-gradient(
+    110deg,
+    rgba(0, 0, 0, 0) 30%,
+    rgba(0, 0, 0, 0.06) 50%,
+    rgba(0, 0, 0, 0) 70%
+  );
+  background-size: 200% 100%;
+  animation: skeleton-shimmer 1.6s cubic-bezier(0.32, 0.72, 0, 1) infinite;
+}
+
+/* Dark-surface variant — for skeletons placed on INK / dark backgrounds
+ * (e.g. inside the Footer or a dark hero). Inverts the gradient stops so
+ * the shimmer reads against the dark base. */
+.skeleton-shimmer-dark {
+  background-color: rgba(255, 255, 255, 0.06);
+  background-image: linear-gradient(
+    110deg,
+    rgba(255, 255, 255, 0) 30%,
+    rgba(255, 255, 255, 0.08) 50%,
+    rgba(255, 255, 255, 0) 70%
+  );
+  background-size: 200% 100%;
+  animation: skeleton-shimmer 1.6s cubic-bezier(0.32, 0.72, 0, 1) infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .skeleton-shimmer,
+  .skeleton-shimmer-dark {
+    animation: none;
+  }
+}
+
+/* -------------------------------------------------------------------------
  * Lucide icon stroke weight — project-wide default
  * -------------------------------------------------------------------------
  * The Vanguard_UI_Architect spec bans "Standard thick-stroked Lucide" (2px).

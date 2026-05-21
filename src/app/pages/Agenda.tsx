@@ -1,20 +1,22 @@
 import { useMemo, useState } from "react";
 import { Link } from "react-router";
-import { motion } from "motion/react";
-import { ArrowUpRight, Download, MapPin } from "lucide-react";
+import { AnimatePresence, motion } from "motion/react";
+import { Clock, Download, MapPin, Minus, Plus } from "lucide-react";
 import { ImageWithFallback } from "../components/figma/ImageWithFallback";
-import { Grain, GradientText, PageHero } from "../components/shared";
-import { BRAND, BRAND_SOFT, HERO_AGENDA, INK, TAG_COLORS, agenda, daySlugFor } from "../data";
+import { GradientText, PageHero, SectionLabel } from "../components/shared";
+import { BRAND, BRAND_SOFT, HERO_AGENDA, TAG_COLORS, agenda, daySlugFor } from "../data";
+import type { Session } from "../data";
 import { NestedCTA } from "../components/ui/NestedCTA";
+import { BracketArrow } from "../components/ui/BracketArrow";
 
 export default function Agenda() {
   const [active, setActive] = useState(1);
+  const [expandedKey, setExpandedKey] = useState<string | null>(null);
   const current = agenda[active];
   const currentSlug = daySlugFor(current);
 
-  // Anchor strip — quick stats for the active day so the user has peripheral
-  // signal beyond just "here is the list". First / last time, total sessions,
-  // headline tag list. Cheap to compute, derived from the same data.
+  // Anchor strip — peripheral signal for the active day. First / last time,
+  // total sessions, headline tag list. Kept compact below the day tabs.
   const dayStats = useMemo(() => {
     const sessions = current.sessions;
     const first = sessions[0]?.time ?? "—";
@@ -22,6 +24,13 @@ export default function Agenda() {
     const tags = Array.from(new Set(sessions.map((s) => s.tag).filter(Boolean))) as string[];
     return { first, last, count: sessions.length, tags };
   }, [current]);
+
+  // Switch days resets any open expanded session so the user lands on a fresh
+  // collapsed list.
+  const selectDay = (i: number) => {
+    setActive(i);
+    setExpandedKey(null);
+  };
 
   return (
     <>
@@ -44,10 +53,11 @@ export default function Agenda() {
           style={{ backgroundColor: BRAND }}
         />
         <div className="relative max-w-7xl mx-auto px-5 md:px-6">
+          {/* Lead text + download CTA */}
           <div className="flex flex-wrap items-end justify-between gap-4 md:gap-6 mb-8 md:mb-12">
             <p className="text-neutral-600 max-w-2xl">
-              Choose a day to explore the full programme. Click any session for the full briefing —
-              time, speakers and context.
+              Choose a day to explore the full programme. Expand any session for
+              speakers and quick context — or open it for the full briefing.
             </p>
             <NestedCTA
               href="#"
@@ -58,14 +68,15 @@ export default function Agenda() {
             </NestedCTA>
           </div>
 
-          <div className="flex gap-2 mb-4 md:mb-5 overflow-x-auto overscroll-x-contain touch-pan-x snap-x snap-proximity pb-2 -mx-5 px-5 md:mx-0 md:px-0 scrollbar-hide [scroll-padding-inline:1.25rem]">
+          {/* Mobile: horizontal day tabs strip (unchanged). Hidden on lg+. */}
+          <div className="lg:hidden flex gap-2 mb-4 overflow-x-auto overscroll-x-contain touch-pan-x snap-x snap-proximity pb-2 -mx-5 px-5 scrollbar-hide [scroll-padding-inline:1.25rem]">
             {agenda.map((d, i) => {
               const isActive = i === active;
               return (
                 <button
                   key={d.label}
-                  onClick={() => setActive(i)}
-                  className={`snap-start shrink-0 px-4 md:px-5 py-3 rounded-sm border transition-all text-left ${
+                  onClick={() => selectDay(i)}
+                  className={`snap-start shrink-0 px-4 py-3 rounded-sm border transition-all text-left ${
                     isActive
                       ? "bg-neutral-900 border-neutral-900 text-white shadow-[inset_0_1px_0_rgba(255,255,255,0.07),0_3px_10px_-4px_rgba(0,0,0,0.18)]"
                       : "bg-white border-neutral-200 text-neutral-700 hover:border-neutral-400"
@@ -78,9 +89,9 @@ export default function Agenda() {
             })}
           </div>
 
-          {/* Anchor strip — peripheral signal for the active day. Sits between
-              the day tabs and the day card so the user gets a "what kind of
-              day is this" read before scrolling the full session list. */}
+          {/* Day at a glance — peripheral signal strip below the tabs (mobile)
+              or above the session list (desktop). Same compact rhythm as
+              before. */}
           <motion.div
             key={`stats-${current.label}`}
             initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.35 }}
@@ -113,129 +124,202 @@ export default function Agenda() {
             )}
           </motion.div>
 
-          <motion.div
-            key={current.label}
-            initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.4 }}
-            className="rounded-md overflow-hidden border border-neutral-200 bg-white"
-          >
-            {/* Slimmer + cooler day card header. Previous treatment pushed
-                BRAND to 130% which interpolated as burnt-orange across the
-                bottom-right ~40% of the band — it dominated the page even
-                though the band only labels the day. New gradient pushes BRAND
-                to 170% (visible edge ~35% saturation) and the band height
-                drops with reduced padding and a smaller headline. */}
-            <div className="relative px-5 md:px-10 py-5 md:py-7 text-white overflow-hidden" style={{ background: `linear-gradient(135deg, ${INK} 0%, #141414 60%, ${BRAND} 170%)` }}>
-              <Grain />
-              {/* Mobile: location + sessions count drop to a new line below
-                  the date / day label so neither group truncates. From md+
-                  they sit on the same row, right-aligned. */}
-              <div className="relative flex flex-col md:flex-row md:items-end md:justify-between gap-3 md:gap-6">
-                <div>
-                  <div className="tracking-[0.25em] text-white/55 text-[10.5px]" style={{ fontWeight: 500 }}>{current.date.toUpperCase()}</div>
-                  <div className="mt-2 tracking-[-0.02em]" style={{ fontSize: "clamp(1.375rem, 2.4vw, 1.875rem)", lineHeight: 1.05 }}>
-                    {current.label}
-                  </div>
-                </div>
-                <div className="flex items-center gap-3 text-white/70 text-[0.8125rem] md:text-sm">
-                  <span className="flex items-center gap-1.5" style={{ color: BRAND_SOFT }}>
-                    <MapPin size={13} strokeWidth={1.5} /> Port of Spain
-                  </span>
-                  <span className="w-px h-3.5 bg-white/15" />
-                  <span>{current.sessions.length} sessions</span>
-                </div>
-              </div>
+          {/* Desktop split: vertical day tabs on the left, session list on
+              the right. Below lg the left column collapses (the horizontal
+              tabs above carry the day selection). */}
+          <div className="grid lg:grid-cols-[88px_1fr] gap-4 md:gap-6 items-start">
+            {/* Vertical day tabs — desktop only. Each tab is a tall pill with
+                the day label rotated 90° (writing-mode: vertical-rl + 180°
+                rotation reads bottom-to-top). Active tab is the ink chip
+                (matches the rest of the site's active treatment); inactive
+                tabs are warm-tinted on the cream background so they don't
+                punch holes in the surface. Sticks to the viewport on scroll
+                so the day selector is always reachable. */}
+            <div className="hidden lg:flex flex-col gap-2 lg:sticky lg:top-[100px]">
+              {agenda.map((d, i) => {
+                const isActive = i === active;
+                return (
+                  <button
+                    key={d.label}
+                    onClick={() => selectDay(i)}
+                    aria-pressed={isActive}
+                    className={`group relative w-full rounded-sm border transition-fluid will-change-transform py-7 px-2 flex items-center justify-center ${
+                      isActive
+                        ? "bg-neutral-900 border-neutral-900 text-white shadow-[inset_0_1px_0_rgba(255,255,255,0.07),0_3px_10px_-4px_rgba(0,0,0,0.18)]"
+                        : "bg-white/60 border-neutral-200 text-neutral-600 hover:bg-white hover:border-neutral-400 hover:text-neutral-950"
+                    }`}
+                  >
+                    <span
+                      className="inline-flex flex-col items-center gap-1.5 tracking-wide"
+                      style={{ writingMode: "vertical-rl", transform: "rotate(180deg)" }}
+                    >
+                      <span style={{ fontSize: "0.875rem", fontWeight: 600, letterSpacing: "-0.01em" }}>
+                        {d.short}
+                      </span>
+                      <span className={`text-[10.5px] tracking-[0.18em] uppercase ${isActive ? "text-white/65" : "text-neutral-400"}`} style={{ fontWeight: 500 }}>
+                        {d.date.split(",")[0]}
+                      </span>
+                    </span>
+                  </button>
+                );
+              })}
             </div>
 
-            <div>
-              {current.sessions.map((s, i) => {
-                // Soft moments — transition beats like Break / Lunch / Group
-                // Photo / Cultural Tour / Dinner. They have no tag and no
-                // speakers attached. Rendered as compact one-line rows so
-                // they don't compete visually with the substantive sessions.
-                const hasSpeakers = !!(s.speakers && s.speakers.length > 0);
-                const isSoft = !s.tag && !hasSpeakers;
-                const isMarquee = !!s.tag;
+            {/* Session list — animated swap on day change. */}
+            <motion.div
+              key={current.label}
+              initial={{ opacity: 0, y: 12 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.35, ease: [0.32, 0.72, 0, 1] }}
+              className="rounded-md bg-white ring-1 ring-black/[0.05] overflow-hidden"
+            >
+              {/* Thin context strip — replaces the previous big gradient
+                  header card. The vertical day tab already announces the day,
+                  so this is just a meta line. */}
+              <div className="px-5 md:px-8 py-3.5 border-b border-neutral-100 flex flex-wrap items-center gap-x-4 gap-y-1.5 text-[0.8125rem] text-neutral-500">
+                <span className="text-neutral-900 tracking-tight" style={{ fontWeight: 500 }}>
+                  {current.label}
+                </span>
+                <span className="text-neutral-300">·</span>
+                <span>{current.date}</span>
+                <span className="text-neutral-300 hidden sm:inline">·</span>
+                <span className="hidden sm:inline-flex items-center gap-1.5">
+                  <MapPin size={12} strokeWidth={1.5} className="text-neutral-400" />
+                  Port of Spain
+                </span>
+                <span className="text-neutral-300 hidden sm:inline">·</span>
+                <span className="hidden sm:inline">{current.sessions.length} sessions</span>
+              </div>
 
-                if (isSoft) {
-                  /* Mobile-inlined soft row — soft moments have so little
-                     content per row (time + 1-2 word title) that stacking
-                     time-above-title on mobile wastes vertical real estate
-                     and breaks the dot-bullet metaphor. Render as a single
-                     flex row at every breakpoint. */
+              {/* Sessions */}
+              <ul>
+                {current.sessions.map((s, i) => {
+                  const key = `${current.label}-${i}`;
+                  const isExpanded = expandedKey === key;
+                  const hasSpeakers = !!(s.speakers && s.speakers.length > 0);
+                  const hasExpansion = hasSpeakers || (!!s.briefing) || (!!s.takeaways && s.takeaways.length > 0);
                   return (
-                    <Link
-                      to={`/agenda/${currentSlug}/${i}`}
-                      key={i}
-                      className="group flex items-center gap-3 md:gap-8 px-5 md:px-10 py-3 md:py-3.5 border-t first:border-t-0 border-neutral-100 transition-fluid hover:bg-neutral-50/60"
-                    >
-                      <div className="shrink-0 w-[5.5rem] md:w-[10.5rem] text-neutral-700 tabular-nums text-[0.8125rem] md:text-[0.95rem]" style={{ fontWeight: 500 }}>
-                        {s.time}
-                      </div>
-                      <span className="w-1 h-1 rounded-full bg-neutral-300 shrink-0" />
-                      <span className="tracking-tight text-neutral-600 truncate" style={{ fontSize: "0.9rem", lineHeight: 1.3 }}>
-                        {s.title}
-                      </span>
-                    </Link>
+                    <SessionRow
+                      key={key}
+                      session={s}
+                      expanded={isExpanded}
+                      hasExpansion={hasExpansion}
+                      hasSpeakers={hasSpeakers}
+                      onToggle={() => setExpandedKey(isExpanded ? null : key)}
+                      detailPath={`/agenda/${currentSlug}/${i}`}
+                    />
                   );
-                }
+                })}
+              </ul>
+            </motion.div>
+          </div>
+        </div>
+      </section>
+    </>
+  );
+}
 
-                return (
-                  <Link
-                    to={`/agenda/${currentSlug}/${i}`}
-                    key={i}
-                    className="group relative grid grid-cols-12 gap-x-4 md:gap-8 gap-y-3 md:gap-y-0 px-5 md:px-10 py-5 md:py-6 border-t first:border-t-0 border-neutral-100 transition-fluid hover:bg-neutral-50/60"
-                  >
-                    {/* Marquee left-rail — tag-colored vertical bar marks
-                        sessions that anchor the day's content. Bumped to 4px
-                        on mobile (was 3px) so it remains legible at small
-                        scales without competing with content. */}
-                    {isMarquee && s.tag && (
-                      <span
-                        aria-hidden
-                        className="absolute left-0 top-0 bottom-0 w-1 md:w-[3px] opacity-50 group-hover:opacity-100 transition-opacity"
-                        style={{ backgroundColor: TAG_COLORS[s.tag] }}
-                      />
-                    )}
-                    {/* Mobile: time + tag pill share one row (flex). Desktop:
-                        time stacks above tag pill in the col-span-3 cell. */}
-                    <div className="col-span-12 md:col-span-3 flex md:block items-center gap-3">
-                      <div className="text-neutral-900 tabular-nums text-sm md:text-base shrink-0" style={{ fontWeight: 500 }}>
-                        {s.time}
-                      </div>
-                      {s.tag && (
-                        <span className="md:mt-2 inline-flex items-center px-2 py-0.5 rounded-sm text-[10.5px] md:text-[11px] shrink-0" style={{ backgroundColor: `${TAG_COLORS[s.tag]}18`, color: TAG_COLORS[s.tag], letterSpacing: "0.04em" }}>
-                          {s.tag}
-                        </span>
-                      )}
-                    </div>
-                    <div className="col-span-12 md:col-span-9">
-                      <div className="flex items-start justify-between gap-3">
-                        <div
-                          className="tracking-tight text-neutral-950 transition-fluid group-hover:underline group-hover:decoration-neutral-300 group-hover:underline-offset-4"
-                          style={{ fontSize: "1.0625rem", lineHeight: 1.3 }}
-                        >
-                          {s.title}
-                        </div>
-                        <ArrowUpRight
-                          size={18}
-                          strokeWidth={1.5}
-                          className="shrink-0 text-neutral-400 group-hover:text-neutral-950 group-hover:-translate-y-0.5 group-hover:translate-x-0.5 transition-fluid"
-                        />
-                      </div>
-                      {s.desc && (
-                        <p className="mt-2 text-neutral-600 text-[0.9375rem] md:text-base" style={{ lineHeight: 1.55 }}>
-                          {/* Row-level synopsis: ~110 chars so delegates can scan a
-                              day in one view. Full briefing lives on the detail
-                              route (one click away). */}
-                          {s.desc.length > 110 ? s.desc.slice(0, 110).trimEnd() + "…" : s.desc}
-                        </p>
-                      )}
-                      {hasSpeakers && (
-                        <div className="mt-3 md:mt-4 flex flex-wrap gap-x-5 md:gap-x-6 gap-y-2.5 md:gap-y-3">
-                          {s.speakers!.map((sp) => (
+// ---------------------------------------------------------------------------
+// Session row — collapsed state shows time pill + tag + title + description.
+// Expanded state reveals speakers + a "View full briefing" link to the
+// canonical detail route. Soft moments (no tag, no speakers, no briefing)
+// render as compact rows with no expand affordance.
+// ---------------------------------------------------------------------------
+
+function SessionRow({
+  session,
+  expanded,
+  hasExpansion,
+  hasSpeakers,
+  onToggle,
+  detailPath,
+}: {
+  session: Session;
+  expanded: boolean;
+  hasExpansion: boolean;
+  hasSpeakers: boolean;
+  onToggle: () => void;
+  detailPath: string;
+}) {
+  const isSoft = !session.tag && !hasSpeakers && !session.briefing;
+
+  if (isSoft) {
+    // Soft moment — Break, Lunch, Group Photo, etc. No expand button.
+    return (
+      <li>
+        <Link
+          to={detailPath}
+          className="group flex items-center gap-3 md:gap-6 px-5 md:px-8 py-3 md:py-3.5 border-t first:border-t-0 border-neutral-100 transition-fluid hover:bg-neutral-50/60"
+        >
+          <TimePill time={session.time} muted />
+          <span className="w-1 h-1 rounded-full bg-neutral-300 shrink-0" />
+          <span className="tracking-tight text-neutral-700 truncate" style={{ fontSize: "0.95rem", lineHeight: 1.3 }}>
+            {session.title}
+          </span>
+        </Link>
+      </li>
+    );
+  }
+
+  return (
+    <li className="border-t first:border-t-0 border-neutral-100">
+      <div className="px-5 md:px-8 py-5 md:py-6">
+        <div className="flex items-start gap-4">
+          <div className="flex-1 min-w-0">
+            {/* Time pill + tag chip */}
+            <div className="flex flex-wrap items-center gap-x-3 gap-y-2 mb-3">
+              <TimePill time={session.time} />
+              {session.tag && (
+                <span
+                  className="inline-flex items-center text-[13px] tracking-tight"
+                  style={{ color: TAG_COLORS[session.tag], fontWeight: 500 }}
+                >
+                  #{session.tag}
+                </span>
+              )}
+            </div>
+
+            {/* Title */}
+            <h3
+              className="tracking-tight text-neutral-950"
+              style={{ fontSize: "clamp(1.0625rem, 1.5vw, 1.3rem)", lineHeight: 1.25, fontWeight: 600, letterSpacing: "-0.01em" }}
+            >
+              {session.title}
+            </h3>
+
+            {/* Description */}
+            {session.desc && (
+              <p
+                className="mt-2.5 text-neutral-600 text-[0.9375rem] md:text-base"
+                style={{ lineHeight: 1.6 }}
+              >
+                {session.desc.length > 180 ? session.desc.slice(0, 180).trimEnd() + "…" : session.desc}
+              </p>
+            )}
+
+            {/* Expanded panel — speakers + "view full" link */}
+            <AnimatePresence initial={false}>
+              {expanded && (
+                <motion.div
+                  initial={{ opacity: 0, height: 0 }}
+                  animate={{ opacity: 1, height: "auto" }}
+                  exit={{ opacity: 0, height: 0 }}
+                  transition={{ duration: 0.32, ease: [0.32, 0.72, 0, 1] }}
+                  className="overflow-hidden"
+                >
+                  <div className="mt-5 pt-5 border-t border-neutral-100">
+                    {hasSpeakers && (
+                      <>
+                        <SectionLabel>Speakers</SectionLabel>
+                        <div className="flex flex-wrap gap-x-5 md:gap-x-6 gap-y-3 -mt-1">
+                          {session.speakers!.map((sp) => (
                             <div key={sp.name} className="flex items-center gap-2.5 md:gap-3">
                               {sp.img ? (
-                                <ImageWithFallback src={sp.img} alt={sp.name} className="w-8 h-8 md:w-9 md:h-9 rounded-full object-cover bg-neutral-100 shrink-0" />
+                                <ImageWithFallback
+                                  src={sp.img}
+                                  alt={sp.name}
+                                  className="w-8 h-8 md:w-9 md:h-9 rounded-full object-cover bg-neutral-100 shrink-0"
+                                />
                               ) : (
                                 <div
                                   className="w-8 h-8 md:w-9 md:h-9 rounded-full flex items-center justify-center bg-neutral-100 ring-1 ring-neutral-200 shrink-0"
@@ -245,21 +329,91 @@ export default function Agenda() {
                                 </div>
                               )}
                               <div className="min-w-0">
-                                <div className="text-neutral-950 truncate text-[0.9375rem] md:text-base" style={{ lineHeight: 1.2 }}>{sp.name}</div>
+                                <div className="text-neutral-950 truncate text-[0.9375rem] md:text-base" style={{ lineHeight: 1.2, fontWeight: 500 }}>
+                                  {sp.name}
+                                </div>
                                 {sp.role && <div className="text-neutral-500 text-[0.8125rem] md:text-sm truncate">{sp.role}</div>}
                               </div>
                             </div>
                           ))}
                         </div>
-                      )}
-                    </div>
-                  </Link>
-                );
-              })}
-            </div>
-          </motion.div>
+                      </>
+                    )}
+                    <Link
+                      to={detailPath}
+                      className="group/link mt-5 inline-flex items-center gap-2 text-[0.9375rem] text-neutral-950 transition-fluid hover:gap-3"
+                      style={{ fontWeight: 500 }}
+                    >
+                      View full briefing
+                      <BracketArrow
+                        size={11}
+                        strokeWidth={1.75}
+                        className="transition-fluid group-hover/link:translate-x-0.5 group-hover/link:-translate-y-0.5"
+                      />
+                    </Link>
+                  </div>
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </div>
+
+          {/* Expand button */}
+          {hasExpansion && (
+            <button
+              type="button"
+              onClick={onToggle}
+              aria-expanded={expanded}
+              aria-label={expanded ? "Collapse session" : "Expand session"}
+              className="shrink-0 mt-1 w-9 h-9 rounded-sm border border-neutral-200 flex items-center justify-center text-neutral-500 hover:border-neutral-950 hover:text-neutral-950 transition-fluid"
+            >
+              {expanded ? (
+                <Minus size={14} strokeWidth={1.75} />
+              ) : (
+                <Plus size={14} strokeWidth={1.75} />
+              )}
+            </button>
+          )}
         </div>
-      </section>
-    </>
+      </div>
+    </li>
   );
 }
+
+// ---------------------------------------------------------------------------
+// Time pill — soft brand-tinted chip with clock icon. Mirrors the reference
+// design's blue-tinted time pill, but pulled into FISC's brand-orange palette
+// so it connects to the homepage countdown's "time is brand-orange" mental
+// model. Muted variant for soft moments where the time is metadata, not
+// emphasis.
+// ---------------------------------------------------------------------------
+
+function TimePill({ time, muted = false }: { time: string; muted?: boolean }) {
+  if (muted) {
+    return (
+      <span
+        className="shrink-0 inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-sm text-[0.8125rem] tabular-nums text-neutral-700 bg-neutral-100"
+        style={{ fontWeight: 500 }}
+      >
+        <Clock size={11} strokeWidth={1.75} className="text-neutral-400" />
+        {time}
+      </span>
+    );
+  }
+  return (
+    <span
+      className="shrink-0 inline-flex items-center gap-1.5 px-2.5 py-1 rounded-sm text-[0.8125rem] md:text-[13px] tabular-nums"
+      style={{
+        backgroundColor: `${BRAND}12`,
+        color: BRAND,
+        fontWeight: 500,
+      }}
+    >
+      <Clock size={12} strokeWidth={1.75} />
+      {time}
+    </span>
+  );
+}
+
+// Suppress unused-import warning for BRAND_SOFT (retained for future use
+// in the vertical day-tab color system).
+void BRAND_SOFT;

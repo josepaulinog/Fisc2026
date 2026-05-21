@@ -17,7 +17,7 @@ import { BracketArrow } from "../components/ui/BracketArrow";
 import { ImageWithFallback } from "../components/figma/ImageWithFallback";
 import { Grain, SectionLabel } from "../components/shared";
 import { looksLikeEmail } from "../auth";
-import { BRAND, BRAND_SOFT, INK, NEWSLETTER_IMG, navItems } from "../data";
+import { BRAND, BRAND_SOFT, HERO_IMG, INK, NEWSLETTER_IMG, navItems } from "../data";
 import { TYPE } from "../tokens";
 
 export function Newsletter() {
@@ -189,6 +189,34 @@ export function Newsletter() {
 export function Footer() {
   return (
     <footer className="relative overflow-hidden text-white" style={{ backgroundColor: INK }}>
+      {/* Top-right Trinidad background — soft luxury transparency anchoring
+          the "See you in Trinidad" wordmark in the actual destination. The
+          aerial of Port of Spain occupies the top-right ~3/4 of the footer
+          at 22% opacity. Two stacked gradient overlays mask the LEFT edge
+          (so the image fades into the dark void where the wordmark sits)
+          and the BOTTOM edge (so it dissolves into the INK before the link
+          columns + bottom strip). Sits BELOW the brand radials and Grain
+          so those textures still register on top of the photograph. */}
+      <div className="absolute top-0 right-0 w-full md:w-3/4 h-[55%] pointer-events-none">
+        <ImageWithFallback
+          src={HERO_IMG}
+          alt=""
+          aria-hidden="true"
+          className="absolute inset-0 w-full h-full object-cover opacity-[0.22]"
+        />
+        <div
+          className="absolute inset-0"
+          style={{
+            background: `linear-gradient(to right, ${INK} 0%, ${INK}d9 25%, transparent 70%)`,
+          }}
+        />
+        <div
+          className="absolute inset-0"
+          style={{
+            background: `linear-gradient(to bottom, transparent 35%, ${INK}99 75%, ${INK} 100%)`,
+          }}
+        />
+      </div>
       <div
         className="absolute inset-0 pointer-events-none"
         style={{
