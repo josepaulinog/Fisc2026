@@ -198,7 +198,7 @@ export default function Speakers() {
             <GradientText>public finance.</GradientText>
           </>
         }
-        subtitle="A global lineup of finance ministers, FreeBalance leaders and public sector innovators driving the next chapter of Public Financial Management."
+        subtitle="A global lineup of finance ministers, FreeBalance leaders, and public sector innovators shaping the next chapter of Public Financial Management."
         image={HERO_SPEAKERS}
       />
 

@@ -40,7 +40,7 @@ export default function Agenda() {
           <>
             Four days.
             <br />
-            One <GradientText>PFM agenda.</GradientText>
+            One <GradientText>public finance agenda.</GradientText>
           </>
         }
         subtitle="Country-led workshops, presentations and panels — alongside cultural moments across Trinidad and Tobago."

@@ -74,38 +74,45 @@ export default function Venue() {
         image={HERO_VENUE}
       />
 
-      {/* Quick facts bar — ambient shadow replaces banned shadow-xl.
-          Mobile (2x2 grid): grid divide utility paints clean dividers between
-          adjacent cells. Desktop (1x4 grid): each cell gets a left divider
-          except the first. The previous [&:nth-child(N)] hacks were brittle
-          and produced inconsistent borders at the wrap break. */}
+      {/* Quick facts bar — Doppelrand (Double-Bezel) architecture for the
+          most prominent fact surface on the page. Outer tray carries a
+          subtle warm-tinted background + hairline ring + 6px padding;
+          inner core has its own white surface + inset top highlight
+          (reads as a glass plate set into a brushed frame). Mathematically
+          calculated radius differential: outer rounded-md (8px), inner
+          rounded-sm (6px) — concentric curves with the 1.5px padding gap. */}
       <section className="relative -mt-8 md:-mt-14 z-10">
         <div className="max-w-7xl mx-auto px-5 md:px-6">
           <div
-            className="rounded-md bg-white border border-neutral-200 grid grid-cols-2 md:grid-cols-4 overflow-hidden divide-x divide-y md:divide-y-0 divide-neutral-100"
+            className="rounded-md p-1.5 bg-black/[0.03] ring-1 ring-black/[0.06]"
             style={{ boxShadow: "0 18px 50px -24px rgba(0,0,0,0.18)" }}
           >
-            {quickFacts.map((f, i) => (
-              <motion.div
-                key={f.label}
-                initial={{ opacity: 0, y: 16 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: i * 0.06 }}
-                className="px-4 md:px-6 py-4 md:py-6 flex items-center gap-3 md:gap-4 min-w-0"
-              >
-                <div
-                  className="w-10 h-10 md:w-11 md:h-11 rounded-sm flex items-center justify-center shrink-0"
-                  style={{ backgroundColor: `${BRAND}15`, color: BRAND }}
+            <div
+              className="rounded-sm bg-white grid grid-cols-2 md:grid-cols-4 overflow-hidden divide-x divide-y md:divide-y-0 divide-neutral-100"
+              style={{ boxShadow: "inset 0 1px 0 rgba(255,255,255,0.8)" }}
+            >
+              {quickFacts.map((f, i) => (
+                <motion.div
+                  key={f.label}
+                  initial={{ opacity: 0, y: 16 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: i * 0.06 }}
+                  className="px-4 md:px-6 py-4 md:py-6 flex items-center gap-3 md:gap-4 min-w-0"
                 >
-                  <f.icon size={18} strokeWidth={1.5} />
-                </div>
-                <div className="min-w-0">
-                  <div className="text-[10.5px] md:text-xs tracking-[0.18em] md:tracking-[0.2em] text-neutral-500 uppercase">{f.label}</div>
-                  <div className="tracking-tight text-neutral-950 truncate text-[0.9375rem] md:text-base">{f.value}</div>
-                </div>
-              </motion.div>
-            ))}
+                  <div
+                    className="w-10 h-10 md:w-11 md:h-11 rounded-sm flex items-center justify-center shrink-0"
+                    style={{ backgroundColor: `${BRAND}15`, color: BRAND }}
+                  >
+                    <f.icon size={18} strokeWidth={1.5} />
+                  </div>
+                  <div className="min-w-0">
+                    <div className="text-[10.5px] md:text-xs tracking-[0.18em] md:tracking-[0.2em] text-neutral-500 uppercase">{f.label}</div>
+                    <div className="tracking-tight text-neutral-950 truncate text-[0.9375rem] md:text-base">{f.value}</div>
+                  </div>
+                </motion.div>
+              ))}
+            </div>
           </div>
         </div>
       </section>
@@ -143,7 +150,7 @@ export default function Venue() {
             <div className="flex flex-col min-w-0">
               <SectionLabel>The venue</SectionLabel>
               <h2 className="tracking-[-0.02em] text-neutral-950" style={{ fontSize: "clamp(1.875rem, 3.5vw, 2.75rem)", lineHeight: 1.05 }}>
-                A waterfront <span style={{ color: BRAND }}>headquarters</span> for four days.
+                A waterfront <GradientText>headquarters</GradientText> for four days.
               </h2>
               <p className="mt-5 text-neutral-600" style={{ lineHeight: 1.7 }}>
                 All plenary sessions, workshops and the closing reception are
@@ -205,7 +212,15 @@ export default function Venue() {
             </p>
           </div>
 
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-4 [grid-auto-flow:dense]">
+          {/* Bento heights are uniform by construction. Aspect-ratio is
+              set on the GRID (8/15 mobile · 8/5 desktop) instead of on
+              individual tiles, and [grid-auto-rows:1fr] divides that
+              computed height evenly across rows. Result: every row is the
+              same height, narrow tiles (1 col) render at 4/5 portrait,
+              wide tiles spanning 2 cols render at 8/5 landscape — and they
+              line up to the pixel within a row, because the row height is
+              one source of truth instead of two competing aspect ratios. */}
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-4 aspect-[8/15] md:aspect-[8/5] [grid-auto-rows:1fr] [grid-auto-flow:dense]">
             {experiences.map((e, i) => {
               const wide = i === 0 || i === 3;
               return (
@@ -215,9 +230,9 @@ export default function Venue() {
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
                   transition={{ delay: (i % 4) * 0.06 }}
-                  className={`relative group rounded-md overflow-hidden aspect-[4/5] ${
-                    wide ? "md:col-span-2 md:aspect-[16/10]" : ""
-                  } ${i === 5 ? "col-span-2 md:col-span-2 aspect-[16/10]" : ""}`}
+                  className={`relative group rounded-md overflow-hidden ${
+                    wide ? "md:col-span-2" : ""
+                  }`}
                 >
                   <ImageWithFallback src={e.img} alt={e.title} className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-1000" />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-black/10 to-transparent" />
@@ -248,8 +263,8 @@ export default function Venue() {
           <div className="grid lg:grid-cols-12 gap-8 md:gap-12 mb-10 md:mb-14">
             <div className="lg:col-span-6">
               <SectionLabel tone="light">Travel essentials</SectionLabel>
-              <h2 className="tracking-[-0.02em] text-white" style={{ fontSize: "clamp(1.875rem, 4vw, 3rem)", lineHeight: 1.05 }}>
-                Everything you need <br className="hidden md:block" />before you land.
+              <h2 className="tracking-[-0.02em] text-white/95" style={{ fontSize: "clamp(1.875rem, 4vw, 3rem)", lineHeight: 1.05 }}>
+                Everything you need <br className="hidden md:block" /><GradientText tone="light">before you land.</GradientText>
               </h2>
             </div>
             <div className="lg:col-span-6 lg:pt-10 text-white/70" style={{ lineHeight: 1.7 }}>
@@ -259,6 +274,10 @@ export default function Venue() {
             </div>
           </div>
 
+          {/* Doppelrand essentials cards — outer hairline tray + inner darker
+              core with inset top highlight. Reads as a glass plate set into
+              a frame on the INK background. Hover deepens the inner core +
+              strengthens the outer ring (instead of swapping a flat bg). */}
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-3 md:gap-4">
             {essentials.map((e, i) => (
               <motion.div
@@ -267,16 +286,21 @@ export default function Venue() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: (i % 3) * 0.07 }}
-                className="group rounded-md border border-white/10 bg-white/[0.04] hover:bg-white/[0.07] hover:border-white/20 transition-all p-5 md:p-6"
+                className="group rounded-md p-1 bg-white/[0.03] ring-1 ring-white/[0.08] hover:ring-white/[0.16] transition-all"
               >
                 <div
-                  className="w-11 h-11 rounded-sm flex items-center justify-center mb-5"
-                  style={{ backgroundColor: `${BRAND}22`, color: BRAND_SOFT }}
+                  className="rounded-sm bg-white/[0.04] group-hover:bg-white/[0.07] transition-colors p-5 md:p-6"
+                  style={{ boxShadow: "inset 0 1px 0 rgba(255,255,255,0.06)" }}
                 >
-                  <e.icon size={18} strokeWidth={1.5} />
+                  <div
+                    className="w-11 h-11 rounded-sm flex items-center justify-center mb-5"
+                    style={{ backgroundColor: `${BRAND}22`, color: BRAND_SOFT }}
+                  >
+                    <e.icon size={18} strokeWidth={1.5} />
+                  </div>
+                  <div className="tracking-tight text-white" style={{ fontSize: "1.125rem" }}>{e.title}</div>
+                  <p className="mt-2 text-white/65" style={{ lineHeight: 1.6 }}>{e.text}</p>
                 </div>
-                <div className="tracking-tight text-white" style={{ fontSize: "1.125rem" }}>{e.title}</div>
-                <p className="mt-2 text-white/65" style={{ lineHeight: 1.6 }}>{e.text}</p>
               </motion.div>
             ))}
           </div>

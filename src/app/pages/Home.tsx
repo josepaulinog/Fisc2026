@@ -108,7 +108,7 @@ function Hero() {
           className="text-white"
           style={{ fontSize: TYPE.display, lineHeight: 0.95, letterSpacing: TRACKING.tightHeading }}
         >
-          Where finance
+          Where public finance
           <br />
           meets the{" "}
           <span className="relative inline-block">
@@ -123,9 +123,9 @@ function Hero() {
             className="lg:col-span-6"
           >
             <p className="text-white/78" style={{ fontSize: "clamp(1.1rem, 2.1vw, 1.125rem)", lineHeight: 1.55 }}>
-              The FreeBalance International Steering Committee sails to Port of Spain — four
-              days of country-led reform, co-creation and conversation under Caribbean skies.
-              Invitations for 2026 are now closed.
+              The FreeBalance International Steering Committee comes to Port of Spain for
+              four days of country-led reform, cooperation, and public financial
+              management exchange. Invitations for 2026 are now closed.
             </p>
             {/* Hero CTA — single intentional moment. The "Watch FISC 2025"
                 button used to live here, but the hero footage was already
@@ -253,16 +253,17 @@ function CountdownAndActions() {
               className="tracking-[-0.025em] text-neutral-950"
               style={{ fontSize: TYPE.h2, lineHeight: 1.05, letterSpacing: TRACKING.snug }}
             >
-              The annual gathering where <GradientText>PFM reform gets done.</GradientText>
+              The annual gathering where PFM reform <GradientText>moves from discussion to delivery.</GradientText>
             </motion.h2>
             <motion.p
               variants={fadeUp}
               className="mt-5 md:mt-6 text-neutral-600 max-w-md"
               style={{ fontSize: "1.0625rem", lineHeight: 1.6 }}
             >
-              Finance ministers, treasurers and budget directors from 40+
-              countries spend four days co-creating the next generation of
-              public financial management — country-led, no intermission.
+              Finance ministers, treasurers, budget directors, and public
+              finance leaders come together to exchange lessons, compare
+              reform journeys, and strengthen the systems that support
+              accountable government.
             </motion.p>
             <motion.div variants={fadeUpTight} className="mt-6 md:mt-8 w-fit">
               <NestedCTA
@@ -659,8 +660,8 @@ function TheRoom() {
           </div>
           <div className="lg:col-span-6 lg:pb-2">
             <p className="text-neutral-600 max-w-md" style={{ lineHeight: 1.65 }}>
-              The Government of Trinidad &amp; Tobago hosts FISC 2026, anchored by
-              300+ delegates from 40+ countries.
+              The Government of Trinidad &amp; Tobago hosts FISC 2026, anchored
+              by hundreds of delegates from more than 40 countries.
               {!isAuthed && " Sign in to see who's coming."}
             </p>
           </div>
@@ -704,9 +705,13 @@ function TheRoom() {
                           className="absolute inset-0 w-full h-full object-cover transition-fluid group-hover:scale-[1.03]"
                         />
                       ) : (
+                        // Softened placeholder — warm cream surface + muted
+                        // ink initials. The previous solid BRAND-orange fill
+                        // read as a loud product chip and broke the
+                        // protocol-grade feel of the host cards.
                         <div
-                          className="absolute inset-0 flex items-center justify-center text-white tracking-tight"
-                          style={{ backgroundColor: BRAND, fontSize: "2.5rem", fontWeight: 500 }}
+                          className="absolute inset-0 flex items-center justify-center tracking-tight"
+                          style={{ backgroundColor: "#f4efe6", color: "#737373", fontSize: "2.5rem", fontWeight: 500 }}
                         >
                           {h.name.split(" ").slice(0, 2).map((p) => p[0]).join("")}
                         </div>
@@ -789,9 +794,12 @@ function TheRoom() {
                       className="absolute inset-0 w-full h-full object-cover"
                     />
                   ) : (
+                    // Softened placeholder — matches the host-card treatment.
+                    // Warm cream + muted ink initials reads as a deliberate
+                    // "portrait pending" state rather than a loud brand chip.
                     <div
-                      className="absolute inset-0 flex items-center justify-center text-white tracking-tight"
-                      style={{ backgroundColor: BRAND, fontSize: "1.5rem", fontWeight: 500 }}
+                      className="absolute inset-0 flex items-center justify-center tracking-tight"
+                      style={{ backgroundColor: "#f4efe6", color: "#737373", fontSize: "1.5rem", fontWeight: 500 }}
                     >
                       {a.name.split(" ").slice(0, 2).map((p) => p[0]).join("")}
                     </div>

@@ -8,17 +8,17 @@ const APPROACH = [
   {
     icon: Globe,
     title: "Regional Collaboration",
-    desc: "FISC brings together finance officials, PFM practitioners and regional experts to address fiscal challenges, exchange ideas and develop cooperative solutions.",
+    desc: "Government finance leaders and PFM practitioners exchange experience across countries, regions, and reform contexts.",
   },
   {
     icon: MessagesSquare,
     title: "Knowledge Exchange",
-    desc: "Participants engage in focused discussions on fiscal policy, budget transparency and public-sector accounting practices through presentations, workshops and panels.",
+    desc: "Delegates share lessons on fiscal policy, budget transparency, digital systems, and public sector modernisation.",
   },
   {
     icon: Zap,
     title: "Applied Solutions",
-    desc: "FISC discussions translate directly into product roadmap priorities, advisory engagements and PFM tooling tailored to each country's reform stage.",
+    desc: "FISC turns discussion into practical insight, helping shape better implementation strategies and future FreeBalance solutions.",
   },
 ];
 

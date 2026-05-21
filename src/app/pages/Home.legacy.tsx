@@ -95,7 +95,7 @@ function Hero() {
           className="text-white tracking-[-0.03em]"
           style={{ fontSize: "clamp(2.75rem, 9vw, 8rem)", lineHeight: 0.95 }}
         >
-          Where finance
+          Where public finance
           <br />
           meets the{" "}
           <span className="relative inline-block">
