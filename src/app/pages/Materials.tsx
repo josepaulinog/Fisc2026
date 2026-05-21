@@ -2,7 +2,7 @@ import { useMemo, useState } from "react";
 import { motion } from "motion/react";
 import { Download, Lock, Search } from "lucide-react";
 import { GatedBody } from "../components/GatedBody";
-import { PageHero } from "../components/shared";
+import { GradientText, PageHero } from "../components/shared";
 import { BRAND, BRAND_SOFT, HERO_MATERIALS, INK, materials, type MaterialEntry } from "../data";
 import { chipTone, CHIP_HUE } from "../tokens";
 
@@ -101,7 +101,7 @@ export default function Materials() {
           { label: "Resources", to: "/resources" },
           { label: "Materials" },
         ]}
-        title={<>Every deck. Every one-pager.</>}
+        title={<>Every deck. <GradientText>Every one-pager.</GradientText></>}
         subtitle="FISC Takeaways translate four days of conversation into reform-ready briefs. Browse the full archive — gated to registered delegates."
         image={HERO_MATERIALS}
       />

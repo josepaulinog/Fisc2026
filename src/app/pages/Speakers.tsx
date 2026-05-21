@@ -195,7 +195,7 @@ export default function Speakers() {
           <>
             Voices shaping
             <br />
-            public finance.
+            <GradientText>public finance.</GradientText>
           </>
         }
         subtitle="A global lineup of finance ministers, FreeBalance leaders, and public sector innovators shaping the next chapter of Public Financial Management."

@@ -116,7 +116,7 @@ export default function SpeakerDetail() {
                 className="tracking-[-0.03em]"
                 style={{ fontSize: "clamp(2.25rem, 6vw, 5rem)", lineHeight: 1 }}
               >
-                <span className="text-white">{speaker.name}</span>
+                <GradientText tone="light">{speaker.name}</GradientText>
               </h1>
               <p
                 className="mt-5 max-w-2xl"

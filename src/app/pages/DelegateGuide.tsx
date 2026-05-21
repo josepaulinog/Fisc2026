@@ -51,7 +51,7 @@ export default function DelegateGuide() {
           { label: "Resources", to: "/resources" },
           { label: "Delegate Guide" },
         ]}
-        title={<>{delegateGuide.countryName}<br />from gate to gate.</>}
+        title={<>{delegateGuide.countryName}<br /><GradientText>from gate to gate.</GradientText></>}
         subtitle={delegateGuide.intro}
         image={HERO_GUIDE}
       />

@@ -2,7 +2,7 @@ import { useMemo, useState } from "react";
 import { Link } from "react-router";
 import { AnimatePresence, motion } from "motion/react";
 import { Download, Mic, Minus, Plus } from "lucide-react";
-import { PageHero } from "../components/shared";
+import { GradientText, PageHero } from "../components/shared";
 import { BRAND, BRAND_SOFT, HERO_AGENDA, TAG_HUES, agenda, daySlugFor } from "../data";
 import { chipTone } from "../tokens";
 import type { Session } from "../data";
@@ -131,7 +131,7 @@ export default function Agenda() {
           <>
             Four days.
             <br />
-            One PFM agenda.
+            One <GradientText>PFM agenda.</GradientText>
           </>
         }
         subtitle="Country-led workshops, presentations and panels — alongside cultural moments across Trinidad and Tobago."

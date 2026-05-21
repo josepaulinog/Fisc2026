@@ -46,7 +46,7 @@ export default function Gallery() {
         ]}
         title={
           <>
-            FISC 2026 in pictures.
+            FISC 2026 <GradientText>in pictures.</GradientText>
           </>
         }
         subtitle="Plenaries, breakouts, gala dinners and steel-pan evenings — a visual record of four days in Port of Spain."
