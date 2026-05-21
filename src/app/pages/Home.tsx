@@ -264,17 +264,14 @@ function CountdownAndActions() {
               className="tracking-[-0.025em] text-neutral-950"
               style={{ fontSize: TYPE.h2, lineHeight: 1.05, letterSpacing: TRACKING.snug }}
             >
-              Where public finance reform <GradientText>gets delivered.</GradientText>
+              A platform for<br></br><GradientText>collaborative engagement.</GradientText>
             </motion.h2>
             <motion.p
               variants={fadeUp}
               className="mt-5 md:mt-6 text-neutral-700 max-w-md"
               style={{ fontSize: "1.0625rem", lineHeight: 1.6 }}
             >
-              Finance ministers, treasurers, budget directors, and public
-              finance leaders come together to exchange lessons, compare
-              reform journeys, and strengthen the systems that support
-              accountable government.
+              FISC is the annual gathering of the FreeBalance customer community — finance ministers, treasurers, budget directors and PFM practitioners from emerging and developing nations.
             </motion.p>
 
             {/* Editorial stats row — no card chrome, just typography. Brand-
