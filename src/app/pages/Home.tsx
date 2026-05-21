@@ -108,7 +108,7 @@ function Hero() {
           className="text-white"
           style={{ fontSize: TYPE.display, lineHeight: 0.95, letterSpacing: TRACKING.tightHeading }}
         >
-          Where public finance
+          Where finance
           <br />
           meets the{" "}
           <span className="relative inline-block">

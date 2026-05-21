@@ -135,18 +135,7 @@ export default function Agenda() {
           className="absolute top-0 right-0 w-[40rem] h-[40rem] rounded-full opacity-[0.07] blur-3xl -translate-y-1/2 translate-x-1/3 pointer-events-none"
           style={{ backgroundColor: BRAND }}
         />
-        {/* Feather the cream → INK footer transition. A 160px gradient
-            strip at the section's bottom fades cream into INK so the
-            hard color jump between the last soft row and the dark footer
-            disappears. pointer-events-none so it doesn't intercept clicks
-            on the last list items above it. */}
-        <div
-          className="absolute bottom-0 inset-x-0 h-32 md:h-40 pointer-events-none"
-          style={{
-            background:
-              "linear-gradient(to bottom, rgba(246,244,239,0) 0%, rgba(246,244,239,0) 30%, #0a0a0a 100%)",
-          }}
-        />
+
         <div className="relative max-w-7xl mx-auto px-5 md:px-6">
           {/* Day header strip — folds the previous "day at a glance" line
               and the "Download programme" CTA into a single row. Brand-orange
