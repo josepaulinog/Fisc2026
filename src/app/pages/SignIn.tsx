@@ -209,7 +209,7 @@ export default function SignIn() {
             <h2 className="mt-3 tracking-[-0.02em] text-neutral-950" style={{ fontSize: "clamp(1.625rem, 4vw, 2.5rem)", lineHeight: 1.05 }}>
               Sign in to your <GradientText>invitation.</GradientText>
             </h2>
-            <p className="mt-3 text-neutral-600 text-[0.9375rem] md:text-base" style={{ lineHeight: 1.55 }}>
+            <p className="mt-3 text-neutral-700 text-[0.9375rem] md:text-base" style={{ lineHeight: 1.55 }}>
               Use the email address your invitation was sent to, plus the
               access code from the confirmation message.
             </p>
@@ -280,7 +280,7 @@ export default function SignIn() {
                 )}
               </label>
 
-              <label className="flex items-center gap-2 text-sm text-neutral-600 select-none cursor-pointer">
+              <label className="flex items-center gap-2 text-sm text-neutral-700 select-none cursor-pointer">
                 <input type="checkbox" className="accent-neutral-950 w-4 h-4" />
                 Keep me signed in on this device
               </label>
@@ -307,14 +307,14 @@ export default function SignIn() {
               <button
                 type="button"
                 onClick={() => setLostOpen(true)}
-                className="text-neutral-600 hover:text-neutral-950 transition-fluid"
+                className="text-neutral-700 hover:text-neutral-950 transition-fluid"
               >
                 Lost your access code?
               </button>
               <Link to="/" className="text-neutral-500 hover:text-neutral-950 transition-fluid">← Back to home</Link>
             </div>
 
-            <div className="mt-8 md:mt-10 p-4 rounded-md bg-neutral-50 border border-neutral-200 text-[0.8125rem] md:text-sm text-neutral-600" style={{ lineHeight: 1.55 }}>
+            <div className="mt-8 md:mt-10 p-4 rounded-md bg-neutral-50 border border-neutral-200 text-[0.8125rem] md:text-sm text-neutral-700" style={{ lineHeight: 1.55 }}>
               FISC 2026 is invitation only. If you believe you should have
               access, contact your country's delegation lead or{" "}
               <a href="mailto:fisc@freebalance.com" className="text-neutral-950 underline">fisc@freebalance.com</a>.
@@ -371,7 +371,7 @@ export default function SignIn() {
                     >
                       Lost your access code?
                     </h3>
-                    <p className="mt-3 text-neutral-600 text-[0.9375rem] md:text-sm" style={{ lineHeight: 1.55 }}>
+                    <p className="mt-3 text-neutral-700 text-[0.9375rem] md:text-sm" style={{ lineHeight: 1.55 }}>
                       Enter the invited email and we'll send a fresh six-digit code within a few minutes.
                     </p>
 
@@ -444,7 +444,7 @@ export default function SignIn() {
                     >
                       Check your inbox.
                     </h3>
-                    <p className="mt-3 text-neutral-600 text-[0.9375rem] md:text-sm" style={{ lineHeight: 1.55 }}>
+                    <p className="mt-3 text-neutral-700 text-[0.9375rem] md:text-sm" style={{ lineHeight: 1.55 }}>
                       If your email matches an invited delegate, a fresh six-digit code is on its way. Codes typically arrive within a few minutes.
                     </p>
                     <button

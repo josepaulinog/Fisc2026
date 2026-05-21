@@ -334,7 +334,7 @@ function Highlights() {
                     {session.title}
                   </h3>
                   {session.desc && (
-                    <p className="mt-3 text-neutral-600 group-hover:text-white/78 text-sm" style={{ lineHeight: 1.6 }}>
+                    <p className="mt-3 text-neutral-700 group-hover:text-white/78 text-sm" style={{ lineHeight: 1.6 }}>
                       {session.desc.length > 150 ? session.desc.slice(0, 150) + "…" : session.desc}
                     </p>
                   )}
@@ -362,7 +362,7 @@ function Destination() {
             <h2 className="tracking-[-0.02em] text-neutral-950" style={{ fontSize: "clamp(2rem, 4.5vw, 3.5rem)", lineHeight: 1.05 }}>
               Port of Spain <em className="italic">awaits.</em>
             </h2>
-            <p className="mt-5 text-neutral-600" style={{ fontSize: "1.125rem", lineHeight: 1.7 }}>
+            <p className="mt-5 text-neutral-700" style={{ fontSize: "1.125rem", lineHeight: 1.7 }}>
               FISC 2026 is hosted on the Hyatt Regency's waterfront floor — air-conditioned
               plenaries by day, Caribbean rhythm by night. The Government of Trinidad and Tobago
               joins as official host.
@@ -471,7 +471,7 @@ function Teasers() {
                   <ArrowUpRight size={18} className="opacity-60 group-hover:opacity-100 group-hover:-translate-y-1 group-hover:translate-x-1 transition" />
                 </div>
                 <div className="mt-3 tracking-tight" style={{ fontSize: "1.375rem" }}>{it.label}</div>
-                <p className="mt-2 text-neutral-600 group-hover:text-white/78">{it.desc}</p>
+                <p className="mt-2 text-neutral-700 group-hover:text-white/78">{it.desc}</p>
               </Link>
             </motion.div>
           ))}

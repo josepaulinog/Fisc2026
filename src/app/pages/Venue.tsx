@@ -152,7 +152,7 @@ export default function Venue() {
               <h2 className="tracking-[-0.02em] text-neutral-950" style={{ fontSize: "clamp(1.875rem, 3.5vw, 2.75rem)", lineHeight: 1.05 }}>
                 A waterfront <GradientText>headquarters</GradientText> for four days.
               </h2>
-              <p className="mt-5 text-neutral-600" style={{ lineHeight: 1.7 }}>
+              <p className="mt-5 text-neutral-700" style={{ lineHeight: 1.7 }}>
                 All plenary sessions, workshops and the closing reception are
                 hosted on a single floor of the Hyatt Regency — overlooking the
                 Gulf of Paria and within walking distance of downtown.
@@ -203,10 +203,10 @@ export default function Venue() {
             <div>
               <SectionLabel>Around the islands</SectionLabel>
               <h2 className="tracking-[-0.02em] text-neutral-950" style={{ fontSize: "clamp(1.875rem, 4vw, 3rem)", lineHeight: 1.05 }}>
-                Stay a while. <GradientText>Trinidad invites it.</GradientText>
+                Stay a while. <GradientText>Trinidad welcomes you.</GradientText>
               </h2>
             </div>
-            <p className="max-w-md text-neutral-600">
+            <p className="max-w-md text-neutral-700">
               Curated experiences arranged by the secretariat — from rainforest
               hikes to legendary doubles stands, all within easy reach of the venue.
             </p>
@@ -328,7 +328,7 @@ export default function Venue() {
                 <h3 className="tracking-[-0.02em] text-neutral-950" style={{ fontSize: "clamp(1.5rem, 3vw, 2rem)", lineHeight: 1.1 }}>
                   Land at <span style={{ color: BRAND }}>POS</span>. Shuttle to the venue.
                 </h3>
-                <p className="mt-4 text-neutral-600" style={{ lineHeight: 1.7 }}>
+                <p className="mt-4 text-neutral-700" style={{ lineHeight: 1.7 }}>
                   Piarco International Airport (POS) is the main gateway, with
                   daily connections from Miami, New York, London, Toronto,
                   Panama City and across the Caribbean.

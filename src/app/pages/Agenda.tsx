@@ -40,7 +40,7 @@ export default function Agenda() {
           <>
             Four days.
             <br />
-            One <GradientText>public finance agenda.</GradientText>
+            One <GradientText>PFM agenda.</GradientText>
           </>
         }
         subtitle="Country-led workshops, presentations and panels — alongside cultural moments across Trinidad and Tobago."
@@ -54,7 +54,7 @@ export default function Agenda() {
         <div className="relative max-w-7xl mx-auto px-5 md:px-6">
           {/* Lead text + download CTA */}
           <div className="flex flex-wrap items-end justify-between gap-4 md:gap-6 mb-8 md:mb-12">
-            <p className="text-neutral-600 max-w-2xl">
+            <p className="text-neutral-700 max-w-2xl">
               Choose a day to explore the full programme. Expand any session for
               speakers and quick context — or open it for the full briefing.
             </p>
@@ -94,7 +94,7 @@ export default function Agenda() {
           <motion.div
             key={`stats-${current.label}`}
             initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.35 }}
-            className="mb-6 md:mb-8 flex flex-wrap items-center gap-x-6 gap-y-3 px-1 text-sm text-neutral-600"
+            className="mb-6 md:mb-8 flex flex-wrap items-center gap-x-6 gap-y-3 px-1 text-sm text-neutral-700"
           >
             <span className="inline-flex items-center gap-2">
               <span className="w-1.5 h-1.5 rounded-full" style={{ backgroundColor: BRAND }} />
@@ -145,7 +145,7 @@ export default function Agenda() {
                     className={`group relative w-full rounded-sm border transition-fluid will-change-transform py-7 px-2 flex items-center justify-center ${
                       isActive
                         ? "bg-neutral-900 border-neutral-900 text-white shadow-[inset_0_1px_0_rgba(255,255,255,0.07),0_3px_10px_-4px_rgba(0,0,0,0.18)]"
-                        : "bg-white/60 border-neutral-200 text-neutral-600 hover:bg-white hover:border-neutral-400 hover:text-neutral-950"
+                        : "bg-white/60 border-neutral-200 text-neutral-700 hover:bg-white hover:border-neutral-400 hover:text-neutral-950"
                     }`}
                   >
                     <span
@@ -289,7 +289,7 @@ function SessionRow({
             {/* Description */}
             {session.desc && (
               <p
-                className="mt-2.5 text-neutral-600 text-[0.9375rem] md:text-base"
+                className="mt-2.5 text-neutral-700 text-[0.9375rem] md:text-base"
                 style={{ lineHeight: 1.6 }}
               >
                 {session.desc.length > 180 ? session.desc.slice(0, 180).trimEnd() + "…" : session.desc}

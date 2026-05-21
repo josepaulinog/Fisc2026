@@ -85,7 +85,7 @@ export default function DelegateGuide() {
               <h2 className="tracking-[-0.02em] text-neutral-950" style={{ fontSize: "clamp(1.75rem, 3.5vw, 2.5rem)", lineHeight: 1.05 }}>
                 Two islands. <span style={{ color: BRAND }}>One welcome.</span>
               </h2>
-              <p className="mt-4 text-neutral-600" style={{ lineHeight: 1.7 }}>
+              <p className="mt-4 text-neutral-700" style={{ lineHeight: 1.7 }}>
                 Trinidad and Tobago sit at the southernmost edge of the Caribbean — close to South America, but rhythmically and culturally a world of their own. Port of Spain hosts FISC 2026 in the heart of the capital's waterfront.
               </p>
 
@@ -172,7 +172,7 @@ export default function DelegateGuide() {
                 {delegateGuide.weather.tempC}
               </h3>
               <div className="mt-2 text-neutral-500 text-sm tracking-widest uppercase">{delegateGuide.weather.season}</div>
-              <p className="mt-4 text-neutral-600" style={{ lineHeight: 1.65 }}>{delegateGuide.weather.notes}</p>
+              <p className="mt-4 text-neutral-700" style={{ lineHeight: 1.65 }}>{delegateGuide.weather.notes}</p>
               <div className="mt-6 grid grid-cols-2 gap-3">
                 <div className="rounded-md border border-neutral-200 p-4">
                   <div className="text-xs tracking-[0.2em] uppercase text-neutral-500">Range</div>
@@ -221,7 +221,7 @@ export default function DelegateGuide() {
                       <span className={`block text-sm mt-0.5 ${done ? "text-white/55" : "text-neutral-500"}`}>{c.detail}</span>
                     )}
                   </span>
-                  <span className={`shrink-0 inline-flex items-center gap-2 px-3 py-1 rounded-md text-xs tracking-widest uppercase ${done ? "bg-white/10 text-white/78" : "bg-neutral-100 text-neutral-600"}`}>
+                  <span className={`shrink-0 inline-flex items-center gap-2 px-3 py-1 rounded-md text-xs tracking-widest uppercase ${done ? "bg-white/10 text-white/78" : "bg-neutral-100 text-neutral-700"}`}>
                     <Calendar size={12} /> {formatDeadline(c.dueDate).label}
                   </span>
                 </button>

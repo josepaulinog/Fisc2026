@@ -117,7 +117,13 @@
 }
 
 :root {
-  --font-size: 16px;
+  /* Bumped 16 → 17 to give paragraph copy a +1px lift without touching every
+     inline fontSize. Cascades through every rem-based dimension — body text,
+     padding, gaps. Pixel-sized icons (size={18} etc.) stay put. Heading
+     clamp() max values grow ~6%; that's a feature, not a bug, on big
+     screens. Ministers, executives and older delegates shouldn't need to
+     zoom in to read paragraphs. */
+  --font-size: 17px;
   --background: #ffffff;
   --foreground: oklch(0.145 0 0);
   --card: #ffffff;

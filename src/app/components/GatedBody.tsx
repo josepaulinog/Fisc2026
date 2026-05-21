@@ -44,7 +44,7 @@ export function GatedBody({ children }: { children: ReactNode }) {
         >
           This area is for registered delegates.
         </h2>
-        <p className="mt-4 text-neutral-600 max-w-md mx-auto" style={{ lineHeight: 1.65 }}>
+        <p className="mt-4 text-neutral-700 max-w-md mx-auto" style={{ lineHeight: 1.65 }}>
           Sign in with the credentials sent to your invited email to access this content.
         </p>
 

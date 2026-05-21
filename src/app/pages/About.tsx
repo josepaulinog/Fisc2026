@@ -90,7 +90,7 @@ export default function About() {
                   {p.title}
                 </div>
                 <p
-                  className="mt-2.5 md:mt-3 text-neutral-600 group-hover:text-white/78 text-[0.9375rem] md:text-base"
+                  className="mt-2.5 md:mt-3 text-neutral-700 group-hover:text-white/78 text-[0.9375rem] md:text-base"
                   style={{ lineHeight: 1.6 }}
                 >
                   {p.desc}
@@ -119,7 +119,7 @@ export default function About() {
               transition={{ delay: 0.15 }}
               className="lg:col-span-7"
             >
-              <p className="text-neutral-600" style={{ fontSize: "1.125rem", lineHeight: 1.7 }}>
+              <p className="text-neutral-700" style={{ fontSize: "1.125rem", lineHeight: 1.7 }}>
                 Together, delegates share progress, challenge assumptions and co-create the next
                 generation of FreeBalance solutions. FISC has shaped product roadmap decisions
                 that now reach governments across more than 40 countries.
@@ -209,7 +209,7 @@ export default function About() {
               </h2>
             </div>
             <div className="lg:col-span-7">
-              <p className="text-neutral-600" style={{ fontSize: "1.0625rem", lineHeight: 1.7 }}>
+              <p className="text-neutral-700" style={{ fontSize: "1.0625rem", lineHeight: 1.7 }}>
                 FISC brings together customers at every stage of their PFM modernisation journey.
                 Some have used FreeBalance solutions for over twenty-five years; others are just
                 beginning. Either way, you leave Port of Spain with peer relationships and a clearer
@@ -235,7 +235,7 @@ export default function About() {
                 <div className="mt-2.5 md:mt-3 tracking-tight text-[1.1875rem] md:text-[1.375rem]" style={{ lineHeight: 1.2 }}>
                   {b.t}
                 </div>
-                <p className="mt-2.5 md:mt-3 text-neutral-600 group-hover:text-white/78 text-[0.9375rem] md:text-base" style={{ lineHeight: 1.6 }}>
+                <p className="mt-2.5 md:mt-3 text-neutral-700 group-hover:text-white/78 text-[0.9375rem] md:text-base" style={{ lineHeight: 1.6 }}>
                   {b.d}
                 </p>
               </motion.div>
@@ -253,7 +253,7 @@ export default function About() {
           <h2 className="tracking-[-0.02em] text-neutral-950" style={{ fontSize: "clamp(1.75rem, 3.5vw, 2.5rem)", lineHeight: 1.05 }}>
             Follow the <GradientText>conversation.</GradientText>
           </h2>
-          <p className="mt-4 text-neutral-600 max-w-md mx-auto" style={{ lineHeight: 1.65 }}>
+          <p className="mt-4 text-neutral-700 max-w-md mx-auto" style={{ lineHeight: 1.65 }}>
             Public updates from FISC 2026 — reflections, recaps and news from the global PFM community.
           </p>
 

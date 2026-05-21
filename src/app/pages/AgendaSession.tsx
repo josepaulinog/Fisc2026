@@ -419,7 +419,7 @@ export default function AgendaSession() {
                       >
                         {m.title}
                       </div>
-                      <p className="mt-2 text-neutral-600 text-sm" style={{ lineHeight: 1.55 }}>
+                      <p className="mt-2 text-neutral-700 text-sm" style={{ lineHeight: 1.55 }}>
                         {m.summary.length > 110 ? m.summary.slice(0, 110) + "…" : m.summary}
                       </p>
                       <div className="mt-5 flex items-center justify-between border-t border-neutral-100 pt-4">
@@ -568,7 +568,7 @@ export default function AgendaSession() {
 
           <Link
             to="/agenda"
-            className="mt-8 inline-flex items-center gap-2 text-sm text-neutral-600 hover:text-neutral-950 transition"
+            className="mt-8 inline-flex items-center gap-2 text-sm text-neutral-700 hover:text-neutral-950 transition"
           >
             <ArrowLeft size={14} /> Back to full agenda
           </Link>

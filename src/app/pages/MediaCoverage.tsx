@@ -35,7 +35,7 @@ function MediaCard({ m, i }: { m: MediaItem; i: number }) {
       </div>
       <div className="tracking-tight text-neutral-950" style={{ fontSize: "1.125rem", lineHeight: 1.3 }}>{m.title}</div>
       {m.excerpt && (
-        <p className="mt-3 text-neutral-600 text-sm" style={{ lineHeight: 1.6 }}>{m.excerpt}</p>
+        <p className="mt-3 text-neutral-700 text-sm" style={{ lineHeight: 1.6 }}>{m.excerpt}</p>
       )}
       <div className="mt-5 flex items-center justify-between border-t border-neutral-100 pt-4">
         <div className="flex items-center gap-3 text-sm">

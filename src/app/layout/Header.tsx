@@ -216,7 +216,7 @@ export function Header() {
                 </>
               ) : (
                 <>
-                  <span className="hidden md:inline-flex items-center gap-2 px-3 py-1.5 rounded-sm bg-black/[0.04] ring-1 ring-black/[0.04] text-neutral-600 text-[0.8125rem]">
+                  <span className="hidden md:inline-flex items-center gap-2 px-3 py-1.5 rounded-sm bg-black/[0.04] ring-1 ring-black/[0.04] text-neutral-700 text-[0.8125rem]">
                     <span className="w-1.5 h-1.5 rounded-full bg-neutral-400" />
                     Invitation only
                   </span>
@@ -420,7 +420,7 @@ export function Header() {
                   </>
                 ) : (
                   <>
-                    <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded bg-neutral-100 text-neutral-600 text-sm">
+                    <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded bg-neutral-100 text-neutral-700 text-sm">
                       <span className="w-1.5 h-1.5 rounded-full bg-neutral-400" />
                       Invitation only
                     </div>

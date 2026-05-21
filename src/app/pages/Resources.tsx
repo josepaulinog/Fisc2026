@@ -23,7 +23,7 @@ export default function Resources() {
         <div className="max-w-7xl mx-auto px-5 md:px-6">
           <div className="grid lg:grid-cols-12 gap-10 md:gap-16 items-start">
             <div className="lg:col-span-5">
-              <p className="text-neutral-600 max-w-md" style={{ lineHeight: 1.7 }}>
+              <p className="text-neutral-700 max-w-md" style={{ lineHeight: 1.7 }}>
                 Sign in with the credentials sent to your invited email to view
                 the protected resources below.
               </p>
@@ -63,7 +63,7 @@ export default function Resources() {
                       </div>
                     </div>
                     <div className="mt-5 tracking-tight text-neutral-950 group-hover:text-white" style={{ fontSize: "1.125rem" }}>{r.label}</div>
-                    <p className="mt-2 text-neutral-600 group-hover:text-white/78 text-sm" style={{ lineHeight: 1.55 }}>{r.desc}</p>
+                    <p className="mt-2 text-neutral-700 group-hover:text-white/78 text-sm" style={{ lineHeight: 1.55 }}>{r.desc}</p>
                   </Link>
                 </motion.div>
               ))}

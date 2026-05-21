@@ -60,7 +60,7 @@ function MaterialCard({ m, i }: { m: MaterialEntry; i: number }) {
         <div className="tracking-tight text-neutral-950" style={{ fontSize: "1.0625rem", lineHeight: 1.3 }}>
           {m.title}
         </div>
-        <p className="mt-2 text-neutral-600 text-sm" style={{ lineHeight: 1.55 }}>
+        <p className="mt-2 text-neutral-700 text-sm" style={{ lineHeight: 1.55 }}>
           {m.summary}
         </p>
         <div className="mt-4 flex items-center justify-between">

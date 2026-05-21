@@ -246,7 +246,7 @@ const VARIANT_STYLES: Record<ToastVariant, VariantStyle> = {
     ring: "ring-emerald-200/70",
     iconWell: "bg-emerald-50 text-emerald-700",
     title: "text-neutral-950",
-    desc: "text-neutral-600",
+    desc: "text-neutral-700",
     close: "text-neutral-400 hover:bg-black/[0.05] hover:text-neutral-700",
   },
   error: {
@@ -255,7 +255,7 @@ const VARIANT_STYLES: Record<ToastVariant, VariantStyle> = {
     ring: "ring-red-200/70",
     iconWell: "bg-red-50 text-red-700",
     title: "text-neutral-950",
-    desc: "text-neutral-600",
+    desc: "text-neutral-700",
     close: "text-neutral-400 hover:bg-black/[0.05] hover:text-neutral-700",
   },
   info: {
@@ -264,7 +264,7 @@ const VARIANT_STYLES: Record<ToastVariant, VariantStyle> = {
     ring: "ring-black/[0.06]",
     iconWell: "bg-neutral-100 text-neutral-700",
     title: "text-neutral-950",
-    desc: "text-neutral-600",
+    desc: "text-neutral-700",
     close: "text-neutral-400 hover:bg-black/[0.05] hover:text-neutral-700",
   },
   loading: {

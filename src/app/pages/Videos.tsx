@@ -84,7 +84,7 @@ function VideoCard({ v, i }: { v: VideoEntry; i: number }) {
           {v.title}
         </div>
         {v.description && (
-          <p className="mt-2 text-neutral-600 text-sm" style={{ lineHeight: 1.55 }}>{v.description}</p>
+          <p className="mt-2 text-neutral-700 text-sm" style={{ lineHeight: 1.55 }}>{v.description}</p>
         )}
       </div>
     </motion.a>

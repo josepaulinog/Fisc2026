@@ -204,7 +204,7 @@ function CountdownAndActions() {
   const deadlineToneClasses: Record<DeadlineTone, string> = {
     overdue: "bg-red-50 text-red-700",
     soon: "bg-orange-50 text-orange-700",
-    future: "bg-neutral-100 text-neutral-600",
+    future: "bg-neutral-100 text-neutral-700",
   };
 
   const firstName = user ? firstNameOf(user.name) : null;
@@ -257,7 +257,7 @@ function CountdownAndActions() {
             </motion.h2>
             <motion.p
               variants={fadeUp}
-              className="mt-5 md:mt-6 text-neutral-600 max-w-md"
+              className="mt-5 md:mt-6 text-neutral-700 max-w-md"
               style={{ fontSize: "1.0625rem", lineHeight: 1.6 }}
             >
               Finance ministers, treasurers, budget directors, and public
@@ -659,9 +659,9 @@ function TheRoom() {
             </h2>
           </div>
           <div className="lg:col-span-6 lg:pb-2">
-            <p className="text-neutral-600 max-w-md" style={{ lineHeight: 1.65 }}>
-              The Government of Trinidad &amp; Tobago hosts FISC 2026, anchored
-              by hundreds of delegates from more than 40 countries.
+            <p className="text-neutral-700 max-w-md" style={{ lineHeight: 1.65 }}>
+              The Government of Trinidad &amp; Tobago hosts FISC 2026, welcoming
+              delegates from across the FreeBalance customer community.
               {!isAuthed && " Sign in to see who's coming."}
             </p>
           </div>
@@ -846,7 +846,7 @@ function TheRoom() {
         )}
 
         <div className="mt-8 md:mt-10 flex flex-wrap items-center justify-between gap-4">
-          <div className="inline-flex items-center gap-2 text-neutral-600 text-sm">
+          <div className="inline-flex items-center gap-2 text-neutral-700 text-sm">
             <span className="w-1.5 h-1.5 rounded-full" style={{ backgroundColor: BRAND }} />
             {isAuthed
               ? "Updated daily by the secretariat"
@@ -909,14 +909,14 @@ const SITE_UPDATES: SiteUpdate[] = [
   {
     date: "May 5, 2026",
     category: "Host country",
-    title: "Prime Minister Persad-Bissessar joins as host",
+    title: "Prime Minister confirmed as host",
     excerpt: "The Hon. Kamla Persad-Bissessar confirmed for the opening remarks alongside Minister Tancoo.",
     to: "/speakers/kamla-persad-bissessar",
   },
   {
     date: "Apr 28, 2026",
     category: "Materials",
-    title: "Four new FISC Takeaways uploaded",
+    title: "New FISC takeaways added",
     excerpt: "Workshop slides and one-pagers from the latest secretariat sessions are in the library.",
     to: "/materials",
   },
@@ -927,7 +927,7 @@ const SITE_UPDATES: SiteUpdate[] = [
     // made the "posts here weekly" line feel like marketing fiction.
     date: "Apr 22, 2026",
     category: "Recap",
-    title: "Watch the FISC 2025 highlight reel",
+    title: "FISC 2025 highlights now available",
     excerpt: "Twelve minutes of last year's gathering in Dili — opening remarks, workshop floors, and the closing roadmap vote.",
     to: "/videos",
   },
@@ -953,7 +953,7 @@ function WhatsNew() {
             </h2>
           </div>
           <div className="lg:col-span-6 lg:pb-2">
-            <p className="text-neutral-600 max-w-md" style={{ lineHeight: 1.65 }}>
+            <p className="text-neutral-700 max-w-md" style={{ lineHeight: 1.65 }}>
               The secretariat posts here weekly with programme changes, host
               announcements and material drops. Bookmark if you're checking
               between visits.
@@ -993,7 +993,7 @@ function WhatsNew() {
                     <div className="tracking-tight text-neutral-950" style={{ fontSize: "1.0625rem", lineHeight: 1.3, fontWeight: 500 }}>
                       {u.title}
                     </div>
-                    <p className="mt-1 text-neutral-600 text-[15px]" style={{ lineHeight: 1.55 }}>
+                    <p className="mt-1 text-neutral-700 text-[15px]" style={{ lineHeight: 1.55 }}>
                       {u.excerpt}
                     </p>
                   </div>

@@ -389,7 +389,7 @@ export default function Profile() {
                           initial={{ opacity: 0, y: 4 }}
                           animate={{ opacity: 1, y: 0 }}
                           exit={{ opacity: 0, y: -4 }}
-                          className="flex items-center gap-2 text-[12.5px] text-neutral-600"
+                          className="flex items-center gap-2 text-[12.5px] text-neutral-700"
                         >
                           <Loader2 size={12} strokeWidth={1.75} className="animate-spin text-neutral-500" />
                           <span className="truncate">Uploading {uploadStatus.fileName}…</span>
@@ -615,7 +615,7 @@ export default function Profile() {
                   <button
                     type="button"
                     onClick={onDiscard}
-                    className="inline-flex items-center gap-1.5 px-3 py-2 rounded-sm text-sm text-neutral-600 hover:text-neutral-950 transition-fluid"
+                    className="inline-flex items-center gap-1.5 px-3 py-2 rounded-sm text-sm text-neutral-700 hover:text-neutral-950 transition-fluid"
                   >
                     <RotateCcw size={13} strokeWidth={1.5} /> Discard
                   </button>

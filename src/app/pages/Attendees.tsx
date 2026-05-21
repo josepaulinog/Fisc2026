@@ -53,7 +53,7 @@ function AttendeeCard({ a, i }: { a: AttendeeEntry; i: number }) {
             {a.salutation ? `${a.salutation} ` : ""}
             {a.name}
           </div>
-          <div className="text-neutral-600 group-hover:text-white/78 text-sm leading-snug mt-0.5">
+          <div className="text-neutral-700 group-hover:text-white/78 text-sm leading-snug mt-0.5">
             {a.role}
           </div>
           <div className="mt-1.5 inline-flex items-center gap-1.5 text-xs tracking-widest uppercase text-neutral-400 group-hover:text-white/65">
@@ -141,7 +141,7 @@ export default function Attendees() {
                 {attendees.length} delegates confirmed,{" "}
                 <span style={{ color: BRAND }}>{Object.keys(countByCountry).length} countries</span>.
               </h2>
-              <p className="mt-3 text-neutral-600 max-w-2xl" style={{ lineHeight: 1.65 }}>
+              <p className="mt-3 text-neutral-700 max-w-2xl" style={{ lineHeight: 1.65 }}>
                 Delegation leads coordinate logistics for each country. Reach out via the secretariat
                 if you need to reroute correspondence to a specific delegate.
               </p>
