@@ -128,12 +128,24 @@ export default function Agenda() {
       </PageHero>
 
       <section
-        className="py-10 md:py-16 relative overflow-hidden"
+        className="py-10 md:py-16 pb-32 md:pb-40 relative overflow-hidden"
         style={{ backgroundColor: "#f6f4ef" }}
       >
         <div
           className="absolute top-0 right-0 w-[40rem] h-[40rem] rounded-full opacity-[0.07] blur-3xl -translate-y-1/2 translate-x-1/3 pointer-events-none"
           style={{ backgroundColor: BRAND }}
+        />
+        {/* Feather the cream → INK footer transition. A 160px gradient
+            strip at the section's bottom fades cream into INK so the
+            hard color jump between the last soft row and the dark footer
+            disappears. pointer-events-none so it doesn't intercept clicks
+            on the last list items above it. */}
+        <div
+          className="absolute bottom-0 inset-x-0 h-32 md:h-40 pointer-events-none"
+          style={{
+            background:
+              "linear-gradient(to bottom, rgba(246,244,239,0) 0%, rgba(246,244,239,0) 30%, #0a0a0a 100%)",
+          }}
         />
         <div className="relative max-w-7xl mx-auto px-5 md:px-6">
           {/* Day header strip — folds the previous "day at a glance" line
@@ -179,7 +191,7 @@ export default function Agenda() {
             initial={{ opacity: 0, y: 12 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.35, ease: [0.32, 0.72, 0, 1] }}
-            className="space-y-2.5 md:space-y-3"
+            className="space-y-1.5 md:space-y-2"
           >
             {current.sessions.map((s, i) => {
               const key = `${current.label}-${i}`;
@@ -238,15 +250,25 @@ function SessionRow({
   const isSoft = !session.tag && !hasSpeakers && !session.briefing;
 
   if (isSoft) {
+    // Soft rows get a small brand-orange dot prefix, matching the page
+    // eyebrow style, so they read as "still part of the schedule" rather
+    // than as detached text between cards. Slightly more vertical padding
+    // (py-4) than before (py-3) gives them measurable presence in the
+    // list — the previous treatment dropped to ~50px row height which
+    // broke the rhythm against ~160px cards above and below.
     return (
-      <li className="flex items-center gap-5 md:gap-8 px-5 md:px-7 py-3 md:py-3.5">
+      <li className="flex items-center gap-4 md:gap-8 px-5 md:px-7 py-4 md:py-4">
+        <span
+          aria-hidden="true"
+          className="w-1 h-1 rounded-full bg-neutral-300 shrink-0"
+        />
         <div
-          className="shrink-0 w-[100px] md:w-[130px] tabular-nums text-neutral-400"
-          style={{ fontSize: "0.875rem", lineHeight: 1.25, fontWeight: 500 }}
+          className="shrink-0 w-[90px] md:w-[120px] tabular-nums text-neutral-500"
+          style={{ fontSize: "0.8125rem", lineHeight: 1.25, fontWeight: 500, letterSpacing: "0.01em" }}
         >
           {fmtTime(session.time)}
         </div>
-        <div className="text-neutral-500" style={{ fontSize: "0.9375rem" }}>
+        <div className="text-neutral-700" style={{ fontSize: "0.9375rem", fontWeight: 500 }}>
           {session.title}
         </div>
       </li>
@@ -262,11 +284,14 @@ function SessionRow({
     <li className="relative rounded-md bg-white ring-1 ring-black/[0.05] shadow-[0_4px_18px_-12px_rgba(0,0,0,0.1)] transition-fluid hover:shadow-[0_10px_28px_-14px_rgba(0,0,0,0.16)] overflow-hidden">
       {/* Expand button — absolute top-right, anchored consistently across
           mobile (stacked layout) and desktop (row layout). Whole card is
-          still the hit target; this is the affordance. */}
+          still the hit target; this is the affordance. Bumped contrast
+          from bg-neutral-100 / text-neutral-500 to a ringed neutral-150-ish
+          surface with text-neutral-700 — the previous treatment was nearly
+          invisible at desktop reading distance. */}
       {hasExpansion && (
         <span
           aria-hidden="true"
-          className="absolute top-4 right-4 md:top-5 md:right-5 w-9 h-9 rounded-sm bg-neutral-100 flex items-center justify-center text-neutral-500 transition-fluid pointer-events-none"
+          className="absolute top-4 right-4 md:top-5 md:right-5 w-9 h-9 rounded-sm bg-neutral-100 ring-1 ring-black/[0.06] flex items-center justify-center text-neutral-700 transition-fluid pointer-events-none"
         >
           {expanded ? (
             <Minus size={14} strokeWidth={1.75} />

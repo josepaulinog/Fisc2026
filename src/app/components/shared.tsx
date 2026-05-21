@@ -214,15 +214,18 @@ export function PageHero({
       <div
         className="absolute inset-0"
         style={{
-          /* Overlay lightened so the underlying photograph carries more
-             of the visual weight on internal page heroes. Top still
-             carries enough darkness for the SectionLabel/breadcrumbs +
-             headline to read at AA contrast; the middle drops to ~30%
-             alpha so the image breathes, and the bottom stays at ~50%
-             for the imageCaption. Homepage uses its own custom hero
-             with the rocky.mp4 video, so this change doesn't touch it. */
+          /* Overlay tuned for headline contrast over busy photography.
+             Top stays heavy (0.75) so the SectionLabel + headline read
+             at AA contrast even when faces / detail compete underneath
+             — the previous 0.65 floor was readable but the agenda hero
+             showed how easily portraits-through-glass could fight the
+             text. Middle drops to ~30% so the image breathes; bottom
+             stays at ~55% so the in-hero slot (e.g. Agenda day tabs)
+             has enough darkness behind it to sit clean. Homepage uses
+             its own custom hero with the rocky.mp4 video; this change
+             doesn't touch it. */
           background: image
-            ? `radial-gradient(ellipse at 85% 0%, ${BRAND}44 0%, transparent 55%), linear-gradient(180deg, rgba(10,10,10,0.65) 0%, rgba(10,10,10,0.3) 40%, rgba(10,10,10,0.5) 100%)`
+            ? `radial-gradient(ellipse at 85% 0%, ${BRAND}44 0%, transparent 55%), linear-gradient(180deg, rgba(10,10,10,0.75) 0%, rgba(10,10,10,0.35) 45%, rgba(10,10,10,0.55) 100%)`
             : `radial-gradient(ellipse at 80% 10%, ${BRAND}55 0%, transparent 50%), linear-gradient(180deg, #0a0a0a 0%, transparent 40%, #0a0a0a 100%)`,
         }}
       />
