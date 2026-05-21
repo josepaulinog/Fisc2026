@@ -107,7 +107,7 @@ export default function Videos() {
           { label: "Resources", to: "/resources" },
           { label: "Videos" },
         ]}
-        title={<>Watch the week.<br /><GradientText>On your time.</GradientText></>}
+        title={<>Watch the week.<br />On your time.</>}
         subtitle="Daily highlight reels and short features from FISC 2026 — captured live in Port of Spain."
         image={HERO_VIDEOS}
       />

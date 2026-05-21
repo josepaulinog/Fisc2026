@@ -149,3 +149,62 @@ export const Z = {
   modal: "z-[70]",
   overlay: "z-[100]",
 } as const;
+
+// ─── Radius scale ────────────────────────────────────────────────────────
+// Four explicit tiers. Tailwind's rounded-sm/md/lg/xl/2xl/3xl/full all
+// appeared somewhere in the codebase pre-cleanup; the result was that
+// "this is a card" and "this is a media tile" weren't visually
+// distinguishable. Now: chips are crisp, cards are mid, media is soft,
+// pills are full. Anything outside this set deserves a comment justifying it.
+
+export const RADIUS = {
+  /** Chips, tags, time pills, dense list items, inner cores of double-bezels. */
+  chip: "rounded-sm",
+  /** Cards, containers, content surfaces, outer trays of double-bezels. */
+  card: "rounded-md",
+  /** Image tiles, photo cards, video posters, hero overlays. */
+  media: "rounded-2xl",
+  /** Buttons, avatars, status dots, anything circular. */
+  pill: "rounded-full",
+} as const;
+
+// ─── Chip color tones (OKLCH) ────────────────────────────────────────────
+// Single source of truth for tinted category chips. The old approach
+// (`bg: #hex+alpha15, fg: #hex`) gave wildly different perceptual lightness
+// across hues — a 15%-alpha orange and a 15%-alpha blue read as completely
+// different darknesses even though they're "the same colour at the same
+// opacity". OKLCH locks lightness and chroma; only the hue varies, so a
+// row of mixed-hue chips reads as a coordinated family.
+//
+// Hue reference:
+//   30   orange (Programme · PFM · Brand)
+//   60   yellow-ochre (rarely used)
+//   145  green (Host country · Workshop · Performance)
+//   215  electric blue (Logistics · AI)
+//   285  purple (Assessments · Reform)
+//   25   warm orange-red (Recap · Burnt)
+//
+// (Gray neutral: use { bg: "oklch(95% 0 0)", fg: "oklch(40% 0 0)" } directly
+// since chroma 0 ignores the hue entirely.)
+
+export function chipTone(hue: number) {
+  return {
+    bg: `oklch(95% 0.05 ${hue})`,
+    fg: `oklch(40% 0.13 ${hue})`,
+  } as const;
+}
+
+export const CHIP_HUE = {
+  brand: 30,
+  programme: 30,
+  pfm: 30,
+  workshop: 145,
+  performance: 145,
+  hostCountry: 145,
+  logistics: 215,
+  ai: 215,
+  assessments: 285,
+  reform: 25,
+  recap: 25,
+  product: 0, // gray neutral — chroma override at the call-site
+} as const;

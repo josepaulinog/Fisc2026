@@ -89,7 +89,7 @@ function FeaturedCard({ s, accent = false }: { s: Speaker; accent?: boolean }) {
         />
         <Grain />
         <div className="absolute top-5 left-5 right-5 flex items-start justify-between">
-          <span className="inline-flex items-center gap-2 px-2.5 py-1 rounded-sm bg-white/10 backdrop-blur border border-white/15 text-white/80 text-xs tracking-[0.2em]">
+          <span className="inline-flex items-center gap-2 px-2.5 py-1 rounded-sm bg-black/45 backdrop-blur-sm border border-white/15 text-white text-xs tracking-[0.2em]" style={{ fontWeight: 500 }}>
             KEYNOTE
           </span>
           <span
@@ -195,7 +195,7 @@ export default function Speakers() {
           <>
             Voices shaping
             <br />
-            <GradientText>public finance.</GradientText>
+            public finance.
           </>
         }
         subtitle="A global lineup of finance ministers, FreeBalance leaders, and public sector innovators shaping the next chapter of Public Financial Management."
@@ -237,7 +237,7 @@ export default function Speakers() {
               })}
             </div>
 
-            <label className="flex items-center gap-2 bg-neutral-50 border border-neutral-200 rounded-sm px-4 py-2 md:w-72 focus-within:border-neutral-950 transition">
+            <label className="flex items-center gap-2 bg-white border border-neutral-200 rounded-sm px-4 py-2.5 md:w-72 focus-within:border-neutral-950 transition">
               <Search size={16} strokeWidth={1.5} className="text-neutral-400 shrink-0" />
               <input
                 type="text"

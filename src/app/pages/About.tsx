@@ -66,7 +66,7 @@ export default function About() {
               className="tracking-[-0.02em] text-neutral-950 max-w-2xl mx-auto"
               style={{ fontSize: "clamp(1.875rem, 4vw, 3rem)", lineHeight: 1.05 }}
             >
-              A platform for <GradientText>collaborative engagement.</GradientText>
+              A platform for collaborative engagement.
             </h2>
           </div>
 
@@ -185,9 +185,9 @@ export default function About() {
             <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/10 to-transparent" />
             <div className="absolute bottom-5 md:bottom-7 left-5 md:left-7 right-5 md:right-7 text-white flex items-end justify-between gap-4">
               <div>
-                <div className="tracking-widest text-white/70 text-sm">EST. 2007</div>
+                <div className="tracking-widest text-white/70 text-sm">EST. 2007 · DILI 2025</div>
                 <div className="mt-1 tracking-tight" style={{ fontSize: "clamp(1.25rem, 3vw, 1.75rem)" }}>
-                  18 editions, one community.
+                  The delegation, last year.
                 </div>
               </div>
               <button className="group/btn w-11 h-11 md:w-12 md:h-12 rounded-full bg-white/10 border border-white/30 backdrop-blur flex items-center justify-center hover:bg-white hover:text-neutral-950 transition shrink-0">
@@ -205,7 +205,7 @@ export default function About() {
             <div className="lg:col-span-5">
               <SectionLabel>Key benefits</SectionLabel>
               <h2 className="tracking-[-0.02em] text-neutral-950" style={{ fontSize: "clamp(1.875rem, 4vw, 3rem)", lineHeight: 1.05 }}>
-                Why delegates <GradientText>keep coming back.</GradientText>
+                Why delegates keep coming back.
               </h2>
             </div>
             <div className="lg:col-span-7">
@@ -218,7 +218,11 @@ export default function About() {
             </div>
           </div>
 
-          <div className="grid sm:grid-cols-2 gap-4 md:gap-5">
+          {/* Editorial 2-col grid — borderless rows separated by hairlines.
+              Reads differently from the bordered/hover-invert "Our approach"
+              cards above, which is the design point. The big tabular numeral
+              sits left of each title; the body breathes alongside. */}
+          <div className="grid sm:grid-cols-2 gap-x-8 md:gap-x-12 gap-y-0">
             {BENEFITS.map((b, i) => (
               <motion.div
                 key={b.t}
@@ -226,18 +230,26 @@ export default function About() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: (i % 2) * 0.1 }}
-                className="group p-5 md:p-8 rounded-md border border-neutral-200 bg-white hover:border-neutral-950 hover:bg-neutral-950 hover:text-white transition-all"
+                className={`group py-6 md:py-8 border-t border-neutral-200 sm:[&:nth-child(-n+2)]:border-t ${
+                  i >= 2 ? "" : ""
+                }`}
               >
-                <div className="flex items-start justify-between">
-                  <span className="tracking-widest text-neutral-400 group-hover:text-white/65 text-[0.8125rem] md:text-sm">{b.n}</span>
-                  <ArrowUpRight size={18} strokeWidth={1.5} className="opacity-0 group-hover:opacity-100 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition" />
+                <div className="flex items-baseline gap-4 md:gap-5">
+                  <span
+                    className="tabular-nums tracking-tight text-neutral-300 shrink-0"
+                    style={{ fontSize: "clamp(1.625rem, 2.5vw, 2rem)", lineHeight: 1, fontWeight: 300 }}
+                  >
+                    {b.n}
+                  </span>
+                  <div className="min-w-0 flex-1">
+                    <div className="tracking-tight text-neutral-950 text-[1.0625rem] md:text-[1.1875rem]" style={{ lineHeight: 1.25, fontWeight: 500 }}>
+                      {b.t}
+                    </div>
+                    <p className="mt-2 text-neutral-700 max-w-[55ch]" style={{ fontSize: "1rem", lineHeight: 1.6 }}>
+                      {b.d}
+                    </p>
+                  </div>
                 </div>
-                <div className="mt-2.5 md:mt-3 tracking-tight text-[1.1875rem] md:text-[1.375rem]" style={{ lineHeight: 1.2 }}>
-                  {b.t}
-                </div>
-                <p className="mt-2.5 md:mt-3 text-neutral-700 group-hover:text-white/78 text-[0.9375rem] md:text-base" style={{ lineHeight: 1.6 }}>
-                  {b.d}
-                </p>
               </motion.div>
             ))}
           </div>
@@ -251,7 +263,7 @@ export default function About() {
             <SectionLabel>Stay connected</SectionLabel>
           </div>
           <h2 className="tracking-[-0.02em] text-neutral-950" style={{ fontSize: "clamp(1.75rem, 3.5vw, 2.5rem)", lineHeight: 1.05 }}>
-            Follow the <GradientText>conversation.</GradientText>
+            Follow the conversation.
           </h2>
           <p className="mt-4 text-neutral-700 max-w-md mx-auto" style={{ lineHeight: 1.65 }}>
             Public updates from FISC 2026 — reflections, recaps and news from the global PFM community.

@@ -51,7 +51,7 @@ export default function DelegateGuide() {
           { label: "Resources", to: "/resources" },
           { label: "Delegate Guide" },
         ]}
-        title={<>{delegateGuide.countryName}<br /><GradientText>from gate to gate.</GradientText></>}
+        title={<>{delegateGuide.countryName}<br />from gate to gate.</>}
         subtitle={delegateGuide.intro}
         image={HERO_GUIDE}
       />
@@ -83,7 +83,7 @@ export default function DelegateGuide() {
                 </span>
               </div>
               <h2 className="tracking-[-0.02em] text-neutral-950" style={{ fontSize: "clamp(1.75rem, 3.5vw, 2.5rem)", lineHeight: 1.05 }}>
-                Two islands. <span style={{ color: BRAND }}>One welcome.</span>
+                Land smoothly. Arrive ready.
               </h2>
               <p className="mt-4 text-neutral-700" style={{ lineHeight: 1.7 }}>
                 Trinidad and Tobago sit at the southernmost edge of the Caribbean — close to South America, but rhythmically and culturally a world of their own. Port of Spain hosts FISC 2026 in the heart of the capital's waterfront.

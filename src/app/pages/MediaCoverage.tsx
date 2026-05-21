@@ -78,7 +78,7 @@ export default function MediaCoverage() {
           { label: "Resources", to: "/resources" },
           { label: "Media coverage" },
         ]}
-        title={<>How the world is <GradientText>writing about FISC.</GradientText></>}
+        title={<>How the world is writing about FISC.</>}
         subtitle="Press articles, broadcast clips and social posts covering the road to Port of Spain and the conference itself."
         image={HERO_MEDIA}
       />

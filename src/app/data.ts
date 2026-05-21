@@ -261,11 +261,19 @@ export const agenda: AgendaDay[] = [
   },
 ];
 
-export const TAG_COLORS: Record<string, string> = {
-  Presentation: "#fd6b18",
-  Workshop: "#16a34a",
-  Demonstration: "#2563eb",
-  Panel: "#a855f7",
+// Tag tones — now maps each agenda tag to a hue used by chipTone(). The
+// previous hex strings + per-call-site #hex+18 alpha math gave inconsistent
+// perceptual lightness across hues. OKLCH-locked lightness/chroma normalises
+// the visual weight so a chip stack of mixed tags reads as one family.
+//
+// Call sites consume `chipTone(TAG_HUES[tag])` for {bg, fg} shapes, or
+// `chipTone(TAG_HUES[tag]).fg` when only the foreground accent is needed
+// (e.g. tinted-text on the day-at-a-glance strip).
+export const TAG_HUES: Record<string, number> = {
+  Presentation: 30,     // brand orange
+  Workshop: 145,        // green
+  Demonstration: 215,   // blue
+  Panel: 285,           // purple
 };
 
 export type SpeakerEntry = {

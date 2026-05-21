@@ -28,7 +28,7 @@ import {
   staggerSection,
   useCountUp,
 } from "../motion";
-import { TYPE, TRACKING } from "../tokens";
+import { TYPE, TRACKING, chipTone, CHIP_HUE } from "../tokens";
 import { useAuth } from "../auth";
 import { useChecklist } from "../checklist";
 import { firstNameOf } from "../profile";
@@ -933,12 +933,16 @@ const SITE_UPDATES: SiteUpdate[] = [
   },
 ];
 
+// Category chips now sourced from chipTone(hue) — single OKLCH function
+// locks lightness and chroma so the five chips read as a coordinated family
+// regardless of hue. Previous hex+alpha15 approach gave wildly different
+// perceptual lightness across saturated source hues.
 const CATEGORY_TONES: Record<SiteUpdate["category"], { bg: string; fg: string }> = {
-  Programme: { bg: "#fd6b1815", fg: "#c64b00" },
-  Logistics: { bg: "#2563eb15", fg: "#1e40af" },
-  "Host country": { bg: "#16a34a15", fg: "#0f6b34" },
-  Materials: { bg: "#a855f715", fg: "#6b21a8" },
-  Recap: { bg: "#dc262615", fg: "#991b1b" },
+  Programme: chipTone(CHIP_HUE.programme),
+  Logistics: chipTone(CHIP_HUE.logistics),
+  "Host country": chipTone(CHIP_HUE.hostCountry),
+  Materials: chipTone(CHIP_HUE.assessments),
+  Recap: chipTone(CHIP_HUE.recap),
 };
 
 function WhatsNew() {

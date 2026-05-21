@@ -186,37 +186,47 @@ export function Newsletter() {
   );
 }
 
-export function Footer() {
+type FooterProps = {
+  /**
+   * Render the giant "See you in Trinidad." wordmark + the two big CTA cards
+   * (delegate portal + press contact). These are the closing-moment elements
+   * and only belong on the Home page — a 224px headline can only land once
+   * per session, and the two big cards repeat affordances that the rest of
+   * the site already exposes via the nav. Everywhere else, just the meta
+   * strip + link columns + bottom attribution render.
+   */
+  variant?: "full" | "compact";
+};
+
+export function Footer({ variant = "compact" }: FooterProps = {}) {
+  const showClosingBand = variant === "full";
   return (
     <footer className="relative overflow-hidden text-white" style={{ backgroundColor: INK }}>
-      {/* Top-right Trinidad background — soft luxury transparency anchoring
-          the "See you in Trinidad" wordmark in the actual destination. The
-          aerial of Port of Spain occupies the top-right ~3/4 of the footer
-          at 22% opacity. Two stacked gradient overlays mask the LEFT edge
-          (so the image fades into the dark void where the wordmark sits)
-          and the BOTTOM edge (so it dissolves into the INK before the link
-          columns + bottom strip). Sits BELOW the brand radials and Grain
-          so those textures still register on top of the photograph. */}
-      <div className="absolute top-0 right-0 w-full md:w-3/4 h-[55%] pointer-events-none">
-        <ImageWithFallback
-          src={HERO_IMG}
-          alt=""
-          aria-hidden="true"
-          className="absolute inset-0 w-full h-full object-cover opacity-[0.22]"
-        />
-        <div
-          className="absolute inset-0"
-          style={{
-            background: `linear-gradient(to right, ${INK} 0%, ${INK}d9 25%, transparent 70%)`,
-          }}
-        />
-        <div
-          className="absolute inset-0"
-          style={{
-            background: `linear-gradient(to bottom, transparent 35%, ${INK}99 75%, ${INK} 100%)`,
-          }}
-        />
-      </div>
+      {/* Top-right Trinidad background — anchors the closing wordmark in
+          the actual destination. Only rendered with the closing band, since
+          on inner pages there's no giant headline for it to back up. */}
+      {showClosingBand && (
+        <div className="absolute top-0 right-0 w-full md:w-3/4 h-[55%] pointer-events-none">
+          <ImageWithFallback
+            src={HERO_IMG}
+            alt=""
+            aria-hidden="true"
+            className="absolute inset-0 w-full h-full object-cover opacity-[0.22]"
+          />
+          <div
+            className="absolute inset-0"
+            style={{
+              background: `linear-gradient(to right, ${INK} 0%, ${INK}d9 25%, transparent 70%)`,
+            }}
+          />
+          <div
+            className="absolute inset-0"
+            style={{
+              background: `linear-gradient(to bottom, transparent 35%, ${INK}99 75%, ${INK} 100%)`,
+            }}
+          />
+        </div>
+      )}
       <div
         className="absolute inset-0 pointer-events-none"
         style={{
@@ -240,9 +250,12 @@ export function Footer() {
           <span className="inline-flex items-center gap-2"><MapPin size={14} style={{ color: BRAND_SOFT }} /> Hyatt Regency · Port of Spain</span>
         </div>
 
-        {/* Wordmark — mobile gets slightly tighter clamp (3.25rem floor)
-            and a 1.0 leading because at 0.95 the descender of "y" in "you"
-            kissed the ascender of "T" in the line below on narrow screens. */}
+        {/* Closing band (wordmark + 2 CTA cards) — Home only. The 224px
+            headline is a once-per-session moment; the CTA cards repeat
+            affordances already in the nav. Hidden on inner pages so the
+            footer reads as a clean nav/contact band, not a third hero. */}
+        {showClosingBand && (
+          <>
         <motion.div
           initial={{ opacity: 0, y: 24 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -258,11 +271,6 @@ export function Footer() {
               background: `linear-gradient(120deg, ${BRAND_SOFT} 0%, ${BRAND} 60%, #c64b00 100%)`,
               WebkitBackgroundClip: "text",
               WebkitTextFillColor: "transparent",
-              // Italic word's optical position drifts right of the upright "in"
-              // before it; nudge -0.05em to align kerning visually. The matching
-              // padding keeps the gradient-clipped descenders from being cropped
-              // (the gradient background only fills the box, so italics that
-              // overflow appear unfilled).
               paddingInline: "0.05em",
               marginInline: "-0.05em",
             }}
@@ -271,7 +279,6 @@ export function Footer() {
           </span>
         </motion.div>
 
-        {/* CTA cards */}
         <div className="grid md:grid-cols-2 gap-3 md:gap-4 mb-14 md:mb-20">
           <Link
             to="/sign-in"
@@ -304,6 +311,8 @@ export function Footer() {
             </span>
           </a>
         </div>
+          </>
+        )}
 
         {/* Link columns */}
         <div className="grid sm:grid-cols-2 lg:grid-cols-12 gap-10 md:gap-12 pb-10 md:pb-14 border-b border-white/10">

@@ -18,7 +18,7 @@ import {
   Twitter,
   User as UserIcon,
 } from "lucide-react";
-import { GradientText, PageHero, SectionLabel } from "../components/shared";
+import { SectionLabel } from "../components/shared";
 import { CountryDropdown } from "../components/ui/CountryDropdown";
 import { BracketArrow } from "../components/ui/BracketArrow";
 import { SkeletonHero, SkeletonPill, SkeletonText } from "../components/ui/Skeletons";
@@ -26,7 +26,7 @@ import { useToasts } from "../components/ui/Toast";
 import { useOnboardingTour } from "../components/OnboardingTour";
 import { useAuth } from "../auth";
 import { initialsOf, loadProfile, saveProfile, type ProfileData } from "../profile";
-import { BRAND, HERO_ATTENDEES, INK, countries } from "../data";
+import { BRAND, INK, countries } from "../data";
 
 type Errors = Partial<Record<keyof ProfileData, string>>;
 type SaveStatus = "idle" | "saving" | "saved";
@@ -282,14 +282,31 @@ export default function Profile() {
 
   return (
     <>
-      <PageHero
-        label="Your delegate profile"
-        title={<>Tell other delegates <GradientText>who you are.</GradientText></>}
-        subtitle="Share key information about yourself — it appears in the Attendees section so other delegates can recognise you and reach out before, during and after FISC 2026."
-        image={HERO_ATTENDEES}
-      />
+      {/* Utility header — Profile is a settings page; an editorial PageHero
+          on top of a form tells the delegate "you're reading" when they're
+          "doing data entry". Replaced with a thin breadcrumb + tight H1
+          band that yields the screen back to the form below. */}
+      <section className="pt-28 md:pt-32 pb-8 md:pb-10 bg-white border-b border-neutral-100">
+        <div className="max-w-4xl mx-auto px-5 md:px-6">
+          <div className="text-[10.5px] tracking-[0.25em] uppercase text-neutral-500 mb-3 inline-flex items-center gap-2">
+            <span className="w-1.5 h-1.5 rounded-full" style={{ backgroundColor: BRAND }} />
+            Your delegate profile
+          </div>
+          <h1
+            className="tracking-[-0.02em] text-neutral-950"
+            style={{ fontSize: "clamp(1.625rem, 3vw, 2.25rem)", lineHeight: 1.1 }}
+          >
+            Tell other delegates who you are.
+          </h1>
+          <p className="mt-3 text-neutral-700 max-w-2xl" style={{ fontSize: "1rem", lineHeight: 1.55 }}>
+            Share key information about yourself — it appears in the Attendees
+            section so other delegates can recognise you and reach out before,
+            during and after FISC 2026.
+          </p>
+        </div>
+      </section>
 
-      <section className="py-12 md:py-20 bg-white">
+      <section className="py-10 md:py-16 bg-white">
         <div className="max-w-4xl mx-auto px-5 md:px-6">
           <form onSubmit={onSubmit} noValidate className="space-y-6 md:space-y-8">
             {/* ---------------------------------------------------------------

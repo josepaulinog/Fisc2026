@@ -4,7 +4,8 @@ import { AnimatePresence, motion } from "motion/react";
 import { Clock, Download, MapPin, Minus, Plus } from "lucide-react";
 import { ImageWithFallback } from "../components/figma/ImageWithFallback";
 import { GradientText, PageHero, SectionLabel } from "../components/shared";
-import { BRAND, BRAND_SOFT, HERO_AGENDA, TAG_COLORS, agenda, daySlugFor } from "../data";
+import { BRAND, BRAND_SOFT, HERO_AGENDA, TAG_HUES, agenda, daySlugFor } from "../data";
+import { chipTone } from "../tokens";
 import type { Session } from "../data";
 import { NestedCTA } from "../components/ui/NestedCTA";
 import { BracketArrow } from "../components/ui/BracketArrow";
@@ -40,7 +41,7 @@ export default function Agenda() {
           <>
             Four days.
             <br />
-            One <GradientText>PFM agenda.</GradientText>
+            One PFM agenda.
           </>
         }
         subtitle="Country-led workshops, presentations and panels — alongside cultural moments across Trinidad and Tobago."
@@ -105,22 +106,9 @@ export default function Agenda() {
             </span>
             <span className="text-neutral-300">·</span>
             <span className="text-neutral-800">{dayStats.count} sessions</span>
-            {dayStats.tags.length > 0 && (
-              <>
-                <span className="text-neutral-300">·</span>
-                <span className="flex flex-wrap items-center gap-1.5">
-                  {dayStats.tags.slice(0, 4).map((tag) => (
-                    <span
-                      key={tag}
-                      className="inline-flex items-center px-2 py-0.5 rounded-sm text-[11px]"
-                      style={{ backgroundColor: `${TAG_COLORS[tag]}18`, color: TAG_COLORS[tag] }}
-                    >
-                      {tag}
-                    </span>
-                  ))}
-                </span>
-              </>
-            )}
+            {/* Tag chips removed from the day-at-a-glance strip — they
+                duplicated the per-session chips below. The peripheral
+                signal stays: first/last time + count. */}
           </motion.div>
 
           {/* Desktop split: vertical day tabs on the left, session list on
@@ -271,7 +259,7 @@ function SessionRow({
               {session.tag && (
                 <span
                   className="inline-flex items-center text-[13px] tracking-tight"
-                  style={{ color: TAG_COLORS[session.tag], fontWeight: 500 }}
+                  style={{ color: chipTone(TAG_HUES[session.tag]).fg, fontWeight: 500 }}
                 >
                   #{session.tag}
                 </span>

@@ -13,13 +13,14 @@ import {
   Mic,
 } from "lucide-react";
 import { ImageWithFallback } from "../components/figma/ImageWithFallback";
-import { GradientText, PageHero, SectionLabel } from "../components/shared";
+import { PageHero, SectionLabel } from "../components/shared";
+import { chipTone } from "../tokens";
 import {
   BRAND,
   BRAND_SOFT,
   HERO_AGENDA,
   INK,
-  TAG_COLORS,
+  TAG_HUES,
   agenda,
   daySlugFor,
   materials,
@@ -35,26 +36,13 @@ type SessionLocator = { dayIdx: number; sessionIdx: number };
  * editorial italicised-tail pattern used on About, Speakers, Venue and other
  * heroes — but adapted to dynamic session titles:
  *   - 1 word         → italicise the whole word (the title IS the accent)
- *   - 2 words        → italicise the last word
- *   - 3+ words       → italicise the trailing 2 words (gives a richer accent
- *                       phrase for long, descriptive titles)
- *
- * Skips any italic accent for titles ending in a colon-segmented prefix
- * (rare for sessions but possible) — defensive guard. */
+ * Renders session titles as plain typography. Previous behaviour wrapped
+ * the trailing word(s) in <GradientText> — but on a 40+ session agenda the
+ * italic accent on every title stopped reading as editorial punctuation
+ * and started reading as a tic. Reserved for true marquee moments (Home
+ * hero, About hero, etc.) elsewhere on the site. */
 function styledSessionTitle(title: string): React.ReactNode {
-  const words = title.trim().split(/\s+/);
-  if (words.length === 0) return title;
-  if (words.length === 1) {
-    return <GradientText>{words[0]}</GradientText>;
-  }
-  const italicCount = words.length >= 3 ? 2 : 1;
-  const head = words.slice(0, words.length - italicCount).join(" ");
-  const tail = words.slice(words.length - italicCount).join(" ");
-  return (
-    <>
-      {head} <GradientText>{tail}</GradientText>
-    </>
-  );
+  return title;
 }
 
 /**
@@ -113,7 +101,7 @@ export default function AgendaSession() {
     .map((title) => materials.find((m) => m.title === title))
     .filter((m): m is MaterialEntry => !!m);
 
-  const tagColor = session.tag ? TAG_COLORS[session.tag] : undefined;
+  const tagTone = session.tag ? chipTone(TAG_HUES[session.tag]) : undefined;
 
   return (
     <>
@@ -136,8 +124,8 @@ export default function AgendaSession() {
             { icon: Clock, k: "Time", v: session.time },
             { icon: Calendar, k: "Day", v: `${day.short}`, sub: day.date },
             { icon: MapPin, k: "Venue", v: "Hyatt Regency", sub: "Port of Spain" },
-            session.tag && tagColor
-              ? { icon: Mic, k: "Format", v: session.tag, tone: tagColor }
+            session.tag && tagTone
+              ? { icon: Mic, k: "Format", v: session.tag, tone: tagTone }
               : { icon: Mic, k: "Format", v: "Plenary" },
           ].map((f, i) => (
             <div
@@ -145,10 +133,10 @@ export default function AgendaSession() {
               className="py-6 md:py-7 px-4 md:px-5 border-l first:border-l-0 [&:nth-child(3)]:border-l-0 md:[&:nth-child(3)]:border-l border-neutral-100 flex items-center gap-3 md:gap-4"
             >
               <div
-                className="w-9 h-9 md:w-10 md:h-10 rounded-lg flex items-center justify-center shrink-0"
+                className="w-9 h-9 md:w-10 md:h-10 rounded-sm flex items-center justify-center shrink-0"
                 style={{
-                  backgroundColor: "tone" in f && f.tone ? `${f.tone}18` : `${BRAND}15`,
-                  color: "tone" in f && f.tone ? f.tone : BRAND,
+                  backgroundColor: "tone" in f && f.tone ? f.tone.bg : `${BRAND}15`,
+                  color: "tone" in f && f.tone ? f.tone.fg : BRAND,
                 }}
               >
                 <f.icon size={15} />

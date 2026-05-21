@@ -48,12 +48,16 @@ const essentials = [
   { icon: Sparkles, title: "Visa & invitation", text: "Delegation leads coordinate official invitation letters via the secretariat." },
 ];
 
+// Order matters: indices 0 and 3 land in the WIDE bento slots. Carnival
+// Mas + Maracas Bay are the strongest portrait + landscape compositions
+// in the set, so they anchor each desktop row. The narrow tiles fill the
+// remaining slots and the grid-auto-flow:dense layout packs them tightly.
 const experiences = [
-  { img: VENUE_IMG_1, title: "Maracas Bay", subtitle: "North Coast · 40 min drive", icon: Waves },
-  { img: VENUE_STREET, title: "Downtown Port of Spain", subtitle: "Aerial · waterfront capital", icon: Landmark },
-  { img: VENUE_FOOD, title: "Doubles & Roti", subtitle: "Street food culture", icon: Utensils },
   { img: VENUE_STEELPAN, title: "Carnival Mas", subtitle: "Feathers, music, mas", icon: Sparkles },
   { img: VENUE_NATURE, title: "Scarlet Ibis", subtitle: "Caroni Swamp · national bird", icon: Compass },
+  { img: VENUE_FOOD, title: "Doubles & Roti", subtitle: "Street food culture", icon: Utensils },
+  { img: VENUE_IMG_1, title: "Maracas Bay", subtitle: "North Coast · 40 min drive", icon: Waves },
+  { img: VENUE_STREET, title: "Downtown Port of Spain", subtitle: "Aerial · waterfront capital", icon: Landmark },
   { img: VENUE_IMG_2, title: "Queen's Royal College", subtitle: "Historic architecture, Port of Spain", icon: Sun },
 ];
 
@@ -101,7 +105,7 @@ export default function Venue() {
                   className="px-4 md:px-6 py-4 md:py-6 flex items-center gap-3 md:gap-4 min-w-0"
                 >
                   <div
-                    className="w-10 h-10 md:w-11 md:h-11 rounded-sm flex items-center justify-center shrink-0"
+                    className="w-11 h-11 rounded-sm flex items-center justify-center shrink-0"
                     style={{ backgroundColor: `${BRAND}15`, color: BRAND }}
                   >
                     <f.icon size={18} strokeWidth={1.5} />
@@ -150,7 +154,7 @@ export default function Venue() {
             <div className="flex flex-col min-w-0">
               <SectionLabel>The venue</SectionLabel>
               <h2 className="tracking-[-0.02em] text-neutral-950" style={{ fontSize: "clamp(1.875rem, 3.5vw, 2.75rem)", lineHeight: 1.05 }}>
-                A waterfront <GradientText>headquarters</GradientText> for four days.
+                A waterfront <span style={{ color: BRAND }}>headquarters</span> for four days.
               </h2>
               <p className="mt-5 text-neutral-700" style={{ lineHeight: 1.7 }}>
                 All plenary sessions, workshops and the closing reception are
@@ -203,7 +207,7 @@ export default function Venue() {
             <div>
               <SectionLabel>Around the islands</SectionLabel>
               <h2 className="tracking-[-0.02em] text-neutral-950" style={{ fontSize: "clamp(1.875rem, 4vw, 3rem)", lineHeight: 1.05 }}>
-                Stay a while. <GradientText>Trinidad welcomes you.</GradientText>
+                Stay a while. <em className="italic" style={{ paddingInline: "0.05em", marginInline: "-0.025em" }}>Trinidad welcomes you.</em>
               </h2>
             </div>
             <p className="max-w-md text-neutral-700">
@@ -264,7 +268,7 @@ export default function Venue() {
             <div className="lg:col-span-6">
               <SectionLabel tone="light">Travel essentials</SectionLabel>
               <h2 className="tracking-[-0.02em] text-white/95" style={{ fontSize: "clamp(1.875rem, 4vw, 3rem)", lineHeight: 1.05 }}>
-                Everything you need <br className="hidden md:block" /><GradientText tone="light">before you land.</GradientText>
+                Everything you need <br className="hidden md:block" />before you land.
               </h2>
             </div>
             <div className="lg:col-span-6 lg:pt-10 text-white/70" style={{ lineHeight: 1.7 }}>

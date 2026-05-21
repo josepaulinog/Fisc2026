@@ -4,24 +4,13 @@ import { Header } from "./Header";
 import { Footer, Newsletter } from "./Footer";
 import { OnboardingTour } from "../components/OnboardingTour";
 
-// Routes that render the Newsletter section above the Footer.
-// Auth pages (/sign-in) bypass Root entirely; the 404 catch-all stays inside Root
-// but is intentionally omitted here so the newsletter doesn't appear under it.
-const NEWSLETTER_ROUTES = new Set([
-  "/",
-  "/about",
-  "/agenda",
-  "/speakers",
-  "/venue",
-  "/resources",
-  "/attendees",
-  "/materials",
-  "/delegate-guide",
-  "/gallery",
-  "/videos",
-  "/media-coverage",
-  "/profile",
-]);
+// Newsletter renders ONLY on Home. Previously it appeared above the footer
+// on 13 routes, which gave the impression of the same "Follow the journey"
+// card stamping itself onto every page — the design review correctly read
+// this as a single piece of content shown five times. Home is the only
+// surface where the newsletter is a natural conversion moment; everywhere
+// else it's noise above the footer.
+const NEWSLETTER_ROUTES = new Set(["/"]);
 
 export function Root() {
   const { pathname } = useLocation();
@@ -29,12 +18,11 @@ export function Root() {
     window.scrollTo({ top: 0, behavior: "instant" as ScrollBehavior });
   }, [pathname]);
 
-  // Exact match for top-level routes; prefix match for nested content routes
-  // (/agenda/:day/:idx, /speakers/:slug) so detail pages also keep the newsletter.
-  const showNewsletter =
-    NEWSLETTER_ROUTES.has(pathname) ||
-    pathname.startsWith("/agenda/") ||
-    pathname.startsWith("/speakers/");
+  const showNewsletter = NEWSLETTER_ROUTES.has(pathname);
+  // Closing band ("See you in Trinidad." wordmark + 2 big CTA cards) is a
+  // once-per-session moment. Only Home gets the full footer; everywhere
+  // else gets the compact variant (link columns + meta + bottom only).
+  const footerVariant = pathname === "/" ? "full" : "compact";
 
   return (
     /* OnboardingTour is now a context provider — wrapping the whole layout
@@ -55,7 +43,7 @@ export function Root() {
           <Outlet />
         </main>
         {showNewsletter && <Newsletter />}
-        <Footer />
+        <Footer variant={footerVariant} />
       </div>
     </OnboardingTour>
   );

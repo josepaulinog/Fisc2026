@@ -13,11 +13,12 @@ import {
 import { ImageWithFallback } from "../components/figma/ImageWithFallback";
 import { GradientText, Grain, SectionLabel } from "../components/shared";
 import { Breadcrumbs } from "../components/ui/Breadcrumbs";
+import { chipTone } from "../tokens";
 import {
   BRAND,
   BRAND_SOFT,
   INK,
-  TAG_COLORS,
+  TAG_HUES,
   agenda,
   daySlugFor,
   speakers,
@@ -62,7 +63,7 @@ export default function SpeakerDetail() {
           <ImageWithFallback
             src={speaker.img}
             alt=""
-            className="w-full h-full object-cover opacity-25"
+            className="w-full h-full object-cover opacity-[0.12] blur-md"
           />
         </div>
         <div
@@ -115,7 +116,7 @@ export default function SpeakerDetail() {
                 className="tracking-[-0.03em]"
                 style={{ fontSize: "clamp(2.25rem, 6vw, 5rem)", lineHeight: 1 }}
               >
-                <GradientText tone="light">{speaker.name}</GradientText>
+                <span className="text-white">{speaker.name}</span>
               </h1>
               <p
                 className="mt-5 max-w-2xl"
@@ -198,7 +199,7 @@ export default function SpeakerDetail() {
                 {appearances.length > 0 ? (
                   <div className="space-y-2">
                     {appearances.map((a) => {
-                      const tagColor = a.session.tag ? TAG_COLORS[a.session.tag] : undefined;
+                      const tagTone = a.session.tag ? chipTone(TAG_HUES[a.session.tag]) : undefined;
                       return (
                         <Link
                           key={`${a.dayIdx}-${a.sessionIdx}`}
@@ -209,10 +210,10 @@ export default function SpeakerDetail() {
                             <span className="text-[10px] tracking-[0.25em] uppercase text-neutral-500">
                               {a.day.short}
                             </span>
-                            {a.session.tag && tagColor && (
+                            {a.session.tag && tagTone && (
                               <span
-                                className="inline-flex items-center px-2 py-0.5 rounded-md text-[10px]"
-                                style={{ backgroundColor: `${tagColor}18`, color: tagColor }}
+                                className="inline-flex items-center px-2 py-0.5 rounded-sm text-[10px]"
+                                style={{ backgroundColor: tagTone.bg, color: tagTone.fg }}
                               >
                                 {a.session.tag}
                               </span>
@@ -317,7 +318,7 @@ export default function SpeakerDetail() {
                   className="tracking-[-0.02em]"
                   style={{ fontSize: "clamp(1.5rem, 3vw, 2.25rem)", lineHeight: 1.1 }}
                 >
-                  See the full <GradientText tone="light">FISC 2026 programme.</GradientText>
+                  See the full FISC 2026 programme.
                 </div>
                 <div className="mt-3 inline-flex items-center gap-2 text-white/70 text-sm">
                   <MapPin size={14} style={{ color: BRAND_SOFT }} /> Hyatt Regency · Port of Spain

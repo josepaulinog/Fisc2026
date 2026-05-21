@@ -23,12 +23,16 @@ function AttendeeCard({ a, i }: { a: AttendeeEntry; i: number }) {
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
       transition={{ delay: (i % 8) * 0.04 }}
-      className="group relative rounded-md bg-white p-5 ring-1 ring-black/[0.05] shadow-[0_8px_24px_-16px_rgba(0,0,0,0.1)] hover:bg-neutral-950 hover:text-white hover:ring-neutral-950 hover:shadow-[0_16px_40px_-16px_rgba(0,0,0,0.25)] transition-fluid"
+      className="group relative rounded-md bg-white p-5 ring-1 ring-black/[0.05] shadow-[0_8px_24px_-16px_rgba(0,0,0,0.1)] hover:ring-neutral-300 hover:shadow-[0_16px_40px_-20px_rgba(0,0,0,0.18)] transition-fluid"
     >
+      {/* Lead badge — bolder treatment. Was bg-orange/15 + brand-orange
+          text (too quiet for a status that signals "speaks for their
+          country"); now solid brand orange + white text reads as
+          intentional authority. */}
       {a.delegationLead && (
         <span
-          className="absolute top-3 right-3 inline-flex items-center gap-1 px-2 py-0.5 rounded-md text-[10px] tracking-[0.2em] uppercase"
-          style={{ backgroundColor: `${BRAND}15`, color: BRAND }}
+          className="absolute top-3 right-3 inline-flex items-center gap-1 px-2 py-0.5 rounded-sm text-[10px] tracking-[0.2em] uppercase text-white"
+          style={{ backgroundColor: BRAND, fontWeight: 500 }}
         >
           Lead
         </span>
@@ -40,23 +44,26 @@ function AttendeeCard({ a, i }: { a: AttendeeEntry; i: number }) {
               <ImageWithFallback src={a.img} alt={a.name} className="w-full h-full object-cover" />
             </div>
           ) : (
+            // Softened placeholder — matches the Home host + delegate card
+            // treatment. Warm cream + muted ink initials reads as a deliberate
+            // "portrait pending" state rather than a loud brand chip.
             <div
-              className="w-16 h-16 rounded-sm flex items-center justify-center text-white tracking-tight ring-1 ring-black/[0.05]"
-              style={{ backgroundColor: BRAND, fontSize: "0.95rem", fontWeight: 500 }}
+              className="w-16 h-16 rounded-sm flex items-center justify-center tracking-tight ring-1 ring-black/[0.05]"
+              style={{ backgroundColor: "#f4efe6", color: "#737373", fontSize: "0.95rem", fontWeight: 500 }}
             >
               {initialsOf(a.name)}
             </div>
           )}
         </div>
         <div className="min-w-0 flex-1">
-          <div className="tracking-tight text-neutral-950 group-hover:text-white truncate" style={{ fontSize: "1rem" }}>
+          <div className="tracking-tight text-neutral-950 truncate" style={{ fontSize: "1rem" }}>
             {a.salutation ? `${a.salutation} ` : ""}
             {a.name}
           </div>
-          <div className="text-neutral-700 group-hover:text-white/78 text-sm leading-snug mt-0.5">
+          <div className="text-neutral-700 text-sm leading-snug mt-0.5">
             {a.role}
           </div>
-          <div className="mt-1.5 inline-flex items-center gap-1.5 text-xs tracking-widest uppercase text-neutral-400 group-hover:text-white/65">
+          <div className="mt-1.5 inline-flex items-center gap-1.5 text-xs tracking-widest uppercase text-neutral-400">
             <CountryFlag country={a.country} className="h-2.5 w-auto rounded-[1px] shadow-sm shrink-0" />
             {a.country}
           </div>
@@ -64,21 +71,21 @@ function AttendeeCard({ a, i }: { a: AttendeeEntry; i: number }) {
       </div>
       <div className="mt-4 flex items-center gap-2">
         {a.email && (
-          <a href={a.email} aria-label="Email" className="w-8 h-8 rounded-full border border-neutral-200 group-hover:border-white/20 text-neutral-500 group-hover:text-white/78 hover:text-white flex items-center justify-center transition" onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = BRAND)} onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = "")}>
+          <a href={a.email} aria-label="Email" className="w-8 h-8 rounded-full border border-neutral-200 text-neutral-500 hover:text-white flex items-center justify-center transition" onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = BRAND)} onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = "")}>
             <Mail size={13} />
           </a>
         )}
         {a.linkedin && (
-          <a href={a.linkedin} target="_blank" rel="noreferrer" aria-label="LinkedIn" className="w-8 h-8 rounded-full border border-neutral-200 group-hover:border-white/20 text-neutral-500 group-hover:text-white/78 hover:text-white flex items-center justify-center transition" onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = BRAND)} onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = "")}>
+          <a href={a.linkedin} target="_blank" rel="noreferrer" aria-label="LinkedIn" className="w-8 h-8 rounded-full border border-neutral-200 text-neutral-500 hover:text-white flex items-center justify-center transition" onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = BRAND)} onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = "")}>
             <Linkedin size={13} />
           </a>
         )}
         {a.twitter && (
-          <a href={a.twitter} target="_blank" rel="noreferrer" aria-label="X" className="w-8 h-8 rounded-full border border-neutral-200 group-hover:border-white/20 text-neutral-500 group-hover:text-white/78 hover:text-white flex items-center justify-center transition" onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = BRAND)} onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = "")}>
+          <a href={a.twitter} target="_blank" rel="noreferrer" aria-label="X" className="w-8 h-8 rounded-full border border-neutral-200 text-neutral-500 hover:text-white flex items-center justify-center transition" onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = BRAND)} onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = "")}>
             <Twitter size={13} />
           </a>
         )}
-        <span className="ml-auto text-xs text-neutral-400 group-hover:text-white/65 truncate">
+        <span className="ml-auto text-xs text-neutral-400 truncate">
           {a.org}
         </span>
       </div>
@@ -123,7 +130,7 @@ export default function Attendees() {
           { label: "Resources", to: "/resources" },
           { label: "Delegate community" },
         ]}
-        title={<>The room behind <GradientText>the work.</GradientText></>}
+        title={<>The room behind the work.</>}
         subtitle="FISC 2026 brings together finance ministers, treasurers and reformers from 40+ countries. Sign in to see the full list — or scroll on for a preview of the delegation."
         image={HERO_ATTENDEES}
       />

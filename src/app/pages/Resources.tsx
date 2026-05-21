@@ -13,7 +13,7 @@ export default function Resources() {
           <>
             The full archive,
             <br />
-            <GradientText>in one place.</GradientText>
+            in one place.
           </>
         }
         subtitle="Registered delegates can access every session, slide, photo and recording — and keep the conversation going long after Port of Spain."

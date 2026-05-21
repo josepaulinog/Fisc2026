@@ -207,7 +207,7 @@ export default function SignIn() {
               Delegate Portal
             </div>
             <h2 className="mt-3 tracking-[-0.02em] text-neutral-950" style={{ fontSize: "clamp(1.625rem, 4vw, 2.5rem)", lineHeight: 1.05 }}>
-              Sign in to your <GradientText>invitation.</GradientText>
+              Sign in to your invitation.
             </h2>
             <p className="mt-3 text-neutral-700 text-[0.9375rem] md:text-base" style={{ lineHeight: 1.55 }}>
               Use the email address your invitation was sent to, plus the

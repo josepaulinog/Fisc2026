@@ -12,12 +12,13 @@ import {
 } from "lucide-react";
 import { ImageWithFallback } from "../components/figma/ImageWithFallback";
 import { Grain, GradientText, Marquee, SectionLabel } from "../components/shared";
+import { chipTone } from "../tokens";
 import {
   BRAND,
   BRAND_SOFT,
   HERO_IMG,
   INK,
-  TAG_COLORS,
+  TAG_HUES,
   VENUE_HOTEL,
   agenda,
   daySlugFor,
@@ -298,7 +299,7 @@ function Highlights() {
           {SESSION_HIGHLIGHTS.map(({ dayIdx, sessionIdx }, i) => {
             const day = agenda[dayIdx];
             const session = day.sessions[sessionIdx];
-            const tagColor = session.tag ? TAG_COLORS[session.tag] : undefined;
+            const tagTone = session.tag ? chipTone(TAG_HUES[session.tag]) : undefined;
             return (
               <motion.div
                 key={`${dayIdx}-${sessionIdx}`}
@@ -316,10 +317,10 @@ function Highlights() {
                       <span className="text-xs tracking-[0.2em] uppercase text-neutral-500 group-hover:text-white/60">
                         {day.short}
                       </span>
-                      {session.tag && tagColor && (
+                      {session.tag && tagTone && (
                         <span
                           className="inline-flex items-center px-2.5 py-0.5 rounded-md text-xs"
-                          style={{ backgroundColor: `${tagColor}18`, color: tagColor }}
+                          style={{ backgroundColor: tagTone.bg, color: tagTone.fg }}
                         >
                           {session.tag}
                         </span>

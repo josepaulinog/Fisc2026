@@ -23,7 +23,7 @@ function PhotoTile({ p, i, onOpen }: { p: GalleryPhoto; i: number; onOpen: (p: G
       <ImageWithFallback
         src={p.src}
         alt={p.caption}
-        className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-1000"
+        className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-[450ms] ease-[cubic-bezier(0.32,0.72,0,1)]"
       />
       <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/0 to-transparent" />
       <div className="absolute bottom-3 left-3 right-3 text-white">
@@ -46,7 +46,7 @@ export default function Gallery() {
         ]}
         title={
           <>
-            FISC 2026 <GradientText>in pictures.</GradientText>
+            FISC 2026 in pictures.
           </>
         }
         subtitle="Plenaries, breakouts, gala dinners and steel-pan evenings — a visual record of four days in Port of Spain."

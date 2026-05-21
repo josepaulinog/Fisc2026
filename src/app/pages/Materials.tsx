@@ -1,17 +1,22 @@
 import { useMemo, useState } from "react";
 import { motion } from "motion/react";
-import { Download, FileText, Lock, Search } from "lucide-react";
+import { Download, Lock, Search } from "lucide-react";
 import { GatedBody } from "../components/GatedBody";
-import { GradientText, PageHero } from "../components/shared";
+import { PageHero } from "../components/shared";
 import { BRAND, BRAND_SOFT, HERO_MATERIALS, INK, materials, type MaterialEntry } from "../data";
+import { chipTone, CHIP_HUE } from "../tokens";
 
+// Topic tones via chipTone(hue) — replaces the previous per-topic hex+alpha
+// blocks. Same OKLCH-locked lightness/chroma as CATEGORY_TONES on Home and
+// TAG_HUES on Agenda, so a card stack of mixed topics reads as a coordinated
+// family instead of six wildly different perceptual lightnesses.
 const TOPIC_TONES: Record<MaterialEntry["topic"], { bg: string; fg: string }> = {
-  PFM: { bg: "#fd6b1815", fg: "#fd6b18" },
-  AI: { bg: "#2563eb15", fg: "#2563eb" },
-  Performance: { bg: "#16a34a15", fg: "#16a34a" },
-  Assessments: { bg: "#a855f715", fg: "#a855f7" },
-  Product: { bg: "#0a0a0a15", fg: "#0a0a0a" },
-  Reform: { bg: "#c2410c15", fg: "#c2410c" },
+  PFM: chipTone(CHIP_HUE.pfm),
+  AI: chipTone(CHIP_HUE.ai),
+  Performance: chipTone(CHIP_HUE.performance),
+  Assessments: chipTone(CHIP_HUE.assessments),
+  Product: { bg: "oklch(95% 0 0)", fg: "oklch(35% 0 0)" }, // gray neutral
+  Reform: chipTone(CHIP_HUE.reform),
 };
 
 function MaterialCard({ m, i }: { m: MaterialEntry; i: number }) {
@@ -23,52 +28,50 @@ function MaterialCard({ m, i }: { m: MaterialEntry; i: number }) {
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
       transition={{ delay: (i % 6) * 0.05 }}
-      className="group relative rounded-2xl border border-neutral-200 bg-white overflow-hidden hover:border-neutral-950 transition-all"
+      className="group relative rounded-md border border-neutral-200 bg-white overflow-hidden hover:border-neutral-950 hover:shadow-[0_12px_40px_-20px_rgba(0,0,0,0.18)] transition-all"
     >
-      <div className="relative aspect-[4/5] overflow-hidden" style={{ backgroundColor: "#f5f5f4" }}>
-        <div
-          className="absolute inset-0"
-          style={{
-            background: `radial-gradient(ellipse at 80% 20%, ${tone.fg}22 0%, transparent 55%), linear-gradient(180deg, #ffffff 0%, #f5f5f4 100%)`,
-          }}
-        />
-        <div className="absolute inset-x-6 top-6 bottom-12 rounded-md bg-white border border-neutral-200 shadow-sm p-5 flex flex-col gap-3">
-          <div className="flex items-center gap-2">
-            <FileText size={14} style={{ color: tone.fg }} />
-            <span className="text-[10px] tracking-[0.25em] uppercase text-neutral-400">FISC Takeaways</span>
-          </div>
-          <div className="space-y-1.5">
-            <div className="h-1.5 w-3/4 rounded-full bg-neutral-200" />
-            <div className="h-1.5 w-2/3 rounded-full bg-neutral-200" />
-            <div className="h-1.5 w-1/2 rounded-full bg-neutral-200" />
-          </div>
-          <div className="flex-1" />
-          <div className="space-y-1.5">
-            <div className="h-1 w-full rounded-full bg-neutral-100" />
-            <div className="h-1 w-full rounded-full bg-neutral-100" />
-            <div className="h-1 w-5/6 rounded-full bg-neutral-100" />
-            <div className="h-1 w-4/5 rounded-full bg-neutral-100" />
-          </div>
-          <div className="h-12 rounded-md mt-2" style={{ background: `linear-gradient(135deg, ${tone.fg}33, ${tone.fg}11)` }} />
+      {/* Typographic ticket — the old faux-PDF preview (gradient blobs +
+          skeleton lines pretending to be document content) read as
+          placeholder slop at scale. This card treats itself as a "ticket
+          to the document," not a "preview of the document": topic chip,
+          big title, summary, download. Real PDF first-page renders are a
+          server-side problem to solve at WP port time. */}
+      <div className="p-6 md:p-7 flex flex-col gap-4 min-h-[18rem] md:min-h-[20rem]">
+        <div className="flex items-start justify-between gap-3">
+          <span
+            className="inline-flex items-center px-2.5 py-1 rounded-sm text-[11px] tracking-tight"
+            style={{ backgroundColor: tone.bg, color: tone.fg, fontWeight: 500 }}
+          >
+            {m.topic}
+          </span>
+          <span className="text-[10.5px] tracking-[0.22em] uppercase text-neutral-400 mt-1.5">
+            FISC Takeaways
+          </span>
         </div>
-        <span className="absolute top-4 left-4 inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md text-xs" style={{ backgroundColor: tone.bg, color: tone.fg }}>
-          {m.topic}
-        </span>
-      </div>
-
-      <div className="p-5 md:p-6">
-        <div className="tracking-tight text-neutral-950" style={{ fontSize: "1.0625rem", lineHeight: 1.3 }}>
+        <div
+          className="tracking-tight text-neutral-950 mt-2"
+          style={{ fontSize: "clamp(1.0625rem, 2vw, 1.25rem)", lineHeight: 1.2, fontWeight: 500 }}
+        >
           {m.title}
         </div>
-        <p className="mt-2 text-neutral-700 text-sm" style={{ lineHeight: 1.55 }}>
+        <p className="text-neutral-700 text-[0.9375rem]" style={{ lineHeight: 1.55 }}>
           {m.summary}
         </p>
-        <div className="mt-4 flex items-center justify-between">
-          <span className="text-xs tracking-widest text-neutral-400 uppercase">
-            {m.pages ? `${m.pages} pages` : "PDF"}
+        <div className="mt-auto pt-4 border-t border-neutral-100 flex items-center justify-between">
+          <span className="text-[11px] tracking-[0.22em] text-neutral-500 uppercase tabular-nums">
+            {m.pages ? `${m.pages} pages · PDF` : "PDF"}
           </span>
-          <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-sm transition" style={{ backgroundColor: INK, color: "#fff" }}>
-            Download <Download size={14} />
+          <span
+            className="inline-flex items-center gap-2 text-[13px] text-neutral-950 group-hover:text-neutral-950 transition"
+            style={{ fontWeight: 500 }}
+          >
+            Download
+            <span
+              className="w-7 h-7 rounded-sm flex items-center justify-center transition-colors"
+              style={{ backgroundColor: `${BRAND}15`, color: BRAND }}
+            >
+              <Download size={13} strokeWidth={1.75} />
+            </span>
           </span>
         </div>
       </div>
@@ -98,7 +101,7 @@ export default function Materials() {
           { label: "Resources", to: "/resources" },
           { label: "Materials" },
         ]}
-        title={<>Every deck. <GradientText>Every one-pager.</GradientText></>}
+        title={<>Every deck. Every one-pager.</>}
         subtitle="FISC Takeaways translate four days of conversation into reform-ready briefs. Browse the full archive — gated to registered delegates."
         image={HERO_MATERIALS}
       />
