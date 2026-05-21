@@ -1,9 +1,10 @@
 import { useEffect, useState } from "react";
 import { Link, NavLink, useLocation } from "react-router";
 import { AnimatePresence, motion, useMotionValueEvent, useScroll } from "motion/react";
-import { ChevronDown, LogOut, Lock, X } from "lucide-react";
+import { LogOut, Lock, X } from "lucide-react";
 import { Lockup } from "../components/brand/Lockup";
 import { BracketArrow } from "../components/ui/BracketArrow";
+import { Chevron } from "../components/ui/Chevron";
 import { useAuth } from "../auth";
 import { firstNameOf, initialsOf, useProfile } from "../profile";
 import { BRAND, INK, navItems } from "../data";
@@ -97,9 +98,9 @@ export function Header() {
                       {() => (
                         <>
                           <span>{n.label}</span>
-                          <ChevronDown
-                            size={13}
-                            strokeWidth={1.75}
+                          <Chevron
+                            size={11}
+                            strokeWidth={1.5}
                             className={`opacity-70 transition-transform duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] group-hover:rotate-180`}
                           />
                         </>
@@ -324,9 +325,10 @@ export function Header() {
                             aria-label={expanded ? `Collapse ${n.label}` : `Expand ${n.label}`}
                             className="px-3 rounded-md text-neutral-500 hover:bg-neutral-100"
                           >
-                            <ChevronDown
-                              size={18}
-                              className={`transition-transform ${expanded ? "rotate-180" : ""}`}
+                            <Chevron
+                              size={16}
+                              strokeWidth={1.5}
+                              className={`transition-transform duration-300 ease-[cubic-bezier(0.32,0.72,0,1)] ${expanded ? "rotate-180" : ""}`}
                             />
                           </button>
                         )}

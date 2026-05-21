@@ -1,6 +1,7 @@
 import { useEffect, useId, useMemo, useRef, useState } from "react";
 import { AnimatePresence, motion } from "motion/react";
-import { Check, ChevronDown, MapPin, Search, X } from "lucide-react";
+import { Check, MapPin, Search, X } from "lucide-react";
+import { Chevron } from "./Chevron";
 import { CountryFlag, hasFlagFor } from "../CountryFlag";
 
 /**
@@ -135,8 +136,8 @@ export function CountryDropdown({
           >
             {hasValue ? value : placeholder}
           </span>
-          <ChevronDown
-            size={15}
+          <Chevron
+            size={13}
             strokeWidth={1.5}
             className={`text-neutral-400 transition-transform duration-300 ease-[cubic-bezier(0.32,0.72,0,1)] ${open ? "rotate-180" : ""}`}
           />
