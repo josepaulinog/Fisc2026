@@ -197,7 +197,7 @@ export default function DelegateGuide() {
                 Seven steps, <em className="italic">ten weeks out.</em>
               </h2>
             </div>
-            <div className="text-sm text-neutral-500">{checked.size} / {delegateGuide.checklist.length} complete</div>
+            <div className="text-sm text-neutral-500 tabular-nums">{checked.size} of {delegateGuide.checklist.length} done</div>
           </div>
           <div className="grid gap-3">
             {delegateGuide.checklist.map((c, i) => {
@@ -238,14 +238,14 @@ export default function DelegateGuide() {
           <div className="lg:col-span-5">
             <div className="inline-flex items-center gap-3 mb-5">
               <span className="w-8 h-px bg-white" />
-              <span className="tracking-[0.25em] text-white text-sm">Essential information</span>
+              <span className="tracking-[0.25em] text-white text-sm">Essentials</span>
             </div>
             <h2 className="tracking-[-0.02em] text-white" style={{ fontSize: "clamp(1.75rem, 3.5vw, 2.5rem)", lineHeight: 1.05 }}>
-              Land prepared.<br />
-              <em className="italic">Land ready.</em>
+              Know before<br />
+              <em className="italic">you go.</em>
             </h2>
             <p className="mt-5 text-white/78 max-w-md" style={{ lineHeight: 1.7 }}>
-              Tap a topic to expand the details. Country-specific notes are sent in your personalised pack.
+              Open any topic for the details. Country-specific notes arrive in your personalised pack two weeks before the conference.
             </p>
           </div>
 

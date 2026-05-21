@@ -598,7 +598,7 @@ export const delegateGuide: DelegateGuide = {
   edition: "FISC 2026",
   dates: "June 29 – July 2, 2026",
   intro:
-    "Welcome to Trinidad & Tobago. This pre-arrival guide walks you through what to pack, how to land, and how to make the most of four days in Port of Spain. The secretariat will follow up with personalised travel details two weeks before arrival.",
+    "Everything you need before you land in Port of Spain — what to pack, how to clear arrivals, and how to settle in fast. The secretariat sends personalised travel details two weeks before arrival.",
   keyFacts: {
     capital: "Port of Spain",
     languages: ["English (official)", "Trinidadian Creole"],
@@ -626,19 +626,20 @@ export const delegateGuide: DelegateGuide = {
   // the delegate guide page both compute their labels live from these values.
   checklist: [
     { shortLabel: "Delegation lead", task: "Confirm your delegation lead with the secretariat", dueDate: "2026-05-18" },
-    { shortLabel: "Visa letter", task: "Request a formal invitation letter from the secretariat for visa purposes", dueDate: "2026-05-25" },
-    { shortLabel: "Book flights", task: "Book international flights routed to Piarco International (POS)", dueDate: "2026-05-25" },
-    { shortLabel: "Hotel booking", task: "Reserve your room at the Hyatt Regency (delegate code in your travel pack)", detail: "Booking code: FISC26 · valid through Jun 1.", dueDate: "2026-06-01" },
-    { shortLabel: "Profile upload", task: "Upload your delegate profile and headshot in the portal", dueDate: "2026-06-08" },
-    { shortLabel: "Photo consent", task: "Complete the consent form for photography and recording", dueDate: "2026-06-15" },
-    { shortLabel: "Companion app", task: "Download the offline-capable delegate companion app", dueDate: "2026-06-22" },
+    { shortLabel: "Visa letter", task: "Request your visa invitation letter from the secretariat", dueDate: "2026-05-25" },
+    { shortLabel: "Book flights", task: "Book your flights into Piarco International (POS)", dueDate: "2026-05-25" },
+    { shortLabel: "Hotel booking", task: "Reserve your room at the Hyatt Regency", detail: "Booking code: FISC26 · valid through Jun 1.", dueDate: "2026-06-01" },
+    { shortLabel: "Profile upload", task: "Upload your delegate profile and headshot", dueDate: "2026-06-08" },
+    { shortLabel: "Photo consent", task: "Sign the photography and recording consent form", dueDate: "2026-06-15" },
+    { shortLabel: "Companion app", task: "Install the delegate companion app (works offline)", dueDate: "2026-06-22" },
   ],
   essentials: [
     {
       category: "Passport & Visa",
       items: [
-        "Passport must be valid for at least six months beyond arrival.",
-        "Most delegations enter visa-free for up to 90 days; the secretariat coordinates official invitation letters for visa-required nationalities.",
+        "Your passport must be valid for at least six months beyond arrival.",
+        "Most delegations enter visa-free for up to 90 days.",
+        "For visa-required nationalities, the secretariat coordinates official invitation letters.",
         "Keep a digital and a paper copy of your invitation letter while in transit.",
       ],
     },
@@ -669,9 +670,9 @@ export const delegateGuide: DelegateGuide = {
     {
       category: "Etiquette & Dress",
       items: [
-        "Plenaries: business smart. Workshops: business casual is fine.",
+        "Plenaries: business smart. Workshops: business casual.",
         "Gala dinner: smart cocktail or national dress.",
-        "Greet using a handshake; titles are appreciated on first introduction.",
+        "A handshake is the standard greeting. Titles are appreciated on first introduction.",
       ],
     },
   ],
