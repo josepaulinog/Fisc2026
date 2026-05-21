@@ -21,7 +21,7 @@ import maracasCabin from "../imports/maracas-cabin.jpg";
 import scarletIbis from "../imports/scarlet-ibis.jpg";
 import queensRoyalCollege from "../imports/queens-royal-college.jpg";
 import carnivalDancer from "../imports/carnival-dancer.jpg";
-import speakersImage from "../imports/speakers4.png";
+import speakersImage from "../imports/speakers5.png";
 import newsletterImage from "../imports/newsletter.jpg";
 
 // Host-country officials — Trinidad & Tobago is FISC 2026's host, so the
