@@ -48,8 +48,13 @@ function Hero() {
   return (
     <section className="relative overflow-hidden text-white pt-28 md:pt-32" style={{ backgroundColor: INK }}>
       <motion.div style={{ y, opacity }} className="absolute inset-0">
+        {/* object-right on mobile, object-center on md+ — the landscape video
+            gets cropped on narrow viewports; right-aligning keeps the palms
+            on the right side of the frame visible instead of cropping them
+            out. Centred composition is preserved on tablet+ where the full
+            width has room to breathe. */}
         {prefersReducedMotion ? (
-          <ImageWithFallback src={HERO_IMG} alt="Caribbean coast" className="w-full h-full object-cover opacity-50" />
+          <ImageWithFallback src={HERO_IMG} alt="Caribbean coast" className="w-full h-full object-cover object-right md:object-center opacity-50" />
         ) : (
           <video
             src="/rocky.mp4"
@@ -60,7 +65,7 @@ function Hero() {
             playsInline
             preload="auto"
             aria-hidden="true"
-            className="pointer-events-none absolute inset-0 w-full h-full object-cover opacity-50"
+            className="pointer-events-none absolute inset-0 w-full h-full object-cover object-right md:object-center opacity-50"
           />
         )}
       </motion.div>
