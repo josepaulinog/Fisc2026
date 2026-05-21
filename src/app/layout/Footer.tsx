@@ -29,11 +29,11 @@ export function Newsletter() {
     e.preventDefault();
     const trimmed = value.trim();
     if (!trimmed) {
-      setError("Email is required.");
+      setError("Enter your email to follow along.");
       return;
     }
     if (!looksLikeEmail(trimmed)) {
-      setError("Enter a valid email address.");
+      setError("That doesn't look like an email address.");
       return;
     }
     // Stub: real flow posts to the FreeBalance newsletter endpoint at WP-port time.

@@ -38,37 +38,37 @@ function stepsFor(name: string): Step[] {
       icon: Calendar,
       eyebrow: "Welcome",
       title: `Welcome, ${first}.`,
-      body: "You're signed in to FISC 2026. Four days of country-led PFM reform — Jun 29 – Jul 2, 2026, at the Hyatt Regency in Port of Spain. Here's what's now unlocked.",
+      body: "You're in. FISC 2026 runs Jun 29 – Jul 2 at the Hyatt Regency, Port of Spain. Here's what your delegate access opens up.",
     },
     {
       icon: UserCircle2,
       eyebrow: "Step 1",
       title: "Complete your profile",
-      body: "Add your role, country and a short bio. Other delegates will see this in the Attendees directory — it's how you get recognised before sessions and matched with peers.",
+      body: "Add your role, country and a short bio. Other delegates will see you in the Attendees directory — it's how you get recognised before sessions.",
     },
     {
       icon: Mic,
       eyebrow: "Step 2",
       title: "Explore the programme",
-      body: "25+ sessions across four days. Tap any session to see the full briefing, speakers and related downloads.",
+      body: "25+ sessions across four days. Open any session for the full briefing, speakers and related downloads.",
     },
     {
       icon: Download,
       eyebrow: "Step 3",
       title: "Grab the takeaways",
-      body: "Materials, Trinidad & Tobago delegate guide and the full attendee directory are now available under Resources.",
+      body: "Session decks, one-pagers, the Trinidad & Tobago delegate guide and the attendee directory — all under Resources.",
     },
     {
       icon: Users,
       eyebrow: "Step 4",
       title: "Meet the community",
-      body: "Browse delegates from 40+ countries and reach out before you land in Port of Spain.",
+      body: "Browse delegates from across the FreeBalance customer community and reach out before you land in Port of Spain.",
     },
     {
       icon: MapPin,
       eyebrow: "Ready",
       title: "See you in Port of Spain.",
-      body: "Need to revisit this? You can replay the tour any time from your profile page.",
+      body: "You can replay this tour any time from your profile page.",
     },
   ];
 }

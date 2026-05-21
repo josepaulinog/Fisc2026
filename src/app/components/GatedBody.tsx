@@ -42,10 +42,10 @@ export function GatedBody({ children }: { children: ReactNode }) {
           className="tracking-[-0.02em] text-neutral-950"
           style={{ fontSize: "clamp(1.75rem, 3.5vw, 2.5rem)", lineHeight: 1.05 }}
         >
-          This area is for registered delegates.
+          For registered delegates.
         </h2>
         <p className="mt-4 text-neutral-700 max-w-md mx-auto" style={{ lineHeight: 1.65 }}>
-          Sign in with the credentials sent to your invited email to access this content.
+          Sign in with the email and access code from your invitation to open this section.
         </p>
 
         <Link
