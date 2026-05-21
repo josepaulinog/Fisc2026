@@ -70,7 +70,14 @@ export default function About() {
             </h2>
           </div>
 
-          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-5">
+          {/* Numbered manifesto — replaces the previous 3-up card grid. An
+              editorial position statement reads as institutional voice (think
+              FT, Reuters, government white paper) instead of a SaaS feature
+              row. Asymmetric 3/9 split on desktop: outsized tabular-num
+              numeral + icon stacked on the left, title and body breathing in
+              the right column. Hairline divider above each pillar gives the
+              section the rhythm of a typeset article. Stagger reveal stays. */}
+          <div className="max-w-5xl mx-auto">
             {APPROACH.map((p, i) => (
               <motion.div
                 key={p.title}
@@ -78,23 +85,36 @@ export default function About() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: i * 0.08 }}
-                className="group p-5 md:p-7 rounded-md border border-neutral-200 bg-white hover:border-neutral-950 hover:bg-neutral-950 hover:text-white transition-all"
+                className="grid grid-cols-1 md:grid-cols-12 gap-5 md:gap-10 py-8 md:py-12 border-t border-neutral-200 first:border-t-0 md:first:border-t md:first:pt-12"
               >
-                <div
-                  className="w-11 h-11 md:w-12 md:h-12 rounded-sm flex items-center justify-center mb-4 md:mb-5 group-hover:bg-white/10 transition-colors"
-                  style={{ backgroundColor: `${BRAND}15`, color: BRAND }}
-                >
-                  <p.icon size={20} strokeWidth={1.5} />
+                <div className="md:col-span-3 flex md:flex-col items-center md:items-start gap-4 md:gap-6">
+                  <span
+                    className="tabular-nums tracking-tight text-neutral-300"
+                    style={{ fontSize: "clamp(2.5rem, 5vw, 3.75rem)", lineHeight: 1, fontWeight: 300 }}
+                  >
+                    {String(i + 1).padStart(2, "0")}
+                  </span>
+                  <div
+                    className="w-11 h-11 md:w-12 md:h-12 rounded-sm flex items-center justify-center"
+                    style={{ backgroundColor: `${BRAND}15`, color: BRAND }}
+                  >
+                    <p.icon size={20} strokeWidth={1.5} />
+                  </div>
                 </div>
-                <div className="tracking-tight text-[1.125rem] md:text-[1.25rem]" style={{ lineHeight: 1.2 }}>
-                  {p.title}
+                <div className="md:col-span-9 md:pt-1">
+                  <h3
+                    className="tracking-tight text-neutral-950"
+                    style={{ fontSize: "clamp(1.375rem, 2.5vw, 1.75rem)", lineHeight: 1.15, fontWeight: 500 }}
+                  >
+                    {p.title}
+                  </h3>
+                  <p
+                    className="mt-3 md:mt-4 text-neutral-700 max-w-[60ch]"
+                    style={{ fontSize: "1.0625rem", lineHeight: 1.65 }}
+                  >
+                    {p.desc}
+                  </p>
                 </div>
-                <p
-                  className="mt-2.5 md:mt-3 text-neutral-700 group-hover:text-white/78 text-[0.9375rem] md:text-base"
-                  style={{ lineHeight: 1.6 }}
-                >
-                  {p.desc}
-                </p>
               </motion.div>
             ))}
           </div>

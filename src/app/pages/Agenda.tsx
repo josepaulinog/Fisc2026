@@ -296,17 +296,22 @@ function SessionRow({
               </p>
             )}
 
-            {/* Expanded panel — speakers + "view full" link */}
+            {/* Expanded panel — speakers + "view full" link.
+                Animates via grid-template-rows 0fr → 1fr (a single GPU-friendly
+                track-size change) instead of height: 0 → auto. No layout
+                thrash, no per-frame measurement, no JS-driven height
+                interpolation. The inner div is overflow-hidden so the row
+                track clips content during the transition. */}
             <AnimatePresence initial={false}>
               {expanded && (
                 <motion.div
-                  initial={{ opacity: 0, height: 0 }}
-                  animate={{ opacity: 1, height: "auto" }}
-                  exit={{ opacity: 0, height: 0 }}
+                  initial={{ opacity: 0, gridTemplateRows: "0fr" }}
+                  animate={{ opacity: 1, gridTemplateRows: "1fr" }}
+                  exit={{ opacity: 0, gridTemplateRows: "0fr" }}
                   transition={{ duration: 0.32, ease: [0.32, 0.72, 0, 1] }}
-                  className="overflow-hidden"
+                  className="grid"
                 >
-                  <div className="mt-5 pt-5 border-t border-neutral-100">
+                  <div className="overflow-hidden mt-5 pt-5 border-t border-neutral-100">
                     {hasSpeakers && (
                       <>
                         <SectionLabel>Speakers</SectionLabel>

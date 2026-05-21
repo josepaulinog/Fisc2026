@@ -49,7 +49,7 @@ export function Root() {
           gives the same horizontal-overflow protection without becoming a
           scroll context, so the Countdown column on the homepage can stick
           to the viewport as the user scrolls past it. */}
-      <div className="min-h-screen bg-white text-neutral-900 overflow-x-clip">
+      <div className="min-h-[100dvh] bg-white text-neutral-900 overflow-x-clip">
         <Header />
         <main>
           <Outlet />

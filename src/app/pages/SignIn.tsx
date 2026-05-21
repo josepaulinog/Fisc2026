@@ -134,7 +134,7 @@ export default function SignIn() {
 
   return (
     <section
-      className="relative min-h-screen flex items-stretch overflow-hidden"
+      className="relative min-h-[100dvh] flex items-stretch overflow-hidden"
       style={{ backgroundColor: INK }}
     >
       <ImageWithFallback

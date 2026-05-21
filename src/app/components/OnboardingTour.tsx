@@ -13,6 +13,7 @@ import {
 import { useAuth } from "../auth";
 import { firstNameOf } from "../profile";
 import { BRAND, BRAND_SOFT, INK } from "../data";
+import { Z } from "../tokens";
 
 /**
  * OnboardingTour — multi-step welcome modal shown the first time a delegate
@@ -180,7 +181,7 @@ export function OnboardingTour({ children }: { children?: React.ReactNode }) {
             role="dialog"
             aria-modal="true"
             aria-labelledby="onboarding-title"
-            className="fixed inset-0 z-[100] bg-black/80 backdrop-blur-sm flex items-center justify-center p-4 md:p-6"
+            className={`fixed inset-0 ${Z.overlay} bg-black/80 backdrop-blur-sm flex items-center justify-center p-4 md:p-6`}
           >
             <motion.div
               initial={{ opacity: 0, y: 24, scale: 0.96 }}

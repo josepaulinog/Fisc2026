@@ -1,12 +1,13 @@
 import { useEffect, useState } from "react";
 import { Link, NavLink, useLocation } from "react-router";
-import { AnimatePresence, motion } from "motion/react";
+import { AnimatePresence, motion, useMotionValueEvent, useScroll } from "motion/react";
 import { ArrowUpRight, ChevronDown, LogOut, Lock, X } from "lucide-react";
 import { Lockup } from "../components/brand/Lockup";
 import { BracketArrow } from "../components/ui/BracketArrow";
 import { useAuth } from "../auth";
 import { firstNameOf, initialsOf, useProfile } from "../profile";
 import { BRAND, INK, navItems } from "../data";
+import { Z } from "../tokens";
 
 export function Header() {
   const [scrolled, setScrolled] = useState(false);
@@ -16,11 +17,19 @@ export function Header() {
   const { user, isAuthed, signOut } = useAuth();
   const [profile] = useProfile(user);
 
-  useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 20);
-    window.addEventListener("scroll", onScroll);
-    return () => window.removeEventListener("scroll", onScroll);
-  }, []);
+  // Scroll-state via Motion's useScroll instead of a raw scroll listener.
+  // Motion shares one rAF-batched listener across every useScroll hook on
+  // the page, so we don't pay the per-event reflow cost of
+  // window.addEventListener('scroll'). The threshold check still flips
+  // React state because the header's pill shrink is a layout change
+  // (padding-top, glass opacity) — not a transform — so it has to round-trip
+  // through render. The win here is the shared, batched, rAF-driven scroll
+  // source, not a state-free animation.
+  const { scrollY } = useScroll();
+  useMotionValueEvent(scrollY, "change", (latest) => {
+    const next = latest > 20;
+    if (next !== scrolled) setScrolled(next);
+  });
 
   useEffect(() => {
     setOpen(false);
@@ -49,7 +58,7 @@ export function Header() {
           from "ethereal floating glass" (top of page) to "definitive command
           surface" (deep scroll) — same object, two states. */}
       <header
-        className={`fixed top-0 inset-x-0 z-50 transition-fluid ${scrolled ? "pt-2 md:pt-3" : "pt-4 md:pt-6"}`}
+        className={`fixed top-0 inset-x-0 ${Z.nav} transition-fluid ${scrolled ? "pt-2 md:pt-3" : "pt-4 md:pt-6"}`}
       >
         <div className="mx-auto max-w-7xl px-5 md:px-6 transition-fluid">
           <div
@@ -283,14 +292,14 @@ export function Header() {
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               onClick={() => setOpen(false)}
-              className="fixed inset-0 z-[60] bg-black/50 backdrop-blur-sm lg:hidden"
+              className={`fixed inset-0 ${Z.modalScrim} bg-black/50 backdrop-blur-sm lg:hidden`}
             />
             <motion.div
               initial={{ x: "100%" }}
               animate={{ x: 0 }}
               exit={{ x: "100%" }}
               transition={{ type: "tween", duration: 0.35, ease: [0.32, 0.72, 0, 1] }}
-              className="fixed top-0 right-0 bottom-0 z-[70] w-[88%] max-w-sm bg-white shadow-2xl lg:hidden flex flex-col"
+              className={`fixed top-0 right-0 bottom-0 ${Z.modal} w-[88%] max-w-sm bg-white shadow-2xl lg:hidden flex flex-col`}
             >
               <div className="flex items-center justify-between p-5 border-b border-neutral-100">
                 <Lockup variant="dark" size="sm" />
@@ -347,10 +356,11 @@ export function Header() {
                       </div>
                       {hasChildren && expanded && (
                         <motion.div
-                          initial={{ opacity: 0, height: 0 }}
-                          animate={{ opacity: 1, height: "auto" }}
-                          className="mt-1 ml-3 border-l border-neutral-200 pl-3 space-y-0.5 overflow-hidden"
+                          initial={{ opacity: 0, gridTemplateRows: "0fr" }}
+                          animate={{ opacity: 1, gridTemplateRows: "1fr" }}
+                          className="grid mt-1 ml-3 border-l border-neutral-200 pl-3"
                         >
+                          <div className="overflow-hidden space-y-0.5">
                           {n.children!.map((c) => (
                             <NavLink
                               key={c.label}
@@ -371,6 +381,7 @@ export function Header() {
                               )}
                             </NavLink>
                           ))}
+                          </div>
                         </motion.div>
                       )}
                     </div>

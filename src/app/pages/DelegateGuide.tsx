@@ -261,8 +261,13 @@ export default function DelegateGuide() {
                     </span>
                   </button>
                   {open && (
-                    <motion.div initial={{ opacity: 0, height: 0 }} animate={{ opacity: 1, height: "auto" }} transition={{ duration: 0.2 }} className="px-5 md:px-6 pb-5 overflow-hidden">
-                      <ul className="space-y-2 text-white/75" style={{ lineHeight: 1.65 }}>
+                    <motion.div
+                      initial={{ opacity: 0, gridTemplateRows: "0fr" }}
+                      animate={{ opacity: 1, gridTemplateRows: "1fr" }}
+                      transition={{ duration: 0.2 }}
+                      className="grid"
+                    >
+                      <ul className="overflow-hidden px-5 md:px-6 pb-5 space-y-2 text-white/75" style={{ lineHeight: 1.65 }}>
                         {g.items.map((item, i) => (
                           <li key={i} className="flex items-start gap-3">
                             <span className="w-1.5 h-1.5 rounded-full mt-2.5 shrink-0" style={{ backgroundColor: BRAND }} />

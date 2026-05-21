@@ -124,3 +124,28 @@ export const DURATION = {
   /** Scroll arrival / heavy entry. */
   deep: 0.9,
 } as const;
+
+// ─── Z-index ladder ──────────────────────────────────────────────────────
+// Four explicit layers. Arbitrary z-50 / z-[60] / z-[70] / z-[100] sprinkled
+// through markup was confusing and the order-by-magnitude was unprincipled.
+// Now: sticky nav < modal scrim < modal panel < tour overlay.
+//
+// Tailwind utility form — drop into className strings:
+//   <header className={Z.nav}> · <div className={Z.modalScrim}>
+//
+// Numeric form (for inline styles where Tailwind can't reach):
+//   style={{ zIndex: Z_INDEX.modal }}
+
+export const Z_INDEX = {
+  nav: 50,
+  modalScrim: 60,
+  modal: 70,
+  overlay: 100,
+} as const;
+
+export const Z = {
+  nav: "z-[50]",
+  modalScrim: "z-[60]",
+  modal: "z-[70]",
+  overlay: "z-[100]",
+} as const;
