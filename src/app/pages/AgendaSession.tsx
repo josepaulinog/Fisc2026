@@ -15,6 +15,7 @@ import {
 import { ImageWithFallback } from "../components/figma/ImageWithFallback";
 import { PageHero, SectionLabel } from "../components/shared";
 import { chipTone } from "../tokens";
+import portOfSpainMap from "../../imports/port-of-spain-map.png";
 import { useDocumentTitle } from "../motion";
 import {
   BRAND,
@@ -451,11 +452,10 @@ export default function AgendaSession() {
 
           <div className="grid lg:grid-cols-12 gap-4 md:gap-5">
             <div className="lg:col-span-8 relative rounded-3xl overflow-hidden border border-neutral-200 bg-white">
-              <iframe
-                title="Hyatt Regency Port of Spain — interactive map"
-                src="https://www.openstreetmap.org/export/embed.html?bbox=-61.530,10.640,-61.505,10.658&layer=mapnik&marker=10.6488,-61.5179"
-                className="w-full block"
-                style={{ height: "440px", border: 0 }}
+              <img
+                src={portOfSpainMap}
+                alt="Map of Port of Spain showing the Hyatt Regency venue location"
+                className="w-full h-[440px] block object-cover"
                 loading="lazy"
               />
             </div>
@@ -484,13 +484,13 @@ export default function AgendaSession() {
               </div>
 
               <a
-                href="https://www.openstreetmap.org/?mlat=10.6488&mlon=-61.5179#map=16/10.6488/-61.5179"
+                href="https://www.google.com/maps/place/Hyatt+Regency+Trinidad/@10.6488,-61.5179,17z"
                 target="_blank"
                 rel="noreferrer"
                 className="mt-6 group inline-flex items-center justify-between gap-2 px-4 py-3 rounded-sm text-white hover:opacity-95 transition"
                 style={{ backgroundColor: INK }}
               >
-                Open in OpenStreetMap
+                Open in Google Maps
                 <span
                   className="w-7 h-7 rounded-full flex items-center justify-center"
                   style={{ backgroundColor: BRAND }}
