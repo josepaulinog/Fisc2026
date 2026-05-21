@@ -30,6 +30,34 @@ import {
 type SessionLocator = { dayIdx: number; sessionIdx: number };
 
 /**
+ * Splits a session title so the trailing 1-2 words render in the brand
+ * GradientText accent (Instrument Serif italic, brand orange). Matches the
+ * editorial italicised-tail pattern used on About, Speakers, Venue and other
+ * heroes — but adapted to dynamic session titles:
+ *   - 1 word         → italicise the whole word (the title IS the accent)
+ *   - 2 words        → italicise the last word
+ *   - 3+ words       → italicise the trailing 2 words (gives a richer accent
+ *                       phrase for long, descriptive titles)
+ *
+ * Skips any italic accent for titles ending in a colon-segmented prefix
+ * (rare for sessions but possible) — defensive guard. */
+function styledSessionTitle(title: string): React.ReactNode {
+  const words = title.trim().split(/\s+/);
+  if (words.length === 0) return title;
+  if (words.length === 1) {
+    return <GradientText>{words[0]}</GradientText>;
+  }
+  const italicCount = words.length >= 3 ? 2 : 1;
+  const head = words.slice(0, words.length - italicCount).join(" ");
+  const tail = words.slice(words.length - italicCount).join(" ");
+  return (
+    <>
+      {head} <GradientText>{tail}</GradientText>
+    </>
+  );
+}
+
+/**
  * Jump to the first session of the previous or next day. Day-level navigation
  * is more useful at the bottom of a session brief than session-level (the agenda
  * list is one click away if you want to browse adjacent sessions).
@@ -96,7 +124,7 @@ export default function AgendaSession() {
           { label: `${day.label} · ${day.date}`, to: "/agenda" },
           { label: session.title },
         ]}
-        title={<GradientText>{session.title}</GradientText>}
+        title={styledSessionTitle(session.title)}
         subtitle={session.desc}
         image={HERO_AGENDA}
         imageCaption={`Session ${sessionIdx + 1} of ${day.sessions.length}`}

@@ -195,7 +195,7 @@ export function PageHero({
   imageCaption?: string;
 }) {
   return (
-    <section className="relative overflow-hidden pt-28 pb-16 md:pt-36 md:pb-24" style={{ backgroundColor: "#0a0a0a" }}>
+    <section className="relative overflow-hidden pt-24 pb-14 md:pt-36 md:pb-24" style={{ backgroundColor: "#0a0a0a" }}>
       {image && (
         <div className="absolute inset-0">
           <ImageWithFallback
@@ -208,15 +208,22 @@ export function PageHero({
       <div
         className="absolute inset-0"
         style={{
+          /* Overlay lightened so the underlying photograph carries more
+             of the visual weight on internal page heroes. Top still
+             carries enough darkness for the SectionLabel/breadcrumbs +
+             headline to read at AA contrast; the middle drops to ~30%
+             alpha so the image breathes, and the bottom stays at ~50%
+             for the imageCaption. Homepage uses its own custom hero
+             with the rocky.mp4 video, so this change doesn't touch it. */
           background: image
-            ? `radial-gradient(ellipse at 85% 0%, ${BRAND}55 0%, transparent 55%), linear-gradient(180deg, rgba(10,10,10,0.85) 0%, rgba(10,10,10,0.55) 40%, rgba(10,10,10,0.7) 100%)`
+            ? `radial-gradient(ellipse at 85% 0%, ${BRAND}44 0%, transparent 55%), linear-gradient(180deg, rgba(10,10,10,0.65) 0%, rgba(10,10,10,0.3) 40%, rgba(10,10,10,0.5) 100%)`
             : `radial-gradient(ellipse at 80% 10%, ${BRAND}55 0%, transparent 50%), linear-gradient(180deg, #0a0a0a 0%, transparent 40%, #0a0a0a 100%)`,
         }}
       />
       <Grain />
       <div className="relative max-w-7xl mx-auto px-5 md:px-6">
         {breadcrumbs && breadcrumbs.length > 0 ? (
-          <Breadcrumbs tone="light" items={breadcrumbs} className="mb-6" />
+          <Breadcrumbs tone="light" items={breadcrumbs} className="mb-5 md:mb-6" />
         ) : (
           <SectionLabel tone="light">{label}</SectionLabel>
         )}
@@ -226,17 +233,22 @@ export function PageHero({
           // (now Instrument Serif) have ascenders/descenders that collide with
           // adjacent lines when line-height equals the font size. 1.05 gives
           // them breathing room without making the headline feel airy.
-          style={{ fontSize: "clamp(2.5rem, 7vw, 6rem)", lineHeight: 1.05 }}
+          // Mobile floor bumped from 2.5rem to 2.25rem (40 → 36px) so two-line
+          // headlines clear the safe-area on a 360px viewport.
+          style={{ fontSize: "clamp(2.25rem, 7vw, 6rem)", lineHeight: 1.05 }}
         >
           <GradientToneScope tone="light">{title}</GradientToneScope>
         </h1>
         {subtitle && (
-          <p className="mt-6 max-w-2xl text-white/80" style={{ fontSize: "1.125rem", lineHeight: 1.6 }}>
+          <p className="mt-4 md:mt-6 max-w-2xl text-white/80 text-[1rem] md:text-[1.125rem]" style={{ lineHeight: 1.6 }}>
             {subtitle}
           </p>
         )}
         {imageCaption && (
-          <div className="mt-10 md:mt-16 inline-flex items-center gap-2 text-white/50 text-xs tracking-[0.2em] uppercase">
+          /* Mobile caption gap halved — 40px gap on mobile (mt-10) wasted
+             vertical space below the subtitle. 24px lands the caption inside
+             the same visual block as the headline. */
+          <div className="mt-6 md:mt-16 inline-flex items-center gap-2 text-white/50 text-[10.5px] md:text-xs tracking-[0.2em] uppercase">
             <span className="w-1.5 h-1.5 rounded-full" style={{ backgroundColor: BRAND }} />
             {imageCaption}
           </div>

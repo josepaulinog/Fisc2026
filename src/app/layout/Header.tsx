@@ -1,8 +1,9 @@
 import { useEffect, useState } from "react";
 import { Link, NavLink, useLocation } from "react-router";
 import { AnimatePresence, motion } from "motion/react";
-import { ArrowUpRight, ChevronDown, LogOut, Lock, Menu, X } from "lucide-react";
+import { ArrowUpRight, ChevronDown, LogOut, Lock, X } from "lucide-react";
 import { Lockup } from "../components/brand/Lockup";
+import { BracketArrow } from "../components/ui/BracketArrow";
 import { useAuth } from "../auth";
 import { firstNameOf, initialsOf, useProfile } from "../profile";
 import { BRAND, INK, navItems } from "../data";
@@ -39,55 +40,99 @@ export function Header() {
           surface, hairline ring instead of a solid border, ambient shadow
           replacing the SaaS-template shadow-sm. The pill rounds the corners
           to maximum (rounded-full) so the whole header reads as one floating
-          object rather than a stretched bar. */}
+          object rather than a stretched bar.
+
+          Scroll-state choreography: pill shrinks (height + top padding) AND
+          the glass becomes more opaque (75 → 92) for stronger contrast over
+          arbitrary content backgrounds the user has scrolled into. Ambient
+          shadow deepens slightly. Ring strengthens. The pill transitions
+          from "ethereal floating glass" (top of page) to "definitive command
+          surface" (deep scroll) — same object, two states. */}
       <header
         className={`fixed top-0 inset-x-0 z-50 transition-fluid ${scrolled ? "pt-2 md:pt-3" : "pt-4 md:pt-6"}`}
       >
         <div className="mx-auto max-w-7xl px-5 md:px-6 transition-fluid">
           <div
-            className={`flex items-center justify-between rounded-sm ring-1 ring-black/[0.05] bg-white/75 backdrop-blur-2xl transition-fluid px-3 md:px-4 shadow-[0_8px_30px_-12px_rgba(0,0,0,0.12)] ${
-              scrolled ? "h-14 md:h-16" : "h-16 md:h-[68px]"
+            className={`flex items-center justify-between rounded-sm ring-1 transition-fluid px-3 md:px-5 ${
+              scrolled
+                ? "ring-black/[0.08] bg-white/92 backdrop-blur-2xl h-14 md:h-16 shadow-[0_12px_36px_-14px_rgba(0,0,0,0.18)]"
+                : "ring-black/[0.05] bg-white/75 backdrop-blur-2xl h-16 md:h-[68px] shadow-[0_8px_30px_-12px_rgba(0,0,0,0.12)]"
             }`}
           >
             <Link to="/" className="flex items-center shrink-0" aria-label="FISC 2026 home">
               <Lockup variant="dark" size="sm" />
             </Link>
-            <nav className="hidden lg:flex items-center gap-1">
+            <nav className="hidden lg:flex items-center gap-0.5">
               {navItems.map((n) =>
                 n.children && n.children.length > 0 ? (
                   <div key={n.label} className="relative group">
+                    {/* Resources-style item with dropdown. Active state keeps
+                        the inverted ink pill (clear hierarchy beat) plus an
+                        inset highlight + brand-orange leading dot — the dot
+                        is the signature accent that ties the active nav item
+                        to the rest of the brand system (SectionLabel dot,
+                        GradientText, brand glyph in CTAs). Inactive hover
+                        replaces aggressive full-invert with a subtle glass
+                        darken so non-current items don't impersonate the
+                        active treatment. */}
                     <NavLink
                       to={n.to ?? n.children[0].to}
                       className={({ isActive }) =>
-                        `inline-flex items-center gap-1.5 px-4 py-2 rounded-sm transition-colors ${
+                        `inline-flex items-center gap-1.5 pl-3 pr-3 py-2 rounded-sm transition-fluid ${
                           isActive
-                            ? "bg-neutral-950 text-white"
-                            : "text-neutral-700 group-hover:bg-neutral-950 group-hover:text-white"
+                            ? "bg-neutral-950 text-white shadow-[inset_0_1px_0_rgba(255,255,255,0.08)]"
+                            : "text-neutral-700 hover:bg-black/[0.05] hover:text-neutral-950"
                         }`
                       }
                     >
-                      {n.label}
-                      <ChevronDown size={14} className="opacity-70 group-hover:rotate-180 transition-transform" />
+                      {({ isActive }) => (
+                        <>
+                          {isActive && (
+                            <span
+                              aria-hidden
+                              className="w-1.5 h-1.5 rounded-full shrink-0"
+                              style={{ backgroundColor: BRAND }}
+                            />
+                          )}
+                          <span>{n.label}</span>
+                          <ChevronDown
+                            size={13}
+                            strokeWidth={1.75}
+                            className={`opacity-70 transition-transform duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] group-hover:rotate-180`}
+                          />
+                        </>
+                      )}
                     </NavLink>
-                    <div className="absolute top-full left-1/2 -translate-x-1/2 pt-3 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all">
-                      <div className="bg-white border border-neutral-200 rounded-lg shadow-xl overflow-hidden min-w-[16rem]">
+                    {/* Premium dropdown panel — replaces the SaaS-template
+                        bordered card. Hairline ring + ambient shadow + glass
+                        (95% opacity + backdrop-blur) matches the nav pill's
+                        visual language. Translates up subtly on enter so the
+                        panel "lifts into place" rather than popping. */}
+                    <div className="absolute top-full left-1/2 -translate-x-1/2 pt-3 opacity-0 invisible translate-y-1 group-hover:opacity-100 group-hover:visible group-hover:translate-y-0 transition-fluid">
+                      <div
+                        className="bg-white/95 backdrop-blur-xl ring-1 ring-black/[0.06] rounded-md overflow-hidden min-w-[19rem]"
+                        style={{ boxShadow: "0 24px 60px -24px rgba(0,0,0,0.22), 0 4px 12px -6px rgba(0,0,0,0.08)" }}
+                      >
                         {n.to && (
                           <NavLink
                             to={n.to}
                             end
                             className={({ isActive }) =>
-                              `block px-4 py-3 border-b border-neutral-100 ${
+                              `group/hub block px-4 py-3.5 border-b border-black/[0.05] transition-fluid ${
                                 isActive
-                                  ? "bg-neutral-50 text-neutral-950"
-                                  : "text-neutral-700 hover:bg-neutral-50 hover:text-neutral-950"
+                                  ? "bg-black/[0.02] text-neutral-950"
+                                  : "text-neutral-700 hover:bg-black/[0.025] hover:text-neutral-950"
                               }`
                             }
                           >
-                            <div className="flex items-center justify-between">
-                              <span className="tracking-tight" style={{ fontSize: "0.95rem" }}>
+                            <div className="flex items-center justify-between gap-3">
+                              <span className="tracking-tight text-[0.95rem]" style={{ fontWeight: 500 }}>
                                 {n.label} hub
                               </span>
-                              <span className="text-xs text-neutral-400">Overview</span>
+                              <span className="inline-flex items-center gap-1.5 text-[10px] tracking-[0.18em] uppercase text-neutral-400 transition-fluid group-hover/hub:text-neutral-700 group-hover/hub:translate-x-0.5">
+                                Overview
+                                <ArrowUpRight size={11} strokeWidth={1.5} />
+                              </span>
                             </div>
                           </NavLink>
                         )}
@@ -97,19 +142,34 @@ export function Header() {
                               key={c.label}
                               to={c.to}
                               className={({ isActive }) =>
-                                `flex items-center justify-between gap-3 px-4 py-2.5 transition ${
+                                `group/item flex items-center justify-between gap-3 px-4 py-2.5 transition-fluid ${
                                   isActive
                                     ? "bg-neutral-950 text-white"
-                                    : "text-neutral-700 hover:bg-neutral-50 hover:text-neutral-950"
+                                    : "text-neutral-700 hover:bg-black/[0.03] hover:text-neutral-950"
                                 }`
                               }
                             >
-                              <span>{c.label}</span>
-                              {c.gated && (
-                                <span className="inline-flex items-center gap-1 text-[10px] tracking-[0.15em] uppercase text-neutral-400">
-                                  <Lock size={10} />
-                                  Gated
-                                </span>
+                              {({ isActive }) => (
+                                <>
+                                  <span className="inline-flex items-center gap-2 transition-fluid group-hover/item:translate-x-0.5">
+                                    {isActive && (
+                                      <span
+                                        aria-hidden
+                                        className="w-1 h-1 rounded-full shrink-0"
+                                        style={{ backgroundColor: BRAND }}
+                                      />
+                                    )}
+                                    <span>{c.label}</span>
+                                  </span>
+                                  {c.gated && (
+                                    <span className={`inline-flex items-center gap-1 text-[10px] tracking-[0.15em] uppercase transition-fluid ${
+                                      isActive ? "text-white/55" : "text-neutral-400 group-hover/item:text-neutral-500"
+                                    }`}>
+                                      <Lock size={10} strokeWidth={1.5} />
+                                      Gated
+                                    </span>
+                                  )}
+                                </>
                               )}
                             </NavLink>
                           ))}
@@ -122,14 +182,25 @@ export function Header() {
                     key={n.label}
                     to={n.to ?? "#"}
                     className={({ isActive }) =>
-                      `px-4 py-2 rounded-sm transition-colors ${
+                      `inline-flex items-center gap-1.5 pl-3 pr-3 py-2 rounded-sm transition-fluid ${
                         isActive
-                          ? "bg-neutral-950 text-white"
-                          : "text-neutral-700 hover:bg-neutral-950 hover:text-white"
+                          ? "bg-neutral-950 text-white shadow-[inset_0_1px_0_rgba(255,255,255,0.08)]"
+                          : "text-neutral-700 hover:bg-black/[0.05] hover:text-neutral-950"
                       }`
                     }
                   >
-                    {n.label}
+                    {({ isActive }) => (
+                      <>
+                        {isActive && (
+                          <span
+                            aria-hidden
+                            className="w-1.5 h-1.5 rounded-full shrink-0"
+                            style={{ backgroundColor: BRAND }}
+                          />
+                        )}
+                        <span>{n.label}</span>
+                      </>
+                    )}
                   </NavLink>
                 )
               )}
@@ -137,13 +208,17 @@ export function Header() {
             <div className="flex items-center gap-2">
               {isAuthed && user ? (
                 <>
+                  {/* Mobile (text hidden): symmetric padding (p-1) so the
+                      avatar sits centered in the pill. Desktop (text shown):
+                      asymmetric padding (pl-1 pr-3) leaves room for the
+                      first-name string after the avatar. */}
                   <Link
                     to="/profile"
                     aria-label="Your profile"
-                    className="group inline-flex items-center gap-2 pl-1 pr-3 py-1 rounded-full bg-neutral-100 hover:bg-neutral-200 transition"
+                    className="group inline-flex items-center gap-2 p-1 md:pl-1 md:pr-3 md:py-1 rounded-full bg-black/[0.04] ring-1 ring-black/[0.04] hover:bg-black/[0.07] hover:ring-black/[0.08] transition-fluid"
                   >
                     <span
-                      className="w-7 h-7 rounded-full overflow-hidden flex items-center justify-center text-white text-xs ring-2 ring-white"
+                      className="w-7 h-7 rounded-full overflow-hidden flex items-center justify-center text-white text-xs ring-2 ring-white shadow-[0_2px_6px_-2px_rgba(0,0,0,0.2)]"
                       style={{ backgroundColor: BRAND, fontWeight: 600 }}
                     >
                       {profile?.photoUrl ? (
@@ -159,38 +234,66 @@ export function Header() {
                   <button
                     onClick={signOut}
                     aria-label="Sign out"
-                    className="group hidden sm:inline-flex items-center justify-center w-9 h-9 rounded-full bg-neutral-100 hover:bg-neutral-950 hover:text-white text-neutral-700 transition"
+                    className="group hidden sm:inline-flex items-center justify-center w-9 h-9 rounded-full bg-black/[0.04] ring-1 ring-black/[0.04] hover:bg-neutral-950 hover:ring-neutral-950 hover:text-white text-neutral-700 transition-fluid"
                   >
-                    <LogOut size={14} />
+                    <LogOut size={14} strokeWidth={1.5} className="transition-transform group-hover:translate-x-0.5" />
                   </button>
                 </>
               ) : (
                 <>
-                  <span className="hidden md:inline-flex items-center gap-2 px-3 py-1.5 rounded bg-neutral-100 text-neutral-600 text-sm">
+                  <span className="hidden md:inline-flex items-center gap-2 px-3 py-1.5 rounded-sm bg-black/[0.04] ring-1 ring-black/[0.04] text-neutral-600 text-[0.8125rem]">
                     <span className="w-1.5 h-1.5 rounded-full bg-neutral-400" />
                     Invitation only
                   </span>
                   <Link
                     to="/sign-in"
                     style={{ backgroundColor: INK }}
-                    className="group hidden sm:inline-flex items-center gap-2.5 text-white pl-5 pr-1.5 py-1.5 rounded-sm transition-fluid active:scale-[0.98]"
+                    className="group hidden sm:inline-flex items-center gap-2.5 text-white pl-5 pr-1.5 py-1.5 rounded-sm transition-fluid will-change-transform hover:scale-[1.015] active:scale-[0.98] shadow-[0_3px_10px_-5px_rgba(0,0,0,0.28)] hover:shadow-[0_8px_20px_-8px_rgba(0,0,0,0.36)]"
                   >
                     <span className="text-sm" style={{ fontWeight: 500 }}>Delegate sign in</span>
                     <span
-                      className="w-8 h-8 rounded-sm flex items-center justify-center transition-fluid group-hover:translate-x-0.5 group-hover:-translate-y-[1px]"
+                      className="w-8 h-8 rounded-sm flex items-center justify-center transition-fluid group-hover:brightness-105"
                       style={{ backgroundColor: BRAND }}
                     >
-                      <ArrowUpRight size={13} strokeWidth={1.75} />
+                      <span className="inline-flex transition-fluid group-hover:translate-x-[1.5px] group-hover:-translate-y-[1.5px]">
+                        <BracketArrow size={11} strokeWidth={1.75} />
+                      </span>
                     </span>
                   </Link>
                 </>
               )}
+              {/* Hamburger morph — three custom hairlines (h-0.5 = 2px) with
+                  perfectly even 5px gaps. Container is 20×16; lines sit at
+                  top-0, top-1/2 (centered), bottom-0 in the closed state.
+                  When open, the outer lines translate to center and rotate
+                  ±45° to form an X; the middle line fades out. Rounded line
+                  caps for refined edges. */}
               <button
-                className="lg:hidden inline-flex items-center justify-center w-10 h-10 text-neutral-800 rounded-sm hover:bg-black/5 transition-fluid"
-                onClick={() => setOpen(true)}
-                aria-label="Open menu"
+                className="lg:hidden inline-flex items-center justify-center w-10 h-10 text-neutral-800 rounded-sm hover:bg-black/[0.05] transition-fluid"
+                onClick={() => setOpen((v) => !v)}
+                aria-label={open ? "Close menu" : "Open menu"}
+                aria-expanded={open}
               >
-                <Menu size={20} strokeWidth={1.75} />
+                <span className="relative inline-block w-5 h-4">
+                  <span
+                    aria-hidden
+                    className={`absolute left-0 right-0 h-0.5 bg-current rounded-full origin-center transition-all duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] ${
+                      open ? "top-1/2 -translate-y-1/2 rotate-45" : "top-0"
+                    }`}
+                  />
+                  <span
+                    aria-hidden
+                    className={`absolute left-0 right-0 top-1/2 -translate-y-1/2 h-0.5 bg-current rounded-full transition-opacity duration-300 ease-[cubic-bezier(0.32,0.72,0,1)] ${
+                      open ? "opacity-0" : "opacity-100"
+                    }`}
+                  />
+                  <span
+                    aria-hidden
+                    className={`absolute left-0 right-0 h-0.5 bg-current rounded-full origin-center transition-all duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] ${
+                      open ? "top-1/2 -translate-y-1/2 -rotate-45" : "bottom-0"
+                    }`}
+                  />
+                </span>
               </button>
             </div>
           </div>
@@ -356,7 +459,7 @@ export function Header() {
                         className="w-8 h-8 rounded-full flex items-center justify-center"
                         style={{ backgroundColor: BRAND }}
                       >
-                        <ArrowUpRight size={14} />
+                        <BracketArrow size={12} strokeWidth={1.75} />
                       </span>
                     </Link>
                   </>

@@ -41,6 +41,24 @@
   .fade-up-blur-in { animation: none; }
 }
 
+/* -------------------------------------------------------------------------
+ * Lucide icon stroke weight — project-wide default
+ * -------------------------------------------------------------------------
+ * The Vanguard_UI_Architect spec bans "Standard thick-stroked Lucide" (2px).
+ * Every Lucide icon component renders an <svg class="lucide ...">. We dial
+ * the stroke down to 1.5 globally so any icon we forgot to set explicitly
+ * still reads as ultra-light, premium line work — matching Phosphor Light /
+ * Remix Line aesthetics without swapping the library wholesale.
+ *
+ * Per-element overrides (size + strokeWidth props on the React component)
+ * still win because they emit inline `stroke-width` attributes, which beat
+ * this CSS rule. So decorative icons stay at 1.25, callout icons at 1.5,
+ * and any one-off can crank to 2 explicitly if needed.
+ * ------------------------------------------------------------------------- */
+.lucide {
+  stroke-width: 1.5;
+}
+
 :root {
   --font-size: 16px;
   --background: #ffffff;

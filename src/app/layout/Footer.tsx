@@ -13,9 +13,11 @@ import {
   Youtube,
 } from "lucide-react";
 import { Lockup } from "../components/brand/Lockup";
+import { BracketArrow } from "../components/ui/BracketArrow";
+import { ImageWithFallback } from "../components/figma/ImageWithFallback";
 import { Grain, SectionLabel } from "../components/shared";
 import { looksLikeEmail } from "../auth";
-import { BRAND, BRAND_SOFT, INK, navItems } from "../data";
+import { BRAND, BRAND_SOFT, INK, NEWSLETTER_IMG, navItems } from "../data";
 import { TYPE } from "../tokens";
 
 export function Newsletter() {
@@ -47,90 +49,134 @@ export function Newsletter() {
             into a brushed metal bezel. */}
         <div className="rounded-md p-1.5 bg-black/[0.03] ring-1 ring-black/[0.05]">
         <div
-          className="rounded-sm p-8 md:p-16 text-white relative overflow-hidden"
+          className="rounded-sm text-white relative overflow-hidden"
           style={{ backgroundColor: INK }}
         >
+          {/* Brand radials — INK-dominant with brand as a corner whisper. */}
           <div
-            className="absolute inset-0"
+            className="absolute inset-0 pointer-events-none"
             style={{
-              background: `radial-gradient(circle at 100% 0%, ${BRAND}55, transparent 50%), radial-gradient(circle at 0% 100%, ${BRAND}33, transparent 50%)`,
+              background: `radial-gradient(circle at 100% 0%, ${BRAND}2e, transparent 38%), radial-gradient(circle at 0% 100%, ${BRAND}1a, transparent 38%)`,
             }}
           />
           <Grain />
-          <div className="relative grid md:grid-cols-5 gap-8 md:gap-10 items-center">
-            <div className="md:col-span-3">
-              <SectionLabel tone="light">Stay close</SectionLabel>
-              <h3 className="tracking-[-0.02em]" style={{ fontSize: "clamp(1.75rem, 4vw, 3rem)", lineHeight: 1.05 }}>
-                Follow the <em className="font-display italic" style={{ paddingInline: "0.05em", marginInline: "-0.025em" }}>journey.</em>
-              </h3>
-              <p className="mt-4 text-white/70 max-w-md">
-                FISC 2026 is invitation only — but anyone can follow the
-                public dispatch: reflections, recaps and news from the
-                global PFM community.
-              </p>
+          {/* 7-col composition: image (2) · copy (3) · form (2). The image
+              column is hidden below md so the mobile card stays the lean
+              text + stacked form. On md+ the image fades into the INK panel
+              via a left→right gradient so there's no hard seam between
+              photo and panel background. */}
+          <div className="relative grid md:grid-cols-7 items-stretch">
+            <div className="hidden md:block md:col-span-2 relative min-h-[260px]">
+              <ImageWithFallback
+                src={NEWSLETTER_IMG}
+                alt="FISC delegates"
+                className="absolute inset-0 w-full h-full object-cover opacity-80"
+              />
+              <div
+                className="absolute inset-0"
+                style={{
+                  background: `linear-gradient(to right, ${INK}33 0%, ${INK}66 55%, ${INK} 100%)`,
+                }}
+              />
+              {/* Brand-orange whisper bleeding off the top-left corner of the
+                  photo — ties the image into the panel's radial accent. */}
+              <div
+                className="absolute inset-0 pointer-events-none"
+                style={{
+                  background: `radial-gradient(circle at 10% 0%, ${BRAND}33, transparent 45%)`,
+                }}
+              />
             </div>
 
-            <div className="md:col-span-2">
-              {submitted ? (
-                <div
-                  role="status"
-                  className="flex items-start gap-3 p-4 rounded-md bg-white/10 border border-white/20 text-white backdrop-blur"
-                >
-                  <span
-                    className="w-8 h-8 rounded-full flex items-center justify-center shrink-0"
-                    style={{ backgroundColor: `${BRAND}33`, color: "#fff" }}
-                  >
-                    <CheckCircle2 size={16} />
-                  </span>
-                  <div>
-                    <div className="tracking-tight" style={{ fontSize: "0.95rem" }}>
-                      You're on the list.
-                    </div>
-                    <div className="text-white/70 text-sm mt-0.5">
-                      Public dispatches will arrive in your inbox.
-                    </div>
-                  </div>
-                </div>
-              ) : (
-                <form className="flex flex-col gap-3" onSubmit={handleSubmit} noValidate>
+            <div className="md:col-span-5 p-8 md:p-12 grid md:grid-cols-5 gap-8 md:gap-10 items-center">
+              <div className="md:col-span-3">
+                <SectionLabel tone="light">Stay close</SectionLabel>
+                <h3 className="tracking-[-0.02em]" style={{ fontSize: "clamp(1.75rem, 4vw, 3rem)", lineHeight: 1.05 }}>
+                  Follow the <em className="font-display italic" style={{ paddingInline: "0.05em", marginInline: "-0.025em" }}>journey.</em>
+                </h3>
+                <p className="mt-4 text-white/70 max-w-md">
+                  FISC 2026 is invitation only — but anyone can follow the
+                  public dispatch: reflections, recaps and news from the
+                  global PFM community.
+                </p>
+              </div>
+
+              <div className="md:col-span-2">
+                {submitted ? (
                   <div
-                    className={`flex items-center bg-white rounded-sm p-1.5 pl-5 border transition-fluid ${
-                      error ? "border-red-400" : "border-transparent"
-                    }`}
+                    role="status"
+                    className="flex items-start gap-3 p-4 rounded-sm bg-white/10 ring-1 ring-white/20 text-white backdrop-blur"
                   >
-                    <Mail size={16} strokeWidth={1.75} className="text-neutral-500 shrink-0" />
-                    <input
-                      type="email"
-                      aria-label="Your work email"
-                      aria-invalid={!!error}
-                      placeholder="Your work email"
-                      value={value}
-                      onChange={(e) => {
-                        setValue(e.target.value);
-                        if (error) setError(null);
-                      }}
-                      className="flex-1 min-w-0 bg-transparent px-3 py-2 text-neutral-900 outline-none placeholder:text-neutral-400 text-[15px]"
-                    />
-                    <button
-                      type="submit"
-                      style={{ backgroundColor: BRAND }}
-                      className="group inline-flex items-center gap-2 pl-5 pr-2 py-1.5 rounded-sm text-white transition-fluid active:scale-[0.98] shrink-0"
+                    <span
+                      className="w-8 h-8 rounded-sm flex items-center justify-center shrink-0"
+                      style={{ backgroundColor: `${BRAND}33`, color: "#fff" }}
                     >
-                      <span style={{ fontSize: TYPE.body, fontWeight: 500 }}>Follow</span>
-                      <span className="w-7 h-7 rounded-sm bg-black/15 flex items-center justify-center transition-fluid group-hover:translate-x-0.5">
-                        <ArrowUpRight size={13} strokeWidth={1.75} />
-                      </span>
-                    </button>
+                      <CheckCircle2 size={16} strokeWidth={1.5} />
+                    </span>
+                    <div>
+                      <div className="tracking-tight" style={{ fontSize: "0.95rem" }}>
+                        You're on the list.
+                      </div>
+                      <div className="text-white/70 text-sm mt-0.5">
+                        Public dispatches will arrive in your inbox.
+                      </div>
+                    </div>
                   </div>
-                  {error ? (
-                    <p className="text-red-200 text-sm pl-2 inline-flex items-center gap-1.5">
-                      <AlertCircle size={12} /> {error}
-                    </p>
-                  ) : (
-                    <p className="text-white/50 text-sm pl-2">Public updates only · Unsubscribe anytime.</p>
-                  )}
-                </form>
-              )}
+                ) : (
+                  // Mobile: stacked layout (input row → full-width button with
+                  // "Follow" text + arrow for explicit affordance).
+                  // Sm+: inline composite with overflow-hidden on the pill so
+                  // the brand-orange button stretches edge-to-edge of the
+                  // white container — no padding gap, no height mismatch.
+                  // Desktop button is icon-only (cleaner, removes the chunk),
+                  // text is restored on mobile where the stacked button
+                  // would otherwise feel ambiguous.
+                  <form className="flex flex-col gap-3" onSubmit={handleSubmit} noValidate>
+                    <div
+                      className={`flex flex-col sm:flex-row sm:items-stretch bg-white rounded-sm overflow-hidden border transition-fluid ${
+                        error ? "border-red-400" : "border-transparent"
+                      }`}
+                    >
+                      <div className="flex items-center pl-4 sm:pl-5 sm:flex-1">
+                        <Mail size={15} strokeWidth={1.75} className="text-neutral-500 shrink-0" />
+                        <input
+                          type="email"
+                          aria-label="Your work email"
+                          aria-invalid={!!error}
+                          placeholder="Your work email"
+                          value={value}
+                          onChange={(e) => {
+                            setValue(e.target.value);
+                            if (error) setError(null);
+                          }}
+                          className="flex-1 min-w-0 bg-transparent px-3 py-3 text-neutral-900 outline-none placeholder:text-neutral-400 text-[15px]"
+                        />
+                      </div>
+                      <button
+                        type="submit"
+                        aria-label="Follow"
+                        style={{ backgroundColor: BRAND }}
+                        className="group inline-flex items-center justify-center gap-2 px-5 py-3 sm:py-0 sm:px-5 text-white transition-fluid will-change-transform active:scale-[0.98] hover:brightness-105 shrink-0"
+                      >
+                        <span className="sm:hidden" style={{ fontSize: TYPE.body, fontWeight: 500 }}>Follow</span>
+                        <span className="inline-flex transition-fluid group-hover:translate-x-[1.5px] group-hover:-translate-y-[1.5px]">
+                          <BracketArrow
+                            size={14}
+                            strokeWidth={1.75}
+                          />
+                        </span>
+                      </button>
+                    </div>
+                    {error ? (
+                      <p className="text-red-200 text-sm pl-2 inline-flex items-center gap-1.5">
+                        <AlertCircle size={12} strokeWidth={1.5} /> {error}
+                      </p>
+                    ) : (
+                      <p className="text-white/50 text-sm pl-2">Public updates only · Unsubscribe anytime.</p>
+                    )}
+                  </form>
+                )}
+              </div>
             </div>
           </div>
         </div>
@@ -151,9 +197,9 @@ export function Footer() {
       />
       <Grain />
 
-      <div className="relative max-w-7xl mx-auto px-5 md:px-6 pt-16 md:pt-24 pb-10">
+      <div className="relative max-w-7xl mx-auto px-5 md:px-6 pt-12 md:pt-24 pb-10">
         {/* Event meta strip */}
-        <div className="flex flex-wrap items-center gap-3 md:gap-4 text-sm text-white/70 mb-10 md:mb-14">
+        <div className="flex flex-wrap items-center gap-2.5 md:gap-4 text-[0.8125rem] md:text-sm text-white/70 mb-8 md:mb-14">
           <span className="inline-flex items-center gap-2 px-3 py-1.5 rounded-sm border border-white/15 bg-white/5">
             <span className="relative flex h-2 w-2">
               <span className="absolute inline-flex h-full w-full rounded-full opacity-75 animate-ping" style={{ backgroundColor: BRAND }} />
@@ -166,13 +212,15 @@ export function Footer() {
           <span className="inline-flex items-center gap-2"><MapPin size={14} style={{ color: BRAND_SOFT }} /> Hyatt Regency · Port of Spain</span>
         </div>
 
-        {/* Wordmark */}
+        {/* Wordmark — mobile gets slightly tighter clamp (3.25rem floor)
+            and a 1.0 leading because at 0.95 the descender of "y" in "you"
+            kissed the ascender of "T" in the line below on narrow screens. */}
         <motion.div
           initial={{ opacity: 0, y: 24 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="tracking-[-0.04em] text-white mb-14 md:mb-20 leading-[0.95]"
-          style={{ fontSize: "clamp(3.5rem, 14vw, 14rem)" }}
+          className="tracking-[-0.04em] text-white mb-10 md:mb-20 leading-[1] md:leading-[0.95]"
+          style={{ fontSize: "clamp(3.25rem, 14vw, 14rem)" }}
         >
           See you in
           <br />
@@ -209,7 +257,7 @@ export function Footer() {
               </div>
             </div>
             <span className="relative z-10 w-12 h-12 rounded-full bg-white/15 border border-white/25 backdrop-blur flex items-center justify-center group-hover:rotate-45 transition-transform">
-              <ArrowUpRight size={20} className="text-white" />
+              <BracketArrow size={16} strokeWidth={1.75} className="text-white" />
             </span>
           </Link>
 

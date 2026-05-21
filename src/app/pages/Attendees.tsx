@@ -158,14 +158,14 @@ export default function Attendees() {
                   className="flex-1 min-w-0 bg-transparent outline-none text-neutral-900 placeholder:text-neutral-400 text-sm"
                 />
               </label>
-              <div className="flex items-center gap-2 overflow-x-auto -mx-5 px-5 md:mx-0 md:px-0 scrollbar-hide">
+              <div className="flex items-center gap-2 overflow-x-auto overscroll-x-contain touch-pan-x snap-x snap-proximity -mx-5 px-5 md:mx-0 md:px-0 scrollbar-hide [scroll-padding-inline:1.25rem]">
                 {REGIONS.map((r) => {
                   const isActive = region === r;
                   return (
                     <button
                       key={r}
                       onClick={() => setRegion(r)}
-                      className={`shrink-0 px-3.5 py-2 rounded-sm border text-sm transition ${
+                      className={`snap-start shrink-0 px-3.5 py-2 rounded-sm border text-sm transition ${
                         isActive
                           ? "bg-neutral-950 border-neutral-950 text-white"
                           : "bg-white border-neutral-200 text-neutral-700 hover:border-neutral-400"

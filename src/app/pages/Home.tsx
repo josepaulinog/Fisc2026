@@ -6,15 +6,19 @@ import {
   ArrowUpRight,
   Calendar,
   Check,
+  Landmark,
   Lock,
+  MapPin,
   Play,
   Sun,
+  Timer,
 } from "lucide-react";
 import { ImageWithFallback } from "../components/figma/ImageWithFallback";
 import { CountryFlag } from "../components/CountryFlag";
 import { Grain, GradientText, Marquee, SectionLabel } from "../components/shared";
 import { NestedCTA } from "../components/ui/NestedCTA";
 import { BezelCard } from "../components/ui/BezelCard";
+import { BracketArrow } from "../components/ui/BracketArrow";
 import { TYPE, TRACKING } from "../tokens";
 import { useAuth } from "../auth";
 import { useChecklist } from "../checklist";
@@ -67,7 +71,7 @@ function Hero() {
         }}
       />
       <Grain />
-      <div className="relative max-w-7xl mx-auto px-5 md:px-6 pt-12 pb-8 md:pt-24 md:pb-12">
+      <div className="relative max-w-7xl mx-auto px-5 md:px-6 pt-0 pb-8 md:pt-6 md:pb-12">
         <motion.div
           initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8 }}
           className="flex items-center gap-3 mb-8 md:mb-10"
@@ -97,12 +101,12 @@ function Hero() {
           </span>.
         </motion.h1>
 
-        <div className="mt-10 md:mt-12 grid lg:grid-cols-12 gap-10 items-end">
+        <div className="mt-6 md:mt-6 grid lg:grid-cols-12 gap-10 items-end">
           <motion.div
             initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, delay: 0.3 }}
             className="lg:col-span-6"
           >
-            <p className="text-white/78 max-w-xl" style={{ fontSize: "clamp(1rem, 2vw, 1.25rem)", lineHeight: 1.55 }}>
+            <p className="text-white/78" style={{ fontSize: "clamp(1.1rem, 2.1vw, 1.125rem)", lineHeight: 1.55 }}>
               The FreeBalance International Steering Committee sails to Port of Spain — four
               days of country-led reform, co-creation and conversation under Caribbean skies.
               The 2026 delegate list is closed.
@@ -115,7 +119,7 @@ function Hero() {
               <NestedCTA
                 to="/sign-in"
                 variant="brand"
-                icon={<ArrowRight size={15} strokeWidth={1.75} />}
+                icon={<BracketArrow size={13} strokeWidth={1.75} />}
               >
                 Delegate portal
               </NestedCTA>
@@ -179,88 +183,169 @@ function CountdownAndActions() {
 
   const firstName = user ? firstNameOf(user.name) : null;
 
+  // Compute the next milestone once so both the inline card and the sticky
+  // bar pull from the same source.
+  const nextMilestone = (() => {
+    const found = delegateGuide.checklist.find(
+      (c) => new Date(c.dueDate).getTime() > nowDate.getTime(),
+    );
+    if (!found) return null;
+    return { item: found, deadline: formatDeadline(found.dueDate, nowDate) };
+  })();
+
   return (
-    <section className="py-16 md:py-24" style={{ backgroundColor: "#f6f4ef" }}>
+    <section
+      className="py-16 md:py-24 relative"
+      style={{ backgroundColor: "#f6f4ef" }}
+    >
       <div className="max-w-7xl mx-auto px-5 md:px-6">
         <div className="grid lg:grid-cols-12 gap-10 md:gap-16 items-start">
-          {/* Countdown */}
-          <div className="lg:col-span-7">
-            <SectionLabel>{firstName ? `Hi, ${firstName}` : "The countdown"}</SectionLabel>
-
-            <h2
-              className="tracking-[-0.025em] text-neutral-950"
-              style={{ fontSize: TYPE.h1, lineHeight: 0.98, letterSpacing: TRACKING.tight }}
-            >
-              {isAuthed ? "Trinidad in" : "FISC opens in"}{" "}
-              <span className="tabular-nums" style={{ color: BRAND }}>{days}</span>{" "}
-              <em className="italic text-neutral-500" style={{ fontSize: "0.5em", fontWeight: 400 }}>
-                days
-              </em>
-            </h2>
-
-            {/* HH · MM · SS ticker — restructured as a 3-column grid with the
-                label stacked beneath each digit pair, divided by hairline
-                rules. Previous inline form fused the digits + abbreviation
-                into a single visual blob that didn't read as a structured
-                clock. Now each unit is its own cell. */}
-            <div
-              className="mt-7 inline-grid grid-cols-3 gap-x-6 md:gap-x-10 text-neutral-950 tabular-nums"
-              aria-live="off"
-              aria-label="Time remaining"
-            >
-              {[
-                { v: pad2(hrs), l: "Hours" },
-                { v: pad2(mins), l: "Minutes" },
-                { v: pad2(secs), l: "Seconds" },
-              ].map((t, i) => (
-                <div
-                  key={t.l}
-                  className={`flex flex-col items-start ${i > 0 ? "pl-6 md:pl-10 border-l border-neutral-200" : ""}`}
+          {/* Countdown — sticks to the top of the viewport (below the floating
+              header pill) on lg+ so it stays in view while the user scrolls
+              the action queue on the right. Below lg the layout stacks
+              vertically and sticky is a no-op. `self-start` already implied
+              by the parent `items-start`. */}
+          <div className="lg:col-span-7 lg:sticky lg:top-[100px]">
+              {/* Eyebrow with live pulse — the green dot's pulse animation
+                  signals "this number is ticking right now", not a static
+                  computed-at-build-time figure. */}
+              <div className="inline-flex items-center gap-2.5 mb-6">
+                <span className="relative inline-flex items-center justify-center w-1.5 h-1.5">
+                  <span
+                    className="absolute inline-flex h-full w-full rounded-full opacity-70 animate-ping"
+                    style={{ backgroundColor: BRAND }}
+                  />
+                  <span
+                    className="relative inline-flex w-1.5 h-1.5 rounded-full"
+                    style={{ backgroundColor: BRAND }}
+                  />
+                </span>
+                <span
+                  className="text-[10.5px] uppercase tracking-[0.22em] text-neutral-700"
+                  style={{ fontWeight: 500 }}
                 >
-                  <span
-                    className="tracking-tight tabular-nums"
-                    style={{ fontSize: "clamp(1.75rem, 3.5vw, 2.5rem)", fontWeight: 500, lineHeight: 1, letterSpacing: TRACKING.tight }}
+                  {firstName ? `Hi, ${firstName} · Live countdown` : "The countdown · Live"}
+                </span>
+              </div>
+
+              <h2
+                className="tracking-[-0.025em] text-neutral-950"
+                style={{ fontSize: TYPE.h1, lineHeight: 0.98, letterSpacing: TRACKING.tight }}
+              >
+                {isAuthed ? "Trinidad in" : "FISC opens in"}{" "}
+                <span className="tabular-nums" style={{ color: BRAND }}>{days}</span>{" "}
+                <em
+                  className="font-display italic text-neutral-500"
+                  style={{ fontSize: "0.48em", fontWeight: 400, verticalAlign: "0.18em" }}
+                >
+                  days
+                </em>
+              </h2>
+
+              {/* HH · MM · SS ticker. The seconds cell gets a soft brand-orange
+                  pulse on every tick so the user feels the heartbeat. */}
+              <div
+                className="mt-7 inline-grid grid-cols-3 gap-x-6 md:gap-x-10 text-neutral-950 tabular-nums"
+                aria-live="off"
+                aria-label="Time remaining"
+              >
+                {[
+                  { v: pad2(hrs), l: "Hours" },
+                  { v: pad2(mins), l: "Minutes" },
+                  { v: pad2(secs), l: "Seconds", isLive: true },
+                ].map((t, i) => (
+                  <div
+                    key={t.l}
+                    className={`flex flex-col items-start ${i > 0 ? "pl-6 md:pl-10 border-l border-neutral-200" : ""}`}
                   >
-                    {t.v}
+                    {t.isLive ? (
+                      <motion.span
+                        key={t.v}
+                        initial={{ color: BRAND }}
+                        animate={{ color: "#0a0a0a" }}
+                        transition={{ duration: 0.6, ease: [0.32, 0.72, 0, 1] }}
+                        className="tracking-tight tabular-nums"
+                        style={{ fontSize: "clamp(1.75rem, 3.5vw, 2.5rem)", fontWeight: 500, lineHeight: 1, letterSpacing: TRACKING.tight }}
+                      >
+                        {t.v}
+                      </motion.span>
+                    ) : (
+                      <span
+                        className="tracking-tight tabular-nums"
+                        style={{ fontSize: "clamp(1.75rem, 3.5vw, 2.5rem)", fontWeight: 500, lineHeight: 1, letterSpacing: TRACKING.tight }}
+                      >
+                        {t.v}
+                      </span>
+                    )}
+                    <span
+                      className="mt-2 text-neutral-500 uppercase"
+                      style={{ fontSize: "0.6875rem", letterSpacing: TRACKING.widestNarrow, fontWeight: 500 }}
+                    >
+                      {t.l}
+                    </span>
+                  </div>
+                ))}
+              </div>
+
+              {/* Fact strip — replaces the long descriptive paragraph. Three
+                  glanceable facts (date · venue · duration) read faster and
+                  carry the same information density. */}
+              <div className="mt-8 flex flex-wrap items-center gap-x-5 gap-y-2 text-sm text-neutral-700">
+                <span className="inline-flex items-center gap-2">
+                  <Calendar size={14} strokeWidth={1.5} className="text-neutral-500" />
+                  <span style={{ fontWeight: 500 }}>Jun 29 — Jul 2, 2026</span>
+                </span>
+                <span className="w-px h-3.5 bg-neutral-300" />
+                <span className="inline-flex items-center gap-2">
+                  <Landmark size={14} strokeWidth={1.5} className="text-neutral-500" />
+                  <span>Hyatt Regency, Port of Spain</span>
+                </span>
+                <span className="w-px h-3.5 bg-neutral-300" />
+                <span className="inline-flex items-center gap-2">
+                  <Timer size={14} strokeWidth={1.5} className="text-neutral-500" />
+                  <span>4 days, no intermission</span>
+                </span>
+              </div>
+
+              {/* Next milestone — promoted from inline pill to a card-style
+                  link. Hover lift + arrow translate makes the action discoverable;
+                  brand-orange dot accents the eyebrow and ties to the live
+                  pulse above. */}
+              {nextMilestone && (
+                <Link
+                  to={isAuthed ? "/delegate-guide" : "/sign-in?return=/delegate-guide"}
+                  className="group mt-7 inline-flex items-center gap-4 pl-4 pr-3 py-3 rounded-sm bg-white ring-1 ring-black/[0.06] shadow-[0_4px_14px_-8px_rgba(0,0,0,0.08)] transition-fluid hover:ring-black/[0.12] hover:shadow-[0_10px_28px_-12px_rgba(0,0,0,0.15)]"
+                >
+                  <span className="inline-flex items-center gap-2 shrink-0">
+                    <span
+                      className="w-1.5 h-1.5 rounded-full"
+                      style={{ backgroundColor: BRAND }}
+                    />
+                    <span
+                      className="tracking-[0.2em] uppercase text-neutral-500 text-[10.5px]"
+                      style={{ fontWeight: 500 }}
+                    >
+                      Your next deadline
+                    </span>
+                  </span>
+                  <span className="text-neutral-300 hidden sm:inline">|</span>
+                  <span className="text-neutral-950 tracking-tight text-[0.95rem]" style={{ fontWeight: 500 }}>
+                    {nextMilestone.item.shortLabel}
                   </span>
                   <span
-                    className="mt-2 text-neutral-500 uppercase"
-                    style={{ fontSize: "0.6875rem", letterSpacing: TRACKING.widestNarrow, fontWeight: 500 }}
+                    className={`inline-flex items-center px-2 py-0.5 rounded-sm text-[11px] tabular-nums ${
+                      deadlineToneClasses[nextMilestone.deadline.tone]
+                    }`}
+                    style={{ fontWeight: 500 }}
                   >
-                    {t.l}
+                    {nextMilestone.deadline.label}
                   </span>
-                </div>
-              ))}
+                  <span className="w-7 h-7 rounded-sm bg-neutral-100 flex items-center justify-center transition-fluid group-hover:bg-neutral-950 group-hover:text-white ml-1">
+                    <BracketArrow size={11} strokeWidth={1.75} className="transition-fluid group-hover:translate-x-0.5 group-hover:-translate-y-[1px]" />
+                  </span>
+                </Link>
+              )}
             </div>
-
-            <p className="mt-8 text-neutral-600 max-w-md" style={{ lineHeight: 1.65 }}>
-              Mon Jun 29 — Thu Jul 2, 2026 · Port of Spain. The four-day programme
-              kicks off with opening remarks from the host country at the Hyatt
-              Regency, then runs without intermission.
-            </p>
-
-            {/* Next milestone — ties the column height to the action queue card
-                on the right by pulling the first non-overdue checklist item.
-                Reads as the natural next thing to do after the date strap. */}
-            {(() => {
-              const next = delegateGuide.checklist.find(
-                (c) => new Date(c.dueDate).getTime() > nowDate.getTime(),
-              );
-              if (!next) return null;
-              const d = formatDeadline(next.dueDate, nowDate);
-              return (
-                <div className="mt-6 inline-flex items-center gap-3 px-4 py-2.5 rounded border border-neutral-300 bg-white text-sm">
-                  <span className="tracking-[0.22em] uppercase text-neutral-500 text-xs">
-                    Next milestone
-                  </span>
-                  <span className="w-px h-3 bg-neutral-300" />
-                  <span className="text-neutral-950 tracking-tight">{next.shortLabel}</span>
-                  <span className="text-neutral-400">·</span>
-                  <span className="text-neutral-600 lowercase">{d.label}</span>
-                </div>
-              );
-            })()}
-          </div>
 
           {/* Action queue — double-bezel nested shell + inner core. The 6px
               radius differential between outer (2rem) and inner (calc) reads
@@ -351,7 +436,7 @@ function CountdownAndActions() {
                   style={{ fontSize: TYPE.body, fontWeight: 500 }}
                 >
                   {isAuthed ? "Open delegate guide" : "Sign in to check items off"}
-                  <ArrowUpRight size={15} strokeWidth={1.75} className="transition-fluid group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
+                  <BracketArrow size={13} strokeWidth={1.75} className="transition-fluid group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
                 </Link>
               </div>
               </BezelCard>
@@ -580,7 +665,7 @@ function TheRoom() {
             to={isAuthed ? "/attendees" : "/sign-in?return=/attendees"}
             variant="ink"
             prefixIcon={!isAuthed ? <Lock size={13} strokeWidth={1.75} /> : undefined}
-            icon={<ArrowUpRight size={14} strokeWidth={1.75} />}
+            icon={<BracketArrow size={12} strokeWidth={1.75} />}
           >
             {isAuthed ? "See the full delegation" : "Sign in to see the room"}
           </NestedCTA>

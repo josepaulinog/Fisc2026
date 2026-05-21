@@ -3,7 +3,7 @@ import { Link } from "react-router";
 import { motion } from "motion/react";
 import { ArrowUpRight, Linkedin, Mail, Search, Twitter } from "lucide-react";
 import { ImageWithFallback } from "../components/figma/ImageWithFallback";
-import { Grain, GradientText, PageHero } from "../components/shared";
+import { Grain, GradientText, PageHero, SectionLabel } from "../components/shared";
 import { BRAND, BRAND_SOFT, HERO_SPEAKERS, INK, speakers } from "../data";
 
 type Speaker = (typeof speakers)[number];
@@ -22,7 +22,7 @@ function Socials({ s, dark = false }: { s: Speaker; dark?: boolean }) {
           onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = BRAND)}
           onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = "")}
         >
-          <Mail size={15} />
+          <Mail size={15} strokeWidth={1.5} />
         </a>
       )}
       {s.linkedin && (
@@ -35,7 +35,7 @@ function Socials({ s, dark = false }: { s: Speaker; dark?: boolean }) {
           onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = BRAND)}
           onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = "")}
         >
-          <Linkedin size={15} />
+          <Linkedin size={15} strokeWidth={1.5} />
         </a>
       )}
       {s.twitter && (
@@ -48,7 +48,7 @@ function Socials({ s, dark = false }: { s: Speaker; dark?: boolean }) {
           onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = BRAND)}
           onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = "")}
         >
-          <Twitter size={15} />
+          <Twitter size={15} strokeWidth={1.5} />
         </a>
       )}
     </div>
@@ -64,9 +64,15 @@ function FeaturedCard({ s, accent = false }: { s: Speaker; accent?: boolean }) {
     >
       <Link
         to={`/speakers/${s.slug}`}
-        className={`relative block group rounded-3xl overflow-hidden border ${
+        /* Mobile aspect compressed from 4/5 (portrait) to 16/11 (landscape).
+           Three stacked 4/5 portraits at 375px viewport width consume ~1410px
+           of scroll just for keynotes — almost two screens. The landscape
+           crop centers the face, keeps the keynote chip + caption legible,
+           and brings the total featured-row height to under one screen on
+           mobile. Desktop keeps the portrait crop. */
+        className={`relative block group rounded-md overflow-hidden border ${
           accent ? "border-transparent" : "border-neutral-200"
-        } bg-neutral-950 text-white aspect-[4/5] md:aspect-[4/5]`}
+        } bg-neutral-950 text-white aspect-[16/11] sm:aspect-[16/12] md:aspect-[4/5]`}
       >
         <ImageWithFallback
           src={s.img}
@@ -83,14 +89,14 @@ function FeaturedCard({ s, accent = false }: { s: Speaker; accent?: boolean }) {
         />
         <Grain />
         <div className="absolute top-5 left-5 right-5 flex items-start justify-between">
-          <span className="inline-flex items-center gap-2 px-2.5 py-1 rounded-md bg-white/10 backdrop-blur border border-white/15 text-white/80 text-xs tracking-[0.2em]">
+          <span className="inline-flex items-center gap-2 px-2.5 py-1 rounded-sm bg-white/10 backdrop-blur border border-white/15 text-white/80 text-xs tracking-[0.2em]">
             KEYNOTE
           </span>
           <span
-            className="w-10 h-10 rounded-full flex items-center justify-center backdrop-blur border border-white/20 group-hover:rotate-45 transition-transform"
+            className="w-10 h-10 rounded-full flex items-center justify-center backdrop-blur border border-white/20 transition-transform group-hover:translate-x-1 group-hover:-translate-y-[1px]"
             style={{ backgroundColor: accent ? BRAND : "rgba(255,255,255,0.1)" }}
           >
-            <ArrowUpRight size={16} />
+            <ArrowUpRight size={16} strokeWidth={1.5} />
           </span>
         </div>
         <div className="absolute bottom-0 left-0 right-0 p-6 md:p-7">
@@ -197,10 +203,10 @@ export default function Speakers() {
         imageCaption="On stage at FISC"
       />
 
-      <section className="py-12 md:py-20 bg-white">
+      <section className="py-14 md:py-28 bg-white">
         <div className="max-w-7xl mx-auto px-5 md:px-6">
           <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-8 md:mb-12">
-            <div className="flex items-center gap-2 overflow-x-auto -mx-5 px-5 md:mx-0 md:px-0 scrollbar-hide">
+            <div className="flex items-center gap-2 overflow-x-auto overscroll-x-contain touch-pan-x snap-x snap-proximity -mx-5 px-5 md:mx-0 md:px-0 scrollbar-hide [scroll-padding-inline:1.25rem]">
               {filters.map((f) => {
                 const isActive = filter === f;
                 const count =
@@ -213,7 +219,7 @@ export default function Speakers() {
                   <button
                     key={f}
                     onClick={() => setFilter(f)}
-                    className={`shrink-0 inline-flex items-center gap-2 px-4 py-2.5 rounded-sm border transition ${
+                    className={`snap-start shrink-0 inline-flex items-center gap-2 px-4 py-2.5 rounded-sm border transition ${
                       isActive
                         ? "bg-neutral-950 border-neutral-950 text-white"
                         : "bg-white border-neutral-200 text-neutral-700 hover:border-neutral-400"
@@ -232,8 +238,8 @@ export default function Speakers() {
               })}
             </div>
 
-            <label className="flex items-center gap-2 bg-neutral-50 border border-neutral-200 rounded-lg px-4 py-2 md:w-72 focus-within:border-neutral-950 transition">
-              <Search size={16} className="text-neutral-400 shrink-0" />
+            <label className="flex items-center gap-2 bg-neutral-50 border border-neutral-200 rounded-sm px-4 py-2 md:w-72 focus-within:border-neutral-950 transition">
+              <Search size={16} strokeWidth={1.5} className="text-neutral-400 shrink-0" />
               <input
                 type="text"
                 value={query}
@@ -255,8 +261,8 @@ export default function Speakers() {
           {rest.length > 0 && (
             <>
               <div className="flex items-center gap-4 mb-6">
-                <span className="tracking-[0.25em] text-neutral-500 text-xs">MORE PRESENTERS</span>
-                <span className="flex-1 h-px bg-neutral-200" />
+                <SectionLabel>More presenters</SectionLabel>
+                <span className="flex-1 h-px bg-neutral-200 -translate-y-[10px]" />
               </div>
               <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-3 md:gap-4">
                 {rest.map((s, i) => (

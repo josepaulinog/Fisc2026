@@ -1,102 +1,273 @@
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { Navigate } from "react-router";
 import { AnimatePresence, motion } from "motion/react";
 import {
   AlertCircle,
+  ArrowRight,
   Briefcase,
   Building2,
   Camera,
-  CheckCircle2,
+  Check,
+  Loader2,
   Globe,
   Linkedin,
   Mail,
-  MapPin,
+  PlayCircle,
+  RotateCcw,
+  Trash2,
   Twitter,
   User as UserIcon,
 } from "lucide-react";
-import { CountryFlag, hasFlagFor } from "../components/CountryFlag";
 import { GradientText, PageHero, SectionLabel } from "../components/shared";
+import { CountryDropdown } from "../components/ui/CountryDropdown";
+import { BracketArrow } from "../components/ui/BracketArrow";
+import { useToasts } from "../components/ui/Toast";
+import { useOnboardingTour } from "../components/OnboardingTour";
 import { useAuth } from "../auth";
 import { initialsOf, loadProfile, saveProfile, type ProfileData } from "../profile";
 import { BRAND, HERO_ATTENDEES, INK, countries } from "../data";
 
 type Errors = Partial<Record<keyof ProfileData, string>>;
+type SaveStatus = "idle" | "saving" | "saved";
+type UploadStatus =
+  | { kind: "idle" }
+  | { kind: "uploading"; fileName: string; progress: number }
+  | { kind: "success"; fileName: string }
+  | { kind: "error"; message: string };
+
+const MAX_PHOTO_BYTES = 1024 * 1024; // 1 MB
+const ACCEPTED_TYPES = ["image/png", "image/jpeg", "image/webp"];
 
 export default function Profile() {
   const { user, isAuthed } = useAuth();
-  const [profile, setProfileState] = useState<ProfileData | null>(null);
-  const [errors, setErrors] = useState<Errors>({});
-  const [saved, setSaved] = useState(false);
-  const fileRef = useRef<HTMLInputElement>(null);
+  const toast = useToasts();
+  const tour = useOnboardingTour();
 
-  // Load profile when user is known.
+  const [profile, setProfileState] = useState<ProfileData | null>(null);
+  const [baseline, setBaseline] = useState<ProfileData | null>(null);
+  const [errors, setErrors] = useState<Errors>({});
+  const [saveStatus, setSaveStatus] = useState<SaveStatus>("idle");
+  const [uploadStatus, setUploadStatus] = useState<UploadStatus>({ kind: "idle" });
+  const fileRef = useRef<HTMLInputElement>(null);
+  const uploadToastId = useRef<string | null>(null);
+  const uploadProgressTimer = useRef<number | null>(null);
+
+  // Load profile when user is known. `baseline` captures the saved state so
+  // we can detect "dirty" fields and offer a discard-changes affordance.
   useEffect(() => {
-    if (user) setProfileState(loadProfile(user));
+    if (!user) return;
+    const data = loadProfile(user);
+    setProfileState(data);
+    setBaseline(data);
   }, [user]);
 
+  // Save-status reset (Update → Updated → Update).
   useEffect(() => {
-    if (!saved) return;
-    const t = window.setTimeout(() => setSaved(false), 3500);
+    if (saveStatus !== "saved") return;
+    const t = window.setTimeout(() => setSaveStatus("idle"), 2200);
     return () => window.clearTimeout(t);
-  }, [saved]);
+  }, [saveStatus]);
 
-  if (!isAuthed) {
-    return <Navigate to="/sign-in?return=/profile" replace />;
-  }
-  if (!user || !profile) return null;
+  // Cleanup any pending fake upload progress timer on unmount.
+  useEffect(() => {
+    return () => {
+      if (uploadProgressTimer.current) {
+        window.clearInterval(uploadProgressTimer.current);
+        uploadProgressTimer.current = null;
+      }
+    };
+  }, []);
 
-  const update = <K extends keyof ProfileData>(key: K, value: ProfileData[K]) => {
+  const isDirty = useMemo(() => {
+    if (!profile || !baseline) return false;
+    return JSON.stringify(profile) !== JSON.stringify(baseline);
+  }, [profile, baseline]);
+
+  const update = useCallback(<K extends keyof ProfileData>(key: K, value: ProfileData[K]) => {
     setProfileState((p) => (p ? { ...p, [key]: value } : p));
-    if (errors[key]) setErrors((e) => ({ ...e, [key]: undefined }));
+    setErrors((e) => (e[key] ? { ...e, [key]: undefined } : e));
+  }, []);
+
+  // -------------------------------------------------------------------------
+  // Photo upload — fake-progress wrapper around FileReader. In production
+  // (WordPress port) this becomes a real multipart POST to wp-json/wp/v2/media
+  // with the upload toast tied to the XHR progress event.
+  // -------------------------------------------------------------------------
+  const onPhotoSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    // Reset the input so the same file can be re-picked after a remove.
+    e.target.value = "";
+    if (!file) return;
+    void uploadPhoto(file);
   };
 
-  const onPhotoChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
+  const onPhotoDrop = (e: React.DragEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+    e.stopPropagation();
+    const file = e.dataTransfer.files?.[0];
     if (!file) return;
-    if (file.size > 1024 * 1024) {
-      setErrors((p) => ({ ...p, photoUrl: "Photo must be under 1 MB." }));
+    void uploadPhoto(file);
+  };
+
+  const uploadPhoto = async (file: File) => {
+    // Type check.
+    if (!ACCEPTED_TYPES.includes(file.type)) {
+      setUploadStatus({ kind: "error", message: "Use JPG, PNG or WEBP." });
+      setErrors((p) => ({ ...p, photoUrl: "Use JPG, PNG or WEBP." }));
+      toast.error("Photo type not supported", {
+        description: "Use a JPG, PNG or WEBP image.",
+      });
       return;
     }
-    const reader = new FileReader();
-    reader.onload = () => {
-      const dataUrl = typeof reader.result === "string" ? reader.result : undefined;
+    // Size check.
+    if (file.size > MAX_PHOTO_BYTES) {
+      const message = `Photo must be under ${Math.round(MAX_PHOTO_BYTES / 1024 / 1024)} MB.`;
+      setUploadStatus({ kind: "error", message });
+      setErrors((p) => ({ ...p, photoUrl: message }));
+      toast.error("Photo too large", { description: message });
+      return;
+    }
+
+    setErrors((p) => ({ ...p, photoUrl: undefined }));
+    setUploadStatus({ kind: "uploading", fileName: file.name, progress: 0 });
+
+    // Show a single loading toast that we'll later update on success/error.
+    uploadToastId.current = toast.loading("Uploading photo…", {
+      description: `${file.name} · ${formatBytes(file.size)}`,
+    });
+
+    // Fake progress over ~700ms so the user sees the loading state. The
+    // actual FileReader call is near-instant; in the WP port this becomes
+    // real XHR upload progress.
+    if (uploadProgressTimer.current) window.clearInterval(uploadProgressTimer.current);
+    uploadProgressTimer.current = window.setInterval(() => {
+      setUploadStatus((cur) => {
+        if (cur.kind !== "uploading") return cur;
+        const next = Math.min(cur.progress + 12, 92);
+        return { ...cur, progress: next };
+      });
+    }, 80);
+
+    try {
+      const dataUrl = await readFileAsDataURL(file);
+      await sleep(600); // smooth out the fake progress bar
+      if (uploadProgressTimer.current) {
+        window.clearInterval(uploadProgressTimer.current);
+        uploadProgressTimer.current = null;
+      }
       update("photoUrl", dataUrl);
-      setErrors((p) => ({ ...p, photoUrl: undefined }));
-    };
-    reader.readAsDataURL(file);
+      setUploadStatus({ kind: "success", fileName: file.name });
+      if (uploadToastId.current) {
+        toast.update(uploadToastId.current, {
+          variant: "success",
+          title: "Photo uploaded",
+          description: "Save your profile to publish the new photo.",
+        });
+        uploadToastId.current = null;
+      }
+      // Drop the "success" pill after a moment so the chrome doesn't linger.
+      window.setTimeout(() => {
+        setUploadStatus((cur) => (cur.kind === "success" ? { kind: "idle" } : cur));
+      }, 2400);
+    } catch {
+      if (uploadProgressTimer.current) {
+        window.clearInterval(uploadProgressTimer.current);
+        uploadProgressTimer.current = null;
+      }
+      setUploadStatus({ kind: "error", message: "Couldn't read that file." });
+      if (uploadToastId.current) {
+        toast.update(uploadToastId.current, {
+          variant: "error",
+          title: "Upload failed",
+          description: "Try a different image.",
+        });
+        uploadToastId.current = null;
+      }
+    }
   };
 
-  const validate = (): Errors => {
+  const removePhoto = () => {
+    update("photoUrl", undefined);
+    setUploadStatus({ kind: "idle" });
+    toast.info("Photo removed", { description: "Save your profile to publish the change." });
+  };
+
+  // -------------------------------------------------------------------------
+  // Validation + save
+  // -------------------------------------------------------------------------
+  const validate = (data: ProfileData): Errors => {
     const next: Errors = {};
-    if (!profile.displayName.trim()) next.displayName = "Display name is required.";
-    if (!profile.email.trim()) next.email = "Email is required.";
-    else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(profile.email.trim())) {
+    if (!data.displayName.trim()) next.displayName = "Display name is required.";
+    if (!data.email.trim()) next.email = "Email is required.";
+    else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(data.email.trim())) {
       next.email = "Enter a valid email address.";
     }
-    if (profile.linkedin && !/^https?:\/\//i.test(profile.linkedin)) {
+    if (data.linkedin && !/^https?:\/\//i.test(data.linkedin)) {
       next.linkedin = "Include http:// or https:// in the URL.";
     }
-    if (profile.twitter && !/^https?:\/\//i.test(profile.twitter)) {
+    if (data.twitter && !/^https?:\/\//i.test(data.twitter)) {
       next.twitter = "Include http:// or https:// in the URL.";
     }
-    if (profile.website && !/^https?:\/\//i.test(profile.website)) {
+    if (data.website && !/^https?:\/\//i.test(data.website)) {
       next.website = "Include http:// or https:// in the URL.";
     }
     return next;
   };
 
-  const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const fieldErrors = validate();
+    if (!profile || !user) return;
+    // No-op submit feedback — previously the button was just `disabled` when
+    // clean, which left users tapping a dead control. Now the button is
+    // always live and we explain *why* nothing happened.
+    if (!isDirty) {
+      toast.info("Nothing to update", {
+        description: "Edit a field, change your photo, or pick a different country first.",
+      });
+      return;
+    }
+    const fieldErrors = validate(profile);
     if (Object.keys(fieldErrors).length > 0) {
       setErrors(fieldErrors);
+      toast.error("Check your inputs", {
+        description: "A required field is missing or invalid.",
+      });
+      // Focus first invalid field for fast correction.
+      const firstKey = Object.keys(fieldErrors)[0];
+      const el = document.querySelector<HTMLElement>(`[data-field="${firstKey}"]`);
+      el?.scrollIntoView({ behavior: "smooth", block: "center" });
+      el?.focus({ preventScroll: true });
       return;
     }
     setErrors({});
-    saveProfile(user, profile);
-    setSaved(true);
-    window.scrollTo({ top: 0, behavior: "smooth" });
+    setSaveStatus("saving");
+    try {
+      // Tiny artificial latency so the loading state is perceivable.
+      await sleep(450);
+      saveProfile(user, profile);
+      setBaseline(profile);
+      setSaveStatus("saved");
+      toast.success("Profile updated", {
+        description: "Other delegates will see these details in the Attendees directory.",
+      });
+    } catch {
+      setSaveStatus("idle");
+      toast.error("Couldn't save profile", { description: "Try again in a moment." });
+    }
   };
+
+  const onDiscard = () => {
+    if (!baseline) return;
+    setProfileState(baseline);
+    setErrors({});
+    setUploadStatus({ kind: "idle" });
+    toast.info("Changes discarded");
+  };
+
+  if (!isAuthed) {
+    return <Navigate to="/sign-in?return=/profile" replace />;
+  }
+  if (!user || !profile) return null;
 
   const fieldBorder = (hasError: boolean) =>
     hasError
@@ -114,39 +285,20 @@ export default function Profile() {
 
       <section className="py-12 md:py-20 bg-white">
         <div className="max-w-4xl mx-auto px-5 md:px-6">
-          <AnimatePresence>
-            {saved && (
-              <motion.div
-                role="status"
-                initial={{ opacity: 0, y: -12 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -12 }}
-                className="mb-6 flex items-start gap-3 p-4 rounded-md bg-emerald-50 border border-emerald-200 text-emerald-800"
-              >
-                <span className="w-7 h-7 rounded-full bg-emerald-100 text-emerald-700 flex items-center justify-center shrink-0">
-                  <CheckCircle2 size={16} />
-                </span>
-                <div>
-                  <div className="tracking-tight" style={{ fontSize: "0.95rem" }}>
-                    Profile updated.
-                  </div>
-                  <div className="text-emerald-700/80 text-sm mt-0.5">
-                    Other delegates will see these details in the Attendees directory.
-                  </div>
-                </div>
-              </motion.div>
-            )}
-          </AnimatePresence>
-
-          <form onSubmit={onSubmit} noValidate className="space-y-8">
-            {/* Photo upload */}
-            <div className="rounded-md border border-neutral-200 bg-neutral-50/60 p-6 md:p-8">
+          <form onSubmit={onSubmit} noValidate className="space-y-6 md:space-y-8">
+            {/* ---------------------------------------------------------------
+                Profile photo
+                --------------------------------------------------------------- */}
+            <div className="rounded-md border border-neutral-200 bg-neutral-50/60 p-5 md:p-8">
               <SectionLabel>Profile photo</SectionLabel>
-              <div className="flex items-center gap-5 md:gap-7">
+              <div className="flex flex-col sm:flex-row sm:items-center gap-5 sm:gap-7">
                 <button
                   type="button"
                   onClick={() => fileRef.current?.click()}
-                  className="relative w-24 h-24 md:w-28 md:h-28 rounded-full overflow-hidden bg-white border-4 border-white shadow-sm group"
+                  onDragOver={(e) => e.preventDefault()}
+                  onDrop={onPhotoDrop}
+                  aria-label="Change profile photo"
+                  className="relative w-24 h-24 md:w-28 md:h-28 rounded-full overflow-hidden bg-white ring-1 ring-black/[0.06] shadow-[0_8px_24px_-12px_rgba(0,0,0,0.18)] group shrink-0"
                 >
                   {profile.photoUrl ? (
                     <img
@@ -162,9 +314,38 @@ export default function Profile() {
                       {initialsOf(profile.displayName)}
                     </div>
                   )}
-                  <span className="absolute inset-0 bg-black/0 group-hover:bg-black/40 transition flex items-center justify-center text-white opacity-0 group-hover:opacity-100">
-                    <Camera size={20} />
-                  </span>
+                  {/* Upload progress overlay — visible while we read the file. */}
+                  <AnimatePresence>
+                    {uploadStatus.kind === "uploading" && (
+                      <motion.div
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        exit={{ opacity: 0 }}
+                        className="absolute inset-0 bg-neutral-950/55 backdrop-blur-sm flex flex-col items-center justify-center text-white gap-1.5"
+                      >
+                        <Loader2 size={18} strokeWidth={1.75} className="animate-spin" />
+                        <span className="tabular-nums text-[11px] tracking-[0.18em]">
+                          {Math.round(uploadStatus.progress)}%
+                        </span>
+                      </motion.div>
+                    )}
+                    {uploadStatus.kind === "success" && (
+                      <motion.div
+                        initial={{ opacity: 0, scale: 0.85 }}
+                        animate={{ opacity: 1, scale: 1 }}
+                        exit={{ opacity: 0, scale: 0.85 }}
+                        className="absolute inset-0 bg-emerald-600/35 backdrop-blur-sm flex items-center justify-center text-white"
+                      >
+                        <Check size={26} strokeWidth={2} />
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
+                  {/* Hover hint — only when idle. */}
+                  {uploadStatus.kind === "idle" && (
+                    <span className="absolute inset-0 bg-black/0 group-hover:bg-black/40 transition flex items-center justify-center text-white opacity-0 group-hover:opacity-100">
+                      <Camera size={20} strokeWidth={1.5} />
+                    </span>
+                  )}
                 </button>
                 <div className="flex-1 min-w-0">
                   <div className="tracking-tight text-neutral-950" style={{ fontSize: "1rem" }}>
@@ -177,24 +358,80 @@ export default function Profile() {
                     <button
                       type="button"
                       onClick={() => fileRef.current?.click()}
-                      className="inline-flex items-center gap-2 px-3 py-1.5 rounded-sm border border-neutral-300 text-neutral-700 hover:border-neutral-950 transition text-sm"
+                      className="inline-flex items-center gap-2 px-3 py-1.5 rounded-sm border border-neutral-300 text-neutral-700 hover:border-neutral-950 transition-fluid text-sm"
                     >
-                      <Camera size={14} /> Change photo
+                      <Camera size={14} strokeWidth={1.5} /> Change photo
                     </button>
                     {profile.photoUrl && (
                       <button
                         type="button"
-                        onClick={() => update("photoUrl", undefined)}
-                        className="text-sm text-neutral-500 hover:text-neutral-950"
+                        onClick={removePhoto}
+                        className="inline-flex items-center gap-1.5 text-sm text-neutral-500 hover:text-red-600 transition-fluid"
                       >
-                        Remove
+                        <Trash2 size={13} strokeWidth={1.5} /> Remove
                       </button>
                     )}
                   </div>
-                  <div className="mt-2 text-xs text-neutral-400">JPG, PNG or WEBP · 1 MB max</div>
-                  {errors.photoUrl && (
+                  {/* Upload status strip — replaces the static helper text on
+                      upload events. Falls back to the "JPG, PNG …" hint when
+                      idle. */}
+                  <div className="mt-2 min-h-[18px]">
+                    <AnimatePresence mode="wait">
+                      {uploadStatus.kind === "uploading" && (
+                        <motion.div
+                          key="up"
+                          initial={{ opacity: 0, y: 4 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          exit={{ opacity: 0, y: -4 }}
+                          className="flex items-center gap-2 text-[12.5px] text-neutral-600"
+                        >
+                          <Loader2 size={12} strokeWidth={1.75} className="animate-spin text-neutral-500" />
+                          <span className="truncate">Uploading {uploadStatus.fileName}…</span>
+                          <span className="tabular-nums text-neutral-400">
+                            {Math.round(uploadStatus.progress)}%
+                          </span>
+                        </motion.div>
+                      )}
+                      {uploadStatus.kind === "success" && (
+                        <motion.div
+                          key="ok"
+                          initial={{ opacity: 0, y: 4 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          exit={{ opacity: 0, y: -4 }}
+                          className="flex items-center gap-2 text-[12.5px] text-emerald-700"
+                        >
+                          <Check size={12} strokeWidth={1.75} />
+                          <span className="truncate">{uploadStatus.fileName} ready · save to publish</span>
+                        </motion.div>
+                      )}
+                      {uploadStatus.kind === "error" && (
+                        <motion.div
+                          key="err"
+                          initial={{ opacity: 0, y: 4 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          exit={{ opacity: 0, y: -4 }}
+                          className="flex items-center gap-2 text-[12.5px] text-red-600"
+                        >
+                          <AlertCircle size={12} strokeWidth={1.75} />
+                          <span className="truncate">{uploadStatus.message}</span>
+                        </motion.div>
+                      )}
+                      {uploadStatus.kind === "idle" && !errors.photoUrl && (
+                        <motion.div
+                          key="hint"
+                          initial={{ opacity: 0 }}
+                          animate={{ opacity: 1 }}
+                          exit={{ opacity: 0 }}
+                          className="text-xs text-neutral-400"
+                        >
+                          JPG, PNG or WEBP · 1 MB max · drop on avatar to upload
+                        </motion.div>
+                      )}
+                    </AnimatePresence>
+                  </div>
+                  {errors.photoUrl && uploadStatus.kind !== "error" && (
                     <div className="mt-1.5 text-sm text-red-600 inline-flex items-center gap-1.5">
-                      <AlertCircle size={12} /> {errors.photoUrl}
+                      <AlertCircle size={12} strokeWidth={1.5} /> {errors.photoUrl}
                     </div>
                   )}
                 </div>
@@ -202,18 +439,21 @@ export default function Profile() {
                   ref={fileRef}
                   type="file"
                   accept="image/png,image/jpeg,image/webp"
-                  onChange={onPhotoChange}
+                  onChange={onPhotoSelect}
                   className="hidden"
                 />
               </div>
             </div>
 
-            {/* Identity */}
-            <div className="rounded-md border border-neutral-200 p-6 md:p-8">
+            {/* ---------------------------------------------------------------
+                Identity
+                --------------------------------------------------------------- */}
+            <div className="rounded-md border border-neutral-200 p-5 md:p-8">
               <SectionLabel>Identity</SectionLabel>
               <div className="grid sm:grid-cols-2 gap-4">
                 <FormField
                   label="Display name"
+                  name="displayName"
                   icon={UserIcon}
                   value={profile.displayName}
                   onChange={(v) => update("displayName", v)}
@@ -223,6 +463,7 @@ export default function Profile() {
                 />
                 <FormField
                   label="Email address"
+                  name="email"
                   icon={Mail}
                   type="email"
                   value={profile.email}
@@ -233,6 +474,7 @@ export default function Profile() {
                 />
                 <FormField
                   label="Position"
+                  name="position"
                   icon={Briefcase}
                   value={profile.position}
                   onChange={(v) => update("position", v)}
@@ -242,6 +484,7 @@ export default function Profile() {
                 />
                 <FormField
                   label="Organisation"
+                  name="organization"
                   icon={Building2}
                   value={profile.organization}
                   onChange={(v) => update("organization", v)}
@@ -249,13 +492,16 @@ export default function Profile() {
                   fieldBorder={fieldBorder}
                   error={errors.organization}
                 />
-                <CountryField
+                <CountryDropdown
                   value={profile.country}
                   onChange={(v) => update("country", v)}
+                  options={countries}
                   fieldBorder={fieldBorder}
+                  error={errors.country}
                 />
                 <FormField
                   label="Website"
+                  name="website"
                   icon={Globe}
                   type="url"
                   value={profile.website}
@@ -267,12 +513,15 @@ export default function Profile() {
               </div>
             </div>
 
-            {/* Social */}
-            <div className="rounded-md border border-neutral-200 p-6 md:p-8">
+            {/* ---------------------------------------------------------------
+                Social
+                --------------------------------------------------------------- */}
+            <div className="rounded-md border border-neutral-200 p-5 md:p-8">
               <SectionLabel>Where delegates can find you</SectionLabel>
               <div className="grid sm:grid-cols-2 gap-4">
                 <FormField
                   label="LinkedIn profile"
+                  name="linkedin"
                   icon={Linkedin}
                   type="url"
                   value={profile.linkedin}
@@ -283,6 +532,7 @@ export default function Profile() {
                 />
                 <FormField
                   label="X.com profile"
+                  name="twitter"
                   icon={Twitter}
                   type="url"
                   value={profile.twitter}
@@ -294,19 +544,27 @@ export default function Profile() {
               </div>
             </div>
 
-            {/* Bio */}
-            <div className="rounded-md border border-neutral-200 p-6 md:p-8">
+            {/* ---------------------------------------------------------------
+                Bio
+                --------------------------------------------------------------- */}
+            <div className="rounded-md border border-neutral-200 p-5 md:p-8">
               <SectionLabel>About you</SectionLabel>
               <label className="block">
-                <span className="text-sm text-neutral-700">
-                  Bio — tell your fellow delegates about your role, experience and interests.
-                </span>
+                <div className="flex items-center justify-between gap-3">
+                  <span className="text-sm text-neutral-700">
+                    Bio — tell your fellow delegates about your role, experience and interests.
+                  </span>
+                  <span className="text-[11px] tabular-nums text-neutral-400">
+                    {profile.bio.length}/600
+                  </span>
+                </div>
                 <textarea
                   value={profile.bio}
-                  onChange={(e) => update("bio", e.target.value)}
+                  onChange={(e) => update("bio", e.target.value.slice(0, 600))}
                   rows={5}
                   placeholder="Brief introduction…"
-                  className={`mt-2 w-full bg-neutral-50 border rounded-xl px-4 py-3 text-neutral-900 outline-none placeholder:text-neutral-400 transition ${fieldBorder(false)}`}
+                  className={`mt-2 w-full bg-neutral-50 border rounded-sm px-4 py-3 text-neutral-900 outline-none placeholder:text-neutral-400 transition-fluid resize-y text-[0.9375rem] md:text-base ${fieldBorder(false)}`}
+                  style={{ lineHeight: 1.55 }}
                 />
                 <div className="mt-1 text-xs text-neutral-400">
                   Markdown isn't supported. Plain text only.
@@ -314,23 +572,80 @@ export default function Profile() {
               </label>
             </div>
 
-            <div className="flex flex-wrap items-center justify-between gap-4">
-              <div className="text-sm text-neutral-500">
-                Signed in as <span className="text-neutral-900">{user.email}</span>
-              </div>
-              <button
-                type="submit"
-                style={{ backgroundColor: INK }}
-                className="group inline-flex items-center justify-between gap-3 pl-5 pr-2 py-3 rounded-sm text-white hover:opacity-90 transition"
-              >
-                Update profile
-                <span
-                  className="w-8 h-8 rounded-full flex items-center justify-center"
-                  style={{ backgroundColor: BRAND }}
-                >
-                  <CheckCircle2 size={14} />
+            {/* ---------------------------------------------------------------
+                Footer — save / discard / replay tour
+                --------------------------------------------------------------- */}
+            <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 sticky bottom-4 md:static">
+              <div className="text-sm text-neutral-500 flex flex-wrap items-center gap-x-4 gap-y-2">
+                <span>
+                  Signed in as <span className="text-neutral-900">{user.email}</span>
                 </span>
-              </button>
+                {isDirty && (
+                  <span className="inline-flex items-center gap-1.5 text-amber-700 text-[12.5px]">
+                    <span className="w-1.5 h-1.5 rounded-full bg-amber-500" />
+                    Unsaved changes
+                  </span>
+                )}
+                {/* Replay tour — re-opens the onboarding modal. The auto-show
+                    flag in localStorage isn't touched here; replay() just
+                    re-opens the same component. */}
+                <button
+                  type="button"
+                  onClick={() => {
+                    tour.replay();
+                    toast.info("Replaying tour", {
+                      description: "Use ← / → or the dots to navigate steps.",
+                      duration: 3000,
+                    });
+                  }}
+                  className="inline-flex items-center gap-1.5 text-[12.5px] text-neutral-500 hover:text-neutral-950 transition-fluid"
+                >
+                  <PlayCircle size={13} strokeWidth={1.5} />
+                  Replay welcome tour
+                </button>
+              </div>
+              <div className="flex items-center gap-3">
+                {isDirty && saveStatus !== "saving" && (
+                  <button
+                    type="button"
+                    onClick={onDiscard}
+                    className="inline-flex items-center gap-1.5 px-3 py-2 rounded-sm text-sm text-neutral-600 hover:text-neutral-950 transition-fluid"
+                  >
+                    <RotateCcw size={13} strokeWidth={1.5} /> Discard
+                  </button>
+                )}
+                <button
+                  type="submit"
+                  disabled={saveStatus === "saving"}
+                  aria-disabled={saveStatus === "saving" || !isDirty}
+                  style={{ backgroundColor: saveStatus === "saved" ? "#15803d" : INK }}
+                  className={`group inline-flex items-center justify-between gap-3 pl-5 pr-2 py-3 rounded-sm text-white transition-fluid will-change-transform disabled:cursor-not-allowed hover:scale-[1.012] active:scale-[0.98] shadow-[0_3px_10px_-5px_rgba(0,0,0,0.28)] hover:shadow-[0_8px_20px_-8px_rgba(0,0,0,0.36)] ${
+                    !isDirty && saveStatus === "idle" ? "opacity-70" : ""
+                  }`}
+                >
+                  <span className="text-[15px]" style={{ fontWeight: 500 }}>
+                    {saveStatus === "saving"
+                      ? "Saving…"
+                      : saveStatus === "saved"
+                        ? "Profile updated"
+                        : "Update profile"}
+                  </span>
+                  <span
+                    className="w-8 h-8 rounded-sm flex items-center justify-center transition-fluid group-hover:brightness-105"
+                    style={{ backgroundColor: saveStatus === "saved" ? "rgba(255,255,255,0.18)" : BRAND }}
+                  >
+                    {saveStatus === "saving" ? (
+                      <Loader2 size={14} strokeWidth={1.75} className="animate-spin" />
+                    ) : saveStatus === "saved" ? (
+                      <Check size={14} strokeWidth={1.75} />
+                    ) : (
+                      <span className="inline-flex transition-fluid group-hover:translate-x-[1.5px] group-hover:-translate-y-[1.5px]">
+                        <BracketArrow size={12} strokeWidth={1.75} />
+                      </span>
+                    )}
+                  </span>
+                </button>
+              </div>
             </div>
           </form>
         </div>
@@ -347,6 +662,7 @@ type FieldIcon = typeof UserIcon;
 
 function FormField({
   label,
+  name,
   icon: Icon,
   value,
   onChange,
@@ -357,6 +673,7 @@ function FormField({
   fieldBorder,
 }: {
   label: string;
+  name: string;
   icon: FieldIcon;
   value: string;
   onChange: (v: string) => void;
@@ -368,66 +685,54 @@ function FormField({
 }) {
   return (
     <label className="block">
-      <span className="text-sm text-neutral-700">
+      <span className="text-sm text-neutral-700" style={{ fontWeight: 500 }}>
         {label}
         {required && <span className="text-red-500"> *</span>}
       </span>
-      <div className={`mt-2 flex items-center bg-neutral-50 border rounded-xl px-4 transition ${fieldBorder(!!error)}`}>
-        <Icon size={16} className="text-neutral-400 shrink-0" />
+      <div className={`mt-2 flex items-center bg-neutral-50 border rounded-sm px-4 transition-fluid ${fieldBorder(!!error)}`}>
+        <Icon size={16} strokeWidth={1.5} className="text-neutral-400 shrink-0" />
         <input
           type={type}
+          data-field={name}
           value={value}
           onChange={(e) => onChange(e.target.value)}
           placeholder={placeholder}
           aria-invalid={!!error}
-          className="flex-1 min-w-0 bg-transparent px-3 py-3 text-neutral-900 outline-none placeholder:text-neutral-400"
+          aria-describedby={error ? `${name}-err` : undefined}
+          className="flex-1 min-w-0 bg-transparent px-3 py-3 text-neutral-900 outline-none placeholder:text-neutral-400 text-[16px]"
         />
       </div>
       {error && (
-        <div className="mt-1.5 text-sm text-red-600 inline-flex items-center gap-1.5">
-          <AlertCircle size={12} /> {error}
+        <div id={`${name}-err`} className="mt-1.5 text-sm text-red-600 inline-flex items-center gap-1.5">
+          <AlertCircle size={12} strokeWidth={1.5} /> {error}
         </div>
       )}
     </label>
   );
 }
 
-function CountryField({
-  value,
-  onChange,
-  fieldBorder,
-}: {
-  value: string;
-  onChange: (v: string) => void;
-  fieldBorder: (hasError: boolean) => string;
-}) {
-  const showFlag = hasFlagFor(value);
-  return (
-    <label className="block">
-      <span className="text-sm text-neutral-700">Country</span>
-      <div className={`mt-2 flex items-center bg-neutral-50 border rounded-xl px-4 transition ${fieldBorder(false)}`}>
-        {showFlag ? (
-          <CountryFlag
-            country={value}
-            className="h-4 w-auto rounded-[1px] shadow-sm shrink-0"
-          />
-        ) : (
-          <MapPin size={16} className="text-neutral-400 shrink-0" />
-        )}
-        <input
-          type="text"
-          list="profile-country-options"
-          value={value}
-          onChange={(e) => onChange(e.target.value)}
-          placeholder="Start typing…"
-          className="flex-1 min-w-0 bg-transparent px-3 py-3 text-neutral-900 outline-none placeholder:text-neutral-400"
-        />
-      </div>
-      <datalist id="profile-country-options">
-        {countries.map((c) => (
-          <option key={c} value={c} />
-        ))}
-      </datalist>
-    </label>
-  );
+// ---------------------------------------------------------------------------
+// Utilities
+// ---------------------------------------------------------------------------
+
+function sleep(ms: number) {
+  return new Promise((resolve) => window.setTimeout(resolve, ms));
+}
+
+function readFileAsDataURL(file: File): Promise<string> {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload = () => {
+      if (typeof reader.result === "string") resolve(reader.result);
+      else reject(new Error("Unexpected reader result type"));
+    };
+    reader.onerror = () => reject(reader.error ?? new Error("Read failed"));
+    reader.readAsDataURL(file);
+  });
+}
+
+function formatBytes(bytes: number): string {
+  if (bytes < 1024) return `${bytes} B`;
+  if (bytes < 1024 * 1024) return `${(bytes / 1024).toFixed(0)} KB`;
+  return `${(bytes / 1024 / 1024).toFixed(2)} MB`;
 }

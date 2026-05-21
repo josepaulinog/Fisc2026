@@ -11,6 +11,7 @@ import {
 } from "lucide-react";
 import { ImageWithFallback } from "../components/figma/ImageWithFallback";
 import { Lockup } from "../components/brand/Lockup";
+import { BracketArrow } from "../components/ui/BracketArrow";
 import { GradientText, Grain } from "../components/shared";
 import { BRAND, HERO_SIGNIN, INK } from "../data";
 import { looksLikeEmail, useAuth } from "../auth";
@@ -158,7 +159,11 @@ export default function SignIn() {
       <div className="relative w-full grid lg:grid-cols-2">
         {/* LEFT — welcome copy on top of the section bg */}
         <div className="hidden lg:flex flex-col justify-between p-12 text-white">
-          <Link to="/" aria-label="FISC 2026 home">
+          <Link
+            to="/"
+            aria-label="FISC 2026 home"
+            className="inline-flex rounded-sm focus:outline-none focus-visible:ring-2 focus-visible:ring-white/40 focus-visible:ring-offset-2 focus-visible:ring-offset-transparent"
+          >
             <Lockup variant="light" size="md" />
           </Link>
 
@@ -182,43 +187,54 @@ export default function SignIn() {
         </div>
 
         {/* RIGHT — form panel */}
-        <div className="relative flex items-center justify-center p-6 md:p-12 bg-white lg:rounded-l-[2.5rem]">
+        <div className="relative flex items-center justify-center px-5 py-10 md:p-12 bg-white lg:rounded-l-[2.5rem]">
           <motion.div
             initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }}
             className="w-full max-w-md"
           >
-            <div className="lg:hidden mb-8">
+            {/* Mobile logo — clickable home link (was a static div). Goes
+                back home on tap so users who landed here by accident have an
+                explicit escape hatch above the fold. */}
+            <Link
+              to="/"
+              aria-label="FISC 2026 home"
+              className="lg:hidden inline-flex mb-7 rounded-sm focus:outline-none focus-visible:ring-2 focus-visible:ring-neutral-950 focus-visible:ring-offset-2"
+            >
               <Lockup variant="dark" size="sm" />
+            </Link>
+            <div className="inline-flex items-center gap-2 tracking-[0.22em] text-neutral-500 text-[10.5px] uppercase" style={{ fontWeight: 500 }}>
+              <span className="w-1.5 h-1.5 rounded-full" style={{ backgroundColor: BRAND }} />
+              Delegate Portal
             </div>
-            <div className="tracking-[0.25em] text-neutral-500 text-xs">DELEGATE PORTAL</div>
-            <h2 className="mt-3 tracking-[-0.02em] text-neutral-950" style={{ fontSize: "clamp(1.75rem, 4vw, 2.5rem)", lineHeight: 1.05 }}>
-              Sign in to your invitation.
+            <h2 className="mt-3 tracking-[-0.02em] text-neutral-950" style={{ fontSize: "clamp(1.625rem, 4vw, 2.5rem)", lineHeight: 1.05 }}>
+              Sign in to your <GradientText>invitation.</GradientText>
             </h2>
-            <p className="mt-3 text-neutral-600">
+            <p className="mt-3 text-neutral-600 text-[0.9375rem] md:text-base" style={{ lineHeight: 1.55 }}>
               Use the email address your invitation was sent to, plus the
               access code from the confirmation message.
             </p>
 
-            <form className="mt-8 space-y-4" onSubmit={handleSignIn} noValidate>
+            <form className="mt-7 md:mt-8 space-y-4" onSubmit={handleSignIn} noValidate>
               {errors.form && (
                 <div
                   role="alert"
-                  className="flex items-start gap-2 p-3 rounded-xl bg-red-50 border border-red-200 text-sm text-red-800"
+                  className="flex items-start gap-2 p-3 rounded-sm bg-red-50 border border-red-200 text-sm text-red-800"
                 >
-                  <AlertCircle size={16} className="shrink-0 mt-0.5" />
+                  <AlertCircle size={16} strokeWidth={1.5} className="shrink-0 mt-0.5" />
                   <span>{errors.form}</span>
                 </div>
               )}
 
               <label className="block">
-                <span className="text-sm text-neutral-700">Invited email</span>
+                <span className="text-sm text-neutral-700" style={{ fontWeight: 500 }}>Invited email</span>
                 <div
-                  className={`mt-2 flex items-center bg-neutral-50 border rounded-xl px-4 transition ${fieldBorder(!!errors.email)}`}
+                  className={`mt-2 flex items-center bg-neutral-50 border rounded-sm px-4 transition-fluid ${fieldBorder(!!errors.email)}`}
                 >
-                  <Mail size={18} className="text-neutral-400 shrink-0" />
+                  <Mail size={18} strokeWidth={1.5} className="text-neutral-400 shrink-0" />
                   <input
                     type="text"
                     autoComplete="username"
+                    inputMode="email"
                     placeholder="you@ministry.gov"
                     value={email}
                     onChange={(e) => {
@@ -227,22 +243,22 @@ export default function SignIn() {
                       if (errors.form) setErrors((p) => ({ ...p, form: undefined }));
                     }}
                     aria-invalid={!!errors.email}
-                    className="flex-1 min-w-0 bg-transparent px-3 py-3 text-neutral-900 outline-none placeholder:text-neutral-400"
+                    className="flex-1 min-w-0 bg-transparent px-3 py-3 text-neutral-900 outline-none placeholder:text-neutral-400 text-[16px]"
                   />
                 </div>
                 {errors.email && (
                   <div className="mt-1.5 text-sm text-red-600 inline-flex items-center gap-1.5">
-                    <AlertCircle size={12} /> {errors.email}
+                    <AlertCircle size={12} strokeWidth={1.5} /> {errors.email}
                   </div>
                 )}
               </label>
 
               <label className="block">
-                <span className="text-sm text-neutral-700">Access code</span>
+                <span className="text-sm text-neutral-700" style={{ fontWeight: 500 }}>Access code</span>
                 <div
-                  className={`mt-2 flex items-center bg-neutral-50 border rounded-xl px-4 transition ${fieldBorder(!!errors.code)}`}
+                  className={`mt-2 flex items-center bg-neutral-50 border rounded-sm px-4 transition-fluid ${fieldBorder(!!errors.code)}`}
                 >
-                  <Lock size={18} className="text-neutral-400 shrink-0" />
+                  <Lock size={18} strokeWidth={1.5} className="text-neutral-400 shrink-0" />
                   <input
                     type="password"
                     autoComplete="current-password"
@@ -254,17 +270,17 @@ export default function SignIn() {
                       if (errors.form) setErrors((p) => ({ ...p, form: undefined }));
                     }}
                     aria-invalid={!!errors.code}
-                    className="flex-1 min-w-0 bg-transparent px-3 py-3 text-neutral-900 outline-none placeholder:text-neutral-400 tracking-[0.3em]"
+                    className="flex-1 min-w-0 bg-transparent px-3 py-3 text-neutral-900 outline-none placeholder:text-neutral-400 tracking-[0.3em] text-[16px]"
                   />
                 </div>
                 {errors.code && (
                   <div className="mt-1.5 text-sm text-red-600 inline-flex items-center gap-1.5">
-                    <AlertCircle size={12} /> {errors.code}
+                    <AlertCircle size={12} strokeWidth={1.5} /> {errors.code}
                   </div>
                 )}
               </label>
 
-              <label className="flex items-center gap-2 text-sm text-neutral-600">
+              <label className="flex items-center gap-2 text-sm text-neutral-600 select-none cursor-pointer">
                 <input type="checkbox" className="accent-neutral-950 w-4 h-4" />
                 Keep me signed in on this device
               </label>
@@ -273,11 +289,16 @@ export default function SignIn() {
                 type="submit"
                 disabled={submitting}
                 style={{ backgroundColor: INK }}
-                className="group w-full inline-flex items-center justify-between text-white pl-5 pr-2 py-3 rounded-sm hover:opacity-90 disabled:opacity-60 disabled:cursor-not-allowed transition"
+                className="group w-full inline-flex items-center justify-between text-white pl-5 pr-2 py-3 rounded-sm disabled:opacity-60 disabled:cursor-not-allowed disabled:hover:scale-100 transition-fluid will-change-transform hover:scale-[1.008] active:scale-[0.99] shadow-[0_3px_10px_-5px_rgba(0,0,0,0.28)] hover:shadow-[0_8px_20px_-8px_rgba(0,0,0,0.36)]"
               >
-                {submitting ? "Signing in…" : "Sign in"}
-                <span className="w-9 h-9 rounded-full flex items-center justify-center" style={{ backgroundColor: BRAND }}>
-                  <ArrowRight size={16} className="group-hover:translate-x-0.5 transition-transform" />
+                <span style={{ fontSize: "1rem", fontWeight: 500 }}>{submitting ? "Signing in…" : "Sign in"}</span>
+                <span
+                  className="w-9 h-9 rounded-sm flex items-center justify-center transition-fluid group-hover:brightness-105"
+                  style={{ backgroundColor: BRAND }}
+                >
+                  <span className="inline-flex transition-fluid group-hover:translate-x-[1.5px] group-hover:-translate-y-[1.5px]">
+                    <BracketArrow size={13} strokeWidth={1.75} />
+                  </span>
                 </span>
               </button>
             </form>
@@ -286,14 +307,14 @@ export default function SignIn() {
               <button
                 type="button"
                 onClick={() => setLostOpen(true)}
-                className="text-neutral-600 hover:text-neutral-950"
+                className="text-neutral-600 hover:text-neutral-950 transition-fluid"
               >
                 Lost your access code?
               </button>
-              <Link to="/" className="text-neutral-500 hover:text-neutral-950">← Back to home</Link>
+              <Link to="/" className="text-neutral-500 hover:text-neutral-950 transition-fluid">← Back to home</Link>
             </div>
 
-            <div className="mt-10 p-4 rounded-md bg-neutral-50 border border-neutral-200 text-sm text-neutral-600">
+            <div className="mt-8 md:mt-10 p-4 rounded-md bg-neutral-50 border border-neutral-200 text-[0.8125rem] md:text-sm text-neutral-600" style={{ lineHeight: 1.55 }}>
               FISC 2026 is invitation only. If you believe you should have
               access, contact your country's delegation lead or{" "}
               <a href="mailto:fisc@freebalance.com" className="text-neutral-950 underline">fisc@freebalance.com</a>.
@@ -322,46 +343,49 @@ export default function SignIn() {
               exit={{ opacity: 0, y: 24, scale: 0.96 }}
               transition={{ duration: 0.22, ease: [0.32, 0.72, 0, 1] }}
               onClick={(e) => e.stopPropagation()}
-              className="relative w-full max-w-md bg-white rounded-3xl shadow-2xl shadow-black/40 overflow-hidden"
+              className="relative w-full max-w-md bg-white rounded-md ring-1 ring-black/[0.06] overflow-hidden"
+              style={{ boxShadow: "0 30px 80px -24px rgba(0,0,0,0.5), 0 8px 20px -8px rgba(0,0,0,0.2)" }}
             >
-              <div className="flex items-center justify-between px-6 py-4 border-b border-neutral-100">
-                <span className="text-[10px] tracking-[0.25em] uppercase text-neutral-500">
+              <div className="flex items-center justify-between px-5 md:px-6 py-3.5 border-b border-black/[0.05]">
+                <span className="inline-flex items-center gap-2 text-[10px] tracking-[0.22em] uppercase text-neutral-500" style={{ fontWeight: 500 }}>
+                  <span className="w-1.5 h-1.5 rounded-full" style={{ backgroundColor: BRAND }} />
                   Recovery
                 </span>
                 <button
                   type="button"
                   onClick={closeLostModal}
                   aria-label="Close"
-                  className="w-8 h-8 rounded-full text-neutral-500 hover:bg-neutral-100 hover:text-neutral-950 flex items-center justify-center transition"
+                  className="w-8 h-8 rounded-sm text-neutral-500 hover:bg-black/[0.05] hover:text-neutral-950 flex items-center justify-center transition-fluid"
                 >
-                  <X size={16} />
+                  <X size={16} strokeWidth={1.5} />
                 </button>
               </div>
 
-              <div className="p-6 md:p-8">
+              <div className="p-5 md:p-8">
                 {!lostSent ? (
                   <>
                     <h3
                       id="lost-code-title"
                       className="tracking-[-0.02em] text-neutral-950"
-                      style={{ fontSize: "1.5rem", lineHeight: 1.1 }}
+                      style={{ fontSize: "clamp(1.375rem, 4vw, 1.5rem)", lineHeight: 1.1 }}
                     >
                       Lost your access code?
                     </h3>
-                    <p className="mt-3 text-neutral-600 text-sm" style={{ lineHeight: 1.6 }}>
+                    <p className="mt-3 text-neutral-600 text-[0.9375rem] md:text-sm" style={{ lineHeight: 1.55 }}>
                       Enter the invited email and we'll send a fresh six-digit code within a few minutes.
                     </p>
 
                     <form className="mt-6 space-y-4" onSubmit={handleLostSubmit} noValidate>
                       <label className="block">
-                        <span className="text-sm text-neutral-700">Invited email</span>
+                        <span className="text-sm text-neutral-700" style={{ fontWeight: 500 }}>Invited email</span>
                         <div
-                          className={`mt-2 flex items-center bg-neutral-50 border rounded-xl px-4 transition ${fieldBorder(!!lostErrors.email)}`}
+                          className={`mt-2 flex items-center bg-neutral-50 border rounded-sm px-4 transition-fluid ${fieldBorder(!!lostErrors.email)}`}
                         >
-                          <Mail size={18} className="text-neutral-400 shrink-0" />
+                          <Mail size={18} strokeWidth={1.5} className="text-neutral-400 shrink-0" />
                           <input
                             type="email"
                             autoComplete="email"
+                            inputMode="email"
                             autoFocus
                             placeholder="you@ministry.gov"
                             value={lostEmail}
@@ -370,12 +394,12 @@ export default function SignIn() {
                               if (lostErrors.email) setLostErrors({});
                             }}
                             aria-invalid={!!lostErrors.email}
-                            className="flex-1 min-w-0 bg-transparent px-3 py-3 text-neutral-900 outline-none placeholder:text-neutral-400"
+                            className="flex-1 min-w-0 bg-transparent px-3 py-3 text-neutral-900 outline-none placeholder:text-neutral-400 text-[16px]"
                           />
                         </div>
                         {lostErrors.email && (
                           <div className="mt-1.5 text-sm text-red-600 inline-flex items-center gap-1.5">
-                            <AlertCircle size={12} /> {lostErrors.email}
+                            <AlertCircle size={12} strokeWidth={1.5} /> {lostErrors.email}
                           </div>
                         )}
                       </label>
@@ -383,19 +407,21 @@ export default function SignIn() {
                       <button
                         type="submit"
                         style={{ backgroundColor: INK }}
-                        className="group w-full inline-flex items-center justify-between text-white pl-5 pr-2 py-3 rounded-sm hover:opacity-90 transition"
+                        className="group w-full inline-flex items-center justify-between text-white pl-5 pr-2 py-3 rounded-sm transition-fluid will-change-transform hover:scale-[1.008] active:scale-[0.99] shadow-[0_3px_10px_-5px_rgba(0,0,0,0.28)] hover:shadow-[0_8px_20px_-8px_rgba(0,0,0,0.36)]"
                       >
-                        Resend access code
+                        <span style={{ fontSize: "1rem", fontWeight: 500 }}>Resend access code</span>
                         <span
-                          className="w-8 h-8 rounded-full flex items-center justify-center"
+                          className="w-8 h-8 rounded-sm flex items-center justify-center transition-fluid group-hover:brightness-105"
                           style={{ backgroundColor: BRAND }}
                         >
-                          <ArrowRight size={14} className="group-hover:translate-x-0.5 transition-transform" />
+                          <span className="inline-flex transition-fluid group-hover:translate-x-[1.5px] group-hover:-translate-y-[1.5px]">
+                            <BracketArrow size={12} strokeWidth={1.75} />
+                          </span>
                         </span>
                       </button>
                     </form>
 
-                    <p className="mt-6 text-sm text-neutral-500" style={{ lineHeight: 1.55 }}>
+                    <p className="mt-6 text-[0.8125rem] md:text-sm text-neutral-500" style={{ lineHeight: 1.55 }}>
                       Still can't access? Contact your country's delegation lead or{" "}
                       <a href="mailto:fisc@freebalance.com" className="text-neutral-950 underline">
                         fisc@freebalance.com
@@ -406,25 +432,25 @@ export default function SignIn() {
                 ) : (
                   <div>
                     <div
-                      className="w-12 h-12 rounded-full flex items-center justify-center mb-5"
+                      className="w-12 h-12 rounded-sm flex items-center justify-center mb-5"
                       style={{ backgroundColor: `${BRAND}18`, color: BRAND }}
                     >
-                      <CheckCircle2 size={22} />
+                      <CheckCircle2 size={22} strokeWidth={1.5} />
                     </div>
                     <h3
                       id="lost-code-title"
                       className="tracking-[-0.02em] text-neutral-950"
-                      style={{ fontSize: "1.5rem", lineHeight: 1.1 }}
+                      style={{ fontSize: "clamp(1.375rem, 4vw, 1.5rem)", lineHeight: 1.1 }}
                     >
                       Check your inbox.
                     </h3>
-                    <p className="mt-3 text-neutral-600 text-sm" style={{ lineHeight: 1.6 }}>
+                    <p className="mt-3 text-neutral-600 text-[0.9375rem] md:text-sm" style={{ lineHeight: 1.55 }}>
                       If your email matches an invited delegate, a fresh six-digit code is on its way. Codes typically arrive within a few minutes.
                     </p>
                     <button
                       type="button"
                       onClick={closeLostModal}
-                      className="mt-6 w-full inline-flex items-center justify-center gap-2 py-3 rounded-sm border border-neutral-300 text-neutral-800 hover:border-neutral-950 transition"
+                      className="mt-6 w-full inline-flex items-center justify-center gap-2 py-3 rounded-sm border border-neutral-300 text-neutral-800 hover:border-neutral-950 transition-fluid"
                     >
                       Back to sign in
                     </button>

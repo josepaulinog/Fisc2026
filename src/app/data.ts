@@ -21,6 +21,8 @@ import maracasCabin from "../imports/maracas-cabin.jpg";
 import scarletIbis from "../imports/scarlet-ibis.jpg";
 import queensRoyalCollege from "../imports/queens-royal-college.jpg";
 import carnivalDancer from "../imports/carnival-dancer.jpg";
+import speakersImage from "../imports/speakers2.png";
+import newsletterImage from "../imports/newsletter.jpg";
 
 // Host-country officials — Trinidad & Tobago is FISC 2026's host, so the
 // 2025 Timor-Leste keynotes are replaced by the current PM and Minister of
@@ -47,8 +49,9 @@ export const VENUE_IMG_3 = maracasBeach;
 // repeat (port-of-spain-aerial appears on /resources and /media-coverage —
 // both are "overview" surfaces and the Hyatt itself is visible in the frame).
 export const HERO_ABOUT = aboutHeroImage;
+export const NEWSLETTER_IMG = newsletterImage;
 export const HERO_AGENDA = eventsImage;
-export const HERO_SPEAKERS = queensRoyalCollege;
+export const HERO_SPEAKERS = speakersImage;
 export const HERO_VENUE = maracasBeach;
 export const HERO_RESOURCES = agendaImage;
 export const HERO_ATTENDEES = aboutImage;
@@ -197,9 +200,9 @@ export const agenda: AgendaDay[] = [
       { time: "12:00 PM – 1:00 PM", title: "Group Photo" },
       { time: "1:00 PM – 2:00 PM", title: "Lunch" },
       { time: "2:00 PM – 3:30 PM", title: "Workshop: Government Public Finances Practices Country Experiences", tag: "Workshop", desc: "How have governments achieved public finance objectives even in difficult circumstances? This session highlights obstacles overcome and successes achieved by FreeBalance customers.", briefing: "A working session, not a presentation. Delegates split into four working groups by region — Africa, Americas, Caribbean and Asia-Pacific — to surface the toughest PFM challenges of the last 24 months and the workarounds that actually moved the needle. FreeBalance services leads facilitate but stay out of the way: this is country-to-country knowledge transfer first. Each group produces a one-page case capture for the secretariat's post-FISC briefings, distributed to the full delegation within two weeks.", takeaways: ["Concrete experiences from delegate-led conversations, not vendor talking points", "Cross-regional comparison of common reform blockers", "A written case capture you co-author and take home", "The chance to find your counterpart in another country tackling the same problem"], references: [{ label: "FreeBalance Advisory Services", to: "/materials" }, { label: "About Gerard Rao", to: "/speakers/gerard-rao" }], speakers: [S.fbStaff] },
-      { time: "3:30 PM – 4:00 PM", title: "Closing Remarks", desc: "A summary of the first day's discussions, highlighting key lessons and setting expectations for the coming sessions." },
-      { time: "5:00 PM – 6:30 PM", title: "Cultural Tour" },
-      { time: "7:00 PM – 10:00 PM", title: "Dinner at Local Restaurant", desc: "Evening dinner featuring local and international cuisine." },
+      { time: "3:30 PM – 4:00 PM", title: "Closing Remarks", desc: "Day 1 wrap-up. Tuesday's roadmap-introduction reading distributed in delegate packs." },
+      { time: "5:00 PM – 6:30 PM", title: "Cultural Tour", desc: "Optional excursion. Coach departs Hyatt 4:45 PM." },
+      { time: "7:00 PM – 10:00 PM", title: "Dinner at Local Restaurant", desc: "Veni Mangé, Woodbrook. Coach departs Hyatt 6:45 PM, return 10:30 PM." },
     ],
   },
   {
@@ -215,9 +218,9 @@ export const agenda: AgendaDay[] = [
       { time: "2:00 PM – 3:30 PM", title: "Workshop: Government Public Finances Practices Aspirations", tag: "Workshop", desc: "How can governments leverage FISC lessons? Subjects include Government Resource Planning (GRP), progressive activation, project management, organizational change management, and capacity building.", briefing: "The forward-looking counterpart to Monday's experience workshop. Working groups translate the lessons captured 24 hours earlier into concrete next-12-month commitments — what each delegation will pilot, what they'll need from the FreeBalance services team, and where the secretariat can broker cross-country support. Each group leaves with a written aspiration brief, jointly held, that the secretariat will follow up on quarterly.", takeaways: ["A written 12-month aspiration brief for your country", "Cross-country pairings for joint pilots where the problem is shared", "A direct ask line into FreeBalance services for the next phase", "Quarterly secretariat follow-up to keep momentum past the conference"], references: [{ label: "FreeBalance Advisory Services", to: "/materials" }, { label: "Public Investment Management (PIMA)", to: "/materials" }], speakers: [S.fbStaff] },
       { time: "3:30 PM – 4:30 PM", title: "What's New: FreeBalance Accountability Platform", tag: "Presentation", desc: "How can an open platform protect your public finance investment? This session describes our open system mandate with deployment portability.", briefing: "The platform-architecture deep-dive for the technical members of each delegation. Pedro Jorge presents FreeBalance's open-system mandate — what it means for data portability, vendor independence, third-party extensions, and the long-term lifetime cost of a PFM deployment. Concrete examples: how customers in Ghana and Guyana extended the platform without forking it, and the API surface published in the 2025 release.", takeaways: ["What 'open platform' specifically means in the FreeBalance context", "Real customer extensions that didn't require a fork", "Public API surface and SDK availability", "How deployment portability protects the 10-year investment horizon"], references: [{ label: "FreeBalance Suite Functionality", to: "/materials" }, { label: "About Pedro Jorge", to: "/speakers/pedro-jorge" }], speakers: [S.pedro] },
       { time: "4:30 PM – 5:30 PM", title: "FreeBalance Product Roadmap Introduction", tag: "Presentation", materials: ["FreeBalance Suite Functionality"], desc: "How can you influence FreeBalance product priorities? This session introduces you to new product ideas generated from recent FreeBalance experience in the PFM world, research, conferences, and government tenders.", briefing: "The setup for Thursday's roadmap vote. Doug Hadden walks through the 23 candidate features on this year's customer-priority ballot — what each is, the problem it solves, the customers who requested it, and the rough cost class. Delegates leave with the printed ballot in their pack and the next two days to deliberate with their counterparts before voting closes on Day 4.", takeaways: ["The full 2026 candidate roadmap explained item by item", "Which other countries have asked for what, and why", "The cost-class framework used to weight the vote", "Time to think and deliberate before Thursday's binding ballot"], references: [{ label: "FreeBalance Suite Functionality", to: "/materials" }, { label: "About Doug Hadden", to: "/speakers/doug-hadden" }, { label: "Thursday's roadmap vote", to: "/agenda/day-4/6" }], speakers: [S.doug] },
-      { time: "5:30 PM – 6:00 PM", title: "Closing Remarks", desc: "Brief summary and recap of the day's events." },
+      { time: "5:30 PM – 6:00 PM", title: "Closing Remarks", desc: "Day 2 wrap-up. Roadmap ballot reminder before Thursday's vote." },
       { time: "6:00 PM – 6:30 PM", title: "Free time" },
-      { time: "7:30 PM – 10:00 PM", title: "Dinner at Sky Garden", desc: "A fantastic dining experience awaits at Sky Garden." },
+      { time: "7:30 PM – 10:00 PM", title: "Dinner at Sky Garden", desc: "Sky Garden rooftop, Hyatt Regency. Cocktails 7:30 PM, seating 8:00 PM." },
     ],
   },
   {
@@ -233,9 +236,9 @@ export const agenda: AgendaDay[] = [
       { time: "2:00 PM – 3:00 PM", title: "What's New: FreeBalance Services", tag: "Presentation", desc: "How can public finance project success rates improve? This session describes Key Success Factors and why agile approaches are more successful than legacy waterfall.", briefing: "Gerard Rao opens the FreeBalance services playbook honestly — what went right, what went wrong, and what the team changed across the last two years of deployments. The headline shift: a move from milestone-gated waterfall to agile activation, with progressive go-lives every 8–12 weeks instead of one 18-month launch. The data: median time-to-first-value down 47%, customer-reported escalation rate down 31%.", takeaways: ["Why agile progressive activation beats waterfall for PFM deployments", "The four Key Success Factors that predict on-time go-live", "Real numbers from the last two years of FreeBalance engagements", "When to push back if your integrator proposes a 'big bang' approach"], references: [{ label: "FreeBalance Advisory Services", to: "/materials" }, { label: "About Gerard Rao", to: "/speakers/gerard-rao" }], speakers: [S.gerard] },
       { time: "3:00 PM – 3:15 PM", title: "Closing Remarks" },
       { time: "3:15 PM – 4:30 PM", title: "Free time" },
-      { time: "4:30 PM – 5:30 PM", title: "Travel to Local Market" },
-      { time: "5:30 PM – 6:30 PM", title: "Visit to the National Museum & Cultural Centre" },
-      { time: "8:00 PM – 10:00 PM", title: "Dinner at Local Heritage Restaurant", desc: "Enjoy a relaxed dinner in one of the city's top dining spots." },
+      { time: "4:30 PM – 5:30 PM", title: "Travel to Local Market", desc: "Coach to Queen's Park Savannah. ~30 min." },
+      { time: "5:30 PM – 6:30 PM", title: "Visit to the National Museum & Cultural Centre", desc: "Guided tour. Frederick Street, Port of Spain." },
+      { time: "8:00 PM – 10:00 PM", title: "Dinner at Local Heritage Restaurant", desc: "Old Trinity by the Sea, St. Ann's. Coach returns 10:30 PM." },
     ],
   },
   {
@@ -251,9 +254,9 @@ export const agenda: AgendaDay[] = [
       { time: "1:00 PM – 2:00 PM", title: "Lunch" },
       { time: "2:00 PM – 3:30 PM", title: "Government Public Finances Practices: Lessons Learned", tag: "Panel", materials: ["PEFA Assessments", "MAPS — Methodology for Assessing Procurement Systems", "Public Investment Management (PIMA)", "Tax Administration Diagnostic (TADAT)"], desc: "This workshop follows up from previous ones by creating reform and modernization action items based on success factors and international assessments like PEFA, MAPS, and PIMA.", briefing: "The conference's most demanding session, by design. Five customer representatives — drawn from Ghana, Mongolia, Honduras, Sierra Leone, and Trinidad & Tobago — present their hardest-won lesson from the last 18 months. After each, the room workshops a translation: how does this lesson apply to other regions, other reform stages, other political contexts. The output is a published Lessons Learned brief co-signed by every panelist and circulated to all delegations within ten days.", takeaways: ["Five honest, hard-won lessons from production reform programs", "Cross-regional translation of each lesson into actionable form", "A co-signed published brief in your post-FISC pack", "The chance to ask reform leads questions you can't ask on a webinar"], references: [{ label: "PEFA Assessments", to: "/materials" }, { label: "MAPS — Procurement Systems", to: "/materials" }, { label: "Public Investment Management (PIMA)", to: "/materials" }, { label: "Tax Administration Diagnostic (TADAT)", to: "/materials" }], speakers: [S.customers] },
       { time: "3:30 PM – 4:30 PM", title: "FreeBalance Product Roadmap Voting", tag: "Panel", materials: ["FreeBalance Suite Functionality"], desc: "How do FreeBalance customers influence the value of implementations over time? Roadmap voting has been the cornerstone for every FISC. This session enables participants to prioritize FreeBalance and government ideas using this customer-centric approach.", briefing: "The single most distinctive thing FreeBalance does as a vendor — and the conference moment that ties the whole week together. Each delegation casts a binding vote across the 23 candidate features introduced on Tuesday. Votes are weighted equally per country, regardless of customer size. The top 10 by total weight enter the FreeBalance build queue with committed delivery windows. Results are announced live before the closing remarks. No vendor on earth gives customers this kind of direct product authority; protect the time.", takeaways: ["A binding country-weighted vote on next year's product priorities", "Live announcement of the top 10 results before the closing reception", "Committed delivery windows from FreeBalance R&D on the winning items", "A printed record of every customer's vote, distributed in the takeaway pack"], references: [{ label: "FreeBalance Suite Functionality", to: "/materials" }, { label: "Tuesday's roadmap introduction", to: "/agenda/day-2/7" }], speakers: [S.fbStaff] },
-      { time: "4:30 PM – 4:45 PM", title: "Closing Remarks", desc: "Brief summary and wrap-up of the day's events." },
+      { time: "4:30 PM – 4:45 PM", title: "Closing Remarks", desc: "FISC 2026 wrap-up. Roadmap vote results announced." },
       { time: "4:45 PM – 7:00 PM", title: "Free Time" },
-      { time: "7:00 PM – 10:00 PM", title: "Closing Reception and dinner at Hyatt Regency", desc: "Closing Reception and dinner at the Hyatt Regency, featuring a cultural performance and live music." },
+      { time: "7:00 PM – 10:00 PM", title: "Closing Reception and dinner at Hyatt Regency", desc: "Roadmap vote results in detail. Cultural performance and live music." },
     ],
   },
 ];
@@ -459,7 +462,7 @@ export type VideoEntry = {
 export const videos: VideoEntry[] = [
   { title: "Welcome to FISC 2026", day: "Welcome", duration: "2:14", thumb: aboutImage, url: "#", description: "Opening cinematic from the gala reception at Hyatt Regency, Port of Spain." },
   { title: "Day 1 Highlights — National Strategies", day: "Day 1", duration: "4:32", thumb: queensRoyalCollege, url: "#", description: "Country-led keynotes and the opening workshop on aligning PFM with national strategies." },
-  { title: "Day 2 Highlights — Product Co-Creation", day: "Day 2", duration: "5:08", thumb: agendaImage, url: "#", description: "Workshops on the FreeBalance Suite roadmap and customer-driven feature prioritisation." },
+  { title: "Day 2 Highlights — Product Co-Creation", day: "Day 2", duration: "5:08", thumb: eventsImage, url: "#", description: "Workshops on the FreeBalance Suite roadmap and customer-driven feature prioritisation." },
   { title: "Day 3 Highlights — AI in Public Finance", day: "Day 3", duration: "4:55", thumb: scarletIbis, url: "#", description: "From human-augmented PFM to prompt patterns the secretariat actually uses." },
   { title: "Day 4 Highlights — Resilience & Roadmap Voting", day: "Day 4", duration: "6:21", thumb: maracasBeach, url: "#", description: "Closing panels on resilience and the customer-driven product roadmap vote." },
   { title: "Why Trinidad? — A Letter from the Minister", day: "Feature", duration: "3:45", thumb: portOfSpainAerial, url: "#", description: "The Minister of Finance on hosting FISC 2026 in Port of Spain." },
@@ -506,12 +509,12 @@ export const galleryPhotos: GalleryPhoto[] = [
   // than a Croatian beach pretending to be Maracas. Captions are written to
   // match whichever local image carries them.
   { src: aboutImage, caption: "Plenary applause", span: "wide" },
-  { src: agendaImage, caption: "Roadmap voting session" },
+  { src: eventsImage, caption: "Roadmap voting session" },
   { src: portOfSpainAerial, caption: "The Hyatt waterfront at dusk" },
   { src: queensRoyalCollege, caption: "Country breakout" },
   { src: aboutHeroImage, caption: "Opening keynote" },
   { src: carnivalDancer, caption: "Cultural performance" },
-  { src: agendaImage, caption: "Workshop tables", span: "wide" },
+  { src: eventsImage, caption: "Workshop tables", span: "wide" },
   { src: aboutImage, caption: "Audience in the round" },
   { src: queensRoyalCollege, caption: "On stage in Port of Spain" },
   { src: maracasBeach, caption: "Maracas Bay, day three" },
