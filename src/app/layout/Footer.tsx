@@ -324,10 +324,15 @@ export function Footer({ variant = "compact" }: FooterProps = {}) {
               of Public Financial Management.
             </p>
             <div className="flex gap-2 mt-5 md:mt-6">
-              {[Linkedin, Twitter, Youtube].map((Icon, i) => (
+              {[
+                { Icon: Linkedin, label: "FreeBalance on LinkedIn" },
+                { Icon: Twitter, label: "FreeBalance on X" },
+                { Icon: Youtube, label: "FreeBalance on YouTube" },
+              ].map(({ Icon, label }) => (
                 <a
-                  key={i}
+                  key={label}
                   href="#"
+                  aria-label={label}
                   className="w-10 h-10 rounded-full border border-white/20 text-white/80 flex items-center justify-center hover:text-white hover:border-transparent transition"
                   onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = BRAND)}
                   onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = "")}
@@ -386,17 +391,28 @@ export function Footer({ variant = "compact" }: FooterProps = {}) {
           </div>
         </div>
 
-        {/* Bottom strip */}
-        <div className="pt-6 md:pt-8 flex flex-wrap items-center justify-between gap-4 text-white/50 text-sm">
-          <div className="flex flex-wrap items-center gap-x-3 gap-y-1">
-            <span>© 2026 FreeBalance Inc.</span>
-            <span className="hidden md:inline-block w-1 h-1 rounded-full bg-white/30" />
-            <span>Hosted by the Ministry of Finance, Trinidad and Tobago</span>
+        {/* Bottom strip — Ministry attribution promoted to its own row above
+            the © + legal links. It's institutional credit doing real work
+            (the host government); burying it at body-copy weight alongside
+            the copyright undersold the relationship. */}
+        <div className="pt-6 md:pt-8 space-y-4 md:space-y-5">
+          <div
+            className="inline-flex items-center gap-2.5 text-white/75"
+            style={{ fontSize: "0.875rem", fontWeight: 500 }}
+          >
+            <span className="w-1.5 h-1.5 rounded-full" style={{ backgroundColor: BRAND }} />
+            <span>
+              Hosted by the{" "}
+              <span className="text-white">Ministry of Finance, Trinidad and Tobago</span>
+            </span>
           </div>
-          <div className="flex flex-wrap gap-5 md:gap-6">
-            <a href="#" className="hover:text-white transition">Privacy</a>
-            <a href="#" className="hover:text-white transition">Terms</a>
-            <a href="#" className="hover:text-white transition">Code of Conduct</a>
+          <div className="flex flex-wrap items-center justify-between gap-4 text-white/50 text-sm">
+            <span>© 2026 FreeBalance Inc.</span>
+            <div className="flex flex-wrap gap-5 md:gap-6">
+              <a href="#" className="hover:text-white transition">Privacy</a>
+              <a href="#" className="hover:text-white transition">Terms</a>
+              <a href="#" className="hover:text-white transition">Code of Conduct</a>
+            </div>
           </div>
         </div>
       </div>
