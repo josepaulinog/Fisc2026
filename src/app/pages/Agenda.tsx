@@ -154,33 +154,43 @@ export default function Agenda() {
               and the "Download programme" CTA into a single row. Brand-orange
               dot eyebrow, day label, date, sessions count, time range; CTA
               on the right. */}
-          <div className="flex flex-wrap items-start md:items-center justify-between gap-4 md:gap-6 mb-6 md:mb-8 pb-5 md:pb-6 border-b border-neutral-200/70">
-            <div className="flex flex-wrap items-center gap-x-4 md:gap-x-6 gap-y-2 text-[0.8125rem] md:text-sm">
-              <span className="inline-flex items-center gap-2">
+          {/* Day summary row — reads as a small section header now, not as
+              a meta strip. Larger DAY label, more spacing, ghost-variant
+              Download CTA so it accompanies the day info instead of
+              dominating it. */}
+          <div className="flex flex-wrap items-start md:items-end justify-between gap-5 md:gap-8 mb-8 md:mb-10 pb-6 md:pb-7 border-b border-neutral-200/70">
+            <div>
+              <span className="inline-flex items-center gap-2 mb-2.5">
                 <span
                   className="w-1.5 h-1.5 rounded-full"
                   style={{ backgroundColor: BRAND }}
                 />
                 <span
                   className="text-neutral-950 uppercase"
-                  style={{ fontSize: "0.6875rem", letterSpacing: "0.22em", fontWeight: 600 }}
+                  style={{ fontSize: "0.75rem", letterSpacing: "0.24em", fontWeight: 600 }}
                 >
                   {current.short.toUpperCase()}
                 </span>
               </span>
-              <span className="text-neutral-700 tabular-nums">{current.date}</span>
-              <span className="text-neutral-300 hidden sm:inline">·</span>
-              <span className="text-neutral-700 hidden sm:inline">
-                {dayStats.count} {dayStats.count === 1 ? "session" : "sessions"}
-              </span>
-              <span className="text-neutral-300 hidden sm:inline">·</span>
-              <span className="text-neutral-700 hidden sm:inline tabular-nums">
-                {dayStats.firstStart} → {dayStats.lastEnd}
-              </span>
+              <div
+                className="text-neutral-950 tracking-tight tabular-nums"
+                style={{ fontSize: "clamp(1.25rem, 2.5vw, 1.625rem)", lineHeight: 1.15, fontWeight: 500, letterSpacing: "-0.01em" }}
+              >
+                {current.date}
+              </div>
+              <div className="mt-1.5 flex flex-wrap items-center gap-x-3 gap-y-1 text-neutral-600 text-[0.875rem] md:text-[0.9375rem]">
+                <span>
+                  {dayStats.count} {dayStats.count === 1 ? "session" : "sessions"}
+                </span>
+                <span className="text-neutral-300">·</span>
+                <span className="tabular-nums">
+                  {dayStats.firstStart} → {dayStats.lastEnd}
+                </span>
+              </div>
             </div>
             <NestedCTA
               href="#"
-              variant="ink"
+              variant="ghost"
               icon={<Download size={13} strokeWidth={1.75} />}
             >
               Download programme
@@ -252,25 +262,20 @@ function SessionRow({
   const isSoft = !session.tag && !hasSpeakers && !session.briefing;
 
   if (isSoft) {
-    // Soft rows get a small brand-orange dot prefix, matching the page
-    // eyebrow style, so they read as "still part of the schedule" rather
-    // than as detached text between cards. Slightly more vertical padding
-    // (py-4) than before (py-3) gives them measurable presence in the
-    // list — the previous treatment dropped to ~50px row height which
-    // broke the rhythm against ~160px cards above and below.
+    // Soft rows render flush with the cards' content edge — no dot prefix,
+    // no left chrome. The previous dot read as "accidental ornament" per
+    // the design review; cleaner is better here. py-4 padding holds the
+    // measurable row height (~52px) that anchors the rhythm against the
+    // larger session cards above and below.
     return (
-      <li className="flex items-center gap-4 md:gap-8 px-5 md:px-7 py-4 md:py-4">
-        <span
-          aria-hidden="true"
-          className="w-1 h-1 rounded-full bg-neutral-300 shrink-0"
-        />
+      <li className="flex items-center gap-4 md:gap-6 px-5 md:px-7 py-4">
         <div
           className="shrink-0 w-[90px] md:w-[120px] tabular-nums text-neutral-500"
-          style={{ fontSize: "0.8125rem", lineHeight: 1.25, fontWeight: 500, letterSpacing: "0.01em" }}
+          style={{ fontSize: "0.875rem", lineHeight: 1.25, fontWeight: 500, letterSpacing: "0.01em" }}
         >
           {fmtTime(session.time)}
         </div>
-        <div className="text-neutral-700" style={{ fontSize: "0.9375rem", fontWeight: 500 }}>
+        <div className="text-neutral-700" style={{ fontSize: "1rem", fontWeight: 500 }}>
           {session.title}
         </div>
       </li>
@@ -283,22 +288,35 @@ function SessionRow({
     : null;
 
   return (
-    <li className="relative rounded-md bg-white ring-1 ring-black/[0.05] shadow-[0_4px_18px_-12px_rgba(0,0,0,0.1)] transition-fluid hover:shadow-[0_10px_28px_-14px_rgba(0,0,0,0.16)] overflow-hidden">
+    <li
+      className="group relative rounded-md bg-white ring-1 ring-black/[0.05] shadow-[0_4px_18px_-12px_rgba(0,0,0,0.1)] transition-fluid hover:shadow-[0_10px_28px_-14px_rgba(0,0,0,0.16)] overflow-hidden"
+      style={
+        tagTone
+          ? {
+              // Tag-tinted left accent — 3px slab that picks up the same
+              // OKLCH foreground hue as the tag chip below. Lets the eye
+              // pre-classify the row by format (Workshop / Presentation /
+              // Demonstration / Panel) before reading the title.
+              boxShadow: `inset 3px 0 0 0 ${tagTone.fg}, 0 4px 18px -12px rgba(0,0,0,0.1)`,
+            }
+          : undefined
+      }
+    >
       {/* Expand button — absolute top-right, anchored consistently across
           mobile (stacked layout) and desktop (row layout). Whole card is
-          still the hit target; this is the affordance. Bumped contrast
-          from bg-neutral-100 / text-neutral-500 to a ringed neutral-150-ish
-          surface with text-neutral-700 — the previous treatment was nearly
-          invisible at desktop reading distance. */}
+          still the hit target; this is the affordance. Darkened from the
+          previous neutral-100/700 treatment so it reads as a clear "you
+          can expand me" control at desktop reading distance. Card-hover
+          deepens the button further. */}
       {hasExpansion && (
         <span
           aria-hidden="true"
-          className="absolute top-4 right-4 md:top-5 md:right-5 w-9 h-9 rounded-sm bg-neutral-100 ring-1 ring-black/[0.06] flex items-center justify-center text-neutral-700 transition-fluid pointer-events-none"
+          className="absolute top-4 right-4 md:top-5 md:right-5 w-9 h-9 rounded-sm bg-neutral-100 ring-1 ring-black/[0.1] flex items-center justify-center text-neutral-900 transition-fluid pointer-events-none group-hover:bg-neutral-200 group-hover:ring-black/[0.18]"
         >
           {expanded ? (
-            <Minus size={14} strokeWidth={1.75} />
+            <Minus size={15} strokeWidth={2} />
           ) : (
-            <Plus size={14} strokeWidth={1.75} />
+            <Plus size={15} strokeWidth={2} />
           )}
         </span>
       )}
@@ -325,24 +343,27 @@ function SessionRow({
             side column was eating most of a 360px viewport). On desktop
             it goes back to a side column for a clean grid alignment. */}
         <div
-          className="md:shrink-0 md:w-[120px] tabular-nums text-neutral-900 md:pt-0.5"
-          style={{ fontSize: "0.8125rem", lineHeight: 1.3, fontWeight: 600, letterSpacing: "0.01em" }}
+          className="md:shrink-0 md:w-[120px] tabular-nums text-neutral-900 md:pt-1"
+          style={{ fontSize: "0.875rem", lineHeight: 1.3, fontWeight: 600, letterSpacing: "0.01em" }}
         >
           {fmtTime(session.time)}
         </div>
 
-        {/* Body */}
+        {/* Body — title + description sizes bumped one tier each so the
+            session content sits at parity with the hero scale. Title 1.1875rem
+            (was 1.0625rem), body 1rem (was 0.9375rem). Body kept at
+            text-neutral-700 from the site-wide darker pale-gray pass. */}
         <div className="flex-1 min-w-0 w-full">
           <h3
             className="tracking-tight text-neutral-950"
-            style={{ fontSize: "1.0625rem", lineHeight: 1.3, fontWeight: 600, letterSpacing: "-0.005em" }}
+            style={{ fontSize: "1.1875rem", lineHeight: 1.3, fontWeight: 600, letterSpacing: "-0.005em" }}
           >
             {session.title}
           </h3>
           {session.desc && (
             <p
-              className="mt-2 text-neutral-700"
-              style={{ fontSize: "0.9375rem", lineHeight: 1.55 }}
+              className="mt-2.5 text-neutral-700"
+              style={{ fontSize: "1rem", lineHeight: 1.6 }}
             >
               {session.desc.length > 200
                 ? session.desc.slice(0, 200).trimEnd() + "…"

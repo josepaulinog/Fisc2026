@@ -235,7 +235,7 @@ export function Footer({ variant = "compact" }: FooterProps = {}) {
       />
       <Grain />
 
-      <div className="relative max-w-7xl mx-auto px-5 md:px-6 pt-12 md:pt-24 pb-10">
+      <div className={`relative max-w-7xl mx-auto px-5 md:px-6 pb-8 md:pb-10 ${showClosingBand ? "pt-12 md:pt-24" : "pt-10 md:pt-16"}`}>
         {/* Event meta strip */}
         <div className="flex flex-wrap items-center gap-2.5 md:gap-4 text-[0.8125rem] md:text-sm text-white/70 mb-8 md:mb-14">
           <span className="inline-flex items-center gap-2 px-3 py-1.5 rounded-sm border border-white/15 bg-white/5">
@@ -315,7 +315,7 @@ export function Footer({ variant = "compact" }: FooterProps = {}) {
         )}
 
         {/* Link columns */}
-        <div className="grid sm:grid-cols-2 lg:grid-cols-12 gap-10 md:gap-12 pb-10 md:pb-14 border-b border-white/10">
+        <div className={`grid sm:grid-cols-2 lg:grid-cols-12 gap-8 md:gap-12 border-b border-white/10 ${showClosingBand ? "pb-10 md:pb-14" : "pb-8 md:pb-10"}`}>
           <div className="lg:col-span-5">
             <Lockup variant="light" size="lg" />
             <p className="mt-5 md:mt-6 max-w-md text-white/65" style={{ lineHeight: 1.7 }}>
