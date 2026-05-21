@@ -371,7 +371,7 @@ function CountdownAndActions() {
                 >
                   <ImageWithFallback
                     src={COLLAGE_3}
-                    alt="Trinidad culture"
+                    alt="Queen's Royal College, Port of Spain"
                     className="absolute inset-0 w-full h-full object-cover transition-fluid group-hover:scale-[1.03]"
                   />
                 </motion.div>
@@ -396,8 +396,8 @@ function CountdownAndActions() {
                 >
                   <ImageWithFallback
                     src={COLLAGE_2}
-                    alt="The FISC delegation"
-                    className="absolute inset-0 w-full h-full object-cover object-[center_30%]"
+                    alt="FISC delegates in a workshop session"
+                    className="absolute inset-0 w-full h-full object-cover object-[center_40%]"
                   />
                 </motion.div>
                 <span
