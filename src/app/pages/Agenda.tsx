@@ -36,7 +36,7 @@ export default function Agenda() {
               Choose a day to explore the full programme. Click any session for the full briefing —
               time, speakers and context.
             </p>
-            <a href="#" className="group inline-flex items-center gap-2 px-5 py-3 rounded-lg border border-neutral-300 bg-white hover:bg-neutral-950 hover:text-white hover:border-neutral-950 transition">
+            <a href="#" className="group inline-flex items-center gap-2 px-5 py-3 rounded-sm border border-neutral-300 bg-white hover:bg-neutral-950 hover:text-white hover:border-neutral-950 transition">
               Download programme
               <Download size={16} />
             </a>

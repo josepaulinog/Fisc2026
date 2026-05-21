@@ -35,15 +35,18 @@ export function Header() {
 
   return (
     <>
+      {/* Fluid Island floating nav — detached from the viewport edges, glass
+          surface, hairline ring instead of a solid border, ambient shadow
+          replacing the SaaS-template shadow-sm. The pill rounds the corners
+          to maximum (rounded-full) so the whole header reads as one floating
+          object rather than a stretched bar. */}
       <header
-        className={`fixed top-0 inset-x-0 z-50 transition-all duration-500 ${scrolled ? "py-2" : "py-4"}`}
+        className={`fixed top-0 inset-x-0 z-50 transition-fluid ${scrolled ? "pt-2 md:pt-3" : "pt-4 md:pt-6"}`}
       >
-        <div className={`mx-auto max-w-7xl px-4 transition-all duration-500 ${scrolled ? "max-w-6xl" : ""}`}>
+        <div className="mx-auto max-w-7xl px-5 md:px-6 transition-fluid">
           <div
-            className={`flex items-center justify-between rounded-2xl border transition-all duration-500 px-3 md:px-4 ${
-              scrolled
-                ? "bg-white/90 backdrop-blur-xl border-neutral-200 shadow-sm h-14 md:h-16"
-                : "bg-white backdrop-blur-xl border-neutral-200 shadow-sm h-16 md:h-18 py-2"
+            className={`flex items-center justify-between rounded-sm ring-1 ring-black/[0.05] bg-white/75 backdrop-blur-2xl transition-fluid px-3 md:px-4 shadow-[0_8px_30px_-12px_rgba(0,0,0,0.12)] ${
+              scrolled ? "h-14 md:h-16" : "h-16 md:h-[68px]"
             }`}
           >
             <Link to="/" className="flex items-center shrink-0" aria-label="FISC 2026 home">
@@ -56,7 +59,7 @@ export function Header() {
                     <NavLink
                       to={n.to ?? n.children[0].to}
                       className={({ isActive }) =>
-                        `inline-flex items-center gap-1.5 px-4 py-2 rounded-lg transition-colors ${
+                        `inline-flex items-center gap-1.5 px-4 py-2 rounded-sm transition-colors ${
                           isActive
                             ? "bg-neutral-950 text-white"
                             : "text-neutral-700 group-hover:bg-neutral-950 group-hover:text-white"
@@ -67,7 +70,7 @@ export function Header() {
                       <ChevronDown size={14} className="opacity-70 group-hover:rotate-180 transition-transform" />
                     </NavLink>
                     <div className="absolute top-full left-1/2 -translate-x-1/2 pt-3 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all">
-                      <div className="bg-white border border-neutral-200 rounded-2xl shadow-xl overflow-hidden min-w-[16rem]">
+                      <div className="bg-white border border-neutral-200 rounded-lg shadow-xl overflow-hidden min-w-[16rem]">
                         {n.to && (
                           <NavLink
                             to={n.to}
@@ -119,7 +122,7 @@ export function Header() {
                     key={n.label}
                     to={n.to ?? "#"}
                     className={({ isActive }) =>
-                      `px-4 py-2 rounded-lg transition-colors ${
+                      `px-4 py-2 rounded-sm transition-colors ${
                         isActive
                           ? "bg-neutral-950 text-white"
                           : "text-neutral-700 hover:bg-neutral-950 hover:text-white"
@@ -163,31 +166,31 @@ export function Header() {
                 </>
               ) : (
                 <>
-                  <span className="hidden md:inline-flex items-center gap-2 px-3 py-1.5 rounded-lg bg-neutral-100 text-neutral-600 text-sm">
+                  <span className="hidden md:inline-flex items-center gap-2 px-3 py-1.5 rounded bg-neutral-100 text-neutral-600 text-sm">
                     <span className="w-1.5 h-1.5 rounded-full bg-neutral-400" />
                     Invitation only
                   </span>
                   <Link
                     to="/sign-in"
                     style={{ backgroundColor: INK }}
-                    className="group hidden sm:inline-flex items-center gap-2 text-white pl-5 pr-2 py-2 rounded-lg hover:opacity-90 transition"
+                    className="group hidden sm:inline-flex items-center gap-2.5 text-white pl-5 pr-1.5 py-1.5 rounded-sm transition-fluid active:scale-[0.98]"
                   >
-                    Delegate sign in
+                    <span className="text-sm" style={{ fontWeight: 500 }}>Delegate sign in</span>
                     <span
-                      className="w-7 h-7 rounded-full flex items-center justify-center"
+                      className="w-8 h-8 rounded-sm flex items-center justify-center transition-fluid group-hover:translate-x-0.5 group-hover:-translate-y-[1px]"
                       style={{ backgroundColor: BRAND }}
                     >
-                      <ArrowUpRight size={14} className="group-hover:rotate-45 transition-transform" />
+                      <ArrowUpRight size={13} strokeWidth={1.75} />
                     </span>
                   </Link>
                 </>
               )}
               <button
-                className="lg:hidden p-2 text-neutral-700 rounded-lg hover:bg-neutral-100"
+                className="lg:hidden inline-flex items-center justify-center w-10 h-10 text-neutral-800 rounded-sm hover:bg-black/5 transition-fluid"
                 onClick={() => setOpen(true)}
                 aria-label="Open menu"
               >
-                <Menu size={22} />
+                <Menu size={20} strokeWidth={1.75} />
               </button>
             </div>
           </div>
@@ -214,7 +217,7 @@ export function Header() {
               <div className="flex items-center justify-between p-5 border-b border-neutral-100">
                 <Lockup variant="dark" size="sm" />
                 <button
-                  className="p-2 rounded-lg hover:bg-neutral-100 text-neutral-700"
+                  className="p-2 rounded-sm hover:bg-neutral-100 text-neutral-700"
                   onClick={() => setOpen(false)}
                   aria-label="Close menu"
                 >
@@ -226,7 +229,7 @@ export function Header() {
                   to="/"
                   end
                   className={({ isActive }) =>
-                    `block px-4 py-3 rounded-xl mb-1 transition ${
+                    `block px-4 py-3 rounded-sm mb-1 transition ${
                       isActive ? "bg-neutral-950 text-white" : "text-neutral-800 hover:bg-neutral-100"
                     }`
                   }
@@ -243,7 +246,7 @@ export function Header() {
                         <NavLink
                           to={n.to ?? n.children?.[0]?.to ?? "#"}
                           className={({ isActive }) =>
-                            `flex-1 block px-4 py-3 rounded-xl transition ${
+                            `flex-1 block px-4 py-3 rounded-sm transition ${
                               isActive ? "bg-neutral-950 text-white" : "text-neutral-800 hover:bg-neutral-100"
                             }`
                           }
@@ -255,7 +258,7 @@ export function Header() {
                           <button
                             onClick={() => setMobileExpanded(expanded ? null : n.label)}
                             aria-label={expanded ? `Collapse ${n.label}` : `Expand ${n.label}`}
-                            className="px-3 rounded-xl text-neutral-500 hover:bg-neutral-100"
+                            className="px-3 rounded-md text-neutral-500 hover:bg-neutral-100"
                           >
                             <ChevronDown
                               size={18}
@@ -275,7 +278,7 @@ export function Header() {
                               key={c.label}
                               to={c.to}
                               className={({ isActive }) =>
-                                `flex items-center justify-between px-3 py-2.5 rounded-lg transition ${
+                                `flex items-center justify-between px-3 py-2.5 rounded-sm transition ${
                                   isActive
                                     ? "bg-neutral-950 text-white"
                                     : "text-neutral-700 hover:bg-neutral-100"
@@ -301,7 +304,7 @@ export function Header() {
                   <>
                     <Link
                       to="/profile"
-                      className="flex items-center gap-3 px-3 py-2.5 rounded-xl bg-neutral-100 hover:bg-neutral-200 transition"
+                      className="flex items-center gap-3 px-3 py-2.5 rounded-sm bg-neutral-100 hover:bg-neutral-200 transition"
                     >
                       <span
                         className="w-10 h-10 rounded-full overflow-hidden flex items-center justify-center text-white text-sm ring-2 ring-white"
@@ -326,7 +329,7 @@ export function Header() {
                         setOpen(false);
                       }}
                       style={{ backgroundColor: INK }}
-                      className="group w-full inline-flex items-center justify-between text-white pl-5 pr-2 py-3 rounded-xl hover:opacity-90 transition"
+                      className="group w-full inline-flex items-center justify-between text-white pl-5 pr-2 py-3 rounded-sm hover:opacity-90 transition"
                     >
                       Sign out
                       <span
@@ -339,14 +342,14 @@ export function Header() {
                   </>
                 ) : (
                   <>
-                    <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-lg bg-neutral-100 text-neutral-600 text-sm">
+                    <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded bg-neutral-100 text-neutral-600 text-sm">
                       <span className="w-1.5 h-1.5 rounded-full bg-neutral-400" />
                       Invitation only
                     </div>
                     <Link
                       to="/sign-in"
                       style={{ backgroundColor: INK }}
-                      className="group w-full inline-flex items-center justify-between text-white pl-5 pr-2 py-3 rounded-xl hover:opacity-90 transition"
+                      className="group w-full inline-flex items-center justify-between text-white pl-5 pr-2 py-3 rounded-sm hover:opacity-90 transition"
                     >
                       Delegate sign in
                       <span

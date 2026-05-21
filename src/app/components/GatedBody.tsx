@@ -51,7 +51,7 @@ export function GatedBody({ children }: { children: ReactNode }) {
         <Link
           to={`/sign-in?return=${returnTo}`}
           style={{ backgroundColor: INK }}
-          className="mt-8 group inline-flex items-center gap-2 text-white pl-6 pr-2 py-3 rounded-lg hover:opacity-90 transition"
+          className="mt-8 group inline-flex items-center gap-2 text-white pl-6 pr-2 py-3 rounded-sm hover:opacity-90 transition"
         >
           Delegate sign in
           <span

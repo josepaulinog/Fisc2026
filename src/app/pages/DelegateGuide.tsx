@@ -1,5 +1,7 @@
 import { useState } from "react";
 import { motion } from "motion/react";
+import { useAuth } from "../auth";
+import { useChecklist } from "../checklist";
 import {
   Building2,
   Calendar,
@@ -29,25 +31,26 @@ import {
   VENUE_HOTEL,
   VENUE_STREET,
   delegateGuide,
+  formatDeadline,
 } from "../data";
 
 export default function DelegateGuide() {
-  const [checked, setChecked] = useState<Set<number>>(new Set());
+  // Checklist state lives in localStorage keyed by user.email — shared with
+  // the homepage's CountdownAndActions queue so ticking an item here is
+  // reflected there next page-load (and vice versa). GatedBody wraps this
+  // page so user is guaranteed non-null at render time.
+  const { user } = useAuth();
+  const { checked, toggle } = useChecklist(user);
   const [openEssential, setOpenEssential] = useState<string | null>(delegateGuide.essentials[0]?.category ?? null);
-
-  const toggle = (i: number) => {
-    setChecked((s) => {
-      const next = new Set(s);
-      if (next.has(i)) next.delete(i);
-      else next.add(i);
-      return next;
-    });
-  };
 
   return (
     <>
       <PageHero
         label={`${delegateGuide.edition} · Delegate Guide`}
+        breadcrumbs={[
+          { label: "Resources", to: "/resources" },
+          { label: "Delegate Guide" },
+        ]}
         title={<>{delegateGuide.countryName}<br /><GradientText>from gate to gate.</GradientText></>}
         subtitle={delegateGuide.intro}
         image={HERO_GUIDE}
@@ -96,7 +99,7 @@ export default function DelegateGuide() {
                   { icon: Plug, k: "Voltage", v: delegateGuide.keyFacts.voltage },
                   { icon: Users, k: "Population", v: delegateGuide.keyFacts.population },
                 ].map((row) => (
-                  <div key={row.k} className="flex items-start gap-3 rounded-xl border border-neutral-200 bg-white p-4">
+                  <div key={row.k} className="flex items-start gap-3 rounded-md border border-neutral-200 bg-white p-4">
                     <div className="w-9 h-9 rounded-lg flex items-center justify-center shrink-0" style={{ backgroundColor: `${BRAND}15`, color: BRAND }}>
                       <row.icon size={15} />
                     </div>
@@ -172,11 +175,11 @@ export default function DelegateGuide() {
               <div className="mt-2 text-neutral-500 text-sm tracking-widest uppercase">{delegateGuide.weather.season}</div>
               <p className="mt-4 text-neutral-600" style={{ lineHeight: 1.65 }}>{delegateGuide.weather.notes}</p>
               <div className="mt-6 grid grid-cols-2 gap-3">
-                <div className="rounded-xl border border-neutral-200 p-4">
+                <div className="rounded-md border border-neutral-200 p-4">
                   <div className="text-xs tracking-[0.2em] uppercase text-neutral-500">Range</div>
                   <div className="mt-1 tracking-tight text-neutral-950">{delegateGuide.weather.tempC}</div>
                 </div>
-                <div className="rounded-xl border border-neutral-200 p-4">
+                <div className="rounded-md border border-neutral-200 p-4">
                   <div className="text-xs tracking-[0.2em] uppercase text-neutral-500">Humidity</div>
                   <div className="mt-1 tracking-tight text-neutral-950">{delegateGuide.weather.humidity}</div>
                 </div>
@@ -204,7 +207,7 @@ export default function DelegateGuide() {
                 <button
                   key={i}
                   onClick={() => toggle(i)}
-                  className={`group w-full flex items-center gap-4 px-5 py-4 rounded-2xl border transition text-left ${
+                  className={`group w-full flex items-center gap-4 px-5 py-4 rounded-sm border transition text-left ${
                     done ? "bg-neutral-950 border-neutral-950 text-white" : "bg-white border-neutral-200 hover:border-neutral-400"
                   }`}
                 >
@@ -219,11 +222,9 @@ export default function DelegateGuide() {
                       <span className={`block text-sm mt-0.5 ${done ? "text-white/55" : "text-neutral-500"}`}>{c.detail}</span>
                     )}
                   </span>
-                  {c.deadline && (
-                    <span className={`shrink-0 inline-flex items-center gap-2 px-3 py-1 rounded-md text-xs tracking-widest uppercase ${done ? "bg-white/10 text-white/70" : "bg-neutral-100 text-neutral-600"}`}>
-                      <Calendar size={12} /> {c.deadline}
-                    </span>
-                  )}
+                  <span className={`shrink-0 inline-flex items-center gap-2 px-3 py-1 rounded-md text-xs tracking-widest uppercase ${done ? "bg-white/10 text-white/78" : "bg-neutral-100 text-neutral-600"}`}>
+                    <Calendar size={12} /> {formatDeadline(c.dueDate).label}
+                  </span>
                 </button>
               );
             })}

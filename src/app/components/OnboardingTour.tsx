@@ -232,7 +232,7 @@ export function OnboardingTour() {
                     <button
                       type="button"
                       onClick={goPrev}
-                      className="inline-flex items-center gap-2 px-4 py-2.5 rounded-lg border border-white/20 text-white/85 hover:border-white hover:text-white transition text-sm"
+                      className="inline-flex items-center gap-2 px-4 py-2.5 rounded-sm border border-white/20 text-white/85 hover:border-white hover:text-white transition text-sm"
                     >
                       Back
                     </button>
@@ -241,7 +241,7 @@ export function OnboardingTour() {
                     type="button"
                     onClick={goNext}
                     style={{ backgroundColor: BRAND }}
-                    className="group inline-flex items-center gap-2 pl-4 pr-2 py-2.5 rounded-lg text-white transition hover:opacity-95"
+                    className="group inline-flex items-center gap-2 pl-4 pr-2 py-2.5 rounded-sm text-white transition hover:opacity-95"
                   >
                     {isLast ? "Get started" : "Next"}
                     <span className="w-7 h-7 rounded-full bg-white/15 flex items-center justify-center">

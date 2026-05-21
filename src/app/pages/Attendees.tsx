@@ -23,7 +23,7 @@ function AttendeeCard({ a, i }: { a: AttendeeEntry; i: number }) {
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
       transition={{ delay: (i % 8) * 0.04 }}
-      className="group relative rounded-2xl border border-neutral-200 bg-white p-5 hover:border-neutral-950 hover:bg-neutral-950 hover:text-white transition-all"
+      className="group relative rounded-md bg-white p-5 ring-1 ring-black/[0.05] shadow-[0_8px_24px_-16px_rgba(0,0,0,0.1)] hover:bg-neutral-950 hover:text-white hover:ring-neutral-950 hover:shadow-[0_16px_40px_-16px_rgba(0,0,0,0.25)] transition-fluid"
     >
       {a.delegationLead && (
         <span
@@ -36,13 +36,13 @@ function AttendeeCard({ a, i }: { a: AttendeeEntry; i: number }) {
       <div className="flex items-start gap-4">
         <div className="relative shrink-0">
           {a.img ? (
-            <div className="w-14 h-14 rounded-full overflow-hidden bg-neutral-100 ring-2 ring-white shadow-sm">
+            <div className="w-16 h-16 rounded-sm overflow-hidden bg-neutral-100 ring-1 ring-black/[0.05]">
               <ImageWithFallback src={a.img} alt={a.name} className="w-full h-full object-cover" />
             </div>
           ) : (
             <div
-              className="w-14 h-14 rounded-full flex items-center justify-center text-white tracking-tight"
-              style={{ backgroundColor: BRAND, fontSize: "0.95rem" }}
+              className="w-16 h-16 rounded-sm flex items-center justify-center text-white tracking-tight ring-1 ring-black/[0.05]"
+              style={{ backgroundColor: BRAND, fontSize: "0.95rem", fontWeight: 500 }}
             >
               {initialsOf(a.name)}
             </div>
@@ -119,6 +119,10 @@ export default function Attendees() {
     <>
       <PageHero
         label="Delegate community"
+        breadcrumbs={[
+          { label: "Resources", to: "/resources" },
+          { label: "Delegate community" },
+        ]}
         title={<>The room behind <GradientText>the work.</GradientText></>}
         subtitle="FISC 2026 brings together finance ministers, treasurers and reformers from 40+ countries. Sign in to see the full list — or scroll on for a preview of the delegation."
         image={HERO_ATTENDEES}
@@ -161,7 +165,7 @@ export default function Attendees() {
                     <button
                       key={r}
                       onClick={() => setRegion(r)}
-                      className={`shrink-0 px-3.5 py-2 rounded-lg border text-sm transition ${
+                      className={`shrink-0 px-3.5 py-2 rounded-sm border text-sm transition ${
                         isActive
                           ? "bg-neutral-950 border-neutral-950 text-white"
                           : "bg-white border-neutral-200 text-neutral-700 hover:border-neutral-400"
@@ -193,7 +197,7 @@ export default function Attendees() {
               .sort((a, b) => b[1] - a[1])
               .slice(0, 8)
               .map(([country, n]) => (
-                <div key={country} className="rounded-2xl border border-neutral-200 bg-white p-4 flex items-center justify-between gap-3">
+                <div key={country} className="rounded-md border border-neutral-200 bg-white p-4 flex items-center justify-between gap-3">
                   <div className="flex items-center gap-3 min-w-0">
                     <CountryFlag
                       country={country}

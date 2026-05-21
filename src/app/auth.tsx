@@ -48,7 +48,7 @@ type DemoCredential = { password: string } & User;
 // so signed-in views feel populated, not stubbed.
 const DEMO_CREDENTIALS: DemoCredential[] = [
   { email: "admin",    password: "admin123",    name: "Carolyn Bowick",          role: "admin"    },
-  { email: "delegate", password: "delegate123", name: "Sharlene Sookraj-Ablack", role: "delegate" },
+  { email: "delegate", password: "delegate123", name: "Brendan J. Toner", role: "delegate" },
 ];
 
 /**

@@ -103,6 +103,10 @@ export default function Videos() {
     <>
       <PageHero
         label="Videos"
+        breadcrumbs={[
+          { label: "Resources", to: "/resources" },
+          { label: "Videos" },
+        ]}
         title={<>Watch the week.<br /><GradientText>On your time.</GradientText></>}
         subtitle="Daily highlight reels and short features from FISC 2026 — captured live in Port of Spain."
         image={HERO_VIDEOS}
@@ -138,7 +142,7 @@ export default function Videos() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: i * 0.05 }}
-                className="rounded-2xl border border-neutral-200 bg-white p-5 flex items-center gap-4"
+                className="rounded-md border border-neutral-200 bg-white p-5 flex items-center gap-4"
               >
                 <div className="w-11 h-11 rounded-xl flex items-center justify-center shrink-0" style={{ backgroundColor: `${BRAND_SOFT}33`, color: BRAND }}>
                   <Film size={18} />

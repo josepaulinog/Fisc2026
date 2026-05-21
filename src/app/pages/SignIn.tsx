@@ -273,7 +273,7 @@ export default function SignIn() {
                 type="submit"
                 disabled={submitting}
                 style={{ backgroundColor: INK }}
-                className="group w-full inline-flex items-center justify-between text-white pl-5 pr-2 py-3 rounded-xl hover:opacity-90 disabled:opacity-60 disabled:cursor-not-allowed transition"
+                className="group w-full inline-flex items-center justify-between text-white pl-5 pr-2 py-3 rounded-sm hover:opacity-90 disabled:opacity-60 disabled:cursor-not-allowed transition"
               >
                 {submitting ? "Signing in…" : "Sign in"}
                 <span className="w-9 h-9 rounded-full flex items-center justify-center" style={{ backgroundColor: BRAND }}>
@@ -293,7 +293,7 @@ export default function SignIn() {
               <Link to="/" className="text-neutral-500 hover:text-neutral-950">← Back to home</Link>
             </div>
 
-            <div className="mt-10 p-4 rounded-xl bg-neutral-50 border border-neutral-200 text-sm text-neutral-600">
+            <div className="mt-10 p-4 rounded-md bg-neutral-50 border border-neutral-200 text-sm text-neutral-600">
               FISC 2026 is invitation only. If you believe you should have
               access, contact your country's delegation lead or{" "}
               <a href="mailto:fisc@freebalance.com" className="text-neutral-950 underline">fisc@freebalance.com</a>.
@@ -383,7 +383,7 @@ export default function SignIn() {
                       <button
                         type="submit"
                         style={{ backgroundColor: INK }}
-                        className="group w-full inline-flex items-center justify-between text-white pl-5 pr-2 py-3 rounded-xl hover:opacity-90 transition"
+                        className="group w-full inline-flex items-center justify-between text-white pl-5 pr-2 py-3 rounded-sm hover:opacity-90 transition"
                       >
                         Resend access code
                         <span
@@ -424,7 +424,7 @@ export default function SignIn() {
                     <button
                       type="button"
                       onClick={closeLostModal}
-                      className="mt-6 w-full inline-flex items-center justify-center gap-2 py-3 rounded-xl border border-neutral-300 text-neutral-800 hover:border-neutral-950 transition"
+                      className="mt-6 w-full inline-flex items-center justify-center gap-2 py-3 rounded-sm border border-neutral-300 text-neutral-800 hover:border-neutral-950 transition"
                     >
                       Back to sign in
                     </button>

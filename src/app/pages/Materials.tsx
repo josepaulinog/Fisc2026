@@ -32,7 +32,7 @@ function MaterialCard({ m, i }: { m: MaterialEntry; i: number }) {
             background: `radial-gradient(ellipse at 80% 20%, ${tone.fg}22 0%, transparent 55%), linear-gradient(180deg, #ffffff 0%, #f5f5f4 100%)`,
           }}
         />
-        <div className="absolute inset-x-6 top-6 bottom-12 rounded-lg bg-white border border-neutral-200 shadow-sm p-5 flex flex-col gap-3">
+        <div className="absolute inset-x-6 top-6 bottom-12 rounded-md bg-white border border-neutral-200 shadow-sm p-5 flex flex-col gap-3">
           <div className="flex items-center gap-2">
             <FileText size={14} style={{ color: tone.fg }} />
             <span className="text-[10px] tracking-[0.25em] uppercase text-neutral-400">FISC Takeaways</span>
@@ -94,6 +94,10 @@ export default function Materials() {
     <>
       <PageHero
         label="Materials"
+        breadcrumbs={[
+          { label: "Resources", to: "/resources" },
+          { label: "Materials" },
+        ]}
         title={<>Every deck. <GradientText>Every one-pager.</GradientText></>}
         subtitle="FISC Takeaways translate four days of conversation into reform-ready briefs. Browse the full archive — gated to registered delegates."
         image={HERO_MATERIALS}
@@ -133,7 +137,7 @@ export default function Materials() {
                 <button
                   key={t}
                   onClick={() => setTopic(t)}
-                  className={`shrink-0 inline-flex items-center gap-2 px-4 py-2 rounded-lg border text-sm transition ${
+                  className={`shrink-0 inline-flex items-center gap-2 px-4 py-2 rounded-sm border text-sm transition ${
                     isActive
                       ? "bg-neutral-950 border-neutral-950 text-white"
                       : "bg-white border-neutral-200 text-neutral-700 hover:border-neutral-400"
@@ -174,7 +178,7 @@ export default function Materials() {
                 </p>
               </div>
               <div className="md:col-span-4 flex md:justify-end">
-                <a href="#" className="inline-flex items-center gap-3 pl-5 pr-2 py-3 rounded-lg text-white hover:opacity-95 transition" style={{ backgroundColor: BRAND }}>
+                <a href="#" className="inline-flex items-center gap-3 pl-5 pr-2 py-3 rounded-sm text-white hover:opacity-95 transition" style={{ backgroundColor: BRAND }}>
                   Download .zip
                   <span className="w-9 h-9 rounded-full bg-white/15 flex items-center justify-center">
                     <Download size={16} />

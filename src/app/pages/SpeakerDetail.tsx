@@ -1,7 +1,6 @@
 import { Link, Navigate, useParams } from "react-router";
 import { motion } from "motion/react";
 import {
-  ArrowLeft,
   ArrowUpRight,
   Calendar,
   Clock,
@@ -13,6 +12,7 @@ import {
 } from "lucide-react";
 import { ImageWithFallback } from "../components/figma/ImageWithFallback";
 import { GradientText, Grain, SectionLabel } from "../components/shared";
+import { Breadcrumbs } from "../components/ui/Breadcrumbs";
 import {
   BRAND,
   BRAND_SOFT,
@@ -74,12 +74,15 @@ export default function SpeakerDetail() {
         <Grain />
 
         <div className="relative max-w-7xl mx-auto px-5 md:px-6">
-          <Link
-            to="/speakers"
-            className="inline-flex items-center gap-2 text-sm text-white/78 hover:text-white transition mb-6"
-          >
-            <ArrowLeft size={14} /> All presenters
-          </Link>
+          <Breadcrumbs
+            tone="light"
+            className="mb-6"
+            items={[
+              { label: "Speakers", to: "/speakers" },
+              { label: speaker.name },
+            ]}
+          />
+
 
           <div className="grid lg:grid-cols-12 gap-8 md:gap-12 items-end">
             <motion.div
@@ -185,7 +188,7 @@ export default function SpeakerDetail() {
 
             {/* Sessions sidebar */}
             <aside className="lg:col-span-5">
-              <div className="rounded-2xl border border-neutral-200 bg-neutral-50/60 p-6 md:p-7 sticky top-28">
+              <div className="rounded-md border border-neutral-200 bg-neutral-50/60 p-6 md:p-7 sticky top-28">
                 <div className="flex items-center gap-2 mb-4">
                   <Mic size={14} style={{ color: BRAND }} />
                   <span className="text-xs tracking-[0.25em] uppercase text-neutral-500">
@@ -200,7 +203,7 @@ export default function SpeakerDetail() {
                         <Link
                           key={`${a.dayIdx}-${a.sessionIdx}`}
                           to={`/agenda/${daySlugFor(a.day)}/${a.sessionIdx}`}
-                          className="group block p-4 rounded-xl bg-white border border-neutral-200 hover:border-neutral-950 transition"
+                          className="group block p-4 rounded-md bg-white border border-neutral-200 hover:border-neutral-950 transition"
                         >
                           <div className="flex items-center gap-2 mb-2">
                             <span className="text-[10px] tracking-[0.25em] uppercase text-neutral-500">
@@ -259,7 +262,7 @@ export default function SpeakerDetail() {
               </div>
               <Link
                 to="/speakers"
-                className="group inline-flex items-center gap-2 px-5 py-3 rounded-lg border border-neutral-300 bg-white hover:bg-neutral-950 hover:text-white hover:border-neutral-950 transition"
+                className="group inline-flex items-center gap-2 px-5 py-3 rounded-sm border border-neutral-300 bg-white hover:bg-neutral-950 hover:text-white hover:border-neutral-950 transition"
               >
                 All presenters
                 <ArrowUpRight size={16} className="group-hover:rotate-45 transition-transform" />

@@ -40,6 +40,10 @@ export default function Gallery() {
     <>
       <PageHero
         label="Gallery"
+        breadcrumbs={[
+          { label: "Resources", to: "/resources" },
+          { label: "Gallery" },
+        ]}
         title={
           <>
             FISC 2026 <GradientText>in pictures.</GradientText>

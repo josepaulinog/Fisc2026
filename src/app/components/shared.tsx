@@ -2,6 +2,7 @@ import { createContext, useContext } from "react";
 import { BRAND, BRAND_SOFT, countries } from "../data";
 import { CountryFlag } from "./CountryFlag";
 import { ImageWithFallback } from "./figma/ImageWithFallback";
+import { Breadcrumbs, type BreadcrumbItem } from "./ui/Breadcrumbs";
 
 /**
  * GradientText — italic brand-orange phrase used to highlight accent word(s)
@@ -50,7 +51,7 @@ export function GradientText({
   const effectiveTone = tone ?? ctxTone;
   return (
     <span
-      className={`italic ${className}`}
+      className={`font-display italic ${className}`}
       style={{
         background: GRADIENT_BY_TONE[effectiveTone],
         WebkitBackgroundClip: "text",
@@ -62,6 +63,10 @@ export function GradientText({
         // so the visible position of the word doesn't move in the line.
         paddingInline: "0.1em",
         marginInline: "-0.1em",
+        // Instrument Serif's natural italic sits a touch narrower than
+        // Proxima Nova upright at the same point size — pull it up half a
+        // baseline so the cap-heights line up against the surrounding text.
+        verticalAlign: "-0.02em",
       }}
     >
       {children}
@@ -81,12 +86,36 @@ export function Grain() {
   );
 }
 
-export function SectionLabel({ children }: { children: React.ReactNode }) {
+/**
+ * Eyebrow label — brand-orange dot + uppercase tracked text. No background,
+ * no ring: previous pill treatment read as a floating button/badge on clean
+ * white sections (e.g. /venue), competing with the heading for attention.
+ * This is the editorial-correct form — the dot carries the identity beat,
+ * the text carries the categorisation, nothing extra.
+ *
+ * `tone="dark"` (default) on light surfaces, `tone="light"` for dark heroes.
+ */
+export function SectionLabel({
+  children,
+  tone = "dark",
+}: {
+  children: React.ReactNode;
+  tone?: "dark" | "light";
+}) {
+  const isDark = tone === "dark";
   return (
-    <div className="inline-flex items-center gap-3 mb-6">
-      <span className="w-8 h-px bg-neutral-950" />
-      <span className="tracking-[0.25em] text-neutral-950 text-sm">{children}</span>
-    </div>
+    <span
+      className={`inline-flex items-center gap-2.5 mb-6 text-[10.5px] uppercase tracking-[0.22em] ${
+        isDark ? "text-neutral-700" : "text-white/85"
+      }`}
+      style={{ fontWeight: 500 }}
+    >
+      <span
+        className="w-1.5 h-1.5 rounded-full"
+        style={{ backgroundColor: BRAND }}
+      />
+      {children}
+    </span>
   );
 }
 
@@ -108,33 +137,35 @@ export function SectionLabel({ children }: { children: React.ReactNode }) {
 export function Marquee() {
   return (
     <div
-      className="relative border-y border-white/10 py-5"
+      className="relative border-y border-white/10 py-7 md:py-8"
       style={{ backgroundColor: "rgba(0,0,0,0.4)" }}
     >
       {/* The band itself is full-bleed (matches the hero width) but the
           scrolling track is contained inside max-w-7xl so items align with
           the rest of the page content. Edge fades live inside the contained
-          column too, so the dissolve sits exactly at the content gutters. */}
+          column too, so the dissolve sits exactly at the content gutters.
+          Flag + country text bumped one tier to commit to "this is meant to
+          be read" — previous size sat halfway between ambient and legible. */}
       <div className="relative max-w-7xl mx-auto px-5 md:px-6 overflow-hidden">
         <div
-          className="pointer-events-none absolute inset-y-0 left-0 z-10 w-12 md:w-20"
+          className="pointer-events-none absolute inset-y-0 left-0 z-10 w-16 md:w-24"
           style={{ background: "linear-gradient(to right, rgba(0,0,0,0.95), rgba(0,0,0,0))" }}
         />
         <div
-          className="pointer-events-none absolute inset-y-0 right-0 z-10 w-12 md:w-20"
+          className="pointer-events-none absolute inset-y-0 right-0 z-10 w-16 md:w-24"
           style={{ background: "linear-gradient(to left, rgba(0,0,0,0.95), rgba(0,0,0,0))" }}
         />
 
-        <div className="marquee-track flex gap-12 whitespace-nowrap w-max">
+        <div className="marquee-track flex gap-14 md:gap-16 whitespace-nowrap w-max">
           {[...countries, ...countries].map((c, i) => (
             <span
               key={i}
-              className="inline-flex items-center gap-4 md:gap-5 text-white/70 tracking-[0.2em]"
-              style={{ fontSize: "1rem" }}
+              className="inline-flex items-center gap-4 md:gap-5 text-white/85 tracking-[0.18em]"
+              style={{ fontSize: "1.0625rem" }}
             >
               <CountryFlag
                 country={c}
-                className="h-3 w-auto rounded-[1px] shadow-sm shrink-0"
+                className="h-4 md:h-5 w-auto rounded-[2px] shadow-sm shrink-0 ring-1 ring-white/10"
               />
               <span>{c}</span>
             </span>
@@ -147,12 +178,17 @@ export function Marquee() {
 
 export function PageHero({
   label,
+  breadcrumbs,
   title,
   subtitle,
   image,
   imageCaption,
 }: {
   label: string;
+  /** Optional breadcrumb trail — when present, renders above the headline
+   *  in place of the section-label eyebrow. Use for surfaces nested under
+   *  a parent route (e.g. Resources → Materials, Speakers → Speaker Detail). */
+  breadcrumbs?: BreadcrumbItem[];
   title: React.ReactNode;
   subtitle?: string;
   image?: string;
@@ -179,16 +215,17 @@ export function PageHero({
       />
       <Grain />
       <div className="relative max-w-7xl mx-auto px-5 md:px-6">
-        <div className="inline-flex items-center gap-3 mb-6">
-          <span className="w-8 h-px bg-white" />
-          <span className="tracking-[0.25em] text-white text-sm">{label}</span>
-        </div>
+        {breadcrumbs && breadcrumbs.length > 0 ? (
+          <Breadcrumbs tone="light" items={breadcrumbs} className="mb-6" />
+        ) : (
+          <SectionLabel tone="light">{label}</SectionLabel>
+        )}
         <h1
           className="text-white tracking-[-0.03em]"
           // lineHeight is slightly > 1 because the italic <GradientText> spans
-          // have ascenders/descenders that collide with adjacent lines when
-          // line-height equals the font size. 1.05 gives them breathing room
-          // without making the headline feel airy.
+          // (now Instrument Serif) have ascenders/descenders that collide with
+          // adjacent lines when line-height equals the font size. 1.05 gives
+          // them breathing room without making the headline feel airy.
           style={{ fontSize: "clamp(2.5rem, 7vw, 6rem)", lineHeight: 1.05 }}
         >
           <GradientToneScope tone="light">{title}</GradientToneScope>

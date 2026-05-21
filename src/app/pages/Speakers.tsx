@@ -111,6 +111,11 @@ function FeaturedCard({ s, accent = false }: { s: Speaker; accent?: boolean }) {
 }
 
 function MiniCard({ s, i }: { s: Speaker; i: number }) {
+  // Single-surface architectural card matching the homepage Host pattern:
+  // square rectangular portrait on the left, role-eyebrow + name + org on
+  // the right. Hairline ring + ambient shadow replace the heavy 1px border;
+  // hover lifts the shadow rather than inverting the whole card so the
+  // photo stays the focal point.
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
@@ -120,29 +125,34 @@ function MiniCard({ s, i }: { s: Speaker; i: number }) {
     >
       <Link
         to={`/speakers/${s.slug}`}
-        className="group block rounded-2xl border border-neutral-200 bg-white p-5 hover:border-neutral-950 hover:bg-neutral-950 hover:text-white transition-all"
+        className="group block overflow-hidden rounded-md bg-white ring-1 ring-black/[0.05] shadow-[0_8px_24px_-16px_rgba(0,0,0,0.12)] transition-fluid hover:shadow-[0_16px_40px_-16px_rgba(0,0,0,0.18)]"
       >
-        <div className="flex items-center gap-4">
-          <div className="relative shrink-0">
-            <div className="w-16 h-16 rounded-full overflow-hidden bg-neutral-100 ring-2 ring-white shadow-sm">
-              <ImageWithFallback src={s.img} alt={s.name} className="w-full h-full object-cover" />
-            </div>
-            <span
-              className="absolute -bottom-1 -right-1 w-5 h-5 rounded-full border-2 border-white group-hover:border-neutral-950 transition"
-              style={{ backgroundColor: BRAND }}
+        <div className="grid grid-cols-[88px_1fr] md:grid-cols-[104px_1fr]">
+          {/* Square rectangular portrait — replaces the circular avatar that
+              flattened executive faces. Country/role dot moved into the
+              info column as a brand-orange divider above the role. */}
+          <div className="relative aspect-square bg-neutral-100 overflow-hidden">
+            <ImageWithFallback
+              src={s.img}
+              alt={s.name}
+              className="absolute inset-0 w-full h-full object-cover transition-fluid group-hover:scale-[1.04]"
             />
           </div>
-          <div className="min-w-0 flex-1">
-            <div className="tracking-tight text-neutral-950 group-hover:text-white truncate" style={{ fontSize: "1.0625rem" }}>
+          <div className="px-4 py-3 md:px-5 md:py-4 flex flex-col justify-center min-w-0">
+            <div
+              className="text-neutral-500 uppercase truncate"
+              style={{ fontSize: "0.625rem", letterSpacing: "0.2em", fontWeight: 600 }}
+            >
+              {s.org}
+            </div>
+            <div
+              className="mt-1 text-neutral-950 tracking-tight truncate"
+              style={{ fontSize: "1.0625rem", lineHeight: 1.15, letterSpacing: "-0.01em", fontWeight: 500 }}
+            >
               {s.name}
             </div>
-            <div className="text-neutral-500 group-hover:text-white/78 text-sm truncate">{s.role}</div>
-            <div className="text-neutral-400 group-hover:text-white/65 text-xs tracking-widest uppercase mt-0.5 truncate">{s.org}</div>
+            <div className="mt-0.5 text-neutral-500 text-sm truncate">{s.role}</div>
           </div>
-          <ArrowUpRight
-            size={16}
-            className="text-neutral-400 group-hover:text-white opacity-0 group-hover:opacity-100 group-hover:-translate-y-0.5 group-hover:translate-x-0.5 transition shrink-0"
-          />
         </div>
       </Link>
     </motion.div>
@@ -203,7 +213,7 @@ export default function Speakers() {
                   <button
                     key={f}
                     onClick={() => setFilter(f)}
-                    className={`shrink-0 inline-flex items-center gap-2 px-4 py-2.5 rounded-lg border transition ${
+                    className={`shrink-0 inline-flex items-center gap-2 px-4 py-2.5 rounded-sm border transition ${
                       isActive
                         ? "bg-neutral-950 border-neutral-950 text-white"
                         : "bg-white border-neutral-200 text-neutral-700 hover:border-neutral-400"

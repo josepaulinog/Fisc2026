@@ -121,7 +121,7 @@ export default function Profile() {
                 initial={{ opacity: 0, y: -12 }}
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -12 }}
-                className="mb-6 flex items-start gap-3 p-4 rounded-2xl bg-emerald-50 border border-emerald-200 text-emerald-800"
+                className="mb-6 flex items-start gap-3 p-4 rounded-md bg-emerald-50 border border-emerald-200 text-emerald-800"
               >
                 <span className="w-7 h-7 rounded-full bg-emerald-100 text-emerald-700 flex items-center justify-center shrink-0">
                   <CheckCircle2 size={16} />
@@ -140,7 +140,7 @@ export default function Profile() {
 
           <form onSubmit={onSubmit} noValidate className="space-y-8">
             {/* Photo upload */}
-            <div className="rounded-3xl border border-neutral-200 bg-neutral-50/60 p-6 md:p-8">
+            <div className="rounded-md border border-neutral-200 bg-neutral-50/60 p-6 md:p-8">
               <SectionLabel>Profile photo</SectionLabel>
               <div className="flex items-center gap-5 md:gap-7">
                 <button
@@ -177,7 +177,7 @@ export default function Profile() {
                     <button
                       type="button"
                       onClick={() => fileRef.current?.click()}
-                      className="inline-flex items-center gap-2 px-3 py-1.5 rounded-lg border border-neutral-300 text-neutral-700 hover:border-neutral-950 transition text-sm"
+                      className="inline-flex items-center gap-2 px-3 py-1.5 rounded-sm border border-neutral-300 text-neutral-700 hover:border-neutral-950 transition text-sm"
                     >
                       <Camera size={14} /> Change photo
                     </button>
@@ -209,7 +209,7 @@ export default function Profile() {
             </div>
 
             {/* Identity */}
-            <div className="rounded-3xl border border-neutral-200 p-6 md:p-8">
+            <div className="rounded-md border border-neutral-200 p-6 md:p-8">
               <SectionLabel>Identity</SectionLabel>
               <div className="grid sm:grid-cols-2 gap-4">
                 <FormField
@@ -268,7 +268,7 @@ export default function Profile() {
             </div>
 
             {/* Social */}
-            <div className="rounded-3xl border border-neutral-200 p-6 md:p-8">
+            <div className="rounded-md border border-neutral-200 p-6 md:p-8">
               <SectionLabel>Where delegates can find you</SectionLabel>
               <div className="grid sm:grid-cols-2 gap-4">
                 <FormField
@@ -295,7 +295,7 @@ export default function Profile() {
             </div>
 
             {/* Bio */}
-            <div className="rounded-3xl border border-neutral-200 p-6 md:p-8">
+            <div className="rounded-md border border-neutral-200 p-6 md:p-8">
               <SectionLabel>About you</SectionLabel>
               <label className="block">
                 <span className="text-sm text-neutral-700">
@@ -321,7 +321,7 @@ export default function Profile() {
               <button
                 type="submit"
                 style={{ backgroundColor: INK }}
-                className="group inline-flex items-center justify-between gap-3 pl-5 pr-2 py-3 rounded-xl text-white hover:opacity-90 transition"
+                className="group inline-flex items-center justify-between gap-3 pl-5 pr-2 py-3 rounded-sm text-white hover:opacity-90 transition"
               >
                 Update profile
                 <span

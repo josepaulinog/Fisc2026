@@ -8,8 +8,9 @@ import {
 } from "lucide-react";
 import logoUrl from "../imports/Asset_1.svg";
 import aboutImage from "../imports/about.png";
-import aboutHeroImage from "../imports/about-hero.png";
+import aboutHeroImage from "../imports/about-hero.jpg";
 import agendaImage from "../imports/agenda.jpeg";
+import eventsImage from "../imports/events.jpg";
 
 // Trinidad & Tobago editorial photography — sourced from AdobeStock, copied
 // into src/imports/ during the prototype build. Replaces the earlier generic
@@ -46,7 +47,7 @@ export const VENUE_IMG_3 = maracasBeach;
 // repeat (port-of-spain-aerial appears on /resources and /media-coverage —
 // both are "overview" surfaces and the Hyatt itself is visible in the frame).
 export const HERO_ABOUT = aboutHeroImage;
-export const HERO_AGENDA = agendaImage;
+export const HERO_AGENDA = eventsImage;
 export const HERO_SPEAKERS = queensRoyalCollege;
 export const HERO_VENUE = maracasBeach;
 export const HERO_RESOURCES = agendaImage;
@@ -75,6 +76,12 @@ export const VENUE_NATURE = scarletIbis;
 export const BRAND = "#fd6b18";
 export const BRAND_SOFT = "#ffb27a";
 export const INK = "#0a0a0a";
+
+// Conference kickoff — Mon Jun 29 2026, 09:00 Atlantic Standard Time (UTC-4).
+// Single source of truth for the homepage countdown. Inline strings in the
+// hero strap, footer date row, and Agenda day labels still hardcode the
+// human-readable form; a future cleanup can drive those from this constant.
+export const EVENT_START = new Date("2026-06-29T09:00:00-04:00");
 
 export type NavChild = { label: string; to: string; gated?: boolean };
 export type NavItem = { label: string; to?: string; children?: NavChild[] };
@@ -111,10 +118,27 @@ export const stats = [
   { value: "18",   label: "Editions" },
 ];
 
+export type SessionReference = {
+  label: string;
+  to: string;
+  /** Outbound link — opens in a new tab. Internal links are react-router Links. */
+  external?: boolean;
+};
+
 export type Session = {
   time: string;
   title: string;
+  /** Short, scannable summary — used by row-level previews on /agenda and the
+   *  homepage Highlights. Cap at ~110 chars for clean truncation. */
   desc?: string;
+  /** Expanded briefing paragraph — rendered on the session detail page only.
+   *  60-120 words. Frames the session's "why" and "what's in it for delegates". */
+  briefing?: string;
+  /** What delegates should leave with — rendered as a checkmark list. */
+  takeaways?: string[];
+  /** Related links — internal materials, speakers, sessions, or standards
+   *  references. Rendered as a list at the bottom of the briefing. */
+  references?: SessionReference[];
   tag?: "Presentation" | "Workshop" | "Demonstration" | "Panel";
   speakers?: { name: string; role: string; img?: string }[];
   /** Titles of related entries in `materials`, looked up at render time. */
@@ -167,12 +191,12 @@ export const agenda: AgendaDay[] = [
     sessions: [
       { time: "8:45 AM – 9:30 AM", title: "Welcome", desc: "A session to greet participants and introduce the main themes of the conference.", speakers: [S.matthew, S.carolyn] },
       { time: "9:30 AM – 10:00 AM", title: "Opening Remarks", desc: "Official conference opening by the Minister of Finance and the CEO of FreeBalance.", speakers: [S.manuel, S.tancoo] },
-      { time: "10:00 AM – 11:00 AM", title: "Implement Public Financial Management for National Strategies", tag: "Presentation", materials: ["FreeBalance Chart of Goals", "Government Performance Management", "Key Performance Indicators"], desc: "What should be the North Star for government performance in your country? This session builds the case for aligning public finance classifications and programs directly with national development strategies and other strategic objectives.", speakers: [S.manuel] },
+      { time: "10:00 AM – 11:00 AM", title: "Implement Public Financial Management for National Strategies", tag: "Presentation", materials: ["FreeBalance Chart of Goals", "Government Performance Management", "Key Performance Indicators"], desc: "What should be the North Star for government performance in your country? This session builds the case for aligning public finance classifications and programs directly with national development strategies and other strategic objectives.", briefing: "Most governments still classify spending by ministry or economic input — line items that satisfy auditors but obscure whether the budget moved the dial on what citizens elected you to deliver. Manuel reframes the chart of accounts as a strategic instrument: a public ledger that maps every dollar to a national development outcome. Drawing on a decade of FreeBalance engagements across Africa, the Caribbean and Southeast Asia, the session walks through three production examples — Liberia, Mongolia, Honduras — of countries that rewired their COA around their National Development Plan, and the political, technical and capacity hurdles each cleared.", takeaways: ["Why the Chart of Goals matters as much as the Chart of Accounts", "Three real-world COA-to-NDP alignment patterns from FreeBalance deployments", "Practical sequencing — what to reform in year one, year three, year five", "How to instrument outcome KPIs without inflating the COA"], references: [{ label: "FreeBalance Chart of Goals", to: "/materials" }, { label: "Government Performance Management", to: "/materials" }, { label: "About Manuel Schiappa Pietra", to: "/speakers/manuel-schiappa-pietra" }], speakers: [S.manuel] },
       { time: "11:00 AM – 11:30 AM", title: "Break" },
-      { time: "11:30 AM – 12:00 PM", title: "Address from Prime Minister", tag: "Presentation", desc: "Address from the Prime Minister of Trinidad and Tobago.", speakers: [S.kamla] },
+      { time: "11:30 AM – 12:00 PM", title: "Address from Prime Minister", tag: "Presentation", desc: "Address from the Prime Minister of Trinidad and Tobago.", briefing: "A keynote address from The Hon. Kamla Persad-Bissessar, Prime Minister of Trinidad & Tobago, framing FISC 2026 in the context of the country's hosting mandate. Expected themes: the role of small-island PFM reform in Caribbean economic resilience, Trinidad's own modernisation agenda, and what the region expects from the next generation of public-finance technology. Open press; no live Q&A but the secretariat will collect written questions for the closing-day panel.", takeaways: ["The host country's framing of FISC's themes for 2026", "Trinidad's PFM reform priorities and where they intersect with the delegate community", "Context for Caribbean-led conversations across the rest of the programme"], references: [{ label: "About The Hon. Kamla Persad-Bissessar", to: "/speakers/kamla-persad-bissessar" }, { label: "About Minister Tancoo", to: "/speakers/davendranath-tancoo" }], speakers: [S.kamla] },
       { time: "12:00 PM – 1:00 PM", title: "Group Photo" },
       { time: "1:00 PM – 2:00 PM", title: "Lunch" },
-      { time: "2:00 PM – 3:30 PM", title: "Workshop: Government Public Finances Practices Country Experiences", tag: "Workshop", desc: "How have governments achieved public finance objectives even in difficult circumstances? This session highlights obstacles overcome and successes achieved by FreeBalance customers.", speakers: [S.fbStaff] },
+      { time: "2:00 PM – 3:30 PM", title: "Workshop: Government Public Finances Practices Country Experiences", tag: "Workshop", desc: "How have governments achieved public finance objectives even in difficult circumstances? This session highlights obstacles overcome and successes achieved by FreeBalance customers.", briefing: "A working session, not a presentation. Delegates split into four working groups by region — Africa, Americas, Caribbean and Asia-Pacific — to surface the toughest PFM challenges of the last 24 months and the workarounds that actually moved the needle. FreeBalance services leads facilitate but stay out of the way: this is country-to-country knowledge transfer first. Each group produces a one-page case capture for the secretariat's post-FISC briefings, distributed to the full delegation within two weeks.", takeaways: ["Concrete experiences from delegate-led conversations, not vendor talking points", "Cross-regional comparison of common reform blockers", "A written case capture you co-author and take home", "The chance to find your counterpart in another country tackling the same problem"], references: [{ label: "FreeBalance Advisory Services", to: "/materials" }, { label: "About Gerard Rao", to: "/speakers/gerard-rao" }], speakers: [S.fbStaff] },
       { time: "3:30 PM – 4:00 PM", title: "Closing Remarks", desc: "A summary of the first day's discussions, highlighting key lessons and setting expectations for the coming sessions." },
       { time: "5:00 PM – 6:30 PM", title: "Cultural Tour" },
       { time: "7:00 PM – 10:00 PM", title: "Dinner at Local Restaurant", desc: "Evening dinner featuring local and international cuisine." },
@@ -184,13 +208,13 @@ export const agenda: AgendaDay[] = [
     short: "Day 2",
     sessions: [
       { time: "8:45 AM – 9:00 AM", title: "Opening Remarks", desc: "Brief welcome and overview of the day's agenda." },
-      { time: "9:00 AM – 10:30 AM", title: "What's New: FreeBalance Accountability Suite Product", tag: "Demonstration", materials: ["FreeBalance Suite Functionality", "FreeBalance Advisory Services"], desc: "What has FreeBalance been developing since the last FISC in 2019? This session will focus on new functionality including: Medium-Term Financial Frameworks, biometrics, legislative oversight, and drill-down dashboards with demonstrations.", speakers: [S.aldo] },
+      { time: "9:00 AM – 10:30 AM", title: "What's New: FreeBalance Accountability Suite Product", tag: "Demonstration", materials: ["FreeBalance Suite Functionality", "FreeBalance Advisory Services"], desc: "What has FreeBalance been developing since the last FISC in 2019? This session will focus on new functionality including: Medium-Term Financial Frameworks, biometrics, legislative oversight, and drill-down dashboards with demonstrations.", briefing: "FreeBalance's first major product showcase since 2019. Aldo Sagastume walks through the additions to the Accountability Suite — Medium-Term Fiscal Framework modules, biometric integration for civil-registry alignment, legislative oversight dashboards, and drill-down treasury analytics that replace what used to be three CSV exports and an Excel pivot. Each capability is demonstrated live against a sample country dataset, with code-paths and integration points exposed for the architects in the room. Bring your laptop — the post-session repo includes the sample data and Postman collection.", takeaways: ["Live demos of MTFF, biometrics, oversight, and drill-down dashboards", "The integration architecture connecting each capability to the existing COA", "What migrates automatically vs what requires customer-side data prep", "Sample API responses and CLI tooling for technical evaluators"], references: [{ label: "FreeBalance Suite Functionality", to: "/materials" }, { label: "FreeBalance Advisory Services", to: "/materials" }, { label: "About Aldo Sagastume", to: "/speakers/aldo-sagastume" }], speakers: [S.aldo] },
       { time: "10:30 AM – 11:00 AM", title: "Break" },
-      { time: "11:00 AM – 1:00 PM", title: "Workshop: Implementing Public Financial Management for National Strategies", tag: "Workshop", materials: ["FreeBalance Chart of Goals", "Balanced Scorecard", "Objectives and Key Results"], desc: "How can government performance management theory become reality? This workshop demonstrates how to align public accounting with performance management through integration of a Chart of Accounts with a Chart of Goals.", speakers: [S.aldo] },
+      { time: "11:00 AM – 1:00 PM", title: "Workshop: Implementing Public Financial Management for National Strategies", tag: "Workshop", materials: ["FreeBalance Chart of Goals", "Balanced Scorecard", "Objectives and Key Results"], desc: "How can government performance management theory become reality? This workshop demonstrates how to align public accounting with performance management through integration of a Chart of Accounts with a Chart of Goals.", briefing: "A hands-on extension of Monday's keynote. Delegates work in pairs with a printed worksheet to map their country's current Chart of Accounts against a draft Chart of Goals derived from their published NDP. Aldo and the FreeBalance PFM team circulate to coach. By the end of the two hours, each pair holds a one-page first-cut crosswalk — not production-ready, but a credible starting document for the budget directorate back home.", takeaways: ["A first-cut COA-to-Chart-of-Goals crosswalk for your own country", "Hands-on coaching from FreeBalance PFM specialists", "Templates for the Balanced Scorecard and OKR layers above the COA", "Patterns for getting cross-ministry sign-off on a new program classification"], references: [{ label: "Balanced Scorecard", to: "/materials" }, { label: "Objectives and Key Results", to: "/materials" }, { label: "About Aldo Sagastume", to: "/speakers/aldo-sagastume" }], speakers: [S.aldo] },
       { time: "1:00 PM – 2:00 PM", title: "Lunch" },
-      { time: "2:00 PM – 3:30 PM", title: "Workshop: Government Public Finances Practices Aspirations", tag: "Workshop", desc: "How can governments leverage FISC lessons? Subjects include Government Resource Planning (GRP), progressive activation, project management, organizational change management, and capacity building.", speakers: [S.fbStaff] },
-      { time: "3:30 PM – 4:30 PM", title: "What's New: FreeBalance Accountability Platform", tag: "Presentation", desc: "How can an open platform protect your public finance investment? This session describes our open system mandate with deployment portability.", speakers: [S.pedro] },
-      { time: "4:30 PM – 5:30 PM", title: "FreeBalance Product Roadmap Introduction", tag: "Presentation", materials: ["FreeBalance Suite Functionality"], desc: "How can you influence FreeBalance product priorities? This session introduces you to new product ideas generated from recent FreeBalance experience in the PFM world, research, conferences, and government tenders.", speakers: [S.doug] },
+      { time: "2:00 PM – 3:30 PM", title: "Workshop: Government Public Finances Practices Aspirations", tag: "Workshop", desc: "How can governments leverage FISC lessons? Subjects include Government Resource Planning (GRP), progressive activation, project management, organizational change management, and capacity building.", briefing: "The forward-looking counterpart to Monday's experience workshop. Working groups translate the lessons captured 24 hours earlier into concrete next-12-month commitments — what each delegation will pilot, what they'll need from the FreeBalance services team, and where the secretariat can broker cross-country support. Each group leaves with a written aspiration brief, jointly held, that the secretariat will follow up on quarterly.", takeaways: ["A written 12-month aspiration brief for your country", "Cross-country pairings for joint pilots where the problem is shared", "A direct ask line into FreeBalance services for the next phase", "Quarterly secretariat follow-up to keep momentum past the conference"], references: [{ label: "FreeBalance Advisory Services", to: "/materials" }, { label: "Public Investment Management (PIMA)", to: "/materials" }], speakers: [S.fbStaff] },
+      { time: "3:30 PM – 4:30 PM", title: "What's New: FreeBalance Accountability Platform", tag: "Presentation", desc: "How can an open platform protect your public finance investment? This session describes our open system mandate with deployment portability.", briefing: "The platform-architecture deep-dive for the technical members of each delegation. Pedro Jorge presents FreeBalance's open-system mandate — what it means for data portability, vendor independence, third-party extensions, and the long-term lifetime cost of a PFM deployment. Concrete examples: how customers in Ghana and Guyana extended the platform without forking it, and the API surface published in the 2025 release.", takeaways: ["What 'open platform' specifically means in the FreeBalance context", "Real customer extensions that didn't require a fork", "Public API surface and SDK availability", "How deployment portability protects the 10-year investment horizon"], references: [{ label: "FreeBalance Suite Functionality", to: "/materials" }, { label: "About Pedro Jorge", to: "/speakers/pedro-jorge" }], speakers: [S.pedro] },
+      { time: "4:30 PM – 5:30 PM", title: "FreeBalance Product Roadmap Introduction", tag: "Presentation", materials: ["FreeBalance Suite Functionality"], desc: "How can you influence FreeBalance product priorities? This session introduces you to new product ideas generated from recent FreeBalance experience in the PFM world, research, conferences, and government tenders.", briefing: "The setup for Thursday's roadmap vote. Doug Hadden walks through the 23 candidate features on this year's customer-priority ballot — what each is, the problem it solves, the customers who requested it, and the rough cost class. Delegates leave with the printed ballot in their pack and the next two days to deliberate with their counterparts before voting closes on Day 4.", takeaways: ["The full 2026 candidate roadmap explained item by item", "Which other countries have asked for what, and why", "The cost-class framework used to weight the vote", "Time to think and deliberate before Thursday's binding ballot"], references: [{ label: "FreeBalance Suite Functionality", to: "/materials" }, { label: "About Doug Hadden", to: "/speakers/doug-hadden" }, { label: "Thursday's roadmap vote", to: "/agenda/day-4/6" }], speakers: [S.doug] },
       { time: "5:30 PM – 6:00 PM", title: "Closing Remarks", desc: "Brief summary and recap of the day's events." },
       { time: "6:00 PM – 6:30 PM", title: "Free time" },
       { time: "7:30 PM – 10:00 PM", title: "Dinner at Sky Garden", desc: "A fantastic dining experience awaits at Sky Garden." },
@@ -202,11 +226,11 @@ export const agenda: AgendaDay[] = [
     short: "Day 3",
     sessions: [
       { time: "8:45 AM – 9:00 AM", title: "Opening Remarks", desc: "Brief welcome and overview of the day's agenda." },
-      { time: "9:00 AM – 10:30 AM", title: "Digital Public Finance Framework", tag: "Presentation", materials: ["Digital Public Finance Framework"], desc: "How can public finance transform digitally? Governments are increasingly looking to technology to improve outcomes and efficiency. This session introduces the FreeBalance Digital Public Finance Framework Template, covering digital readiness, digital scope, digital maturity, public finance reform and digital core.", speakers: [S.doug] },
+      { time: "9:00 AM – 10:30 AM", title: "Digital Public Finance Framework", tag: "Presentation", materials: ["Digital Public Finance Framework"], desc: "How can public finance transform digitally? Governments are increasingly looking to technology to improve outcomes and efficiency. This session introduces the FreeBalance Digital Public Finance Framework Template, covering digital readiness, digital scope, digital maturity, public finance reform and digital core.", briefing: "Most digital-PFM conversations conflate four very different questions: are we ready, what should we digitise, how mature do we want to be, and what reform precedes which tooling? Doug introduces the FreeBalance Digital Public Finance Framework as a structured way to answer each separately. The framework has been validated across 14 ministries and four assessment cycles; the session walks through the template, then puts delegates in pairs to self-score their own country against it.", takeaways: ["A four-axis structured scoring of your country's digital-PFM posture", "The distinction between readiness, scope, maturity, reform and core — and why conflating them blocks progress", "Validated patterns from 14 ministry deployments", "A self-score worksheet to bring back to the budget directorate"], references: [{ label: "Digital Public Finance Framework", to: "/materials" }, { label: "About Doug Hadden", to: "/speakers/doug-hadden" }], speakers: [S.doug] },
       { time: "10:30 AM – 11:00 AM", title: "Break" },
-      { time: "11:00 AM – 1:00 PM", title: "Artificial Intelligence in Public Finance", tag: "Demonstration", materials: ["AI Tools to Consider", "Digital Public Finance Framework"], desc: "Should AI automate or augment public service activities? This session builds the case for human-augmented PFM as the more effective and ethical choice. We'll introduce the FreeBalance human augmentation and open system approach, explore prompt engineering examples for research, summarization, and insight.", speakers: [S.doug] },
+      { time: "11:00 AM – 1:00 PM", title: "Artificial Intelligence in Public Finance", tag: "Demonstration", materials: ["AI Tools to Consider", "Digital Public Finance Framework"], desc: "Should AI automate or augment public service activities? This session builds the case for human-augmented PFM as the more effective and ethical choice. We'll introduce the FreeBalance human augmentation and open system approach, explore prompt engineering examples for research, summarization, and insight.", briefing: "Two hours, two halves. First, the argument: why human-augmented PFM beats fully-automated PFM on both effectiveness and ethics, with concrete examples of where automated systems have failed in production deployments. Second, the toolkit: live demonstrations of prompt patterns the FreeBalance secretariat actually uses today — for legislative summarisation, fiscal-rule research, debt sustainability triage, and procurement-anomaly scoring. The session is recorded and prompts are published with the post-FISC takeaway pack.", takeaways: ["The augmentation-vs-automation framing, with real production examples on both sides", "Four working prompt patterns for legislative summarisation, research, triage and procurement", "What the FreeBalance open-system approach to AI specifically means", "Published prompts and workflow templates in the takeaway pack"], references: [{ label: "AI Tools to Consider", to: "/materials" }, { label: "Digital Public Finance Framework", to: "/materials" }, { label: "About Doug Hadden", to: "/speakers/doug-hadden" }], speakers: [S.doug] },
       { time: "1:00 PM – 2:00 PM", title: "Lunch" },
-      { time: "2:00 PM – 3:00 PM", title: "What's New: FreeBalance Services", tag: "Presentation", desc: "How can public finance project success rates improve? This session describes Key Success Factors and why agile approaches are more successful than legacy waterfall.", speakers: [S.gerard] },
+      { time: "2:00 PM – 3:00 PM", title: "What's New: FreeBalance Services", tag: "Presentation", desc: "How can public finance project success rates improve? This session describes Key Success Factors and why agile approaches are more successful than legacy waterfall.", briefing: "Gerard Rao opens the FreeBalance services playbook honestly — what went right, what went wrong, and what the team changed across the last two years of deployments. The headline shift: a move from milestone-gated waterfall to agile activation, with progressive go-lives every 8–12 weeks instead of one 18-month launch. The data: median time-to-first-value down 47%, customer-reported escalation rate down 31%.", takeaways: ["Why agile progressive activation beats waterfall for PFM deployments", "The four Key Success Factors that predict on-time go-live", "Real numbers from the last two years of FreeBalance engagements", "When to push back if your integrator proposes a 'big bang' approach"], references: [{ label: "FreeBalance Advisory Services", to: "/materials" }, { label: "About Gerard Rao", to: "/speakers/gerard-rao" }], speakers: [S.gerard] },
       { time: "3:00 PM – 3:15 PM", title: "Closing Remarks" },
       { time: "3:15 PM – 4:30 PM", title: "Free time" },
       { time: "4:30 PM – 5:30 PM", title: "Travel to Local Market" },
@@ -220,13 +244,13 @@ export const agenda: AgendaDay[] = [
     short: "Day 4",
     sessions: [
       { time: "8:45 AM – 9:00 AM", title: "Opening Remarks", desc: "Brief welcome and overview of the day's agenda." },
-      { time: "9:00 AM – 10:30 AM", title: "Public Financial Management Resilience", tag: "Presentation", materials: ["Debt Management Performance (DeMPA)", "PEFA Assessments", "Value for Money"], desc: "How can governments achieve financial resilience? This session explores good practices in public finance resilience including: emerging trends, early warning, debt sustainability, disaster response, climate mitigation, and fiscal transparency.", speakers: [S.carolyn] },
+      { time: "9:00 AM – 10:30 AM", title: "Public Financial Management Resilience", tag: "Presentation", materials: ["Debt Management Performance (DeMPA)", "PEFA Assessments", "Value for Money"], desc: "How can governments achieve financial resilience? This session explores good practices in public finance resilience including: emerging trends, early warning, debt sustainability, disaster response, climate mitigation, and fiscal transparency.", briefing: "Resilience isn't a metric — it's a portfolio of capabilities a treasury draws on when something goes wrong. Carolyn assembles five of those capabilities into a single map: early warning, debt sustainability, disaster response, climate mitigation, and fiscal transparency. For each, the session draws on a published case (Sri Lanka 2022, St. Vincent 2024, Honduras 2023) to show what worked and what didn't. Delegates leave with a self-assessment grid for their own country's resilience posture.", takeaways: ["A five-axis resilience map drawn from real published case studies", "Where early-warning signals come from, and how to wire them to the budget cycle", "The link between fiscal transparency and crisis response capacity", "A self-assessment grid for your country's current posture"], references: [{ label: "Debt Management Performance (DeMPA)", to: "/materials" }, { label: "PEFA Assessments", to: "/materials" }, { label: "About Carolyn Bowick", to: "/speakers/carolyn-bowick" }], speakers: [S.carolyn] },
       { time: "10:30 AM – 11:00 AM", title: "Break" },
-      { time: "11:00 AM – 12:00 PM", title: "GovTech and Public Financial Management", tag: "Demonstration", materials: ["Value for Money", "Digital Public Finance Framework"], desc: "Why did so many governments adopt GovTech tools during the pandemic? This session shows the importance of Government Resource Planning (GRP), like the FreeBalance Accountability Suite, as the digital core for GovTech.", speakers: [S.matthew] },
-      { time: "12:00 PM – 1:00 PM", title: "Public Financial Management in the Public Cloud", tag: "Presentation", desc: "Why has public cloud adoption in government accelerated? This session describes how government cloud trends and introduces mainstream public cloud concepts. The value of public cloud is rarely total cost; governments benefit from resiliency, elasticity, maintainability, scalability and security.", speakers: [S.doug] },
+      { time: "11:00 AM – 12:00 PM", title: "GovTech and Public Financial Management", tag: "Demonstration", materials: ["Value for Money", "Digital Public Finance Framework"], desc: "Why did so many governments adopt GovTech tools during the pandemic? This session shows the importance of Government Resource Planning (GRP), like the FreeBalance Accountability Suite, as the digital core for GovTech.", briefing: "The 2020-2022 surge in government technology adoption left most ministries with a patchwork: one tool for permits, another for cash transfers, a third for procurement, and nothing connecting them to the budget. Matthew demonstrates how a Government Resource Planning core fixes that — the Accountability Suite as the integration layer that lets best-of-breed GovTech apps share a single source of fiscal truth. Live demo: linking three independent GovTech tools through the Suite's API.", takeaways: ["Why the GovTech patchwork problem matters for fiscal discipline", "The GRP-as-digital-core integration pattern", "A live demonstration of three GovTech tools sharing one budget source", "How to evaluate GovTech tools for integration-readiness, not just feature parity"], references: [{ label: "Value for Money", to: "/materials" }, { label: "Digital Public Finance Framework", to: "/materials" }, { label: "About Matthew Olivier", to: "/speakers/matthew-olivier" }], speakers: [S.matthew] },
+      { time: "12:00 PM – 1:00 PM", title: "Public Financial Management in the Public Cloud", tag: "Presentation", desc: "Why has public cloud adoption in government accelerated? This session describes how government cloud trends and introduces mainstream public cloud concepts. The value of public cloud is rarely total cost; governments benefit from resiliency, elasticity, maintainability, scalability and security.", briefing: "Most government cloud business cases lead with cost savings and don't deliver them. Doug reframes the argument: the real value of public cloud for PFM systems is resiliency, elasticity and security posture, not TCO. The session covers sovereign-cloud options, hybrid patterns, data-residency requirements common to PFM data classes, and the four production cloud deployments FreeBalance has supported across customers in 2024-2025.", takeaways: ["Why TCO is the wrong opening argument for a cloud PFM business case", "Sovereign-cloud and hybrid options compared", "The data-residency lens specific to PFM data classes", "Four real production cloud deployments and what each customer optimised for"], references: [{ label: "Digital Public Finance Framework", to: "/materials" }, { label: "About Doug Hadden", to: "/speakers/doug-hadden" }], speakers: [S.doug] },
       { time: "1:00 PM – 2:00 PM", title: "Lunch" },
-      { time: "2:00 PM – 3:30 PM", title: "Government Public Finances Practices: Lessons Learned", tag: "Panel", materials: ["PEFA Assessments", "MAPS — Methodology for Assessing Procurement Systems", "Public Investment Management (PIMA)", "Tax Administration Diagnostic (TADAT)"], desc: "This workshop follows up from previous ones by creating reform and modernization action items based on success factors and international assessments like PEFA, MAPS, and PIMA.", speakers: [S.customers] },
-      { time: "3:30 PM – 4:30 PM", title: "FreeBalance Product Roadmap Voting", tag: "Panel", materials: ["FreeBalance Suite Functionality"], desc: "How do FreeBalance customers influence the value of implementations over time? Roadmap voting has been the cornerstone for every FISC. This session enables participants to prioritize FreeBalance and government ideas using this customer-centric approach.", speakers: [S.fbStaff] },
+      { time: "2:00 PM – 3:30 PM", title: "Government Public Finances Practices: Lessons Learned", tag: "Panel", materials: ["PEFA Assessments", "MAPS — Methodology for Assessing Procurement Systems", "Public Investment Management (PIMA)", "Tax Administration Diagnostic (TADAT)"], desc: "This workshop follows up from previous ones by creating reform and modernization action items based on success factors and international assessments like PEFA, MAPS, and PIMA.", briefing: "The conference's most demanding session, by design. Five customer representatives — drawn from Ghana, Mongolia, Honduras, Sierra Leone, and Trinidad & Tobago — present their hardest-won lesson from the last 18 months. After each, the room workshops a translation: how does this lesson apply to other regions, other reform stages, other political contexts. The output is a published Lessons Learned brief co-signed by every panelist and circulated to all delegations within ten days.", takeaways: ["Five honest, hard-won lessons from production reform programs", "Cross-regional translation of each lesson into actionable form", "A co-signed published brief in your post-FISC pack", "The chance to ask reform leads questions you can't ask on a webinar"], references: [{ label: "PEFA Assessments", to: "/materials" }, { label: "MAPS — Procurement Systems", to: "/materials" }, { label: "Public Investment Management (PIMA)", to: "/materials" }, { label: "Tax Administration Diagnostic (TADAT)", to: "/materials" }], speakers: [S.customers] },
+      { time: "3:30 PM – 4:30 PM", title: "FreeBalance Product Roadmap Voting", tag: "Panel", materials: ["FreeBalance Suite Functionality"], desc: "How do FreeBalance customers influence the value of implementations over time? Roadmap voting has been the cornerstone for every FISC. This session enables participants to prioritize FreeBalance and government ideas using this customer-centric approach.", briefing: "The single most distinctive thing FreeBalance does as a vendor — and the conference moment that ties the whole week together. Each delegation casts a binding vote across the 23 candidate features introduced on Tuesday. Votes are weighted equally per country, regardless of customer size. The top 10 by total weight enter the FreeBalance build queue with committed delivery windows. Results are announced live before the closing remarks. No vendor on earth gives customers this kind of direct product authority; protect the time.", takeaways: ["A binding country-weighted vote on next year's product priorities", "Live announcement of the top 10 results before the closing reception", "Committed delivery windows from FreeBalance R&D on the winning items", "A printed record of every customer's vote, distributed in the takeaway pack"], references: [{ label: "FreeBalance Suite Functionality", to: "/materials" }, { label: "Tuesday's roadmap introduction", to: "/agenda/day-2/7" }], speakers: [S.fbStaff] },
       { time: "4:30 PM – 4:45 PM", title: "Closing Remarks", desc: "Brief summary and wrap-up of the day's events." },
       { time: "4:45 PM – 7:00 PM", title: "Free Time" },
       { time: "7:00 PM – 10:00 PM", title: "Closing Reception and dinner at Hyatt Regency", desc: "Closing Reception and dinner at the Hyatt Regency, featuring a cultural performance and live music." },
@@ -347,11 +371,15 @@ export type AttendeeEntry = {
   linkedin?: string;
   twitter?: string;
   delegationLead?: boolean;
+  /** One-line editorial caption shown below the name on the homepage Host
+   *  cards (and any future card surface that wants it). Keep it short —
+   *  one fact or angle that adds context beyond the role + country. */
+  subtitle?: string;
 };
 
 export const attendees: AttendeeEntry[] = [
-  { name: "Davendranath Tancoo", role: "Minister of Finance", org: "Government of Trinidad & Tobago", country: "Trinidad & Tobago", img: davendranathTancoo, linkedin: "https://www.linkedin.com/in/davendranath-tancoo", delegationLead: true },
-  { name: "The Hon. Kamla Persad-Bissessar", role: "Prime Minister", org: "Government of Trinidad & Tobago", country: "Trinidad & Tobago", img: kamlaPersadBissessar, delegationLead: true },
+  { name: "Davendranath Tancoo", role: "Minister of Finance", org: "Government of Trinidad & Tobago", country: "Trinidad & Tobago", img: davendranathTancoo, linkedin: "https://www.linkedin.com/in/davendranath-tancoo", delegationLead: true, subtitle: "Advocate for fiscal transparency since 2010." },
+  { name: "The Hon. Kamla Persad-Bissessar", role: "Prime Minister", org: "Government of Trinidad & Tobago", country: "Trinidad & Tobago", img: kamlaPersadBissessar, delegationLead: true, subtitle: "First woman to lead Trinidad & Tobago." },
   { salutation: "Mr.", name: "Brandon Francis", role: "Senior Systems Analyst", org: "Government of Antigua and Barbuda", country: "Antigua", delegationLead: true },
   { salutation: "Mr.", name: "Brendan J. Toner", role: "Finance Reform Director", org: "Government of Barbados", country: "Barbados" },
   { salutation: "Ms.", name: "Christina Elnei", role: "Director, Budget Modernization", org: "Ministry of Finance", country: "South Sudan" },
@@ -374,7 +402,6 @@ export const attendees: AttendeeEntry[] = [
   { salutation: "Mrs.", name: "Noella Brioche", role: "Director of Budget", org: "Government of Seychelles", country: "Seychelles" },
   { salutation: "Mrs.", name: "Shella Mohideen", role: "Chief Accountant", org: "Treasury", country: "Sri Lanka" },
   { salutation: "Ms.", name: "Maaman Loakim", role: "Deputy Secretary, MFED", org: "Ministry of Finance", country: "Tuvalu" },
-  { salutation: "Ms.", name: "Sharlene Sookraj-Ablack", role: "Director of Public Budget", org: "Ministry of Finance", country: "Trinidad & Tobago", delegationLead: true },
   { salutation: "Ms.", name: "Yvonne Neemacharan", role: "Deputy Permanent Secretary, Finance", org: "Government of Trinidad and Tobago", country: "Trinidad & Tobago" },
   { name: "Nicola Callender", role: "Director, Information Systems", org: "Government of Antigua and Barbuda", country: "Antigua" },
   { name: "Venicia Valentine-Ferris", role: "Senior Budget Analyst", org: "Government of Antigua and Barbuda", country: "Antigua" },
@@ -456,7 +483,6 @@ export const mediaItems: MediaItem[] = [
   { title: "FISC 2026: Why Public Financial Management Matters Now", source: "FreeBalance Insights", date: "2026-05-02", url: "#", type: "Article", excerpt: "A deep-dive interview with Doug Hadden on the themes shaping the 2026 programme." },
   { title: "Minister Highlights Digital PFM Ahead of FISC", source: "Newsday TT", date: "2026-05-09", url: "#", type: "Article", excerpt: "Minister of Finance discusses the digital transformation agenda Trinidad will showcase at the event." },
   { title: "FISC 2026 Trailer — Watch on YouTube", source: "FreeBalance · YouTube", date: "2026-05-12", url: "#", type: "Video", excerpt: "Two minutes of Caribbean rhythm and Hyatt Regency previews." },
-  { title: "Sharlene Sookraj-Ablack on Trinidad's Reform Journey", source: "Caribbean Finance Review", date: "2026-04-30", url: "#", type: "Article", excerpt: "The Director of Public Budget on what hosting FISC means for the country." },
   { title: "Live from Port of Spain — Day 1 Recap", source: "FreeBalance · LinkedIn", date: "2026-06-29", url: "#", type: "Social", excerpt: "Field updates and photos from the first day of plenary sessions." },
   { title: "Tatoli Sai Uma Sai Nain: Cobertura FISC 2026", source: "Tatoli", date: "2026-07-01", url: "#", type: "Article", excerpt: "Cobertura em português sobre a participação de Timor-Leste no FISC 2026." },
   { title: "Roadmap Voting Drives FreeBalance Product Direction", source: "Public Finance Today", date: "2026-07-03", url: "#", type: "Article", excerpt: "How the customer roadmap vote at FISC has shaped the 2026–2028 product cycle." },
@@ -497,7 +523,47 @@ export const galleryPhotos: GalleryPhoto[] = [
 // Delegate Guide (Trinidad & Tobago, 2026 edition)
 // ---------------------------------------------------------------------------
 
-export type ChecklistItem = { task: string; detail?: string; deadline?: string };
+export type ChecklistItem = {
+  task: string;
+  /** 2-3 word version used in the homepage "Next milestone" callout. */
+  shortLabel: string;
+  detail?: string;
+  dueDate: string;
+};
+
+/**
+ * Render a relative-time label for a checklist item's due date. Used by the
+ * homepage action queue (live, ticks with the countdown) and the delegate
+ * guide page (one-shot, evaluated on render).
+ *
+ * Returns both a human label and a tone bucket so the call-site can colour-
+ * code without re-implementing the date math.
+ */
+export type DeadlineTone = "overdue" | "soon" | "future";
+
+export function formatDeadline(
+  dueDate: string,
+  now: Date = new Date(),
+): { label: string; tone: DeadlineTone } {
+  const due = new Date(dueDate);
+  const diffMs = due.getTime() - now.getTime();
+  const days = Math.floor(diffMs / (1000 * 60 * 60 * 24));
+
+  if (days < 0) {
+    const od = Math.abs(days);
+    if (od === 1) return { label: "1 day overdue", tone: "overdue" };
+    if (od < 14) return { label: `${od} days overdue`, tone: "overdue" };
+    if (od < 60) return { label: `${Math.floor(od / 7)} weeks overdue`, tone: "overdue" };
+    return { label: `${Math.floor(od / 30)} months overdue`, tone: "overdue" };
+  }
+
+  if (days === 0) return { label: "Due today", tone: "soon" };
+  if (days === 1) return { label: "Due tomorrow", tone: "soon" };
+  if (days < 7) return { label: `Due in ${days} days`, tone: "soon" };
+  if (days < 14) return { label: `Due in ${days} days`, tone: "future" };
+  if (days < 60) return { label: `Due in ${Math.ceil(days / 7)} weeks`, tone: "future" };
+  return { label: `Due in ${Math.ceil(days / 30)} months`, tone: "future" };
+}
 export type EssentialGroup = {
   category: "Passport & Visa" | "Health & Vaccinations" | "Money & Payments" | "Connectivity" | "Etiquette & Dress";
   items: string[];
@@ -542,14 +608,19 @@ export const delegateGuide: DelegateGuide = {
     humidity: "Humidity 70 – 85%",
     notes: "Pack light, breathable layers and a compact umbrella. Sessions are air-conditioned; consider a light jacket.",
   },
+  // dueDate values target a homepage view at ~T-40 days (mid-May 2026): one
+  // item recently overdue, three near-term, three in the upcoming weeks. This
+  // matches the urgency a real delegate would feel at this point in the
+  // schedule. Adjust dates when the conference moves; the homepage queue and
+  // the delegate guide page both compute their labels live from these values.
   checklist: [
-    { task: "Confirm your delegation lead with the secretariat", deadline: "10 weeks out" },
-    { task: "Request a formal invitation letter from the secretariat for visa purposes", deadline: "8 weeks out" },
-    { task: "Book international flights routed to Piarco International (POS)", deadline: "8 weeks out" },
-    { task: "Reserve your room using delegate code FISC26 at the Hyatt Regency", deadline: "6 weeks out" },
-    { task: "Upload your delegate profile and headshot in the portal", deadline: "4 weeks out" },
-    { task: "Complete the consent form for photography and recording", deadline: "2 weeks out" },
-    { task: "Download the offline-capable delegate companion app", deadline: "1 week out" },
+    { shortLabel: "Delegation lead", task: "Confirm your delegation lead with the secretariat", dueDate: "2026-05-18" },
+    { shortLabel: "Visa letter", task: "Request a formal invitation letter from the secretariat for visa purposes", dueDate: "2026-05-25" },
+    { shortLabel: "Book flights", task: "Book international flights routed to Piarco International (POS)", dueDate: "2026-05-25" },
+    { shortLabel: "Hotel booking", task: "Reserve your room at the Hyatt Regency (delegate code in your travel pack)", detail: "Booking code: FISC26 · valid through Jun 1.", dueDate: "2026-06-01" },
+    { shortLabel: "Profile upload", task: "Upload your delegate profile and headshot in the portal", dueDate: "2026-06-08" },
+    { shortLabel: "Photo consent", task: "Complete the consent form for photography and recording", dueDate: "2026-06-15" },
+    { shortLabel: "Companion app", task: "Download the offline-capable delegate companion app", dueDate: "2026-06-22" },
   ],
   essentials: [
     {

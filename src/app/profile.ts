@@ -102,7 +102,7 @@ export function useProfile(user: User | null) {
   return [profile, setProfile] as const;
 }
 
-/** "Sharlene Sookraj-Ablack" → "SS"; "Aldo" → "A". */
+/** "Brendan J. Toner" → "BT"; "Aldo" → "A". */
 export function initialsOf(name: string): string {
   return name
     .split(/\s+/)
@@ -112,7 +112,7 @@ export function initialsOf(name: string): string {
     .join("");
 }
 
-/** "Sharlene Sookraj-Ablack" → "Sharlene". */
+/** "Brendan J. Toner" → "Brendan". */
 export function firstNameOf(name: string): string {
   return name.split(/\s+/)[0] ?? name;
 }

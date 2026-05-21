@@ -24,7 +24,7 @@ function MediaCard({ m, i }: { m: MediaItem; i: number }) {
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
       transition={{ delay: (i % 6) * 0.05 }}
-      className="group relative rounded-2xl border border-neutral-200 bg-white p-6 md:p-7 hover:border-neutral-950 transition-all block"
+      className="group relative rounded-md border border-neutral-200 bg-white p-6 md:p-7 hover:border-neutral-950 transition-all block"
     >
       <div className="flex items-center justify-between mb-5">
         <span className="inline-flex items-center gap-2 px-2.5 py-1 rounded-md text-xs" style={{ backgroundColor: meta.bg, color: meta.fg }}>
@@ -74,6 +74,10 @@ export default function MediaCoverage() {
     <>
       <PageHero
         label="Media coverage"
+        breadcrumbs={[
+          { label: "Resources", to: "/resources" },
+          { label: "Media coverage" },
+        ]}
         title={<>How the world is <GradientText>writing about FISC.</GradientText></>}
         subtitle="Press articles, broadcast clips and social posts covering the road to Port of Spain and the conference itself."
         image={HERO_MEDIA}
@@ -105,7 +109,7 @@ export default function MediaCoverage() {
                 );
               })}
             </div>
-            <a href="#" className="inline-flex items-center gap-2 px-4 py-2 rounded-lg border border-neutral-300 text-neutral-700 hover:border-neutral-950 transition text-sm">
+            <a href="#" className="inline-flex items-center gap-2 px-4 py-2 rounded-sm border border-neutral-300 text-neutral-700 hover:border-neutral-950 transition text-sm">
               <Rss size={14} style={{ color: BRAND }} /> Subscribe to the press feed
             </a>
           </div>

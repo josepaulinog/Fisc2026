@@ -5,6 +5,7 @@ import {
   ArrowRight,
   ArrowUpRight,
   Calendar,
+  Check,
   Clock,
   Download,
   FileText,
@@ -90,6 +91,11 @@ export default function AgendaSession() {
     <>
       <PageHero
         label={`${day.short} · ${day.date}`}
+        breadcrumbs={[
+          { label: "Agenda", to: "/agenda" },
+          { label: `${day.label} · ${day.date}`, to: "/agenda" },
+          { label: session.title },
+        ]}
         title={<GradientText>{session.title}</GradientText>}
         subtitle={session.desc}
         image={HERO_AGENDA}
@@ -134,7 +140,10 @@ export default function AgendaSession() {
         </div>
       </section>
 
-      {/* About this session */}
+      {/* About this session — three-layer brief:
+            1. Briefing paragraph (if present), falling back to short desc
+            2. Takeaways list with checkmark glyphs (if present)
+            3. References list (if present) — internal Link / external anchor */}
       <section className="py-12 md:py-20 bg-white">
         <div className="max-w-7xl mx-auto px-5 md:px-6">
           <div className="grid lg:grid-cols-12 gap-8 md:gap-12">
@@ -152,9 +161,90 @@ export default function AgendaSession() {
                 className="text-neutral-700"
                 style={{ fontSize: "1.125rem", lineHeight: 1.75 }}
               >
-                {session.desc ??
+                {session.briefing ??
+                  session.desc ??
                   "A pause in the formal programme. Refreshments and informal conversation in the lobby — secretariat staff are on hand if you need anything."}
               </p>
+
+              {/* Takeaways — checkmark list. Each row is a brand-orange tinted
+                  check glyph inside a small square, followed by the takeaway
+                  copy. Generous spacing so each line reads as advice, not as
+                  a dense bullet list. */}
+              {session.takeaways && session.takeaways.length > 0 && (
+                <div className="mt-8 md:mt-10">
+                  <div
+                    className="text-neutral-500 uppercase mb-4"
+                    style={{
+                      fontSize: "0.6875rem",
+                      letterSpacing: "0.22em",
+                      fontWeight: 600,
+                    }}
+                  >
+                    What you'll leave with
+                  </div>
+                  <ul className="space-y-3">
+                    {session.takeaways.map((t, i) => (
+                      <li key={i} className="flex items-start gap-3">
+                        <span
+                          className="mt-0.5 inline-flex items-center justify-center w-6 h-6 rounded-sm shrink-0"
+                          style={{ backgroundColor: `${BRAND}15`, color: BRAND }}
+                        >
+                          <Check size={14} strokeWidth={2.5} />
+                        </span>
+                        <span
+                          className="text-neutral-800"
+                          style={{ fontSize: "1rem", lineHeight: 1.55 }}
+                        >
+                          {t}
+                        </span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              )}
+
+              {/* References — link out to related materials, speakers, sessions
+                  or external standards. Internal `to` paths use react-router;
+                  `external: true` opens in a new tab. */}
+              {session.references && session.references.length > 0 && (
+                <div className="mt-8 md:mt-10 pt-6 md:pt-7 border-t border-neutral-100">
+                  <div
+                    className="text-neutral-500 uppercase mb-4"
+                    style={{
+                      fontSize: "0.6875rem",
+                      letterSpacing: "0.22em",
+                      fontWeight: 600,
+                    }}
+                  >
+                    Read more
+                  </div>
+                  <ul className="space-y-2.5">
+                    {session.references.map((r, i) => {
+                      const inner = (
+                        <span className="group inline-flex items-center gap-2 text-neutral-950 transition-fluid hover:gap-3">
+                          <span style={{ fontSize: "1rem", fontWeight: 500 }}>{r.label}</span>
+                          <ArrowUpRight
+                            size={14}
+                            strokeWidth={1.75}
+                            className="text-neutral-400 transition-fluid group-hover:text-neutral-950 group-hover:-translate-y-0.5 group-hover:translate-x-0.5"
+                          />
+                        </span>
+                      );
+                      return (
+                        <li key={i}>
+                          {r.external ? (
+                            <a href={r.to} target="_blank" rel="noreferrer">
+                              {inner}
+                            </a>
+                          ) : (
+                            <Link to={r.to}>{inner}</Link>
+                          )}
+                        </li>
+                      );
+                    })}
+                  </ul>
+                </div>
+              )}
             </div>
           </div>
         </div>
@@ -176,45 +266,51 @@ export default function AgendaSession() {
 
             <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-5">
               {enrichedSpeakers.map((sp, i) => {
+                // Architectural person card matching the homepage Host + the
+                // Speakers MiniCard pattern. Square portrait on the left,
+                // org-eyebrow + name + role on the right, hairline ring +
+                // ambient shadow (instead of the heavy 1px border).
                 const cardInner = (
-                  <div className="flex items-center gap-4">
-                    <div className="shrink-0">
+                  <div className="grid grid-cols-[88px_1fr] md:grid-cols-[96px_1fr]">
+                    <div className="relative aspect-square bg-neutral-100 overflow-hidden">
                       {sp.img ? (
-                        <div className="w-16 h-16 rounded-full overflow-hidden bg-neutral-100">
-                          <ImageWithFallback src={sp.img} alt={sp.name} className="w-full h-full object-cover" />
-                        </div>
+                        <ImageWithFallback
+                          src={sp.img}
+                          alt={sp.name}
+                          className="absolute inset-0 w-full h-full object-cover transition-fluid group-hover:scale-[1.04]"
+                        />
                       ) : (
                         <div
-                          className="w-16 h-16 rounded-full flex items-center justify-center text-white tracking-tight"
-                          style={{ backgroundColor: BRAND, fontSize: "0.95rem" }}
+                          className="absolute inset-0 flex items-center justify-center text-white tracking-tight"
+                          style={{ backgroundColor: BRAND, fontSize: "0.95rem", fontWeight: 500 }}
                         >
                           FB
                         </div>
                       )}
                     </div>
-                    <div className="min-w-0 flex-1">
-                      <div className="tracking-tight text-neutral-950 group-hover:text-white truncate" style={{ fontSize: "1.0625rem" }}>
-                        {sp.name}
-                      </div>
-                      {sp.role && (
-                        <div className="text-neutral-500 group-hover:text-white/78 text-sm truncate">{sp.role}</div>
-                      )}
+                    <div className="px-4 py-3 md:px-5 md:py-4 flex flex-col justify-center min-w-0">
                       {sp.org && (
-                        <div className="text-neutral-400 group-hover:text-white/65 text-xs tracking-widest uppercase mt-0.5 truncate">
+                        <div
+                          className="text-neutral-500 uppercase truncate"
+                          style={{ fontSize: "0.625rem", letterSpacing: "0.2em", fontWeight: 600 }}
+                        >
                           {sp.org}
                         </div>
                       )}
+                      <div
+                        className="mt-1 text-neutral-950 tracking-tight truncate"
+                        style={{ fontSize: "1.0625rem", lineHeight: 1.15, letterSpacing: "-0.01em", fontWeight: 500 }}
+                      >
+                        {sp.name}
+                      </div>
+                      {sp.role && (
+                        <div className="mt-0.5 text-neutral-500 text-sm truncate">{sp.role}</div>
+                      )}
                     </div>
-                    {sp.slug && (
-                      <ArrowUpRight
-                        size={16}
-                        className="text-neutral-400 group-hover:text-white opacity-0 group-hover:opacity-100 group-hover:-translate-y-0.5 group-hover:translate-x-0.5 transition shrink-0"
-                      />
-                    )}
                   </div>
                 );
                 const baseClass =
-                  "group block rounded-2xl border border-neutral-200 bg-white p-5 transition-all";
+                  "group block overflow-hidden rounded-md bg-white ring-1 ring-black/[0.05] shadow-[0_8px_24px_-16px_rgba(0,0,0,0.12)] transition-fluid";
                 return (
                   <motion.div
                     key={`${sp.name}-${i}`}
@@ -226,7 +322,7 @@ export default function AgendaSession() {
                     {sp.slug ? (
                       <Link
                         to={`/speakers/${sp.slug}`}
-                        className={`${baseClass} hover:border-neutral-950 hover:bg-neutral-950 hover:text-white`}
+                        className={`${baseClass} hover:shadow-[0_16px_40px_-16px_rgba(0,0,0,0.18)]`}
                       >
                         {cardInner}
                       </Link>
@@ -257,7 +353,7 @@ export default function AgendaSession() {
               </div>
               <Link
                 to="/materials"
-                className="group inline-flex items-center gap-2 px-5 py-3 rounded-lg border border-neutral-300 hover:bg-neutral-950 hover:text-white hover:border-neutral-950 transition"
+                className="group inline-flex items-center gap-2 px-5 py-3 rounded-sm border border-neutral-300 hover:bg-neutral-950 hover:text-white hover:border-neutral-950 transition"
               >
                 Full library
                 <ArrowUpRight size={16} className="group-hover:rotate-45 transition-transform" />
@@ -344,7 +440,7 @@ export default function AgendaSession() {
               />
             </div>
 
-            <div className="lg:col-span-4 rounded-3xl overflow-hidden border border-neutral-200 bg-white p-6 md:p-7 flex flex-col">
+            <div className="lg:col-span-4 rounded-md overflow-hidden border border-neutral-200 bg-white p-6 md:p-7 flex flex-col">
               <div
                 className="w-11 h-11 rounded-xl flex items-center justify-center mb-5"
                 style={{ backgroundColor: `${BRAND}15`, color: BRAND }}
@@ -371,7 +467,7 @@ export default function AgendaSession() {
                 href="https://www.openstreetmap.org/?mlat=10.6488&mlon=-61.5179#map=16/10.6488/-61.5179"
                 target="_blank"
                 rel="noreferrer"
-                className="mt-6 group inline-flex items-center justify-between gap-2 px-4 py-3 rounded-lg text-white hover:opacity-95 transition"
+                className="mt-6 group inline-flex items-center justify-between gap-2 px-4 py-3 rounded-sm text-white hover:opacity-95 transition"
                 style={{ backgroundColor: INK }}
               >
                 Open in OpenStreetMap
@@ -385,7 +481,7 @@ export default function AgendaSession() {
 
               <Link
                 to="/venue"
-                className="mt-3 inline-flex items-center gap-2 px-4 py-3 rounded-lg border border-neutral-300 text-neutral-800 hover:border-neutral-950 transition text-sm"
+                className="mt-3 inline-flex items-center gap-2 px-4 py-3 rounded-sm border border-neutral-300 text-neutral-800 hover:border-neutral-950 transition text-sm"
               >
                 Venue & arrival details
                 <ArrowUpRight size={14} />
@@ -402,7 +498,7 @@ export default function AgendaSession() {
             {prev ? (
               <Link
                 to={pathOf(prev)}
-                className="group p-5 md:p-6 rounded-2xl border border-neutral-200 hover:border-neutral-950 transition"
+                className="group p-5 md:p-6 rounded-md border border-neutral-200 hover:border-neutral-950 transition"
               >
                 <div className="flex items-center gap-2 text-xs tracking-[0.25em] uppercase text-neutral-500">
                   <ArrowLeft size={12} /> Previous day
@@ -423,7 +519,7 @@ export default function AgendaSession() {
             {next ? (
               <Link
                 to={pathOf(next)}
-                className="group p-5 md:p-6 rounded-2xl border border-neutral-200 hover:border-neutral-950 transition md:text-right"
+                className="group p-5 md:p-6 rounded-md border border-neutral-200 hover:border-neutral-950 transition md:text-right"
               >
                 <div className="flex items-center md:justify-end gap-2 text-xs tracking-[0.25em] uppercase text-neutral-500">
                   Next day <ArrowRight size={12} />

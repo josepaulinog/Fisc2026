@@ -1,0 +1,39 @@
+/* -----------------------------------------------------------------------
+ * Type stack
+ * -----------------------------------------------------------------------
+ * Body:    Proxima Nova (loaded in main.tsx via @voaii/proxima-nova).
+ *          Mark Simonson's modern Grotesk — a heavier, warmer alternative
+ *          to Inter or Helvetica that reads premium without being trendy.
+ *
+ * Display: Instrument Serif (loaded as a Google Fonts <link> in index.html).
+ *          Used only for italic accent phrases — the gradient words inside
+ *          hero h1s and the footer wordmark. Activated via .font-display.
+ *
+ * Mono:    System monospace fallback. Only used for tabular numerals via
+ *          the `tabular-nums` Tailwind utility, not for text blocks.
+ * --------------------------------------------------------------------- */
+
+body {
+  font-family:
+    "Proxima Nova",
+    system-ui,
+    -apple-system,
+    "Segoe UI",
+    Helvetica,
+    Arial,
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.font-display {
+  font-family:
+    "Instrument Serif",
+    "Charter",
+    "Iowan Old Style",
+    Georgia,
+    serif;
+  /* Optical sizing on a true display face: tighten counter rhythm slightly
+     so the italic descenders don't read as too airy at large sizes. */
+  font-feature-settings: "liga", "dlig";
+}

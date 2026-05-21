@@ -146,7 +146,7 @@ export default function Venue() {
               <dl className="mt-7 grid grid-cols-1 gap-3">
                 {[
                   { k: "Address", v: "1 Wrightson Road, Port of Spain" },
-                  { k: "Rooms", v: "Negotiated delegate rate · code FISC26" },
+                  { k: "Rooms", v: "Negotiated delegate rate · code via delegate pack" },
                   { k: "Amenities", v: "Spa, pool, harbour-view restaurant" },
                   { k: "Accessibility", v: "Step-free access to all session rooms" },
                 ].map((row) => (
@@ -158,10 +158,10 @@ export default function Venue() {
               </dl>
 
               <div className="mt-6 flex flex-wrap gap-3">
-                <button className="inline-flex items-center gap-2 px-5 py-3 rounded-lg bg-neutral-950 text-white hover:opacity-90 transition">
+                <button className="inline-flex items-center gap-2 px-5 py-3 rounded-sm bg-neutral-950 text-white hover:opacity-90 transition">
                   Book delegate rate <ArrowUpRight size={16} />
                 </button>
-                <button className="inline-flex items-center gap-2 px-5 py-3 rounded-lg border border-neutral-300 text-neutral-800 hover:border-neutral-950 transition">
+                <button className="inline-flex items-center gap-2 px-5 py-3 rounded-sm border border-neutral-300 text-neutral-800 hover:border-neutral-950 transition">
                   View on map <MapPin size={16} />
                 </button>
               </div>
@@ -251,7 +251,7 @@ export default function Venue() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: (i % 3) * 0.07 }}
-                className="group rounded-2xl border border-white/10 bg-white/[0.04] hover:bg-white/[0.07] hover:border-white/20 transition-all p-5 md:p-6"
+                className="group rounded-md border border-white/10 bg-white/[0.04] hover:bg-white/[0.07] hover:border-white/20 transition-all p-5 md:p-6"
               >
                 <div
                   className="w-11 h-11 rounded-xl flex items-center justify-center mb-5"

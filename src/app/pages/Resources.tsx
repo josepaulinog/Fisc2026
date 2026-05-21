@@ -31,7 +31,7 @@ export default function Resources() {
               <Link
                 to="/sign-in"
                 style={{ backgroundColor: INK }}
-                className="mt-6 md:mt-8 group inline-flex items-center gap-2 text-white pl-6 pr-2 py-2 rounded-lg hover:opacity-90 transition"
+                className="mt-6 md:mt-8 group inline-flex items-center gap-2 text-white pl-6 pr-2 py-2 rounded-sm hover:opacity-90 transition"
               >
                 Delegate sign in
                 <span className="w-8 h-8 rounded-full flex items-center justify-center" style={{ backgroundColor: BRAND }}>

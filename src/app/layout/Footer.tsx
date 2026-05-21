@@ -16,6 +16,7 @@ import { Lockup } from "../components/brand/Lockup";
 import { Grain, SectionLabel } from "../components/shared";
 import { looksLikeEmail } from "../auth";
 import { BRAND, BRAND_SOFT, INK, navItems } from "../data";
+import { TYPE } from "../tokens";
 
 export function Newsletter() {
   const [value, setValue] = useState("");
@@ -41,8 +42,12 @@ export function Newsletter() {
   return (
     <section className="py-16 md:py-24 bg-white">
       <div className="max-w-7xl mx-auto px-5 md:px-6">
+        {/* Newsletter Doppelrand — outer hairline tray + inner dark panel.
+            The 6px inner radius differential reads like a glass display set
+            into a brushed metal bezel. */}
+        <div className="rounded-md p-1.5 bg-black/[0.03] ring-1 ring-black/[0.05]">
         <div
-          className="rounded-[2rem] p-8 md:p-16 text-white relative overflow-hidden"
+          className="rounded-sm p-8 md:p-16 text-white relative overflow-hidden"
           style={{ backgroundColor: INK }}
         >
           <div
@@ -54,9 +59,9 @@ export function Newsletter() {
           <Grain />
           <div className="relative grid md:grid-cols-5 gap-8 md:gap-10 items-center">
             <div className="md:col-span-3">
-              <SectionLabel><span className="text-white">Stay close</span></SectionLabel>
+              <SectionLabel tone="light">Stay close</SectionLabel>
               <h3 className="tracking-[-0.02em]" style={{ fontSize: "clamp(1.75rem, 4vw, 3rem)", lineHeight: 1.05 }}>
-                Follow the journey.
+                Follow the <em className="font-display italic" style={{ paddingInline: "0.05em", marginInline: "-0.025em" }}>journey.</em>
               </h3>
               <p className="mt-4 text-white/70 max-w-md">
                 FISC 2026 is invitation only — but anyone can follow the
@@ -69,7 +74,7 @@ export function Newsletter() {
               {submitted ? (
                 <div
                   role="status"
-                  className="flex items-start gap-3 p-4 rounded-xl bg-white/10 border border-white/20 text-white backdrop-blur"
+                  className="flex items-start gap-3 p-4 rounded-md bg-white/10 border border-white/20 text-white backdrop-blur"
                 >
                   <span
                     className="w-8 h-8 rounded-full flex items-center justify-center shrink-0"
@@ -89,11 +94,11 @@ export function Newsletter() {
               ) : (
                 <form className="flex flex-col gap-3" onSubmit={handleSubmit} noValidate>
                   <div
-                    className={`flex items-center bg-white rounded-lg p-1.5 pl-4 border ${
+                    className={`flex items-center bg-white rounded-sm p-1.5 pl-5 border transition-fluid ${
                       error ? "border-red-400" : "border-transparent"
                     }`}
                   >
-                    <Mail size={18} className="text-neutral-500 shrink-0" />
+                    <Mail size={16} strokeWidth={1.75} className="text-neutral-500 shrink-0" />
                     <input
                       type="email"
                       aria-label="Your work email"
@@ -104,14 +109,17 @@ export function Newsletter() {
                         setValue(e.target.value);
                         if (error) setError(null);
                       }}
-                      className="flex-1 min-w-0 bg-transparent px-3 py-2 text-neutral-900 outline-none placeholder:text-neutral-400"
+                      className="flex-1 min-w-0 bg-transparent px-3 py-2 text-neutral-900 outline-none placeholder:text-neutral-400 text-[15px]"
                     />
                     <button
                       type="submit"
                       style={{ backgroundColor: BRAND }}
-                      className="px-4 md:px-5 py-2.5 rounded-lg text-white hover:opacity-90 transition shrink-0"
+                      className="group inline-flex items-center gap-2 pl-5 pr-2 py-1.5 rounded-sm text-white transition-fluid active:scale-[0.98] shrink-0"
                     >
-                      Follow
+                      <span style={{ fontSize: TYPE.body, fontWeight: 500 }}>Follow</span>
+                      <span className="w-7 h-7 rounded-sm bg-black/15 flex items-center justify-center transition-fluid group-hover:translate-x-0.5">
+                        <ArrowUpRight size={13} strokeWidth={1.75} />
+                      </span>
                     </button>
                   </div>
                   {error ? (
@@ -125,6 +133,7 @@ export function Newsletter() {
               )}
             </div>
           </div>
+        </div>
         </div>
       </div>
     </section>
@@ -145,7 +154,7 @@ export function Footer() {
       <div className="relative max-w-7xl mx-auto px-5 md:px-6 pt-16 md:pt-24 pb-10">
         {/* Event meta strip */}
         <div className="flex flex-wrap items-center gap-3 md:gap-4 text-sm text-white/70 mb-10 md:mb-14">
-          <span className="inline-flex items-center gap-2 px-3 py-1.5 rounded-md border border-white/15 bg-white/5">
+          <span className="inline-flex items-center gap-2 px-3 py-1.5 rounded-sm border border-white/15 bg-white/5">
             <span className="relative flex h-2 w-2">
               <span className="absolute inline-flex h-full w-full rounded-full opacity-75 animate-ping" style={{ backgroundColor: BRAND }} />
               <span className="relative inline-flex rounded-full h-2 w-2" style={{ backgroundColor: BRAND }} />
@@ -190,7 +199,7 @@ export function Footer() {
         <div className="grid md:grid-cols-2 gap-3 md:gap-4 mb-14 md:mb-20">
           <Link
             to="/sign-in"
-            className="group relative rounded-2xl p-6 md:p-7 flex items-center justify-between overflow-hidden transition-all hover:scale-[1.01]"
+            className="group relative rounded-lg p-6 md:p-7 flex items-center justify-between overflow-hidden transition-all hover:scale-[1.01]"
             style={{ background: `linear-gradient(135deg, ${BRAND} 0%, #c64b00 100%)` }}
           >
             <div className="relative z-10 text-white">
@@ -206,7 +215,7 @@ export function Footer() {
 
           <a
             href="mailto:fisc@freebalance.com"
-            className="group relative rounded-2xl p-6 md:p-7 flex items-center justify-between border border-white/15 bg-white/[0.04] hover:bg-white/[0.08] hover:border-white/25 transition"
+            className="group relative rounded-md p-6 md:p-7 flex items-center justify-between border border-white/15 bg-white/[0.04] hover:bg-white/[0.08] hover:border-white/25 transition"
           >
             <div className="text-white">
               <div className="text-white/60 text-xs tracking-[0.25em] uppercase">For the press & partners</div>
