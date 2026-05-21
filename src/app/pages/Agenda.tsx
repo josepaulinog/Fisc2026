@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useState } from "react";
 import { Link } from "react-router";
 import { AnimatePresence, motion } from "motion/react";
 import { Download, Mic, Minus, Plus } from "lucide-react";
@@ -25,30 +25,12 @@ function to24(t: string): string {
 function fmtTime(time: string): string {
   return time.split(" – ").map(to24).join(" – ");
 }
-function fmtTimeShort(time: string): string {
-  // First time only, for day header range.
-  return to24(time.split(" – ")[0] ?? time);
-}
 
 export default function Agenda() {
   const [active, setActive] = useState(1);
   const [expandedKey, setExpandedKey] = useState<string | null>(null);
   const current = agenda[active];
   const currentSlug = daySlugFor(current);
-
-  // Day header strip: first time → last time of the day. Used in the meta
-  // line above the session list ("08:45 → 22:00").
-  const dayStats = useMemo(() => {
-    const sessions = current.sessions;
-    const first = sessions[0]?.time ?? "—";
-    const last = sessions[sessions.length - 1]?.time ?? "—";
-    const lastEnd = last.split(" – ")[1] ?? last;
-    return {
-      firstStart: fmtTimeShort(first),
-      lastEnd: to24(lastEnd),
-      count: sessions.length,
-    };
-  }, [current]);
 
   const selectDay = (i: number) => {
     setActive(i);
@@ -61,17 +43,15 @@ export default function Agenda() {
   // lets the scroll track bleed to the screen edge on mobile (so the last
   // tab doesn't appear cut off by container padding) while preserving the
   // max-w-7xl alignment on desktop.
-  // Day tabs — rendered as a PageHero slot so they live inside the dark
-  // hero surface. On mobile, tabs are compact pills (smaller padding,
-  // year dropped from the date) so 2-3 fit in the visible viewport with
-  // gentle horizontal scroll for the rest. scrollbar-hide kills the
-  // browser's native scroll affordance which would otherwise paint a
-  // gray bar across the bottom of the row on iOS Safari / Chromium.
-  // The negative-margin/padding trick lets the scroll track bleed to
-  // the screen edge so the last tab isn't cropped by container padding.
+  // Day tabs — now rendered on the light cream surface above the session
+  // list (was previously inside the dark PageHero slot). Active tab keeps
+  // its solid brand-orange fill; inactive tabs swapped from white-glass on
+  // ink to white surface + neutral hairline ring so they read on the cream.
+  // On mobile, the row scrolls horizontally with a bleed-to-edge negative
+  // margin so the last tab isn't cropped by container padding.
   const tabs = (
-    <div className="-mx-5 md:mx-0 px-5 md:px-0 overflow-x-auto overscroll-x-contain touch-pan-x snap-x snap-proximity scrollbar-hide">
-      <div className="flex gap-1.5 md:gap-3 pb-1 min-w-min">
+    <div className="flex-1 min-w-0 -mx-5 md:mx-0 px-5 md:px-0 overflow-x-auto overscroll-x-contain touch-pan-x snap-x snap-proximity scrollbar-hide">
+      <div className="flex gap-1.5 md:gap-2.5 pb-1 min-w-min">
         {agenda.map((d, i) => {
           const isActive = i === active;
           // Strip the trailing ", 2026" on mobile — the year is redundant
@@ -86,7 +66,7 @@ export default function Agenda() {
               className={`snap-start shrink-0 px-3 md:px-5 py-2 md:py-3 rounded-sm text-left transition-fluid will-change-transform ${
                 isActive
                   ? ""
-                  : "ring-1 ring-white/10 hover:ring-white/25 hover:bg-white/[0.06]"
+                  : "bg-white ring-1 ring-neutral-200 hover:ring-neutral-400 hover:shadow-[0_2px_10px_-6px_rgba(0,0,0,0.12)]"
               }`}
               style={
                 isActive
@@ -94,23 +74,23 @@ export default function Agenda() {
                       backgroundColor: BRAND,
                       boxShadow: "inset 0 1px 0 rgba(255,255,255,0.18), 0 8px 24px -10px rgba(253,107,24,0.55)",
                     }
-                  : { backgroundColor: "rgba(255,255,255,0.04)" }
+                  : undefined
               }
             >
               <div
-                className={`uppercase ${isActive ? "text-white/85" : "text-white/55"}`}
+                className={`uppercase ${isActive ? "text-white/85" : "text-neutral-500"}`}
                 style={{ fontSize: "0.5625rem", letterSpacing: "0.2em", fontWeight: 500 }}
               >
                 {d.short.toUpperCase()}
               </div>
               <div
                 className={`mt-0.5 tabular-nums whitespace-nowrap ${
-                  isActive ? "text-white" : "text-white/85"
+                  isActive ? "text-white" : "text-neutral-900"
                 }`}
                 style={{
                   fontSize: "clamp(0.75rem, 2.2vw, 0.9375rem)",
                   lineHeight: 1.2,
-                  fontWeight: 400,
+                  fontWeight: 500,
                 }}
               >
                 <span className="md:hidden">{dateShort}</span>
@@ -136,9 +116,7 @@ export default function Agenda() {
         }
         subtitle="Country-led workshops, presentations and panels — alongside cultural moments across Trinidad and Tobago."
         image={HERO_AGENDA}
-      >
-        {tabs}
-      </PageHero>
+      />
 
       <section
         className="py-10 md:py-16 pb-32 md:pb-40 relative overflow-hidden"
@@ -154,40 +132,15 @@ export default function Agenda() {
               and the "Download programme" CTA into a single row. Brand-orange
               dot eyebrow, day label, date, sessions count, time range; CTA
               on the right. */}
-          {/* Day summary row — reads as a small section header now, not as
-              a meta strip. Larger DAY label, more spacing, ghost-variant
-              Download CTA so it accompanies the day info instead of
-              dominating it. */}
-          <div className="flex flex-wrap items-start md:items-end justify-between gap-5 md:gap-8 mb-8 md:mb-10 pb-6 md:pb-7 border-b border-neutral-200/70">
-            <div>
-              <span className="inline-flex items-center gap-2 mb-2.5">
-                <span
-                  className="w-1.5 h-1.5 rounded-full"
-                  style={{ backgroundColor: BRAND }}
-                />
-                <span
-                  className="text-neutral-950 uppercase"
-                  style={{ fontSize: "0.75rem", letterSpacing: "0.24em", fontWeight: 600 }}
-                >
-                  {current.short.toUpperCase()}
-                </span>
-              </span>
-              <div
-                className="text-neutral-950 tracking-tight tabular-nums"
-                style={{ fontSize: "clamp(1.25rem, 2.5vw, 1.625rem)", lineHeight: 1.15, fontWeight: 500, letterSpacing: "-0.01em" }}
-              >
-                {current.date}
-              </div>
-              <div className="mt-1.5 flex flex-wrap items-center gap-x-3 gap-y-1 text-neutral-600 text-[0.875rem] md:text-[0.9375rem]">
-                <span>
-                  {dayStats.count} {dayStats.count === 1 ? "session" : "sessions"}
-                </span>
-                <span className="text-neutral-300">·</span>
-                <span className="tabular-nums">
-                  {dayStats.firstStart} → {dayStats.lastEnd}
-                </span>
-              </div>
-            </div>
+          {/* Tabs + Download row — a single horizontal strip at the head of
+              the cream content area. Tabs flex-grow on the left; the
+              Download programme CTA anchors on the right. On mobile, tabs
+              scroll horizontally (touch-pan-x) and the CTA wraps to its
+              own line if there's no room. Bottom-bordered by a hairline so
+              the row reads as a deliberate control strip, not floating
+              chrome. */}
+          <div className="flex flex-wrap items-center justify-between gap-4 md:gap-6 mb-8 md:mb-10 pb-6 md:pb-7 border-b border-neutral-200/70">
+            {tabs}
             <NestedCTA
               href="#"
               variant="ghost"
