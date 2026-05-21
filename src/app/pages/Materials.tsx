@@ -161,9 +161,25 @@ export default function Materials() {
           </div>
 
           {filtered.length === 0 && (
-            <div className="text-center py-20 text-neutral-500 border border-dashed border-neutral-200 rounded-2xl">
-              <FileText size={28} className="mx-auto mb-3 text-neutral-300" />
-              No takeaways match your search.
+            <div className="text-center py-16 md:py-20 border border-dashed border-neutral-200 rounded-md">
+              <Search size={26} strokeWidth={1.5} className="mx-auto mb-4 text-neutral-300" />
+              <div className="tracking-tight text-neutral-950" style={{ fontSize: "1.0625rem", fontWeight: 500 }}>
+                No takeaways match
+              </div>
+              <p className="mt-2 text-neutral-700 max-w-sm mx-auto" style={{ fontSize: "0.9375rem", lineHeight: 1.55 }}>
+                Try a different search term, or switch the topic filter back to All to see every FISC Takeaway.
+              </p>
+              <button
+                type="button"
+                onClick={() => {
+                  setQuery("");
+                  setTopic("All");
+                }}
+                className="mt-5 inline-flex items-center gap-1.5 text-[13px] text-neutral-950 underline underline-offset-4 decoration-1 hover:no-underline transition"
+                style={{ fontWeight: 500 }}
+              >
+                Show all takeaways
+              </button>
             </div>
           )}
 

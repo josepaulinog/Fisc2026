@@ -272,8 +272,25 @@ export default function Speakers() {
           )}
 
           {filtered.length === 0 && (
-            <div className="text-center py-20 text-neutral-500">
-              No presenters match your search.
+            <div className="text-center py-16 md:py-20 border border-dashed border-neutral-200 rounded-md">
+              <Search size={26} strokeWidth={1.5} className="mx-auto mb-4 text-neutral-300" />
+              <div className="tracking-tight text-neutral-950" style={{ fontSize: "1.0625rem", fontWeight: 500 }}>
+                No presenters match
+              </div>
+              <p className="mt-2 text-neutral-700 max-w-sm mx-auto" style={{ fontSize: "0.9375rem", lineHeight: 1.55 }}>
+                Try a broader search term, or switch the role filter back to All.
+              </p>
+              <button
+                type="button"
+                onClick={() => {
+                  setQuery("");
+                  setFilter("All");
+                }}
+                className="mt-5 inline-flex items-center gap-1.5 text-[13px] text-neutral-950 underline underline-offset-4 decoration-1 hover:no-underline transition"
+                style={{ fontWeight: 500 }}
+              >
+                Clear filters
+              </button>
             </div>
           )}
         </div>

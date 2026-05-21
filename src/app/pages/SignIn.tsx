@@ -80,12 +80,14 @@ export default function SignIn() {
   const validateSignIn = (): SignInErrors => {
     const next: SignInErrors = {};
     if (!email.trim()) {
-      next.email = "Email is required.";
+      next.email = "Enter the email your invitation was sent to.";
+    } else if (!/.+@.+\..+/.test(email.trim())) {
+      next.email = "That doesn't look like an email address.";
     }
     if (!code.trim()) {
-      next.code = "Access code is required.";
+      next.code = "Enter the access code from your invitation.";
     } else if (code.length < 4) {
-      next.code = "Access code is too short.";
+      next.code = "Access codes are at least 4 characters.";
     }
     return next;
   };

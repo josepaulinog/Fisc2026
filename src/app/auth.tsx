@@ -94,7 +94,11 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       (c) => c.email === trimmedEmail && c.password === password,
     );
     if (!match) {
-      return { ok: false, error: "Email or access code is incorrect." };
+      return {
+        ok: false,
+        error:
+          "We couldn't match that email and access code. Check your invitation, or use the 'Lost your code' link below.",
+      };
     }
     const { password: _omit, ...userFields } = match;
     setUser(userFields);

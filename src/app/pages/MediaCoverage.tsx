@@ -120,9 +120,22 @@ export default function MediaCoverage() {
           </div>
 
           {filtered.length === 0 && (
-            <div className="text-center py-20 text-neutral-500 border border-dashed border-neutral-200 rounded-2xl">
-              <Newspaper size={28} className="mx-auto mb-3 text-neutral-300" />
-              No coverage of this type yet.
+            <div className="text-center py-16 md:py-20 border border-dashed border-neutral-200 rounded-md">
+              <Newspaper size={26} strokeWidth={1.5} className="mx-auto mb-4 text-neutral-300" />
+              <div className="tracking-tight text-neutral-950" style={{ fontSize: "1.0625rem", fontWeight: 500 }}>
+                Nothing here yet
+              </div>
+              <p className="mt-2 text-neutral-700 max-w-sm mx-auto" style={{ fontSize: "0.9375rem", lineHeight: 1.55 }}>
+                We add articles, clips and social posts as they go live — check back as the conference approaches.
+              </p>
+              <button
+                type="button"
+                onClick={() => setType("All")}
+                className="mt-5 inline-flex items-center gap-1.5 text-[13px] text-neutral-950 underline underline-offset-4 decoration-1 hover:no-underline transition"
+                style={{ fontWeight: 500 }}
+              >
+                Show all coverage
+              </button>
             </div>
           )}
         </div>

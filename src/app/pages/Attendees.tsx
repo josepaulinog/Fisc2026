@@ -192,9 +192,25 @@ export default function Attendees() {
           </div>
 
           {filtered.length === 0 && (
-            <div className="text-center py-20 text-neutral-500 border border-dashed border-neutral-200 rounded-2xl">
-              <Users size={28} className="mx-auto mb-3 text-neutral-300" />
-              No delegates match your search.
+            <div className="text-center py-16 md:py-20 border border-dashed border-neutral-200 rounded-md">
+              <Users size={26} strokeWidth={1.5} className="mx-auto mb-4 text-neutral-300" />
+              <div className="tracking-tight text-neutral-950" style={{ fontSize: "1.0625rem", fontWeight: 500 }}>
+                No delegates match
+              </div>
+              <p className="mt-2 text-neutral-700 max-w-sm mx-auto" style={{ fontSize: "0.9375rem", lineHeight: 1.55 }}>
+                Try a broader search, or switch the region back to All. Delegates are added daily as confirmations come in.
+              </p>
+              <button
+                type="button"
+                onClick={() => {
+                  setQuery("");
+                  setRegion("All");
+                }}
+                className="mt-5 inline-flex items-center gap-1.5 text-[13px] text-neutral-950 underline underline-offset-4 decoration-1 hover:no-underline transition"
+                style={{ fontWeight: 500 }}
+              >
+                Clear filters
+              </button>
             </div>
           )}
 

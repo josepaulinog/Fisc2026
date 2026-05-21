@@ -115,8 +115,8 @@ export default function Profile() {
     if (!ACCEPTED_TYPES.includes(file.type)) {
       setUploadStatus({ kind: "error", message: "Use JPG, PNG or WEBP." });
       setErrors((p) => ({ ...p, photoUrl: "Use JPG, PNG or WEBP." }));
-      toast.error("Photo type not supported", {
-        description: "Use a JPG, PNG or WEBP image.",
+      toast.error("That file type isn't supported", {
+        description: "Pick a JPG, PNG, or WEBP image.",
       });
       return;
     }
@@ -180,7 +180,7 @@ export default function Profile() {
         toast.update(uploadToastId.current, {
           variant: "error",
           title: "Upload failed",
-          description: "Try a different image.",
+          description: "Try saving it again, or pick a different file.",
         });
         uploadToastId.current = null;
       }
@@ -230,8 +230,8 @@ export default function Profile() {
     const fieldErrors = validate(profile);
     if (Object.keys(fieldErrors).length > 0) {
       setErrors(fieldErrors);
-      toast.error("Check your inputs", {
-        description: "A required field is missing or invalid.",
+      toast.error("Some fields need attention", {
+        description: "The highlighted fields are missing or need fixing.",
       });
       // Focus first invalid field for fast correction.
       const firstKey = Object.keys(fieldErrors)[0];
@@ -253,7 +253,7 @@ export default function Profile() {
       });
     } catch {
       setSaveStatus("idle");
-      toast.error("Couldn't save profile", { description: "Try again in a moment." });
+      toast.error("Save didn't go through", { description: "Try again in a moment." });
     }
   };
 
