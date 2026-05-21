@@ -264,7 +264,7 @@ function CountdownAndActions() {
               className="tracking-[-0.025em] text-neutral-950"
               style={{ fontSize: TYPE.h2, lineHeight: 1.05, letterSpacing: TRACKING.snug }}
             >
-              The annual gathering where PFM reform <GradientText>moves from discussion to delivery.</GradientText>
+              Where public finance reform <GradientText>gets delivered.</GradientText>
             </motion.h2>
             <motion.p
               variants={fadeUp}
