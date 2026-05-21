@@ -396,8 +396,8 @@ function CountdownAndActions() {
                 >
                   <ImageWithFallback
                     src={COLLAGE_2}
-                    alt="FISC delegates in a workshop session"
-                    className="absolute inset-0 w-full h-full object-cover object-[center_40%]"
+                    alt="The FISC delegation"
+                    className="absolute inset-0 w-full h-full object-cover object-[center_30%]"
                   />
                 </motion.div>
                 <span

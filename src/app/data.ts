@@ -17,12 +17,10 @@ import eventsImage from "../imports/events.jpg";
 // Unsplash placeholders so the prototype reads as the actual destination.
 import portOfSpainAerial from "../imports/port-of-spain-aerial.jpg";
 import collage1Img from "../imports/collage1.png";
-// collage2 + collage3 retargeted to real institutional Trinidad imagery
-// after audit: the original AI-generated photos read as generic and were
-// undercutting the "The delegation" badge. Queens Royal College = historic
-// government architecture; events.jpg = real FISC workshop breakout floor.
+import collage4Img from "../imports/collage4.png";
+// Trinidad institutional imagery for the bottom-left atmospheric square.
+// Queens Royal College = historic government architecture.
 import queensRoyalCollegeImg from "../imports/queens-royal-college.jpg";
-import eventsImg from "../imports/events.jpg";
 import maracasBeach from "../imports/maracas-beach.jpg";
 import maracasCabin from "../imports/maracas-cabin.jpg";
 import scarletIbis from "../imports/scarlet-ibis.jpg";
@@ -51,10 +49,10 @@ export const ABOUT_IMG = aboutImage;
 // so we can swap the collage independently of every other surface.
 export const COLLAGE_1 = collage1Img;
 // COLLAGE_2 feeds the right column (3:5 with "The delegation" badge) →
-// real FISC workshop breakout floor (delegates around a table, lanyards
-// and country pins). COLLAGE_3 feeds the bottom-left atmospheric square →
-// Queen's Royal College's historic government architecture.
-export const COLLAGE_2 = eventsImg;
+// collage4.png, the curated delegation portrait. COLLAGE_3 feeds the
+// bottom-left atmospheric square → Queen's Royal College's historic
+// government architecture.
+export const COLLAGE_2 = collage4Img;
 export const COLLAGE_3 = queensRoyalCollegeImg;
 export const VENUE_IMG_1 = maracasCabin;
 export const VENUE_IMG_2 = queensRoyalCollege;
