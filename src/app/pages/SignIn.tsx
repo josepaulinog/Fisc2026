@@ -198,7 +198,7 @@ export default function SignIn() {
             <Link
               to="/"
               aria-label="FISC 2026 home"
-              className="lg:hidden inline-flex mb-7 rounded-sm focus:outline-none focus-visible:ring-2 focus-visible:ring-neutral-950 focus-visible:ring-offset-2"
+              className="lg:hidden flex w-fit mb-7 rounded-sm focus:outline-none focus-visible:ring-2 focus-visible:ring-neutral-950 focus-visible:ring-offset-2"
             >
               <Lockup variant="dark" size="sm" />
             </Link>
