@@ -114,7 +114,7 @@ function Hero() {
             <p className="text-white/78" style={{ fontSize: "clamp(1.1rem, 2.1vw, 1.125rem)", lineHeight: 1.55 }}>
               The FreeBalance International Steering Committee sails to Port of Spain — four
               days of country-led reform, co-creation and conversation under Caribbean skies.
-              The 2026 delegate list is closed.
+              Invitations for 2026 are now closed.
             </p>
             {/* Hero CTA — single intentional moment. The "Watch FISC 2025"
                 button used to live here, but the hero footage was already
@@ -298,7 +298,7 @@ function CountdownAndActions() {
               <div className="mt-8 flex flex-wrap items-center gap-x-5 gap-y-2 text-sm text-neutral-700">
                 <span className="inline-flex items-center gap-2">
                   <Calendar size={14} strokeWidth={1.5} className="text-neutral-500" />
-                  <span style={{ fontWeight: 500 }}>Jun 29 — Jul 2, 2026</span>
+                  <span style={{ fontWeight: 500 }}>Jun 29 – Jul 2, 2026</span>
                 </span>
                 <span className="w-px h-3.5 bg-neutral-300" />
                 <span className="inline-flex items-center gap-2">
@@ -492,7 +492,7 @@ function TheRoom() {
             <p className="text-neutral-600 max-w-md" style={{ lineHeight: 1.65 }}>
               The Government of Trinidad &amp; Tobago hosts FISC 2026, anchored by
               300+ delegates from 40+ countries.
-              {!isAuthed && " Sign in to see who's coming and find your counterparts."}
+              {!isAuthed && " Sign in to see who's coming."}
             </p>
           </div>
         </div>

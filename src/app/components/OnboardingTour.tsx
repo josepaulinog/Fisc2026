@@ -37,7 +37,7 @@ function stepsFor(name: string): Step[] {
       icon: Calendar,
       eyebrow: "Welcome",
       title: `Welcome, ${first}.`,
-      body: "You're signed in to FISC 2026. Four days of country-led public finance reform, June 29 – July 2, at the Hyatt Regency in Port of Spain. Here's what's now unlocked.",
+      body: "You're signed in to FISC 2026. Four days of country-led PFM reform — Jun 29 – Jul 2, 2026, at the Hyatt Regency in Port of Spain. Here's what's now unlocked.",
     },
     {
       icon: UserCircle2,
@@ -49,7 +49,7 @@ function stepsFor(name: string): Step[] {
       icon: Mic,
       eyebrow: "Step 2",
       title: "Explore the programme",
-      body: "Twenty-five-plus sessions across four days. Tap any session to see the full briefing, speakers and related downloads.",
+      body: "25+ sessions across four days. Tap any session to see the full briefing, speakers and related downloads.",
     },
     {
       icon: Download,
@@ -61,7 +61,7 @@ function stepsFor(name: string): Step[] {
       icon: Users,
       eyebrow: "Step 4",
       title: "Meet the community",
-      body: "Browse delegates from forty-plus countries and reach out before you land in Port of Spain.",
+      body: "Browse delegates from 40+ countries and reach out before you land in Port of Spain.",
     },
     {
       icon: MapPin,

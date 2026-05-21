@@ -190,7 +190,7 @@ export default function Speakers() {
   return (
     <>
       <PageHero
-        label="Featured Presenters"
+        label="Featured presenters"
         title={
           <>
             Voices shaping

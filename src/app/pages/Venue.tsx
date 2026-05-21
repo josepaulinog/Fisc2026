@@ -61,7 +61,7 @@ export default function Venue() {
   return (
     <>
       <PageHero
-        label="The Destination"
+        label="The destination"
         title={
           <>
             Port of Spain.
@@ -70,7 +70,7 @@ export default function Venue() {
             One rhythm.
           </>
         }
-        subtitle="Trinidad and Tobago hosts FISC 2026 in the heart of the Caribbean — blending serious dialogue with the warmth, music and cuisine of two unforgettable islands."
+        subtitle="Trinidad and Tobago hosts FISC 2026 in the heart of the Caribbean — blending serious dialogue with the warmth, music and cuisine of two distinct islands."
         image={HERO_VENUE}
         imageCaption="Caribbean coast · Trinidad"
       />
@@ -142,7 +142,7 @@ export default function Venue() {
             </motion.div>
 
             <div className="flex flex-col min-w-0">
-              <SectionLabel>The Venue</SectionLabel>
+              <SectionLabel>The venue</SectionLabel>
               <h2 className="tracking-[-0.02em] text-neutral-950" style={{ fontSize: "clamp(1.875rem, 3.5vw, 2.75rem)", lineHeight: 1.05 }}>
                 A waterfront <span style={{ color: BRAND }}>headquarters</span> for four days.
               </h2>
