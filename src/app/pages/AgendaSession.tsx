@@ -455,7 +455,7 @@ export default function AgendaSession() {
               <img
                 src={portOfSpainMap}
                 alt="Map of Port of Spain showing the Hyatt Regency venue location"
-                className="w-full h-[440px] block object-cover"
+                className="w-full h-[440px] block object-cover scale-[1.08]"
                 loading="lazy"
               />
             </div>
