@@ -52,7 +52,7 @@ type LockupProps = {
   /** Hide the "2026 · Trinidad and Tobago" tagline. */
   hideTagline?: boolean;
 };
-
+ 
 export function Lockup({
   variant = "dark",
   size = "md",
