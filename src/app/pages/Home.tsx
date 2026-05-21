@@ -192,8 +192,8 @@ function CountdownAndActions() {
   // baked into the format function so it appears only after the count
   // finishes, mirroring the existing useCountUp pattern in TheRoom.
   const editionsCount = useCountUp(18, { duration: 1.2 });
-  const countriesCount = useCountUp(40, { duration: 1.4, format: (v) => `${v}+` });
-  const homeDelegatesCount = useCountUp(300, { duration: 1.8, format: (v) => `${v}+` });
+  const countriesCount = useCountUp(10, { duration: 1.4, format: (v) => `${v}+` });
+  const homeDelegatesCount = useCountUp(20, { duration: 1.6, format: (v) => `${v}+` });
 
   const diff = Math.max(0, EVENT_START.getTime() - now);
   const days = Math.floor(diff / (1000 * 60 * 60 * 24));
