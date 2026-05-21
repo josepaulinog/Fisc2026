@@ -184,6 +184,7 @@ export function PageHero({
   title,
   subtitle,
   image,
+  children,
 }: {
   label: string;
   /** Optional breadcrumb trail — when present, renders above the headline
@@ -193,6 +194,11 @@ export function PageHero({
   title: React.ReactNode;
   subtitle?: string;
   image?: string;
+  /** Optional in-hero content rendered below the subtitle. Used by Agenda
+   *  to mount the day-tabs row directly inside the dark hero surface, so
+   *  the tabs read as part of the page header rather than a separate
+   *  widget on the section below. */
+  children?: React.ReactNode;
 }) {
   return (
     <section className="relative overflow-hidden pt-24 pb-14 md:pt-36 md:pb-24" style={{ backgroundColor: "#0a0a0a" }}>
@@ -260,6 +266,11 @@ export function PageHero({
           >
             {subtitle}
           </motion.p>
+        )}
+        {children && (
+          <motion.div variants={fadeUp} className="mt-7 md:mt-10">
+            {children}
+          </motion.div>
         )}
       </motion.div>
     </section>

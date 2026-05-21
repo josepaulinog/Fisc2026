@@ -3,7 +3,7 @@ import { Link } from "react-router";
 import { AnimatePresence, motion } from "motion/react";
 import { Download, Mic, Minus, Plus } from "lucide-react";
 import { PageHero } from "../components/shared";
-import { BRAND, BRAND_SOFT, HERO_AGENDA, INK, TAG_HUES, agenda, daySlugFor } from "../data";
+import { BRAND, BRAND_SOFT, HERO_AGENDA, TAG_HUES, agenda, daySlugFor } from "../data";
 import { chipTone } from "../tokens";
 import type { Session } from "../data";
 import { NestedCTA } from "../components/ui/NestedCTA";
@@ -55,6 +55,61 @@ export default function Agenda() {
     setExpandedKey(null);
   };
 
+  // Day tabs — rendered as a PageHero slot so they live inside the dark
+  // hero surface itself. Horizontal scroll with snap on narrow viewports;
+  // full row visible on desktop. Negative-margin trick on the outer wrapper
+  // lets the scroll track bleed to the screen edge on mobile (so the last
+  // tab doesn't appear cut off by container padding) while preserving the
+  // max-w-7xl alignment on desktop.
+  const tabs = (
+    <div className="-mx-5 md:mx-0 px-5 md:px-0 overflow-x-auto overscroll-x-contain touch-pan-x snap-x snap-proximity scrollbar-hide">
+      <div className="flex gap-2 md:gap-3 pb-1 min-w-min">
+        {agenda.map((d, i) => {
+          const isActive = i === active;
+          return (
+            <button
+              key={d.label}
+              onClick={() => selectDay(i)}
+              aria-pressed={isActive}
+              className={`snap-start shrink-0 px-3.5 md:px-5 py-2.5 md:py-3 rounded-sm text-left transition-fluid will-change-transform ${
+                isActive
+                  ? ""
+                  : "ring-1 ring-white/10 hover:ring-white/25 hover:bg-white/[0.06]"
+              }`}
+              style={
+                isActive
+                  ? {
+                      backgroundColor: BRAND,
+                      boxShadow: "inset 0 1px 0 rgba(255,255,255,0.18), 0 8px 24px -10px rgba(253,107,24,0.55)",
+                    }
+                  : { backgroundColor: "rgba(255,255,255,0.04)" }
+              }
+            >
+              <div
+                className={`uppercase ${isActive ? "text-white/85" : "text-white/55"}`}
+                style={{ fontSize: "0.625rem", letterSpacing: "0.22em", fontWeight: 500 }}
+              >
+                {d.short.toUpperCase()}
+              </div>
+              <div
+                className={`mt-0.5 tabular-nums whitespace-nowrap ${
+                  isActive ? "text-white" : "text-white/85"
+                }`}
+                style={{
+                  fontSize: "clamp(0.8125rem, 2.4vw, 0.9375rem)",
+                  lineHeight: 1.2,
+                  fontWeight: 400,
+                }}
+              >
+                {d.date}
+              </div>
+            </button>
+          );
+        })}
+      </div>
+    </div>
+  );
+
   return (
     <>
       <PageHero
@@ -68,59 +123,9 @@ export default function Agenda() {
         }
         subtitle="Country-led workshops, presentations and panels — alongside cultural moments across Trinidad and Tobago."
         image={HERO_AGENDA}
-      />
-
-      {/* Dark day-tabs band — sits flush against the hero so the day picker
-          reads as part of the hero's dark surface, not as a separate widget
-          on the cream content area below. Horizontal scroll on narrow
-          viewports, full row visible on desktop. Active tab fills brand
-          orange; inactive tabs sit on a low-opacity glass surface with a
-          hairline ring. */}
-      <section
-        className="relative pt-3 md:pt-4 pb-7 md:pb-10"
-        style={{ backgroundColor: INK }}
       >
-        <div className="max-w-7xl mx-auto px-5 md:px-6">
-          <div className="flex gap-2 md:gap-3 overflow-x-auto overscroll-x-contain touch-pan-x snap-x snap-proximity scrollbar-hide pb-1">
-            {agenda.map((d, i) => {
-              const isActive = i === active;
-              return (
-                <button
-                  key={d.label}
-                  onClick={() => selectDay(i)}
-                  aria-pressed={isActive}
-                  className={`snap-start shrink-0 px-4 md:px-5 py-2.5 md:py-3 rounded-sm text-left transition-fluid will-change-transform ${
-                    isActive
-                      ? "shadow-[0_8px_24px_-10px_rgba(253,107,24,0.55)]"
-                      : "ring-1 ring-white/10 hover:ring-white/25 hover:bg-white/[0.06]"
-                  }`}
-                  style={
-                    isActive
-                      ? {
-                          backgroundColor: BRAND,
-                          boxShadow: "inset 0 1px 0 rgba(255,255,255,0.18), 0 8px 24px -10px rgba(253,107,24,0.55)",
-                        }
-                      : { backgroundColor: "rgba(255,255,255,0.04)" }
-                  }
-                >
-                  <div
-                    className={`uppercase ${isActive ? "text-white/85" : "text-white/55"}`}
-                    style={{ fontSize: "0.6875rem", letterSpacing: "0.22em", fontWeight: 500 }}
-                  >
-                    {d.short.toUpperCase()}
-                  </div>
-                  <div
-                    className={`mt-0.5 tabular-nums ${isActive ? "text-white" : "text-white/85"}`}
-                    style={{ fontSize: "0.9375rem", lineHeight: 1.2, fontWeight: 400 }}
-                  >
-                    {d.date}
-                  </div>
-                </button>
-              );
-            })}
-          </div>
-        </div>
-      </section>
+        {tabs}
+      </PageHero>
 
       <section
         className="py-10 md:py-16 relative overflow-hidden"
@@ -254,7 +259,22 @@ function SessionRow({
     : null;
 
   return (
-    <li className="rounded-md bg-white ring-1 ring-black/[0.05] shadow-[0_4px_18px_-12px_rgba(0,0,0,0.1)] transition-fluid hover:shadow-[0_10px_28px_-14px_rgba(0,0,0,0.16)] overflow-hidden">
+    <li className="relative rounded-md bg-white ring-1 ring-black/[0.05] shadow-[0_4px_18px_-12px_rgba(0,0,0,0.1)] transition-fluid hover:shadow-[0_10px_28px_-14px_rgba(0,0,0,0.16)] overflow-hidden">
+      {/* Expand button — absolute top-right, anchored consistently across
+          mobile (stacked layout) and desktop (row layout). Whole card is
+          still the hit target; this is the affordance. */}
+      {hasExpansion && (
+        <span
+          aria-hidden="true"
+          className="absolute top-4 right-4 md:top-5 md:right-5 w-9 h-9 rounded-sm bg-neutral-100 flex items-center justify-center text-neutral-500 transition-fluid pointer-events-none"
+        >
+          {expanded ? (
+            <Minus size={14} strokeWidth={1.75} />
+          ) : (
+            <Plus size={14} strokeWidth={1.75} />
+          )}
+        </span>
+      )}
       <div
         role={hasExpansion ? "button" : undefined}
         tabIndex={hasExpansion ? 0 : undefined}
@@ -270,20 +290,22 @@ function SessionRow({
               }
             : undefined
         }
-        className={`p-5 md:p-7 flex items-start gap-4 md:gap-6 ${
+        className={`p-5 md:p-7 flex flex-col md:flex-row items-start gap-3 md:gap-6 ${
           hasExpansion ? "cursor-pointer" : ""
-        }`}
+        } ${hasExpansion ? "pr-14 md:pr-16" : ""}`}
       >
-        {/* Time column */}
+        {/* Time — stacks above the title on mobile (the fixed 90/120px
+            side column was eating most of a 360px viewport). On desktop
+            it goes back to a side column for a clean grid alignment. */}
         <div
-          className="shrink-0 w-[90px] md:w-[120px] tabular-nums text-neutral-900 pt-0.5"
-          style={{ fontSize: "0.875rem", lineHeight: 1.3, fontWeight: 600 }}
+          className="md:shrink-0 md:w-[120px] tabular-nums text-neutral-900 md:pt-0.5"
+          style={{ fontSize: "0.8125rem", lineHeight: 1.3, fontWeight: 600, letterSpacing: "0.01em" }}
         >
           {fmtTime(session.time)}
         </div>
 
         {/* Body */}
-        <div className="flex-1 min-w-0">
+        <div className="flex-1 min-w-0 w-full">
           <h3
             className="tracking-tight text-neutral-950"
             style={{ fontSize: "1.0625rem", lineHeight: 1.3, fontWeight: 600, letterSpacing: "-0.005em" }}
@@ -374,22 +396,6 @@ function SessionRow({
             )}
           </AnimatePresence>
         </div>
-
-        {/* Expand button — visual affordance only; the whole card is the
-            hit target. Stays at the top-right of the card, lined up with
-            the time column. */}
-        {hasExpansion && (
-          <span
-            aria-hidden="true"
-            className="shrink-0 mt-0.5 w-9 h-9 rounded-sm bg-neutral-100 group-hover:bg-neutral-200 flex items-center justify-center text-neutral-500 transition-fluid"
-          >
-            {expanded ? (
-              <Minus size={14} strokeWidth={1.75} />
-            ) : (
-              <Plus size={14} strokeWidth={1.75} />
-            )}
-          </span>
-        )}
       </div>
     </li>
   );
