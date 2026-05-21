@@ -267,12 +267,13 @@ function CountdownAndActions() {
             </motion.p>
 
             {/* Editorial stats row — no card chrome, just typography. Brand-
-                orange numerals in light weight with uppercase tracking-wide
-                labels underneath. Matches the StatsBar values but reads as
-                inline editorial content, not a separate band. */}
+                orange numerals + uppercase tracking-wide labels. Sized to
+                stay short enough that the "More about FISC" CTA below
+                remains in the same viewport, even with the parent grid's
+                items-center vertical alignment against the collage. */}
             <motion.div
               variants={fadeUp}
-              className="mt-8 md:mt-10 flex flex-wrap items-baseline gap-x-8 sm:gap-x-10 md:gap-x-14 gap-y-4"
+              className="mt-6 md:mt-8 flex flex-wrap items-baseline gap-x-7 sm:gap-x-9 md:gap-x-12 gap-y-3"
             >
               {[
                 { v: "18", l: "Editions" },
@@ -284,7 +285,7 @@ function CountdownAndActions() {
                     className="tabular-nums tracking-tight"
                     style={{
                       color: BRAND,
-                      fontSize: "clamp(2.25rem, 4.5vw, 3.25rem)",
+                      fontSize: "clamp(1.875rem, 3.5vw, 2.625rem)",
                       lineHeight: 1,
                       fontWeight: 300,
                       letterSpacing: "-0.02em",
@@ -293,7 +294,7 @@ function CountdownAndActions() {
                     {s.v}
                   </span>
                   <span
-                    className="mt-2 text-neutral-500 uppercase"
+                    className="mt-1.5 text-neutral-500 uppercase"
                     style={{ fontSize: "0.6875rem", letterSpacing: "0.22em", fontWeight: 500 }}
                   >
                     {s.l}
@@ -302,7 +303,7 @@ function CountdownAndActions() {
               ))}
             </motion.div>
 
-            <motion.div variants={fadeUpTight} className="mt-8 md:mt-10 w-fit">
+            <motion.div variants={fadeUpTight} className="mt-6 md:mt-8 w-fit">
               <NestedCTA
                 to="/about"
                 variant="ghost"
