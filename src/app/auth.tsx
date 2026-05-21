@@ -47,8 +47,8 @@ type DemoCredential = { password: string } & User;
 // Names map onto real entries in the prototype's content (speakers / attendees)
 // so signed-in views feel populated, not stubbed.
 const DEMO_CREDENTIALS: DemoCredential[] = [
-  { email: "admin",    password: "admin123",    name: "Carolyn Bowick",          role: "admin"    },
-  { email: "delegate", password: "delegate123", name: "Brendan J. Toner", role: "delegate" },
+  { email: "admin@demo.com",    password: "1234",    name: "Carolyn Bowick",          role: "admin"    },
+  { email: "delegate@demo.com", password: "1234", name: "Brendan J. Toner", role: "delegate" },
 ];
 
 /**

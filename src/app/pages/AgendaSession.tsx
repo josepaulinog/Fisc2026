@@ -15,6 +15,7 @@ import {
 import { ImageWithFallback } from "../components/figma/ImageWithFallback";
 import { PageHero, SectionLabel } from "../components/shared";
 import { chipTone } from "../tokens";
+import { useDocumentTitle } from "../motion";
 import {
   BRAND,
   BRAND_SOFT,
@@ -89,6 +90,10 @@ export default function AgendaSession() {
   const session = day.sessions[sessionIdx];
   const prev = neighbourDayOf({ dayIdx, sessionIdx }, "prev");
   const next = neighbourDayOf({ dayIdx, sessionIdx }, "next");
+
+  // Browser tab + bookmarks + history. Falls back to the day label if the
+  // session is a soft moment (Break / Lunch) without a strong title hook.
+  useDocumentTitle(`${session.title} · ${day.short}`);
 
   // Enrich speakers: pull slug + org from the speakers directory when names match.
   const enrichedSpeakers = (session.speakers ?? []).map((sp) => {

@@ -168,3 +168,23 @@ export function useCountUp(target: number, options?: {
     ref,
   };
 }
+
+// ---------------------------------------------------------------------------
+// useDocumentTitle — sets <title> on mount, restores on unmount.
+// Each page calls useDocumentTitle("About FISC") etc. and the browser tab,
+// bookmarks, and search-result snippets pick up the right page name. The
+// suffix " · FISC 2026" is appended automatically so individual pages
+// only have to declare their leading label.
+// ---------------------------------------------------------------------------
+
+const DEFAULT_TITLE = "FISC 2026 · Trinidad & Tobago";
+
+export function useDocumentTitle(leading: string | null) {
+  useEffect(() => {
+    const prev = document.title;
+    document.title = leading ? `${leading} · FISC 2026` : DEFAULT_TITLE;
+    return () => {
+      document.title = prev;
+    };
+  }, [leading]);
+}

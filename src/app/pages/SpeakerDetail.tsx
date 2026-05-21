@@ -12,6 +12,7 @@ import {
 } from "lucide-react";
 import { ImageWithFallback } from "../components/figma/ImageWithFallback";
 import { GradientText, Grain, SectionLabel } from "../components/shared";
+import { useDocumentTitle } from "../motion";
 import { Breadcrumbs } from "../components/ui/Breadcrumbs";
 import { chipTone } from "../tokens";
 import {
@@ -51,6 +52,10 @@ export default function SpeakerDetail() {
 
   const appearances = appearancesOf(speaker);
   const otherSpeakers = speakers.filter((s) => s.slug !== speaker.slug).slice(0, 4);
+
+  // Browser tab uses the speaker's name so shared / bookmarked detail
+  // pages land with the right identity, not a generic "Speakers · FISC 2026".
+  useDocumentTitle(speaker.name);
 
   return (
     <>

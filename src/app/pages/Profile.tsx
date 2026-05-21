@@ -543,7 +543,7 @@ export default function Profile() {
               <SectionLabel>Where delegates can find you</SectionLabel>
               <div className="grid sm:grid-cols-2 gap-4">
                 <FormField
-                  label="LinkedIn profile"
+                  label="LinkedIn"
                   name="linkedin"
                   icon={Linkedin}
                   type="url"
@@ -554,7 +554,7 @@ export default function Profile() {
                   error={errors.linkedin}
                 />
                 <FormField
-                  label="X.com profile"
+                  label="X"
                   name="twitter"
                   icon={Twitter}
                   type="url"
