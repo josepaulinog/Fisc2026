@@ -127,7 +127,6 @@ export default function AgendaSession() {
         title={styledSessionTitle(session.title)}
         subtitle={session.desc}
         image={HERO_AGENDA}
-        imageCaption={`Session ${sessionIdx + 1} of ${day.sessions.length}`}
       />
 
       {/* Key facts strip */}

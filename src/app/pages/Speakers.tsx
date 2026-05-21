@@ -200,7 +200,6 @@ export default function Speakers() {
         }
         subtitle="A global lineup of finance ministers, FreeBalance leaders and public sector innovators driving the next chapter of Public Financial Management."
         image={HERO_SPEAKERS}
-        imageCaption="On stage at FISC"
       />
 
       <section className="py-14 md:py-28 bg-white">

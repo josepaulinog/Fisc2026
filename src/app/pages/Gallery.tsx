@@ -51,7 +51,6 @@ export default function Gallery() {
         }
         subtitle="Plenaries, breakouts, gala dinners and steel-pan evenings — a visual record of four days in Port of Spain."
         image={HERO_GALLERY}
-        imageCaption={`${galleryPhotos.length} photos · 2026 edition`}
       />
 
       <GatedBody>

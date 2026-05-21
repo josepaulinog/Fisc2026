@@ -184,7 +184,6 @@ export function PageHero({
   title,
   subtitle,
   image,
-  imageCaption,
 }: {
   label: string;
   /** Optional breadcrumb trail — when present, renders above the headline
@@ -194,7 +193,6 @@ export function PageHero({
   title: React.ReactNode;
   subtitle?: string;
   image?: string;
-  imageCaption?: string;
 }) {
   return (
     <section className="relative overflow-hidden pt-24 pb-14 md:pt-36 md:pb-24" style={{ backgroundColor: "#0a0a0a" }}>
@@ -262,18 +260,6 @@ export function PageHero({
           >
             {subtitle}
           </motion.p>
-        )}
-        {imageCaption && (
-          /* Mobile caption gap halved — 40px gap on mobile (mt-10) wasted
-             vertical space below the subtitle. 24px lands the caption inside
-             the same visual block as the headline. */
-          <motion.div
-            variants={fadeUpTight}
-            className="mt-6 md:mt-16 inline-flex items-center gap-2 text-white/50 text-[10.5px] md:text-xs tracking-[0.2em] uppercase"
-          >
-            <span className="w-1.5 h-1.5 rounded-full" style={{ backgroundColor: BRAND }} />
-            {imageCaption}
-          </motion.div>
         )}
       </motion.div>
     </section>

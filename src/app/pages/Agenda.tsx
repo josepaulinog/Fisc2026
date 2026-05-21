@@ -45,7 +45,6 @@ export default function Agenda() {
         }
         subtitle="Country-led workshops, presentations and panels — alongside cultural moments across Trinidad and Tobago."
         image={HERO_AGENDA}
-        imageCaption="Workshop session · Country breakout"
       />
       <section className="py-14 md:py-28 relative overflow-hidden" style={{ backgroundColor: "#f6f4ef" }}>
         <div

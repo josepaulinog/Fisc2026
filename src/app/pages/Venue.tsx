@@ -72,7 +72,6 @@ export default function Venue() {
         }
         subtitle="Trinidad and Tobago hosts FISC 2026 in the heart of the Caribbean — blending serious dialogue with the warmth, music and cuisine of two distinct islands."
         image={HERO_VENUE}
-        imageCaption="Caribbean coast · Trinidad"
       />
 
       {/* Quick facts bar — ambient shadow replaces banned shadow-xl.

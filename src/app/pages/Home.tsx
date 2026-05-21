@@ -87,7 +87,7 @@ function Hero() {
         }}
       />
       <Grain />
-      <div className="relative max-w-7xl mx-auto px-5 md:px-6 pt-0 pb-8 md:pt-6 md:pb-12">
+      <div className="relative max-w-7xl mx-auto px-5 md:px-6 pt-0 pb-9 md:pt-6 md:pb-13">
         <motion.div
           initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8 }}
           className="flex items-center gap-3 mb-6 md:mb-8"
@@ -139,10 +139,6 @@ function Hero() {
               >
                 Delegate portal
               </NestedCTA>
-            </div>
-            <div className="mt-5 md:mt-6 inline-flex items-center gap-2 text-white/65 text-sm">
-              <span className="w-1.5 h-1.5 rounded-full bg-white/40" />
-              Invitation only · Hosted by FreeBalance & the Government of Trinidad and Tobago
             </div>
           </motion.div>
         </div>

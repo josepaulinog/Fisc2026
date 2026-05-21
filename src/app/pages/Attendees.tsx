@@ -126,7 +126,6 @@ export default function Attendees() {
         title={<>The room behind <GradientText>the work.</GradientText></>}
         subtitle="FISC 2026 brings together finance ministers, treasurers and reformers from 40+ countries. Sign in to see the full list — or scroll on for a preview of the delegation."
         image={HERO_ATTENDEES}
-        imageCaption="Audience · FISC plenary"
       />
 
       <GatedBody>

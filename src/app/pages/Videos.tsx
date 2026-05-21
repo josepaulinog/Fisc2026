@@ -110,7 +110,6 @@ export default function Videos() {
         title={<>Watch the week.<br /><GradientText>On your time.</GradientText></>}
         subtitle="Daily highlight reels and short features from FISC 2026 — captured live in Port of Spain."
         image={HERO_VIDEOS}
-        imageCaption={`${videos.length} videos · ${Math.round(totalMinutes)} min total`}
       />
 
       <GatedBody>

@@ -18,7 +18,6 @@ export default function Resources() {
         }
         subtitle="Registered delegates can access every session, slide, photo and recording — and keep the conversation going long after Port of Spain."
         image={HERO_RESOURCES}
-        imageCaption="Archive · 18 editions"
       />
       <section className="py-16 md:py-24 bg-white">
         <div className="max-w-7xl mx-auto px-5 md:px-6">

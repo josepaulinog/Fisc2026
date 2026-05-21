@@ -53,7 +53,6 @@ export default function About() {
         title={<>A global forum for country-led <GradientText>public finance reform.</GradientText></>}
         subtitle="FISC is the annual gathering of the FreeBalance customer community — finance ministers, treasurers, budget directors and PFM practitioners from emerging and developing nations."
         image={HERO_ABOUT}
-        imageCaption="The FISC delegation · Group portrait"
       />
 
       {/* OUR APPROACH — 3 pillars */}
