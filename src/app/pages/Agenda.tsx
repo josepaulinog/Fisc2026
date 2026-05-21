@@ -4,7 +4,7 @@ import { AnimatePresence, motion } from "motion/react";
 import { Download, Mic, Minus, Plus } from "lucide-react";
 import { GradientText, PageHero } from "../components/shared";
 import { BRAND, BRAND_SOFT, HERO_AGENDA, TAG_HUES, agenda, daySlugFor } from "../data";
-import { chipTone } from "../tokens";
+import { chipTone, chipAccent } from "../tokens";
 import type { Session } from "../data";
 import { NestedCTA } from "../components/ui/NestedCTA";
 import { BracketArrow } from "../components/ui/BracketArrow";
@@ -240,7 +240,9 @@ function SessionRow({
     );
   }
 
-  const tagTone = session.tag ? chipTone(TAG_HUES[session.tag]) : undefined;
+  const tagHue = session.tag ? TAG_HUES[session.tag] : undefined;
+  const tagTone = tagHue !== undefined ? chipTone(tagHue) : undefined;
+  const tagAccent = tagHue !== undefined ? chipAccent(tagHue) : undefined;
   const speakerLine = hasSpeakers
     ? session.speakers!.map((sp) => sp.name).join(", ")
     : null;
@@ -249,13 +251,15 @@ function SessionRow({
     <li
       className="group relative rounded-md bg-white ring-1 ring-black/[0.05] shadow-[0_4px_18px_-12px_rgba(0,0,0,0.1)] transition-fluid hover:shadow-[0_10px_28px_-14px_rgba(0,0,0,0.16)] overflow-hidden"
       style={
-        tagTone
+        tagAccent
           ? {
-              // Tag-tinted left accent — 3px slab that picks up the same
-              // OKLCH foreground hue as the tag chip below. Lets the eye
-              // pre-classify the row by format (Workshop / Presentation /
-              // Demonstration / Panel) before reading the title.
-              boxShadow: `inset 3px 0 0 0 ${tagTone.fg}, 0 4px 18px -12px rgba(0,0,0,0.1)`,
+              // Tag-tinted left accent — 3px slab using chipAccent (vibrant
+              // mid-light OKLCH at 62% lightness / 0.2 chroma) instead of the
+              // chip's foreground colour (40% / 0.13). The fg was tuned for
+              // chip-text readability; as a border slab it read muddy and
+              // dark. chipAccent gives the bar real presence against white
+              // while staying within the same hue family as the chip below.
+              boxShadow: `inset 3px 0 0 0 ${tagAccent}, 0 4px 18px -12px rgba(0,0,0,0.1)`,
             }
           : undefined
       }

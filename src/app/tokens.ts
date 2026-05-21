@@ -194,6 +194,16 @@ export function chipTone(hue: number) {
   } as const;
 }
 
+// chipAccent — brighter, more saturated companion to chipTone, intended
+// for left-border slabs, dividers, and other graphic accents where the
+// chip's foreground (40% lightness) would read as muddy. Mid-bright
+// (60% lightness) with higher chroma (0.2) gives the colour real
+// presence against white while staying within the brand's coordinated
+// hue family.
+export function chipAccent(hue: number) {
+  return `oklch(62% 0.2 ${hue})`;
+}
+
 export const CHIP_HUE = {
   brand: 30,
   programme: 30,
