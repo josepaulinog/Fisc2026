@@ -28,11 +28,11 @@ import {
   BRAND_SOFT,
   HERO_GUIDE,
   INK,
-  VENUE_HOTEL,
   VENUE_STREET,
   delegateGuide,
   formatDeadline,
 } from "../data";
+import portOfSpainMap2 from "../../imports/port-of-spain-map-2.png";
 
 export default function DelegateGuide() {
   // Checklist state lives in localStorage keyed by user.email — shared with
@@ -118,7 +118,7 @@ export default function DelegateGuide() {
               className="lg:col-span-7 relative rounded-3xl overflow-hidden"
               style={{ aspectRatio: "4 / 3" }}
             >
-              <ImageWithFallback src={VENUE_HOTEL} alt="Hyatt Regency Port of Spain" className="absolute inset-0 w-full h-full object-cover" />
+              <ImageWithFallback src={portOfSpainMap2} alt="Map of Port of Spain marking the Hyatt Regency venue location" className="absolute inset-0 w-full h-full object-cover" />
               <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-transparent" />
               <div className="absolute top-5 left-5 inline-flex items-center gap-2 px-3 py-1.5 rounded-md bg-white/15 backdrop-blur border border-white/20 text-white text-xs tracking-[0.2em]">
                 <span className="w-1.5 h-1.5 rounded-full" style={{ backgroundColor: BRAND }} />
