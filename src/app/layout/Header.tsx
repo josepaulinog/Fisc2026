@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link, NavLink, useLocation } from "react-router";
 import { AnimatePresence, motion, useMotionValueEvent, useScroll } from "motion/react";
-import { ArrowUpRight, ChevronDown, LogOut, Lock, X } from "lucide-react";
+import { ChevronDown, LogOut, Lock, X } from "lucide-react";
 import { Lockup } from "../components/brand/Lockup";
 import { BracketArrow } from "../components/ui/BracketArrow";
 import { useAuth } from "../auth";
@@ -115,29 +115,6 @@ export function Header() {
                         className="bg-white/95 backdrop-blur-xl ring-1 ring-black/[0.06] rounded-md overflow-hidden min-w-[19rem]"
                         style={{ boxShadow: "0 24px 60px -24px rgba(0,0,0,0.22), 0 4px 12px -6px rgba(0,0,0,0.08)" }}
                       >
-                        {n.to && (
-                          <NavLink
-                            to={n.to}
-                            end
-                            className={({ isActive }) =>
-                              `group/hub block px-4 py-3.5 border-b border-black/[0.05] transition-fluid ${
-                                isActive
-                                  ? "bg-black/[0.02] text-neutral-950"
-                                  : "text-neutral-700 hover:bg-black/[0.025] hover:text-neutral-950"
-                              }`
-                            }
-                          >
-                            <div className="flex items-center justify-between gap-3">
-                              <span className="tracking-tight text-[0.95rem]" style={{ fontWeight: 500 }}>
-                                {n.label} hub
-                              </span>
-                              <span className="inline-flex items-center gap-1.5 text-[10px] tracking-[0.18em] uppercase text-neutral-400 transition-fluid group-hover/hub:text-neutral-700 group-hover/hub:translate-x-0.5">
-                                Overview
-                                <ArrowUpRight size={11} strokeWidth={1.5} />
-                              </span>
-                            </div>
-                          </NavLink>
-                        )}
                         <div className="py-1.5">
                           {n.children.map((c) => (
                             <NavLink
