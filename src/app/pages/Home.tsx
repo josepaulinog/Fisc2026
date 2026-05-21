@@ -371,7 +371,7 @@ function CountdownAndActions() {
                 >
                   <ImageWithFallback
                     src={COLLAGE_3}
-                    alt="Queen's Royal College, Port of Spain"
+                    alt="Tobago"
                     className="absolute inset-0 w-full h-full object-cover transition-fluid group-hover:scale-[1.03]"
                   />
                 </motion.div>

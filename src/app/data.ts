@@ -18,9 +18,7 @@ import eventsImage from "../imports/events.jpg";
 import portOfSpainAerial from "../imports/port-of-spain-aerial.jpg";
 import collage1Img from "../imports/collage1.png";
 import collage4Img from "../imports/collage4.png";
-// Trinidad institutional imagery for the bottom-left atmospheric square.
-// Queens Royal College = historic government architecture.
-import queensRoyalCollegeImg from "../imports/queens-royal-college.jpg";
+import tobagoImg from "../imports/tobago.png";
 import maracasBeach from "../imports/maracas-beach.jpg";
 import maracasCabin from "../imports/maracas-cabin.jpg";
 import scarletIbis from "../imports/scarlet-ibis.jpg";
@@ -50,10 +48,11 @@ export const ABOUT_IMG = aboutImage;
 export const COLLAGE_1 = collage1Img;
 // COLLAGE_2 feeds the right column (3:5 with "The delegation" badge) →
 // collage4.png, the curated delegation portrait. COLLAGE_3 feeds the
-// bottom-left atmospheric square → Queen's Royal College's historic
-// government architecture.
+// bottom-left atmospheric square → Tobago imagery (the second island
+// in the country's name — adds visual range alongside the Trinidad
+// aerial top-left).
 export const COLLAGE_2 = collage4Img;
-export const COLLAGE_3 = queensRoyalCollegeImg;
+export const COLLAGE_3 = tobagoImg;
 export const VENUE_IMG_1 = maracasCabin;
 export const VENUE_IMG_2 = queensRoyalCollege;
 export const VENUE_IMG_3 = maracasBeach;
