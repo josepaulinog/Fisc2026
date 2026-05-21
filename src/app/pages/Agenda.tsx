@@ -50,8 +50,13 @@ export default function Agenda() {
   // On mobile, the row scrolls horizontally with a bleed-to-edge negative
   // margin so the last tab isn't cropped by container padding.
   const tabs = (
-    <div className="flex-1 min-w-0 -mx-5 md:mx-0 px-5 md:px-0 overflow-x-auto overscroll-x-contain touch-pan-x snap-x snap-proximity scrollbar-hide">
-      <div className="flex gap-1.5 md:gap-2.5 pb-1 min-w-min">
+    // py-2 on the scroll container is load-bearing: overflow-x: auto
+    // implicitly clips on the Y axis too, which would crop the active
+    // tab's brand-orange drop shadow. The inner padding gives the
+    // shadow 8px of vertical breathing room above + below the pills
+    // inside the scrolling viewport.
+    <div className="flex-1 min-w-0 -mx-5 md:mx-0 px-5 md:px-0 py-2 overflow-x-auto overscroll-x-contain touch-pan-x snap-x snap-proximity scrollbar-hide">
+      <div className="flex gap-1.5 md:gap-2.5 min-w-min">
         {agenda.map((d, i) => {
           const isActive = i === active;
           // Strip the trailing ", 2026" on mobile — the year is redundant
