@@ -115,8 +115,8 @@ export const navItems: NavItem[] = [
 // ticker renders number + label on a shared baseline with a brand-orange
 // "+" accent doing all the colour work.
 export const stats = [
-  { value: "40+",  label: "Countries" },
-  { value: "300+", label: "Delegates" },
+  { value: "10+",  label: "Countries" },
+  { value: "20+",  label: "Delegates" },
   { value: "25+",  label: "Sessions" },
   { value: "18",   label: "Editions" },
 ];
@@ -328,7 +328,7 @@ export const resources: ResourceCard[] = [
   { icon: Download, label: "Presentations", desc: "FISC Takeaways — every slide deck and one-pager from the programme.", to: "/materials", gated: true },
   { icon: ImageIcon, label: "Photo Gallery", desc: "Curated photography from gala dinners, plenaries and pan-yard evenings.", to: "/gallery", gated: true },
   { icon: Mic, label: "Media Coverage", desc: "Press articles, broadcast clips and partner posts covering the conference.", to: "/media-coverage", gated: true },
-  { icon: Globe, label: "Delegate Community", desc: "The ministers, secretaries and reformers shaping PFM across 40+ countries.", to: "/attendees", gated: true },
+  { icon: Globe, label: "Delegate Community", desc: "The ministers, secretaries and reformers shaping PFM across 10+ countries.", to: "/attendees", gated: true },
 ];
 
 export const countries = [
@@ -490,7 +490,7 @@ export type MediaItem = {
 };
 
 export const mediaItems: MediaItem[] = [
-  { title: "Trinidad & Tobago to Host FreeBalance International Steering Committee 2026", source: "Trinidad Express", date: "2026-04-18", url: "#", type: "Article", excerpt: "Government of Trinidad and Tobago confirms it will host the 2026 edition of FISC, bringing 300+ public finance delegates to Port of Spain." },
+  { title: "Trinidad & Tobago to Host FreeBalance International Steering Committee 2026", source: "Trinidad Express", date: "2026-04-18", url: "#", type: "Article", excerpt: "Government of Trinidad and Tobago confirms it will host the 2026 edition of FISC, bringing 20+ public finance delegates to Port of Spain." },
   { title: "FISC 2026: Why Public Financial Management Matters Now", source: "FreeBalance Insights", date: "2026-05-02", url: "#", type: "Article", excerpt: "A deep-dive interview with Doug Hadden on the themes shaping the 2026 programme." },
   { title: "Minister Highlights Digital PFM Ahead of FISC", source: "Newsday TT", date: "2026-05-09", url: "#", type: "Article", excerpt: "Minister of Finance discusses the digital transformation agenda Trinidad will showcase at the event." },
   { title: "FISC 2026 Trailer — Watch on YouTube", source: "FreeBalance · YouTube", date: "2026-05-12", url: "#", type: "Video", excerpt: "Two minutes of Caribbean rhythm and Hyatt Regency previews." },

@@ -131,7 +131,7 @@ export default function Attendees() {
           { label: "Delegate community" },
         ]}
         title={<>Delegate <GradientText>community.</GradientText></>}
-        subtitle="FISC 2026 brings together finance ministers, treasurers and reformers from 40+ countries. Sign in to see the full list — or scroll on for a preview of the delegation."
+        subtitle="FISC 2026 brings together finance ministers, treasurers and reformers from 10+ countries. Sign in to see the full list — or scroll on for a preview of the delegation."
         image={HERO_ATTENDEES}
       />
 

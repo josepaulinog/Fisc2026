@@ -122,7 +122,7 @@ export default function About() {
               <p className="text-neutral-700" style={{ fontSize: "1.125rem", lineHeight: 1.7 }}>
                 Together, delegates share progress, challenge assumptions and co-create the next
                 generation of FreeBalance solutions. FISC has shaped product roadmap decisions
-                that now reach governments across more than 40 countries.
+                that now reach governments across more than 10 countries.
               </p>
 
               {/* Editorial pull-quotes replace the feature-bullet list — heritage

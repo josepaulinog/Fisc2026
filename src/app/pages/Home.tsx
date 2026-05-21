@@ -684,7 +684,7 @@ function TheRoom() {
   // CountUp on the "300+ confirmed" stat — animates from 0 → 300 when the
   // stat enters the viewport. Makes the number feel earned rather than
   // hardcoded. Format prepends "+" once the count completes.
-  const delegatesCount = useCountUp(300, { duration: 1.6, format: (v) => `${v}+` });
+  const delegatesCount = useCountUp(20, { duration: 1.4, format: (v) => `${v}+` });
   // Host country delegation — public officials (PM + Minister of Finance)
   // already advertised on /speakers as keynotes, so showing them here doesn't
   // break the gate on the /attendees directory. The `&& a.img` clause is
