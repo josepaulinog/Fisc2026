@@ -110,10 +110,10 @@ export function Header() {
                         (95% opacity + backdrop-blur) matches the nav pill's
                         visual language. Translates up subtly on enter so the
                         panel "lifts into place" rather than popping. */}
-                    <div className="absolute top-full left-1/2 -translate-x-1/2 pt-3 opacity-0 invisible translate-y-1 group-hover:opacity-100 group-hover:visible group-hover:translate-y-0 transition-fluid">
+                    <div className="absolute top-full left-1/2 -translate-x-1/2 pt-1 opacity-0 invisible translate-y-1 group-hover:opacity-100 group-hover:visible group-hover:translate-y-0 transition-fluid">
                       <div
-                        className="bg-white/95 backdrop-blur-xl ring-1 ring-black/[0.06] rounded-md overflow-hidden min-w-[19rem]"
-                        style={{ boxShadow: "0 24px 60px -24px rgba(0,0,0,0.22), 0 4px 12px -6px rgba(0,0,0,0.08)" }}
+                        className="bg-white/95 backdrop-blur-xl ring-1 ring-black/[0.08] rounded-md overflow-hidden min-w-[19rem]"
+                        style={{ boxShadow: "0 30px 70px -18px rgba(0,0,0,0.32), 0 10px 24px -8px rgba(0,0,0,0.16), 0 2px 6px -2px rgba(0,0,0,0.1)" }}
                       >
                         <div className="py-1.5">
                           {n.children.map((c) => (
