@@ -67,7 +67,7 @@ export default function Agenda() {
                   onClick={() => setActive(i)}
                   className={`snap-start shrink-0 px-4 md:px-5 py-3 rounded-sm border transition-all text-left ${
                     isActive
-                      ? "bg-neutral-950 border-neutral-950 text-white"
+                      ? "bg-neutral-900 border-neutral-900 text-white shadow-[inset_0_1px_0_rgba(255,255,255,0.07),0_3px_10px_-4px_rgba(0,0,0,0.18)]"
                       : "bg-white border-neutral-200 text-neutral-700 hover:border-neutral-400"
                   }`}
                 >
