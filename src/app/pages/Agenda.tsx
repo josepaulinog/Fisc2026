@@ -105,7 +105,7 @@ export default function Agenda() {
           tab's brand-orange drop shadow. py gives 8px breathing room. */}
       <div
         ref={tabScrollRef}
-        className="py-2 overflow-x-auto overscroll-x-contain touch-pan-x snap-x snap-proximity scrollbar-hide"
+        className="px-1 py-2 overflow-x-auto overscroll-x-contain touch-pan-x snap-x snap-proximity scrollbar-hide"
         style={{
           // Mask edges fade based on scroll position (atStart/atEnd). When
           // both ends are at the boundary (no overflow), tabMask is "none"
