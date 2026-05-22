@@ -135,10 +135,6 @@ export default function Venue() {
                 <div className="mt-1 tracking-tight" style={{ fontSize: "clamp(1.5rem, 3vw, 2.25rem)", lineHeight: 1.05 }}>
                   Port of Spain
                 </div>
-                <div className="mt-3 flex items-center gap-2 text-white/70 text-xs tracking-[0.2em] uppercase">
-                  <span className="w-1.5 h-1.5 rounded-full" style={{ backgroundColor: BRAND }} />
-                  10.6488° N · 61.5179° W
-                </div>
               </div>
             </motion.div>
 
