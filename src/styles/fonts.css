@@ -5,7 +5,7 @@
  *          neutral Grotesk tuned for screen reading at every size — pairs
  *          cleanly with the serif accent without competing for attention.
  *
- * Display: Cormorant Garamond (loaded as a Google Fonts <link> in
+ * Display: Libre Baskerville (loaded as a Google Fonts <link> in
  *          index.html). Used only for italic accent phrases — the
  *          gradient words inside hero h1s and the footer wordmark.
  *          Activated via .font-display.
@@ -29,7 +29,7 @@ body {
 
 .font-display {
   font-family:
-    "Cormorant Garamond",
+    "Libre Baskerville",
     "Charter",
     "Iowan Old Style",
     Georgia,

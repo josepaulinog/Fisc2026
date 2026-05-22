@@ -97,7 +97,7 @@ Why OKLCH: hex-plus-alpha-15 gives wildly different perceptual lightness across 
 | Role | Family | Loaded via |
 | --- | --- | --- |
 | Body | **Inter** | Google Fonts `<link>` in `index.html` |
-| Display italic accent | **Cormorant Garamond** | Google Fonts `<link>` in `index.html`, `.font-display` class |
+| Display italic accent | **Libre Baskerville** | Google Fonts `<link>` in `index.html`, `.font-display` class |
 | Numerals | `tabular-nums` utility | System mono fallback |
 
 **Banned:** Roboto, Arial, Open Sans, Helvetica, Times New Roman (the "premium template" defaults).
@@ -140,7 +140,7 @@ Root font-size is **17px** (`:root { --font-size: 17px }` in `theme.css`) — bu
 
 ### Gradient text — the brand signature
 
-`<GradientText>` (in `shared.tsx`) renders Cormorant Garamond italic with a brand-orange linear-gradient text-fill. **Reserved for page heroes and rare marquee moments**:
+`<GradientText>` (in `shared.tsx`) renders Libre Baskerville italic with a brand-orange linear-gradient text-fill. **Reserved for page heroes and rare marquee moments**:
 
 - Home hero (`⟨Caribbean⟩`)
 - Home About-FISC intro (`⟨moves from discussion to delivery.⟩`)
@@ -581,7 +581,7 @@ src/
 │   └── pages/                    — every route lives here
 └── styles/
     ├── theme.css                 — :root variables, body, html, .scrollbar-hide, .transition-fluid, .lucide
-    └── fonts.css                 — Inter + Cormorant Garamond setup
+    └── fonts.css                 — Inter + Libre Baskerville setup
 ```
 
 ---
