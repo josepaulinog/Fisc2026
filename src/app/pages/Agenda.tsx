@@ -137,22 +137,23 @@ export default function Agenda() {
               and the "Download programme" CTA into a single row. Brand-orange
               dot eyebrow, day label, date, sessions count, time range; CTA
               on the right. */}
-          {/* Tabs + Download row — a single horizontal strip at the head of
-              the cream content area. Tabs flex-grow on the left; the
-              Download programme CTA anchors on the right. On mobile, tabs
-              scroll horizontally (touch-pan-x) and the CTA wraps to its
-              own line if there's no room. Bottom-bordered by a hairline so
-              the row reads as a deliberate control strip, not floating
-              chrome. */}
-          <div className="flex flex-wrap items-center justify-between gap-4 md:gap-6 mb-8 md:mb-10 pb-6 md:pb-7 border-b border-neutral-200/70">
+          {/* Tabs + Download row — single strip on md+, stacked on mobile.
+              The tabs container is flex-1 and scrolls horizontally; pairing
+              it with the CTA on the same row at narrow widths produced an
+              overlap (the CTA sat on top of the scrolling tabs because
+              flex-wrap doesn't push the second flex-1 sibling to its own
+              line). Stacking vertically below md fixes that cleanly. */}
+          <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between md:gap-6 mb-8 md:mb-10 pb-6 md:pb-7 border-b border-neutral-200/70">
             {tabs}
-            <NestedCTA
-              href="#"
-              variant="ghost"
-              icon={<Download size={13} strokeWidth={1.75} />}
-            >
-              Download programme
-            </NestedCTA>
+            <div className="self-start md:self-auto md:shrink-0">
+              <NestedCTA
+                href="#"
+                variant="ghost"
+                icon={<Download size={13} strokeWidth={1.75} />}
+              >
+                Download programme
+              </NestedCTA>
+            </div>
           </div>
 
           {/* Sessions */}

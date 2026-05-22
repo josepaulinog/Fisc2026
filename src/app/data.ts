@@ -520,32 +520,100 @@ export const mediaItems: MediaItem[] = [
 // Gallery
 // ---------------------------------------------------------------------------
 
+export type GalleryDay = "Day 1" | "Day 2" | "Day 3" | "Day 4";
+
 export type GalleryPhoto = {
-  src: string;
   caption: string;
+  day: GalleryDay;
+  /** Human-readable date, e.g. "Mon, Jun 29". Falls back to the day's date. */
+  date: string;
+  /** 24-hour HH:MM. Renders formatted by the consumer. */
+  time: string;
+  location: string;
+  /** Optional photographer / source credit. */
+  credit?: string;
   span?: "wide" | "tall";
 };
 
-// FISC 2026 gallery only. When future editions are added, this list will be
-// re-tagged with a `year` field and the Gallery page will reintroduce a year filter.
-export const galleryPhotos: GalleryPhoto[] = [
-  // Six unique local Trinidad photos rotated across twelve gallery slots.
-  // Honest constraint: we'd rather show the same Port of Spain landmark twice
-  // than a Croatian beach pretending to be Maracas. Captions are written to
-  // match whichever local image carries them.
-  { src: aboutImage, caption: "Plenary applause", span: "wide" },
-  { src: eventsImage, caption: "Roadmap voting session" },
-  { src: portOfSpainAerial, caption: "The Hyatt waterfront at dusk" },
-  { src: queensRoyalCollege, caption: "Country breakout" },
-  { src: aboutHeroImage, caption: "Opening keynote" },
-  { src: carnivalDancer, caption: "Cultural performance" },
-  { src: eventsImage, caption: "Workshop tables", span: "wide" },
-  { src: aboutImage, caption: "Audience in the round" },
-  { src: queensRoyalCollege, caption: "On stage in Port of Spain" },
-  { src: maracasBeach, caption: "Maracas Bay, day three" },
-  { src: portOfSpainAerial, caption: "Downtown Port of Spain" },
-  { src: scarletIbis, caption: "Caroni Swamp at golden hour" },
+export type GalleryDayGroup = {
+  day: GalleryDay;
+  date: string;
+  weekday: string;
+  intro: string;
+  photos: GalleryPhoto[];
+};
+
+// FISC 2026 gallery — placeholder structure shipped before the event.
+// Each entry is the photo we INTEND to capture, with full metadata so the
+// post-event upload is a straight content swap (caller drops in src URLs
+// once the photographer files them). Pre-event the Gallery page renders
+// these via PlaceholderTile to keep promise-vs-delivery honest.
+export const galleryDays: GalleryDayGroup[] = [
+  {
+    day: "Day 1",
+    date: "Jun 29, 2026",
+    weekday: "Monday",
+    intro:
+      "Opening ceremony and the country-led keynote stream — every delegation introduces its reform agenda before the workshops begin.",
+    photos: [
+      { caption: "Opening keynote", day: "Day 1", date: "Mon, Jun 29", time: "09:30", location: "Plenary Hall · Hyatt Regency", credit: "Official photographer", span: "wide" },
+      { caption: "Delegate arrivals", day: "Day 1", date: "Mon, Jun 29", time: "08:30", location: "Lobby & registration desk" },
+      { caption: "Welcome from the Minister", day: "Day 1", date: "Mon, Jun 29", time: "10:15", location: "Plenary Hall" },
+      { caption: "Morning coffee circle", day: "Day 1", date: "Mon, Jun 29", time: "11:00", location: "Harbour-view terrace" },
+      { caption: "Country breakout sessions", day: "Day 1", date: "Mon, Jun 29", time: "14:00", location: "Workshop rooms A–D", span: "wide" },
+      { caption: "Welcome reception", day: "Day 1", date: "Mon, Jun 29", time: "19:30", location: "Rooftop terrace · Hyatt Regency" },
+    ],
+  },
+  {
+    day: "Day 2",
+    date: "Jun 30, 2026",
+    weekday: "Tuesday",
+    intro:
+      "Product co-creation day — workshops on the FreeBalance Suite roadmap and the open customer-driven feature vote.",
+    photos: [
+      { caption: "Roadmap voting session", day: "Day 2", date: "Tue, Jun 30", time: "09:00", location: "Plenary Hall", span: "wide" },
+      { caption: "Workshop tables in the round", day: "Day 2", date: "Tue, Jun 30", time: "11:00", location: "Workshop rooms A–D" },
+      { caption: "Country-pair pairing exercise", day: "Day 2", date: "Tue, Jun 30", time: "13:30", location: "Breakout lounges" },
+      { caption: "Audience in the round", day: "Day 2", date: "Tue, Jun 30", time: "15:00", location: "Plenary Hall" },
+      { caption: "Steelpan evening preview", day: "Day 2", date: "Tue, Jun 30", time: "18:00", location: "Hyatt Regency · Atrium" },
+      { caption: "Cultural performance", day: "Day 2", date: "Tue, Jun 30", time: "20:00", location: "Queen's Park Savannah" },
+    ],
+  },
+  {
+    day: "Day 3",
+    date: "Jul 1, 2026",
+    weekday: "Wednesday",
+    intro:
+      "AI in public finance — human-augmented PFM, prompt patterns the secretariat uses in practice, and a North Coast excursion.",
+    photos: [
+      { caption: "AI panel session", day: "Day 3", date: "Wed, Jul 1", time: "09:30", location: "Plenary Hall", span: "wide" },
+      { caption: "Prompt patterns workshop", day: "Day 3", date: "Wed, Jul 1", time: "11:30", location: "Workshop room A" },
+      { caption: "Off-site at Maracas Bay", day: "Day 3", date: "Wed, Jul 1", time: "13:00", location: "North Coast · 40 min drive" },
+      { caption: "Shark-and-bake stop", day: "Day 3", date: "Wed, Jul 1", time: "14:30", location: "Maracas Coast" },
+      { caption: "Caroni Swamp at golden hour", day: "Day 3", date: "Wed, Jul 1", time: "17:30", location: "Caroni Swamp · Scarlet Ibis reserve" },
+      { caption: "Gala dinner", day: "Day 3", date: "Wed, Jul 1", time: "20:00", location: "Harbour-view restaurant", credit: "Official photographer" },
+    ],
+  },
+  {
+    day: "Day 4",
+    date: "Jul 2, 2026",
+    weekday: "Thursday",
+    intro:
+      "Resilience and roadmap voting — closing panels, the customer-driven product roadmap vote, and the closing reception.",
+    photos: [
+      { caption: "Closing keynote", day: "Day 4", date: "Thu, Jul 2", time: "09:30", location: "Plenary Hall", span: "wide" },
+      { caption: "Roadmap vote results announced", day: "Day 4", date: "Thu, Jul 2", time: "11:00", location: "Plenary Hall" },
+      { caption: "Delegate group portrait", day: "Day 4", date: "Thu, Jul 2", time: "13:00", location: "Hyatt waterfront steps" },
+      { caption: "Final workshop wrap-up", day: "Day 4", date: "Thu, Jul 2", time: "14:30", location: "Workshop rooms A–D" },
+      { caption: "Plenary applause", day: "Day 4", date: "Thu, Jul 2", time: "16:00", location: "Plenary Hall", span: "wide" },
+      { caption: "Closing reception", day: "Day 4", date: "Thu, Jul 2", time: "19:00", location: "Rooftop terrace · Hyatt Regency" },
+    ],
+  },
 ];
+
+// Flat list — preserved for surfaces that aren't grouped (counters, hero
+// metadata). Derives from galleryDays so the source of truth stays single.
+export const galleryPhotos: GalleryPhoto[] = galleryDays.flatMap((d) => d.photos);
 
 // ---------------------------------------------------------------------------
 // Delegate Guide (Trinidad & Tobago, 2026 edition)

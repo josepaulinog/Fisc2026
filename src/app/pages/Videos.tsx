@@ -1,11 +1,11 @@
 import { useState } from "react";
 import { AnimatePresence, motion } from "motion/react";
 import { Clock, Film, Play } from "lucide-react";
-import { ImageWithFallback } from "../components/figma/ImageWithFallback";
 import { GatedBody } from "../components/GatedBody";
 import { Grain, GradientText, PageHero, SectionLabel } from "../components/shared";
+import { PlaceholderTile } from "../components/ui/PlaceholderTile";
 import { VideoPlayer } from "../components/ui/VideoPlayer";
-import { BRAND, BRAND_SOFT, HERO_VIDEOS, INK, videos, type VideoEntry } from "../data";
+import { BRAND, BRAND_SOFT, HERO_VIDEOS, videos, type VideoEntry } from "../data";
 
 function PlayBadge({ size = "md" }: { size?: "sm" | "md" | "lg" }) {
   const dim = size === "lg" ? "w-20 h-20" : size === "md" ? "w-14 h-14" : "w-11 h-11";
@@ -28,10 +28,13 @@ function FeatureCard({ v, onPlay }: { v: VideoEntry; onPlay: (v: VideoEntry) => 
       initial={{ opacity: 0, y: 20 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
-      className="group relative rounded-3xl overflow-hidden block aspect-[16/9] md:aspect-[2/1] bg-neutral-950 w-full text-left"
+      className="group relative rounded-3xl overflow-hidden block aspect-[16/9] md:aspect-[2/1] w-full text-left"
     >
-      <ImageWithFallback src={v.thumb} alt={v.title} className="absolute inset-0 w-full h-full object-cover opacity-70 group-hover:scale-105 transition-transform duration-1000" />
-      <div className="absolute inset-0" style={{ background: `radial-gradient(ellipse at 80% 10%, ${BRAND}55 0%, transparent 50%), linear-gradient(180deg, transparent 30%, ${INK}cc 80%)` }} />
+      <PlaceholderTile
+        variant="dark"
+        glyph={<Film size={42} strokeWidth={1.25} />}
+        label="Capture · Jul 2026"
+      />
       <Grain />
       <div className="absolute inset-0 flex flex-col justify-between p-6 md:p-8 text-white">
         <div className="flex items-start justify-between">
@@ -70,13 +73,15 @@ function VideoCard({ v, i, onPlay }: { v: VideoEntry; i: number; onPlay: (v: Vid
       transition={{ delay: (i % 4) * 0.06 }}
       className="group rounded-2xl border border-neutral-200 bg-white overflow-hidden hover:border-neutral-950 transition-all block w-full text-left"
     >
-      <div className="relative aspect-[16/10] bg-neutral-950 overflow-hidden">
-        <ImageWithFallback src={v.thumb} alt={v.title} className="absolute inset-0 w-full h-full object-cover opacity-90 group-hover:scale-105 transition-transform duration-1000" />
-        <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent" />
+      <div className="relative aspect-[16/10] overflow-hidden">
+        <PlaceholderTile
+          variant="light"
+          glyph={<Film size={26} strokeWidth={1.25} />}
+        />
         <div className="absolute inset-0 flex items-center justify-center">
           <PlayBadge size="md" />
         </div>
-        <span className="absolute top-3 right-3 inline-flex items-center gap-1.5 px-2 py-0.5 rounded-md bg-black/50 text-white/90 text-xs">
+        <span className="absolute top-3 right-3 inline-flex items-center gap-1.5 px-2 py-0.5 rounded-md bg-black/60 text-white/90 text-xs">
           <Clock size={11} /> {v.duration}
         </span>
         {v.day && (

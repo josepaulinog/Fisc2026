@@ -1,18 +1,28 @@
 import { useCallback, useEffect, useState } from "react";
 import { AnimatePresence, motion } from "motion/react";
-import { Camera, ChevronLeft, ChevronRight, Download, X } from "lucide-react";
-import { ImageWithFallback } from "../components/figma/ImageWithFallback";
+import { Camera, ChevronLeft, ChevronRight, Clock, MapPin, X } from "lucide-react";
 import { GatedBody } from "../components/GatedBody";
-import { GradientText, PageHero } from "../components/shared";
-import { BRAND, HERO_GALLERY, galleryPhotos, type GalleryPhoto } from "../data";
+import { GradientText, PageHero, SectionLabel } from "../components/shared";
+import { PlaceholderTile } from "../components/ui/PlaceholderTile";
+import {
+  BRAND,
+  HERO_GALLERY,
+  galleryDays,
+  galleryPhotos,
+  type GalleryPhoto,
+} from "../data";
 import { Z } from "../tokens";
 
 function PhotoTile({
   p,
+  flatIndex,
   i,
   onOpen,
 }: {
   p: GalleryPhoto;
+  /** Position in the flat (cross-day) gallery — drives the lightbox cursor. */
+  flatIndex: number;
+  /** Position within the current day's grid — drives the stagger only. */
   i: number;
   onOpen: (i: number) => void;
 }) {
@@ -24,51 +34,50 @@ function PhotoTile({
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: "-40px" }}
       transition={{ duration: 0.4, delay: (i % 8) * 0.04 }}
-      onClick={() => onOpen(i)}
-      aria-label={`Open photo ${i + 1}: ${p.caption}`}
-      className={`group relative rounded-2xl overflow-hidden bg-neutral-100 text-left ${
+      onClick={() => onOpen(flatIndex)}
+      aria-label={`Open ${p.caption} — ${p.date}, ${p.time}`}
+      className={`group relative rounded-2xl overflow-hidden text-left transition-fluid hover:shadow-[0_18px_40px_-22px_rgba(0,0,0,0.18)] ${
         wide ? "col-span-2 aspect-[16/10]" : "aspect-[4/5]"
       }`}
     >
-      <ImageWithFallback
-        src={p.src}
-        alt={p.caption}
-        className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-[450ms] ease-[cubic-bezier(0.32,0.72,0,1)]"
+      <PlaceholderTile
+        variant="light"
+        glyph={<Camera size={wide ? 30 : 22} strokeWidth={1.25} />}
+        label="Photo · capture pending"
       />
-      <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/0 to-transparent" />
-      <div className="absolute bottom-3 left-3 right-3 text-white">
-        <div className="text-white/85 text-sm" style={{ lineHeight: 1.3 }}>
+
+      {/* Top-left day chip — small editorial tag so day-grouping survives
+          even if a tile gets shared/embedded out of its section context. */}
+      <span
+        className="absolute top-3 left-3 px-2 py-0.5 rounded-sm text-[10px] tracking-[0.2em] uppercase"
+        style={{ backgroundColor: `${BRAND}cc`, color: "#fff" }}
+      >
+        {p.day}
+      </span>
+      <span className="absolute top-3 right-3 inline-flex items-center gap-1 px-2 py-0.5 rounded-sm bg-black/55 text-white/90 text-[10px] tabular-nums">
+        <Clock size={10} strokeWidth={1.5} /> {p.time}
+      </span>
+
+      {/* Bottom slab — caption + location. The transparent-to-cream
+          gradient at the bottom lets the placeholder pattern show through
+          without competing with the metadata. */}
+      <div
+        className="absolute bottom-0 left-0 right-0 pt-8 pb-3 px-3 text-neutral-950"
+        style={{
+          background:
+            "linear-gradient(to top, rgba(239,233,221,0.95) 30%, rgba(239,233,221,0) 100%)",
+        }}
+      >
+        <div className="text-[0.9375rem] tracking-tight" style={{ lineHeight: 1.25 }}>
           {p.caption}
+        </div>
+        <div className="mt-1 text-[11px] text-neutral-600 inline-flex items-center gap-1 truncate max-w-full">
+          <MapPin size={10} strokeWidth={1.5} />
+          <span className="truncate">{p.location}</span>
         </div>
       </div>
     </motion.button>
   );
-}
-
-/**
- * Slugify a caption for use as a download filename. "Plenary applause" →
- * "plenary-applause". Strips characters that browsers will reject in the
- * download attribute, falls back to "photo" if the caption produces an
- * empty string (e.g. caption was emoji-only).
- */
-function slugCaption(caption: string): string {
-  const slug = caption
-    .toLowerCase()
-    .replace(/[^a-z0-9]+/g, "-")
-    .replace(/^-+|-+$/g, "");
-  return slug || "photo";
-}
-
-/**
- * Resolve the file extension of a photo URL so the download has a sensible
- * name. Image assets pipe through Vite as fingerprinted URLs (e.g.
- * `/assets/about-DlBoDXaB.png`), and the extension is preserved at the
- * tail. We strip the query string first because some pipelines append one.
- */
-function extOf(url: string): string {
-  const cleaned = url.split("?")[0];
-  const match = cleaned.match(/\.([a-zA-Z0-9]{2,5})$/);
-  return match ? match[1].toLowerCase() : "jpg";
 }
 
 export default function Gallery() {
@@ -85,8 +94,6 @@ export default function Gallery() {
     [total],
   );
 
-  // Keyboard navigation: ESC closes, ← / → cycle. Effect only registers
-  // while the lightbox is open so non-lightbox keys aren't swallowed.
   useEffect(() => {
     if (openIndex === null) return;
     const onKey = (e: KeyboardEvent) => {
@@ -103,6 +110,15 @@ export default function Gallery() {
   }, [openIndex, close, next, prev]);
 
   const active = openIndex !== null ? galleryPhotos[openIndex] : null;
+
+  // Precompute the starting flat index per day group so PhotoTile knows the
+  // correct lightbox cursor even when rendered inside a day section.
+  let cursor = 0;
+  const daysWithCursors = galleryDays.map((g) => {
+    const start = cursor;
+    cursor += g.photos.length;
+    return { ...g, start };
+  });
 
   return (
     <>
@@ -124,36 +140,67 @@ export default function Gallery() {
       <GatedBody>
         <section className="py-12 md:py-20 bg-white">
           <div className="max-w-7xl mx-auto px-5 md:px-6">
-            <div className="flex flex-wrap items-center justify-between gap-4 mb-8 md:mb-10">
+            {/* Status strip — sets the honest expectation: this is the planned
+                visual record, not captured photography. */}
+            <div className="flex flex-wrap items-center justify-between gap-4 mb-10 md:mb-14 pb-6 md:pb-7 border-b border-neutral-200">
               <div className="text-sm text-neutral-500 inline-flex items-center gap-2">
                 <Camera size={14} style={{ color: BRAND }} />
-                {galleryPhotos.length}{" "}
-                {galleryPhotos.length === 1 ? "photo" : "photos"} from FISC 2026
+                {total} photos planned across {galleryDays.length} days · capture begins Jun 29, 2026
               </div>
               <div className="text-xs tracking-[0.25em] uppercase text-neutral-400">
-                Earlier editions coming soon
+                Files upload after the event
               </div>
             </div>
 
-            {/* Bento grid: 2 cols on mobile, 4 cols on md+. Wide tiles take 2 cols
-                with a landscape aspect; everything else is a uniform 4:5 portrait. */}
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-4 [grid-auto-flow:dense]">
-              {galleryPhotos.map((p, i) => (
-                <PhotoTile
-                  key={`${p.src}-${i}`}
-                  p={p}
-                  i={i}
-                  onOpen={setOpenIndex}
-                />
+            {/* Per-day sections — each opens with a day header (label · date
+                · weekday) and a short intro line, then the placeholder bento
+                grid. Bento mirrors the prior shape so the post-event layout
+                stays stable when real imagery lands. */}
+            <div className="space-y-14 md:space-y-20">
+              {daysWithCursors.map((group) => (
+                <section key={group.day} aria-labelledby={`gallery-${group.day}`}>
+                  <div className="flex flex-wrap items-end justify-between gap-4 mb-6 md:mb-8">
+                    <div>
+                      <SectionLabel>
+                        {group.day} · {group.weekday}
+                      </SectionLabel>
+                      <h2
+                        id={`gallery-${group.day}`}
+                        className="tracking-[-0.02em] text-neutral-950"
+                        style={{
+                          fontSize: "clamp(1.5rem, 3vw, 2.25rem)",
+                          lineHeight: 1.05,
+                        }}
+                      >
+                        {group.date}
+                      </h2>
+                      <p
+                        className="mt-2 text-neutral-700 max-w-2xl"
+                        style={{ lineHeight: 1.65 }}
+                      >
+                        {group.intro}
+                      </p>
+                    </div>
+                    <div className="text-xs tracking-[0.2em] uppercase text-neutral-400 tabular-nums">
+                      {group.photos.length}{" "}
+                      {group.photos.length === 1 ? "frame" : "frames"}
+                    </div>
+                  </div>
+
+                  <div className="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-4 [grid-auto-flow:dense]">
+                    {group.photos.map((p, i) => (
+                      <PhotoTile
+                        key={`${group.day}-${i}`}
+                        p={p}
+                        flatIndex={group.start + i}
+                        i={i}
+                        onOpen={setOpenIndex}
+                      />
+                    ))}
+                  </div>
+                </section>
               ))}
             </div>
-
-            {galleryPhotos.length === 0 && (
-              <div className="text-center py-20 text-neutral-500 border border-dashed border-neutral-200 rounded-2xl">
-                <Camera size={28} className="mx-auto mb-3 text-neutral-300" />
-                The 2026 gallery will appear here after the event.
-              </div>
-            )}
           </div>
         </section>
 
@@ -169,30 +216,14 @@ export default function Gallery() {
               aria-modal="true"
               aria-label={`Photo ${openIndex + 1} of ${total}: ${active.caption}`}
             >
-              {/* Top-right close + download cluster. Sits above the image so
-                  it's always reachable, even when the image fills the viewport. */}
-              <div className="absolute top-5 right-5 flex items-center gap-2">
-                <a
-                  href={active.src}
-                  download={`fisc-2026-${slugCaption(active.caption)}.${extOf(active.src)}`}
-                  onClick={(e) => e.stopPropagation()}
-                  aria-label={`Download photo: ${active.caption}`}
-                  className="w-10 h-10 rounded-full bg-white/10 border border-white/20 text-white hover:bg-white hover:text-neutral-950 flex items-center justify-center transition"
-                >
-                  <Download size={16} strokeWidth={1.5} />
-                </a>
-                <button
-                  onClick={close}
-                  aria-label="Close"
-                  className="w-10 h-10 rounded-full bg-white/10 border border-white/20 text-white hover:bg-white hover:text-neutral-950 flex items-center justify-center transition"
-                >
-                  <X size={18} strokeWidth={1.5} />
-                </button>
-              </div>
+              <button
+                onClick={close}
+                aria-label="Close"
+                className="absolute top-5 right-5 w-10 h-10 rounded-full bg-white/10 border border-white/20 text-white hover:bg-white hover:text-neutral-950 flex items-center justify-center transition"
+              >
+                <X size={18} strokeWidth={1.5} />
+              </button>
 
-              {/* Previous arrow — left side, vertically centered. Disabled
-                  visual is rare here because the lightbox wraps around, but
-                  if total === 1 we hide the arrows entirely. */}
               {total > 1 && (
                 <button
                   onClick={(e) => {
@@ -218,10 +249,6 @@ export default function Gallery() {
                 </button>
               )}
 
-              {/* Image frame — animates between photos so the lightbox feels
-                  continuous instead of "modal close → modal open" per click.
-                  AnimatePresence mode "wait" guarantees one frame is fully
-                  out before the next mounts (no double-image flash). */}
               <AnimatePresence mode="wait">
                 <motion.div
                   key={openIndex}
@@ -229,27 +256,57 @@ export default function Gallery() {
                   animate={{ opacity: 1, scale: 1 }}
                   exit={{ opacity: 0, scale: 0.97 }}
                   transition={{ duration: 0.25, ease: [0.32, 0.72, 0, 1] }}
-                  className="relative max-w-5xl w-full"
+                  className="relative w-full max-w-3xl"
                   onClick={(e) => e.stopPropagation()}
                 >
-                  <ImageWithFallback
-                    src={active.src}
-                    alt={active.caption}
-                    className="w-full h-auto rounded-2xl object-contain max-h-[80vh]"
-                  />
+                  {/* Lightbox placeholder card — same PlaceholderTile pattern
+                      as the grid, scaled up. The download button is omitted
+                      pre-event (nothing real to download); after the event,
+                      this branch swaps in <img> + the download anchor. */}
+                  <div className="relative aspect-[4/3] rounded-2xl overflow-hidden ring-1 ring-white/10">
+                    <PlaceholderTile
+                      variant="dark"
+                      glyph={<Camera size={48} strokeWidth={1.25} />}
+                      label="Photo · capture pending"
+                    />
+                  </div>
+
+                  <div className="mt-5 md:mt-6 text-white">
+                    <div className="flex flex-wrap items-center gap-2 text-xs tracking-[0.2em] uppercase text-white/70">
+                      <span
+                        className="inline-flex items-center px-2.5 py-1 rounded-sm"
+                        style={{ backgroundColor: `${BRAND}cc`, color: "#fff" }}
+                      >
+                        {active.day}
+                      </span>
+                      <span>{active.date}</span>
+                      <span className="inline-flex items-center gap-1.5">
+                        <Clock size={11} strokeWidth={1.5} /> {active.time}
+                      </span>
+                    </div>
+                    <h3
+                      className="mt-3 tracking-[-0.02em]"
+                      style={{
+                        fontSize: "clamp(1.25rem, 2.2vw, 1.75rem)",
+                        lineHeight: 1.15,
+                      }}
+                    >
+                      {active.caption}
+                    </h3>
+                    <div className="mt-2 inline-flex items-center gap-1.5 text-white/65 text-sm">
+                      <MapPin size={13} strokeWidth={1.5} /> {active.location}
+                    </div>
+                    {active.credit && (
+                      <div className="mt-1 text-white/50 text-xs tracking-[0.15em] uppercase">
+                        {active.credit}
+                      </div>
+                    )}
+                  </div>
                 </motion.div>
               </AnimatePresence>
 
-              {/* Caption + counter strip below the image. Counter sits to the
-                  right so the eye reads caption-first; tabular-nums keeps
-                  the digits from jumping as the index changes. */}
-              <div className="absolute bottom-5 md:bottom-7 left-5 md:left-10 right-5 md:right-10 flex items-center justify-between gap-4 text-white pointer-events-none">
-                <div className="text-white/85 text-sm md:text-base max-w-2xl">
-                  {active.caption}
-                </div>
-                <div className="text-white/55 text-xs tracking-[0.2em] uppercase tabular-nums shrink-0">
-                  {openIndex + 1} / {total}
-                </div>
+              <div className="absolute bottom-5 md:bottom-7 right-5 md:right-10 text-white/55 text-xs tracking-[0.2em] uppercase tabular-nums pointer-events-none">
+                {openIndex + 1} / {total}
               </div>
             </motion.div>
           )}
