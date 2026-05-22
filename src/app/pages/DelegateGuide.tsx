@@ -71,7 +71,7 @@ export default function DelegateGuide() {
       <section className="py-12 md:py-16 bg-white">
         <div className="max-w-7xl mx-auto px-5 md:px-6">
           <div className="grid lg:grid-cols-12 gap-6 md:gap-10 items-start">
-            <div className="lg:col-span-5">
+            <div className="lg:col-span-6">
               <SectionLabel>About {delegateGuide.countryName}</SectionLabel>
               <div className="flex items-center gap-3 mb-2">
                 <CountryFlag
@@ -115,21 +115,12 @@ export default function DelegateGuide() {
               initial={{ opacity: 0, scale: 0.97 }}
               whileInView={{ opacity: 1, scale: 1 }}
               viewport={{ once: true }}
-              className="lg:col-span-7 relative rounded-3xl overflow-hidden"
-              style={{ aspectRatio: "4 / 3" }}
+              className="lg:col-span-6 relative rounded-3xl overflow-hidden"
+              style={{ aspectRatio: "4 / 4" }}
             >
-              <ImageWithFallback src={portOfSpainMap2} alt="Map of Port of Spain marking the Hyatt Regency venue location" className="absolute inset-0 w-full h-full object-cover" />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-transparent" />
-              <div className="absolute top-5 left-5 inline-flex items-center gap-2 px-3 py-1.5 rounded-md bg-white/15 backdrop-blur border border-white/20 text-white text-xs tracking-[0.2em]">
-                <span className="w-1.5 h-1.5 rounded-full" style={{ backgroundColor: BRAND }} />
-                10.6488° N · 61.5179° W
-              </div>
-              <div className="absolute bottom-5 md:bottom-7 left-5 md:left-7 right-5 md:right-7 text-white">
-                <div className="text-white/70 text-xs tracking-widest">HYATT REGENCY</div>
-                <div className="mt-1 tracking-tight" style={{ fontSize: "clamp(1.25rem, 2.5vw, 1.75rem)" }}>
-                  1 Wrightson Road, Port of Spain
-                </div>
-              </div>
+              <ImageWithFallback src={portOfSpainMap2} alt="Map of Port of Spain marking the Hyatt Regency venue location" className="absolute inset-0 w-full h-full object-cover md:p-10" />
+
+
             </motion.div>
           </div>
         </div>

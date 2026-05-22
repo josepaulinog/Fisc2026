@@ -1,6 +1,5 @@
 import { motion } from "motion/react";
 import {
-  ArrowUpRight,
   Calendar,
   Clock,
   Compass,
@@ -138,23 +137,28 @@ export default function Venue() {
                 <span className="w-1.5 h-1.5 rounded-full" style={{ backgroundColor: BRAND }} />
                 OFFICIAL VENUE
               </div>
-              <div className="absolute bottom-5 md:bottom-7 left-5 md:left-7 right-5 md:right-7 text-white flex items-end justify-between gap-4">
-                <div>
-                  <div className="text-white/70 text-sm tracking-widest">HYATT REGENCY</div>
-                  <div className="mt-1 tracking-tight" style={{ fontSize: "clamp(1.5rem, 3vw, 2.25rem)", lineHeight: 1.05 }}>
-                    Port of Spain
-                  </div>
+              <div className="absolute bottom-5 md:bottom-7 left-5 md:left-7 right-5 md:right-7 text-white">
+                <div className="text-white/70 text-sm tracking-widest">HYATT REGENCY</div>
+                <div className="mt-1 tracking-tight" style={{ fontSize: "clamp(1.5rem, 3vw, 2.25rem)", lineHeight: 1.05 }}>
+                  Port of Spain
                 </div>
-                <button className="group/btn w-11 h-11 md:w-12 md:h-12 rounded-full bg-white/15 border border-white/30 backdrop-blur flex items-center justify-center hover:bg-white hover:text-neutral-950 transition shrink-0">
-                  <ArrowUpRight size={18} strokeWidth={1.5} className="transition-transform group-hover/btn:translate-x-0.5 group-hover/btn:-translate-y-0.5" />
-                </button>
+                <div className="mt-3 flex items-center gap-2 text-white/70 text-xs tracking-[0.2em] uppercase">
+                  <span className="w-1.5 h-1.5 rounded-full" style={{ backgroundColor: BRAND }} />
+                  10.6488° N · 61.5179° W
+                </div>
               </div>
             </motion.div>
 
             <div className="flex flex-col min-w-0">
               <SectionLabel>The venue</SectionLabel>
               <h2 className="tracking-[-0.02em] text-neutral-950" style={{ fontSize: "clamp(1.875rem, 3.5vw, 2.75rem)", lineHeight: 1.05 }}>
-                A waterfront <span style={{ color: BRAND }}>headquarters</span> for four days.
+                A waterfront headquarters{" "}
+                <em
+                  className="italic"
+                  style={{ paddingInline: "0.05em", marginInline: "-0.025em" }}
+                >
+                  for four days.
+                </em>
               </h2>
               <p className="mt-5 text-neutral-700" style={{ lineHeight: 1.7 }}>
                 All plenary sessions, workshops and the closing reception are
@@ -162,17 +166,19 @@ export default function Venue() {
                 Gulf of Paria and within walking distance of downtown.
               </p>
 
-              {/* Mobile: stack key/value vertically so the value gets full
-                  width and doesn't truncate. Desktop: keep the inline
-                  key-on-left / value-on-right layout. */}
-              <dl className="mt-6 md:mt-7 grid grid-cols-1 gap-2 md:gap-3">
+              {/* Spec list: border-t per row + border-b on the dl itself
+                  closes the table at the bottom edge, so the rows read as
+                  a fully bounded specification rather than an open
+                  bottom-less stack. Mobile stacks key over value; desktop
+                  keeps the inline key-left / value-right reading. */}
+              <dl className="mt-6 md:mt-7 grid grid-cols-1 border-b border-neutral-100">
                 {[
                   { k: "Address", v: "1 Wrightson Road, Port of Spain" },
-                  { k: "Rooms", v: "Negotiated delegate rate · code via delegate pack" },
+                  { k: "Rooms", v: "Delegate rate · code in your travel pack" },
                   { k: "Amenities", v: "Spa, pool, harbour-view restaurant" },
-                  { k: "Accessibility", v: "Step-free access to all session rooms" },
+                  { k: "Accessibility", v: "Step-free access to every session room" },
                 ].map((row) => (
-                  <div key={row.k} className="flex flex-col md:flex-row md:items-start md:justify-between gap-1 md:gap-6 py-2.5 md:py-3 border-t border-neutral-100">
+                  <div key={row.k} className="flex flex-col md:flex-row md:items-baseline md:justify-between gap-1 md:gap-6 py-2.5 md:py-3 border-t border-neutral-100">
                     <dt className="text-neutral-500 text-[10.5px] md:text-sm tracking-[0.18em] md:tracking-widest uppercase">{row.k}</dt>
                     <dd className="text-neutral-950 md:text-right text-[0.9375rem] md:text-base">{row.v}</dd>
                   </div>
