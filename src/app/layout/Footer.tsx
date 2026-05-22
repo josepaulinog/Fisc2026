@@ -260,8 +260,8 @@ export function Footer({ variant = "compact" }: FooterProps = {}) {
           initial={{ opacity: 0, y: 24 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="tracking-[-0.04em] text-white mb-10 md:mb-20 leading-[1] md:leading-[0.95]"
-          style={{ fontSize: "clamp(3.25rem, 14vw, 14rem)" }}
+          className="tracking-[-0.04em] text-white mb-10 md:mb-20 leading-[1] md:leading-[1.1]"
+          style={{ fontSize: "clamp(3.25rem, 14vw, 12rem)" }}
         >
           See you in
           <br />

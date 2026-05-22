@@ -360,7 +360,7 @@ function Destination() {
         <div className="grid lg:grid-cols-12 gap-10 md:gap-14 items-center">
           <div className="lg:col-span-5">
             <SectionLabel>The destination</SectionLabel>
-            <h2 className="tracking-[-0.02em] text-neutral-950" style={{ fontSize: "clamp(2rem, 4.5vw, 3.5rem)", lineHeight: 1.05 }}>
+            <h2 className="tracking-[-0.02em] font-bold text-neutral-950" style={{ fontSize: "clamp(2rem, 4.5vw, 3.5rem)", lineHeight: 1.05 }}>
               Port of Spain <em className="italic">awaits.</em>
             </h2>
             <p className="mt-5 text-neutral-700" style={{ fontSize: "1.125rem", lineHeight: 1.7 }}>

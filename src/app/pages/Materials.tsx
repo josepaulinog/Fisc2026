@@ -44,9 +44,6 @@ function MaterialCard({ m, i }: { m: MaterialEntry; i: number }) {
           >
             {m.topic}
           </span>
-          <span className="text-[10.5px] tracking-[0.22em] uppercase text-neutral-400 mt-1.5">
-            FISC Takeaways
-          </span>
         </div>
         <div
           className="tracking-tight text-neutral-950 mt-2"
@@ -101,8 +98,8 @@ export default function Materials() {
           { label: "Resources", to: "/resources" },
           { label: "Materials" },
         ]}
-        title={<>Every deck. <GradientText>Every one-pager.</GradientText></>}
-        subtitle="FISC Takeaways translate four days of conversation into reform-ready briefs. Browse the full archive — gated to registered delegates."
+        title={<>Every brief. <GradientText>One archive.</GradientText></>}
+        subtitle="Four days of conversation distilled into reform-ready briefs — searchable and downloadable."
         image={HERO_MATERIALS}
         imageOverlayStrength={0.5}
       />
@@ -168,7 +165,7 @@ export default function Materials() {
                 No takeaways match
               </div>
               <p className="mt-2 text-neutral-700 max-w-sm mx-auto" style={{ fontSize: "0.9375rem", lineHeight: 1.55 }}>
-                Try a different search term, or switch the topic filter back to All to see every FISC Takeaway.
+                Try a different search, or clear the topic filter.
               </p>
               <button
                 type="button"
@@ -188,17 +185,17 @@ export default function Materials() {
             <div className="absolute inset-0 pointer-events-none" style={{ background: `radial-gradient(ellipse at 85% 10%, ${BRAND}44, transparent 55%)` }} />
             <div className="relative grid md:grid-cols-12 gap-6 md:gap-10 items-center p-8 md:p-12 text-white">
               <div className="md:col-span-8">
-                <div className="text-xs tracking-[0.25em] text-white/60">BULK DOWNLOAD</div>
+                <div className="text-xs tracking-[0.25em] text-white/60">THE FULL ARCHIVE</div>
                 <div className="mt-3 tracking-[-0.02em]" style={{ fontSize: "clamp(1.5rem, 3vw, 2rem)", lineHeight: 1.1 }}>
-                  All <span style={{ color: BRAND_SOFT }}>{materials.length}</span> takeaways in a single archive.
+                  All <span style={{ color: BRAND_SOFT }}>{materials.length}</span> briefs in a single archive.
                 </div>
                 <p className="mt-3 text-white/70 max-w-xl" style={{ lineHeight: 1.65 }}>
-                  Includes all FISC 2026 one-pagers and the index. Approx 32 MB.
+                  Includes every 2026 brief and a topic index. Approx 32 MB.
                 </p>
               </div>
               <div className="md:col-span-4 flex md:justify-end">
                 <a href="#" className="inline-flex items-center gap-3 pl-5 pr-2 py-3 rounded-sm text-white hover:opacity-95 transition" style={{ backgroundColor: BRAND }}>
-                  Download .zip
+                  Download all (.zip · 32 MB)
                   <span className="w-9 h-9 rounded-full bg-white/15 flex items-center justify-center">
                     <Download size={16} />
                   </span>
