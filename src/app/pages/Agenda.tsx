@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Link } from "react-router";
 import { AnimatePresence, motion } from "motion/react";
 import { Download, Mic, Minus, Plus } from "lucide-react";
@@ -37,6 +37,48 @@ export default function Agenda() {
     setExpandedKey(null);
   };
 
+  // Scroll-position-aware edge fades for the day tab rail. atStart drops the
+  // left fade; atEnd drops the right fade. Without this, scrolling to Day 4
+  // (last tab) made the active tab look "cut off" by the right-edge mask
+  // even though there was nothing more to scroll to. Listener is rAF-throttled
+  // implicitly because scroll events fire at 60fps max anyway, but {passive:
+  // true} keeps the main thread free to scroll.
+  const tabScrollRef = useRef<HTMLDivElement | null>(null);
+  const [tabFade, setTabFade] = useState({ atStart: true, atEnd: false });
+  useEffect(() => {
+    const el = tabScrollRef.current;
+    if (!el) return;
+    const update = () => {
+      const atStart = el.scrollLeft <= 1;
+      const atEnd = el.scrollLeft + el.clientWidth >= el.scrollWidth - 1;
+      setTabFade((prev) =>
+        prev.atStart === atStart && prev.atEnd === atEnd
+          ? prev
+          : { atStart, atEnd },
+      );
+    };
+    update();
+    el.addEventListener("scroll", update, { passive: true });
+    window.addEventListener("resize", update);
+    return () => {
+      el.removeEventListener("scroll", update);
+      window.removeEventListener("resize", update);
+    };
+  }, []);
+
+  // Compose a mask-image gradient with the right edges fading based on
+  // scroll state. Four states: at-start, mid-scroll, at-end, no-overflow.
+  // none / both edges hidden produces a `linear-gradient` with no soft
+  // edges (i.e. solid black) which leaves the rail unmasked.
+  const tabMask = (() => {
+    if (tabFade.atStart && tabFade.atEnd) return "none";
+    if (tabFade.atStart)
+      return "linear-gradient(to right, black 0%, black 88%, transparent 100%)";
+    if (tabFade.atEnd)
+      return "linear-gradient(to right, transparent 0%, black 12%, black 100%)";
+    return "linear-gradient(to right, transparent 0%, black 12%, black 88%, transparent 100%)";
+  })();
+
   // Day tabs — rendered as a PageHero slot so they live inside the dark
   // hero surface itself. Horizontal scroll with snap on narrow viewports;
   // full row visible on desktop. Negative-margin trick on the outer wrapper
@@ -62,16 +104,15 @@ export default function Agenda() {
           implicitly clips on the Y axis too, which would crop the active
           tab's brand-orange drop shadow. py gives 8px breathing room. */}
       <div
+        ref={tabScrollRef}
         className="py-2 overflow-x-auto overscroll-x-contain touch-pan-x snap-x snap-proximity scrollbar-hide"
         style={{
-          // Last ~12% of the rail width fades to transparent — gives the
-          // "more days to scroll" hint without depending on a specific
-          // background colour. Vendor-prefixed mask-image required for
-          // older Safari (still ~3% of mobile traffic).
-          maskImage:
-            "linear-gradient(to right, black 0%, black 88%, transparent 100%)",
-          WebkitMaskImage:
-            "linear-gradient(to right, black 0%, black 88%, transparent 100%)",
+          // Mask edges fade based on scroll position (atStart/atEnd). When
+          // both ends are at the boundary (no overflow), tabMask is "none"
+          // and the rail is unmasked entirely. Vendor-prefixed for older
+          // Safari (still ~3% of mobile traffic).
+          maskImage: tabMask,
+          WebkitMaskImage: tabMask,
         }}
       >
         <div className="flex gap-1.5 md:gap-2.5 min-w-min">
@@ -248,7 +289,7 @@ function SessionRow({
     return (
       <li className="flex items-center gap-4 md:gap-6 px-5 md:px-7 py-4">
         <div
-          className="shrink-0 w-[90px] md:w-[120px] tabular-nums text-neutral-500"
+          className="shrink-0 w-[112px] md:w-[120px] tabular-nums text-neutral-500 whitespace-nowrap"
           style={{ fontSize: "0.875rem", lineHeight: 1.25, fontWeight: 500, letterSpacing: "0.01em" }}
         >
           {fmtTime(session.time)}
