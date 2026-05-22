@@ -598,7 +598,7 @@ export default function Profile() {
             {/* ---------------------------------------------------------------
                 Footer — save / discard / replay tour
                 --------------------------------------------------------------- */}
-            <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 sticky bottom-4 md:static">
+            <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
               <div className="text-sm text-neutral-500 flex flex-wrap items-center gap-x-4 gap-y-2">
                 <span>
                   Signed in as <span className="text-neutral-900">{user.email}</span>
