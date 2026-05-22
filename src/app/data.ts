@@ -25,6 +25,7 @@ import maracasCabin from "../imports/maracas-cabin.jpg";
 import scarletIbis from "../imports/scarlet-ibis.jpg";
 import queensRoyalCollege from "../imports/queens-royal-college.jpg";
 import carnivalDancer from "../imports/carnival-dancer.jpg";
+import fisc2025DiliDay1 from "../imports/fisc-2025-dili-day1.jpg";
 import speakersImage from "../imports/speakers5.png";
 import newsletterImage from "../imports/newsletter.jpg";
 
@@ -73,7 +74,7 @@ export const HERO_RESOURCES = agendaImage;
 export const HERO_ATTENDEES = aboutImage;
 export const HERO_MATERIALS = agendaImage;
 export const HERO_GUIDE = maracasBeach;
-export const HERO_GALLERY = carnivalDancer;
+export const HERO_GALLERY = fisc2025DiliDay1;
 export const HERO_VIDEOS = carnivalDancer;
 export const HERO_MEDIA = portOfSpainAerial;
 // Sign-in background is a purpose-generated Replicate image (no Trinidad
