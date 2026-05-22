@@ -50,17 +50,30 @@ export default function Agenda() {
   // On mobile, the row scrolls horizontally with a bleed-to-edge negative
   // margin so the last tab isn't cropped by container padding.
   const tabs = (
-    // Wrapper carries flex-1 + viewport bleed (-mx-5 on mobile) so the
-    // scroll viewport reaches the screen edge. The fade overlay below
-    // is positioned against this wrapper, so its right edge aligns with
-    // the viewport edge rather than the section's inner padding.
-    <div className="relative flex-1 min-w-0 -mx-5 md:mx-0">
+    // No more viewport bleed — the rail sits inside the section's normal
+    // padding so the WELCOME tab has the same left gutter as the Download
+    // CTA below it. The right-edge fade uses mask-image (applied to the
+    // scroll viewport itself) rather than an overlay div, because the
+    // section's brand-orange radial glow tints the cream background
+    // near the right edge — an overlay gradient hardcoded to #f6f4ef
+    // looked subtly off against that gradient backdrop.
+    <div className="relative flex-1 min-w-0">
       {/* py-2 on the scroll container is load-bearing: overflow-x: auto
           implicitly clips on the Y axis too, which would crop the active
-          tab's brand-orange drop shadow. The inner padding gives the
-          shadow 8px of vertical breathing room above + below the pills
-          inside the scrolling viewport. */}
-      <div className="px-5 md:px-0 py-2 overflow-x-auto overscroll-x-contain touch-pan-x snap-x snap-proximity scrollbar-hide">
+          tab's brand-orange drop shadow. py gives 8px breathing room. */}
+      <div
+        className="py-2 overflow-x-auto overscroll-x-contain touch-pan-x snap-x snap-proximity scrollbar-hide"
+        style={{
+          // Last ~12% of the rail width fades to transparent — gives the
+          // "more days to scroll" hint without depending on a specific
+          // background colour. Vendor-prefixed mask-image required for
+          // older Safari (still ~3% of mobile traffic).
+          maskImage:
+            "linear-gradient(to right, black 0%, black 88%, transparent 100%)",
+          WebkitMaskImage:
+            "linear-gradient(to right, black 0%, black 88%, transparent 100%)",
+        }}
+      >
         <div className="flex gap-1.5 md:gap-2.5 min-w-min">
           {agenda.map((d, i) => {
             const isActive = i === active;
@@ -111,20 +124,6 @@ export default function Agenda() {
           })}
         </div>
       </div>
-      {/* Right-edge fade — affordance that signals "more days to scroll"
-          on the horizontal rail. Width 10 (mobile) / 12 (desktop) is wide
-          enough to read as a deliberate gradient but narrow enough that
-          it doesn't visibly clip the last visible tab. Fades to the
-          section's cream surface so it blends seamlessly. pointer-events
-          off so it doesn't intercept touch swipes / tab taps. */}
-      <div
-        aria-hidden="true"
-        className="absolute top-0 right-0 bottom-0 w-10 md:w-12 pointer-events-none"
-        style={{
-          background:
-            "linear-gradient(to right, rgba(246,244,239,0) 0%, #f6f4ef 85%)",
-        }}
-      />
     </div>
   );
 
