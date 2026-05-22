@@ -50,61 +50,81 @@ export default function Agenda() {
   // On mobile, the row scrolls horizontally with a bleed-to-edge negative
   // margin so the last tab isn't cropped by container padding.
   const tabs = (
-    // py-2 on the scroll container is load-bearing: overflow-x: auto
-    // implicitly clips on the Y axis too, which would crop the active
-    // tab's brand-orange drop shadow. The inner padding gives the
-    // shadow 8px of vertical breathing room above + below the pills
-    // inside the scrolling viewport.
-    <div className="flex-1 min-w-0 -mx-5 md:mx-0 px-5 md:px-0 py-2 overflow-x-auto overscroll-x-contain touch-pan-x snap-x snap-proximity scrollbar-hide">
-      <div className="flex gap-1.5 md:gap-2.5 min-w-min">
-        {agenda.map((d, i) => {
-          const isActive = i === active;
-          // Strip the trailing ", 2026" on mobile — the year is redundant
-          // when the whole event is 2026, and dropping it lets each pill
-          // fit comfortably in a 360px viewport.
-          const dateShort = d.date.replace(/,\s*\d{4}$/, "");
-          return (
-            <button
-              key={d.label}
-              onClick={() => selectDay(i)}
-              aria-pressed={isActive}
-              className={`snap-start shrink-0 px-3 md:px-5 py-2 md:py-3 rounded-sm text-left transition-fluid will-change-transform ${
-                isActive
-                  ? ""
-                  : "bg-white ring-1 ring-black/[0.07] hover:shadow-[0_2px_10px_-6px_rgba(0,0,0,0.12)] focus:outline-none focus-visible:ring-2 focus-visible:ring-neutral-950 focus-visible:ring-offset-2 focus-visible:ring-offset-[#f6f4ef]"
-              }`}
-              style={
-                isActive
-                  ? {
-                      backgroundColor: BRAND,
-                      boxShadow: "inset 0 1px 0 rgba(255,255,255,0.18)",
-                    }
-                  : undefined
-              }
-            >
-              <div
-                className={`uppercase ${isActive ? "text-white/85" : "text-neutral-500"}`}
-                style={{ fontSize: "0.5625rem", letterSpacing: "0.2em", fontWeight: 500 }}
-              >
-                {d.short.toUpperCase()}
-              </div>
-              <div
-                className={`mt-0.5 tabular-nums whitespace-nowrap ${
-                  isActive ? "text-white" : "text-neutral-900"
+    // Wrapper carries flex-1 + viewport bleed (-mx-5 on mobile) so the
+    // scroll viewport reaches the screen edge. The fade overlay below
+    // is positioned against this wrapper, so its right edge aligns with
+    // the viewport edge rather than the section's inner padding.
+    <div className="relative flex-1 min-w-0 -mx-5 md:mx-0">
+      {/* py-2 on the scroll container is load-bearing: overflow-x: auto
+          implicitly clips on the Y axis too, which would crop the active
+          tab's brand-orange drop shadow. The inner padding gives the
+          shadow 8px of vertical breathing room above + below the pills
+          inside the scrolling viewport. */}
+      <div className="px-5 md:px-0 py-2 overflow-x-auto overscroll-x-contain touch-pan-x snap-x snap-proximity scrollbar-hide">
+        <div className="flex gap-1.5 md:gap-2.5 min-w-min">
+          {agenda.map((d, i) => {
+            const isActive = i === active;
+            // Strip the trailing ", 2026" on mobile — the year is redundant
+            // when the whole event is 2026, and dropping it lets each pill
+            // fit comfortably in a 360px viewport.
+            const dateShort = d.date.replace(/,\s*\d{4}$/, "");
+            return (
+              <button
+                key={d.label}
+                onClick={() => selectDay(i)}
+                aria-pressed={isActive}
+                className={`snap-start shrink-0 px-3 md:px-5 py-2 md:py-3 rounded-sm text-left transition-fluid will-change-transform ${
+                  isActive
+                    ? ""
+                    : "bg-white ring-1 ring-black/[0.07] hover:shadow-[0_2px_10px_-6px_rgba(0,0,0,0.12)] focus:outline-none focus-visible:ring-2 focus-visible:ring-neutral-950 focus-visible:ring-offset-2 focus-visible:ring-offset-[#f6f4ef]"
                 }`}
-                style={{
-                  fontSize: "clamp(0.75rem, 2.2vw, 0.9375rem)",
-                  lineHeight: 1.2,
-                  fontWeight: 500,
-                }}
+                style={
+                  isActive
+                    ? {
+                        backgroundColor: BRAND,
+                        boxShadow: "inset 0 1px 0 rgba(255,255,255,0.18)",
+                      }
+                    : undefined
+                }
               >
-                <span className="md:hidden">{dateShort}</span>
-                <span className="hidden md:inline">{d.date}</span>
-              </div>
-            </button>
-          );
-        })}
+                <div
+                  className={`uppercase ${isActive ? "text-white/85" : "text-neutral-500"}`}
+                  style={{ fontSize: "0.5625rem", letterSpacing: "0.2em", fontWeight: 500 }}
+                >
+                  {d.short.toUpperCase()}
+                </div>
+                <div
+                  className={`mt-0.5 tabular-nums whitespace-nowrap ${
+                    isActive ? "text-white" : "text-neutral-900"
+                  }`}
+                  style={{
+                    fontSize: "clamp(0.75rem, 2.2vw, 0.9375rem)",
+                    lineHeight: 1.2,
+                    fontWeight: 500,
+                  }}
+                >
+                  <span className="md:hidden">{dateShort}</span>
+                  <span className="hidden md:inline">{d.date}</span>
+                </div>
+              </button>
+            );
+          })}
+        </div>
       </div>
+      {/* Right-edge fade — affordance that signals "more days to scroll"
+          on the horizontal rail. Width 10 (mobile) / 12 (desktop) is wide
+          enough to read as a deliberate gradient but narrow enough that
+          it doesn't visibly clip the last visible tab. Fades to the
+          section's cream surface so it blends seamlessly. pointer-events
+          off so it doesn't intercept touch swipes / tab taps. */}
+      <div
+        aria-hidden="true"
+        className="absolute top-0 right-0 bottom-0 w-10 md:w-12 pointer-events-none"
+        style={{
+          background:
+            "linear-gradient(to right, rgba(246,244,239,0) 0%, #f6f4ef 85%)",
+        }}
+      />
     </div>
   );
 
