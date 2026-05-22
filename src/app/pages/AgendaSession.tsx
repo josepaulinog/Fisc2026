@@ -34,7 +34,7 @@ type SessionLocator = { dayIdx: number; sessionIdx: number };
 
 /**
  * Splits a session title so the trailing 1-2 words render in the brand
- * GradientText accent (Instrument Serif italic, brand orange). Matches the
+ * GradientText accent (Cormorant Garamond italic, brand orange). Matches the
  * editorial italicised-tail pattern used on About, Speakers, Venue and other
  * heroes — but adapted to dynamic session titles:
  *   - 1 word         → italicise the whole word (the title IS the accent)

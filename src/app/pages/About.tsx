@@ -50,7 +50,7 @@ export default function About() {
     <>
       <PageHero
         label="About FISC"
-        title={<>A global forum for country-led <GradientText>public finance reform.</GradientText></>}
+        title={<>A global forum for <br></br><GradientText>public finance reform.</GradientText></>}
         subtitle="FISC is the annual gathering of the FreeBalance customer community — finance ministers, treasurers, budget directors and PFM practitioners from emerging and developing nations."
         image={HERO_ABOUT}
       />

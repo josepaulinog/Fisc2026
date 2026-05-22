@@ -65,8 +65,8 @@ export function GradientText({
         // so the visible position of the word doesn't move in the line.
         paddingInline: "0.1em",
         marginInline: "-0.1em",
-        // Instrument Serif's natural italic sits a touch narrower than
-        // Proxima Nova upright at the same point size — pull it up half a
+        // Cormorant Garamond's natural italic sits a touch narrower than
+        // Inter upright at the same point size — pull it up half a
         // baseline so the cap-heights line up against the surrounding text.
         verticalAlign: "-0.02em",
       }}
@@ -252,7 +252,7 @@ export function PageHero({
           variants={fadeUp}
           className="text-white tracking-[-0.03em]"
           // lineHeight is slightly > 1 because the italic <GradientText> spans
-          // (now Instrument Serif) have ascenders/descenders that collide with
+          // (now Cormorant Garamond) have ascenders/descenders that collide with
           // adjacent lines when line-height equals the font size. 1.05 gives
           // them breathing room without making the headline feel airy.
           // Mobile floor bumped from 2.5rem to 2.25rem (40 → 36px) so two-line

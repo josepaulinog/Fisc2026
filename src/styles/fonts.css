@@ -1,13 +1,14 @@
 /* -----------------------------------------------------------------------
  * Type stack
  * -----------------------------------------------------------------------
- * Body:    Proxima Nova (loaded in main.tsx via @voaii/proxima-nova).
- *          Mark Simonson's modern Grotesk — a heavier, warmer alternative
- *          to Inter or Helvetica that reads premium without being trendy.
+ * Body:    Inter (loaded as a Google Fonts <link> in index.html). Modern
+ *          neutral Grotesk tuned for screen reading at every size — pairs
+ *          cleanly with the serif accent without competing for attention.
  *
- * Display: Instrument Serif (loaded as a Google Fonts <link> in index.html).
- *          Used only for italic accent phrases — the gradient words inside
- *          hero h1s and the footer wordmark. Activated via .font-display.
+ * Display: Cormorant Garamond (loaded as a Google Fonts <link> in
+ *          index.html). Used only for italic accent phrases — the
+ *          gradient words inside hero h1s and the footer wordmark.
+ *          Activated via .font-display.
  *
  * Mono:    System monospace fallback. Only used for tabular numerals via
  *          the `tabular-nums` Tailwind utility, not for text blocks.
@@ -15,7 +16,7 @@
 
 body {
   font-family:
-    "Proxima Nova",
+    "Inter",
     system-ui,
     -apple-system,
     "Segoe UI",
@@ -28,7 +29,7 @@ body {
 
 .font-display {
   font-family:
-    "Instrument Serif",
+    "Cormorant Garamond",
     "Charter",
     "Iowan Old Style",
     Georgia,
