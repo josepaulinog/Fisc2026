@@ -11,6 +11,7 @@ import aboutImage from "../imports/about.png";
 import aboutHeroImage from "../imports/about-hero.jpg";
 import agendaImage from "../imports/agenda.jpeg";
 import eventsImage from "../imports/events.jpg";
+import speakers6 from "../imports/speakers6.png";
 
 // Trinidad & Tobago editorial photography — sourced from AdobeStock, copied
 // into src/imports/ during the prototype build. Replaces the earlier generic
@@ -72,7 +73,7 @@ export const VENUE_IMG_3 = maracasBeach;
 // destination photo.
 export const HERO_ABOUT = aboutHeroImage;
 export const NEWSLETTER_IMG = newsletterImage;
-export const HERO_AGENDA = eventsImage;
+export const HERO_AGENDA = speakers6;
 export const HERO_SPEAKERS = speakersImage;
 export const HERO_VENUE = maracasBeach;
 export const HERO_RESOURCES = resourcesHero;
