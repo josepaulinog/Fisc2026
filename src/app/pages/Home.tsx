@@ -191,7 +191,7 @@ function CountdownAndActions() {
   // after the 18 editions has settled, so the eye lands on Editions first
   // and the bigger numbers reward continued attention. The "+" suffix is
   // baked into the format function so it appears only after the count
-  // finishes, mirroring the existing useCountUp pattern in Delegation.
+  // finishes, mirroring the existing useCountUp pattern in TheRoom.
   const editionsCount = useCountUp(18, { duration: 1.2 });
   const countriesCount = useCountUp(10, { duration: 1.4, format: (v) => `${v}+` });
   const homeDelegatesCount = useCountUp(20, { duration: 1.6, format: (v) => `${v}+` });
@@ -265,7 +265,7 @@ function CountdownAndActions() {
               className="tracking-[-0.025em] text-neutral-950"
               style={{ fontSize: TYPE.h2, lineHeight: 1.05, letterSpacing: TRACKING.snug }}
             >
-              A platform for collaborative engagement.
+              A platform for <br></br><em className="font-display italic">collaborative </em>engagement.
             </motion.h2>
             <motion.p
               variants={fadeUp}
@@ -668,15 +668,15 @@ function CountdownAndActions() {
 }
 
 // ---------------------------------------------------------------------------
-// The 2026 Delegation — belonging moment. Most-underused data on the site
-// (the gated attendees list) becomes a public teaser here. Two states:
+// The Room — belonging moment. Most-underused data on the site (the gated
+// attendees list) becomes a public teaser here. Two states:
 //   - Signed out: flag mosaic with country names. Faces stay gated.
 //   - Signed in: face grid of confirmed delegates (sample of 12).
 // Privacy boundary: the Attendees page is gated; this section honours that
 // gate by never showing delegate faces or names to logged-out visitors.
 // ---------------------------------------------------------------------------
 
-function Delegation() {
+function TheRoom() {
   const { isAuthed } = useAuth();
   // Eight countries — the Marquee strip above already cycles through the
   // full 40+ list, so the Room's purpose is a deliberate scannable read.
@@ -703,7 +703,7 @@ function Delegation() {
           <div className="lg:col-span-6">
             <SectionLabel>The 2026 delegation</SectionLabel>
             <h2 className="tracking-[-0.02em] text-neutral-950" style={{ fontSize: TYPE.h2, lineHeight: 1.05, letterSpacing: TRACKING.snug }}>
-              Ten countries. <em className="italic">One conversation.</em>
+              Ten countries.<br></br> <em className="font-display italic">One conversation.</em>
             </h2>
           </div>
           <div className="lg:col-span-6 lg:pb-2">
@@ -738,13 +738,16 @@ function Delegation() {
                   variants={fadeUp}
                   className="group relative overflow-hidden rounded-md bg-white ring-1 ring-black/[0.05] shadow-[0_12px_40px_-20px_rgba(0,0,0,0.18)] transition-fluid hover:shadow-[0_20px_60px_-20px_rgba(0,0,0,0.22)]"
                 >
-                  {/* Horizontal layout — photo column (40% via 2fr/3fr split)
-                      on the left, info column vertically centred against the
-                      photo's height on the right. Reads as executive press
-                      portraits, not billboards — tighter vertical footprint
-                      while preserving the protocol-grade architectural feel. */}
-                  <div className="grid grid-cols-[2fr_3fr]">
-                    <div className="relative aspect-[4/5] bg-neutral-100 overflow-hidden">
+                  {/* Stacked on mobile (photo on top, info below), horizontal
+                      on md+ (40/60 split via 2fr/3fr columns). The horizontal
+                      mobile layout left the text column at ~162px — too
+                      narrow for "MINISTER OF FINANCE" on one line, and the
+                      subtitle wrapped to three lines. Stacking gives both
+                      the photo and the metadata full card width on mobile
+                      while preserving the protocol-grade press-portrait feel
+                      at desktop reading distance. */}
+                  <div className="grid grid-cols-1 md:grid-cols-[2fr_3fr]">
+                    <div className="relative aspect-[5/4] md:aspect-[4/5] bg-neutral-100 overflow-hidden">
                       {h.img ? (
                         <ImageWithFallback
                           src={h.img}
@@ -1086,7 +1089,7 @@ export default function Home() {
     <>
       <Hero />
       <CountdownAndActions />
-      <Delegation />
+      <TheRoom />
       <WhatsNew />
     </>
   );
