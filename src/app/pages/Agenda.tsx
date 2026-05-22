@@ -1,8 +1,7 @@
 import { useState } from "react";
 import { Link } from "react-router";
 import { AnimatePresence, motion } from "motion/react";
-import { Mic, Minus, Plus } from "lucide-react";
-import { PdfIcon } from "../components/ui/PdfIcon";
+import { Download, Mic, Minus, Plus } from "lucide-react";
 import { GradientText, PageHero } from "../components/shared";
 import { BRAND, BRAND_SOFT, HERO_AGENDA, TAG_HUES, agenda, daySlugFor } from "../data";
 import { chipTone, chipAccent } from "../tokens";
@@ -150,7 +149,7 @@ export default function Agenda() {
               <NestedCTA
                 href="#"
                 variant="ghost"
-                icon={<PdfIcon size={14} strokeWidth={1.5} />}
+                icon={<Download size={13} strokeWidth={1.75} />}
               >
                 Download programme
               </NestedCTA>
