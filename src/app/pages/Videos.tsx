@@ -1,8 +1,10 @@
-import { motion } from "motion/react";
+import { useState } from "react";
+import { AnimatePresence, motion } from "motion/react";
 import { Clock, Film, Play } from "lucide-react";
 import { ImageWithFallback } from "../components/figma/ImageWithFallback";
 import { GatedBody } from "../components/GatedBody";
 import { Grain, GradientText, PageHero, SectionLabel } from "../components/shared";
+import { VideoPlayer } from "../components/ui/VideoPlayer";
 import { BRAND, BRAND_SOFT, HERO_VIDEOS, INK, videos, type VideoEntry } from "../data";
 
 function PlayBadge({ size = "md" }: { size?: "sm" | "md" | "lg" }) {
@@ -17,14 +19,16 @@ function PlayBadge({ size = "md" }: { size?: "sm" | "md" | "lg" }) {
   );
 }
 
-function FeatureCard({ v }: { v: VideoEntry }) {
+function FeatureCard({ v, onPlay }: { v: VideoEntry; onPlay: (v: VideoEntry) => void }) {
   return (
-    <motion.a
-      href={v.url}
+    <motion.button
+      type="button"
+      onClick={() => onPlay(v)}
+      aria-label={`Play "${v.title}"`}
       initial={{ opacity: 0, y: 20 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
-      className="group relative rounded-3xl overflow-hidden block aspect-[16/9] md:aspect-[2/1] bg-neutral-950"
+      className="group relative rounded-3xl overflow-hidden block aspect-[16/9] md:aspect-[2/1] bg-neutral-950 w-full text-left"
     >
       <ImageWithFallback src={v.thumb} alt={v.title} className="absolute inset-0 w-full h-full object-cover opacity-70 group-hover:scale-105 transition-transform duration-1000" />
       <div className="absolute inset-0" style={{ background: `radial-gradient(ellipse at 80% 10%, ${BRAND}55 0%, transparent 50%), linear-gradient(180deg, transparent 30%, ${INK}cc 80%)` }} />
@@ -50,19 +54,21 @@ function FeatureCard({ v }: { v: VideoEntry }) {
           <PlayBadge size="lg" />
         </div>
       </div>
-    </motion.a>
+    </motion.button>
   );
 }
 
-function VideoCard({ v, i }: { v: VideoEntry; i: number }) {
+function VideoCard({ v, i, onPlay }: { v: VideoEntry; i: number; onPlay: (v: VideoEntry) => void }) {
   return (
-    <motion.a
-      href={v.url}
+    <motion.button
+      type="button"
+      onClick={() => onPlay(v)}
+      aria-label={`Play "${v.title}"`}
       initial={{ opacity: 0, y: 18 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
       transition={{ delay: (i % 4) * 0.06 }}
-      className="group rounded-2xl border border-neutral-200 bg-white overflow-hidden hover:border-neutral-950 transition-all block"
+      className="group rounded-2xl border border-neutral-200 bg-white overflow-hidden hover:border-neutral-950 transition-all block w-full text-left"
     >
       <div className="relative aspect-[16/10] bg-neutral-950 overflow-hidden">
         <ImageWithFallback src={v.thumb} alt={v.title} className="absolute inset-0 w-full h-full object-cover opacity-90 group-hover:scale-105 transition-transform duration-1000" />
@@ -87,11 +93,12 @@ function VideoCard({ v, i }: { v: VideoEntry; i: number }) {
           <p className="mt-2 text-neutral-700 text-sm" style={{ lineHeight: 1.55 }}>{v.description}</p>
         )}
       </div>
-    </motion.a>
+    </motion.button>
   );
 }
 
 export default function Videos() {
+  const [active, setActive] = useState<VideoEntry | null>(null);
   const featured = videos[0];
   const rest = videos.slice(1);
   const totalMinutes = videos.reduce((sum, v) => {
@@ -115,7 +122,7 @@ export default function Videos() {
       <GatedBody>
       <section className="py-12 md:py-20 bg-white">
         <div className="max-w-7xl mx-auto px-5 md:px-6 space-y-10 md:space-y-12">
-          {featured && <FeatureCard v={featured} />}
+          {featured && <FeatureCard v={featured} onPlay={setActive} />}
 
           <div>
             <div className="flex items-center gap-4 mb-6">
@@ -124,7 +131,7 @@ export default function Videos() {
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-5">
               {rest.map((v, i) => (
-                <VideoCard key={v.title} v={v} i={i} />
+                <VideoCard key={v.title} v={v} i={i} onPlay={setActive} />
               ))}
             </div>
           </div>
@@ -157,6 +164,10 @@ export default function Videos() {
         </div>
       </section>
       </GatedBody>
+
+      <AnimatePresence>
+        {active && <VideoPlayer video={active} onClose={() => setActive(null)} />}
+      </AnimatePresence>
     </>
   );
 }

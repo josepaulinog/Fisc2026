@@ -257,7 +257,7 @@ export function PageHero({
           // them breathing room without making the headline feel airy.
           // Mobile floor bumped from 2.5rem to 2.25rem (40 → 36px) so two-line
           // headlines clear the safe-area on a 360px viewport.
-          style={{ fontSize: "clamp(2.25rem, 7vw, 6rem)", lineHeight: 1.05 }}
+          style={{ fontSize: "clamp(2.25rem, 7vw, 5rem)", lineHeight: 1.05 }}
         >
           <GradientToneScope tone="light">{title}</GradientToneScope>
         </motion.h1>
