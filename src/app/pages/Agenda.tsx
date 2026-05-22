@@ -49,8 +49,14 @@ export default function Agenda() {
     const el = tabScrollRef.current;
     if (!el) return;
     const update = () => {
-      const atStart = el.scrollLeft <= 1;
-      const atEnd = el.scrollLeft + el.clientWidth >= el.scrollWidth - 1;
+      // 8px tolerance: the scroll viewport has px-1 (4px) padding so
+      // snap-start can land the leftmost tab at scrollLeft≈4 rather
+      // than exactly 0. Plus sub-pixel rounding adds another 1–2px.
+      // Using a tight threshold (<=1) flipped atStart to false and
+      // applied the mid-scroll mask — which fades the leftmost tab's
+      // left edge. The 8px buffer absorbs the padding-driven offset.
+      const atStart = el.scrollLeft <= 8;
+      const atEnd = el.scrollLeft + el.clientWidth >= el.scrollWidth - 8;
       setTabFade((prev) =>
         prev.atStart === atStart && prev.atEnd === atEnd
           ? prev
