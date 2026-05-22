@@ -28,6 +28,13 @@ import carnivalDancer from "../imports/carnival-dancer.jpg";
 import fisc2025DiliDay3 from "../imports/fisc-2025-dili-day3.jpg";
 import speakersImage from "../imports/speakers5.png";
 import newsletterImage from "../imports/newsletter.jpg";
+import resourcesHero from "../imports/resources-hero.webp";
+import materialsHero from "../imports/materials-hero.webp";
+import videosHero from "../imports/videos-hero.webp";
+import galleryHero from "../imports/gallery-hero.webp";
+import mediaHero from "../imports/media-hero.webp";
+import attendeesHero from "../imports/attendees-hero.webp";
+import delegateGuideHero from "../imports/delegate-guide-hero.webp";
 
 // Host-country officials — Trinidad & Tobago is FISC 2026's host, so the
 // 2025 Timor-Leste keynotes are replaced by the current PM and Minister of
@@ -59,24 +66,22 @@ export const VENUE_IMG_1 = maracasCabin;
 export const VENUE_IMG_2 = queensRoyalCollege;
 export const VENUE_IMG_3 = maracasBeach;
 
-// Hero backgrounds — all bound to bundled Trinidad imagery per the design
-// review's P0: every page hero should anchor in the host country. The earlier
-// generic Unsplash placeholders were swapped out 1:1; we have six unique
-// Trinidad/T&T photos to rotate across nine surfaces, so a few intentionally
-// repeat (port-of-spain-aerial appears on /resources and /media-coverage —
-// both are "overview" surfaces and the Hyatt itself is visible in the frame).
+// Hero backgrounds. Public narrative pages stay anchored in bundled Trinidad
+// imagery; resource/detail surfaces use generated editorial table scenes so
+// each gated section reads as a distinct tool/archive rather than a repeated
+// destination photo.
 export const HERO_ABOUT = aboutHeroImage;
 export const NEWSLETTER_IMG = newsletterImage;
 export const HERO_AGENDA = eventsImage;
 export const HERO_SPEAKERS = speakersImage;
 export const HERO_VENUE = maracasBeach;
-export const HERO_RESOURCES = agendaImage;
-export const HERO_ATTENDEES = aboutImage;
-export const HERO_MATERIALS = agendaImage;
-export const HERO_GUIDE = maracasBeach;
-export const HERO_GALLERY = fisc2025DiliDay3;
-export const HERO_VIDEOS = carnivalDancer;
-export const HERO_MEDIA = portOfSpainAerial;
+export const HERO_RESOURCES = resourcesHero;
+export const HERO_ATTENDEES = attendeesHero;
+export const HERO_MATERIALS = materialsHero;
+export const HERO_GUIDE = delegateGuideHero;
+export const HERO_GALLERY = galleryHero;
+export const HERO_VIDEOS = videosHero;
+export const HERO_MEDIA = mediaHero;
 // Sign-in background is a purpose-generated Replicate image (no Trinidad
 // stand-in covers the same composition), so it stays remote — the only
 // non-bundled hero in the build.
@@ -408,7 +413,7 @@ export type AttendeeEntry = {
 
 export const attendees: AttendeeEntry[] = [
   { name: "Davendranath Tancoo", role: "Minister of Finance", org: "Government of Trinidad & Tobago", country: "Trinidad & Tobago", img: davendranathTancoo, linkedin: "https://www.linkedin.com/in/davendranath-tancoo", delegationLead: true, subtitle: "Advocate for fiscal transparency since 2010." },
-  { name: "The Hon. Kamla Persad-Bissessar", role: "Prime Minister", org: "Government of Trinidad & Tobago", country: "Trinidad & Tobago", img: kamlaPersadBissessar, delegationLead: true, subtitle: "First woman to lead Trinidad & Tobago." },
+  { name: "Kamla Persad-Bissessar", role: "Prime Minister", org: "Government of Trinidad & Tobago", country: "Trinidad & Tobago", img: kamlaPersadBissessar, delegationLead: true, subtitle: "First woman to lead Trinidad & Tobago." },
   { salutation: "Mr.", name: "Brandon Francis", role: "Senior Systems Analyst", org: "Government of Antigua and Barbuda", country: "Antigua", delegationLead: true },
   { salutation: "Mr.", name: "Brendan J. Toner", role: "Finance Reform Director", org: "Government of Barbados", country: "Barbados" },
   { salutation: "Ms.", name: "Christina Elnei", role: "Director, Budget Modernization", org: "Ministry of Finance", country: "South Sudan" },

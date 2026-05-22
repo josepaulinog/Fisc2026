@@ -184,6 +184,8 @@ export function PageHero({
   title,
   subtitle,
   image,
+  imageOverlay = true,
+  imageOverlayStrength = 1,
   children,
 }: {
   label: string;
@@ -194,12 +196,19 @@ export function PageHero({
   title: React.ReactNode;
   subtitle?: string;
   image?: string;
+  /** When false, render the hero image cleanly without dark gradient/grain overlays. */
+  imageOverlay?: boolean;
+  /** 1 matches the original overlay treatment; 0.5 renders it at half strength. */
+  imageOverlayStrength?: number;
   /** Optional in-hero content rendered below the subtitle. Used by Agenda
    *  to mount the day-tabs row directly inside the dark hero surface, so
    *  the tabs read as part of the page header rather than a separate
    *  widget on the section below. */
   children?: React.ReactNode;
 }) {
+  const overlayStrength = imageOverlay ? Math.min(Math.max(imageOverlayStrength, 0), 1) : 0;
+  const imageOpacity = 1 - overlayStrength * 0.55;
+
   return (
     <section className="relative overflow-hidden pt-24 pb-14 md:pt-36 md:pb-24" style={{ backgroundColor: "#0a0a0a" }}>
       {image && (
@@ -207,29 +216,34 @@ export function PageHero({
           <ImageWithFallback
             src={image}
             alt=""
-            className="w-full h-full object-cover opacity-45"
+            className="w-full h-full object-cover"
+            style={{ opacity: imageOpacity }}
           />
         </div>
       )}
-      <div
-        className="absolute inset-0"
-        style={{
-          /* Overlay tuned for headline contrast over busy photography.
-             Top stays heavy (0.75) so the SectionLabel + headline read
-             at AA contrast even when faces / detail compete underneath
-             — the previous 0.65 floor was readable but the agenda hero
-             showed how easily portraits-through-glass could fight the
-             text. Middle drops to ~30% so the image breathes; bottom
-             stays at ~55% so the in-hero slot (e.g. Agenda day tabs)
-             has enough darkness behind it to sit clean. Homepage uses
-             its own custom hero with the rocky.mp4 video; this change
-             doesn't touch it. */
-          background: image
-            ? `radial-gradient(ellipse at 85% 0%, ${BRAND}44 0%, transparent 55%), linear-gradient(180deg, rgba(10,10,10,0.75) 0%, rgba(10,10,10,0.35) 45%, rgba(10,10,10,0.55) 100%)`
-            : `radial-gradient(ellipse at 80% 10%, ${BRAND}55 0%, transparent 50%), linear-gradient(180deg, #0a0a0a 0%, transparent 40%, #0a0a0a 100%)`,
-        }}
-      />
-      <Grain />
+      {overlayStrength > 0 && (
+        <div className="pointer-events-none absolute inset-0" style={{ opacity: overlayStrength }}>
+          <div
+            className="absolute inset-0"
+            style={{
+              /* Overlay tuned for headline contrast over busy photography.
+                 Top stays heavy (0.75) so the SectionLabel + headline read
+                 at AA contrast even when faces / detail compete underneath
+                 — the previous 0.65 floor was readable but the agenda hero
+                 showed how easily portraits-through-glass could fight the
+                 text. Middle drops to ~30% so the image breathes; bottom
+                 stays at ~55% so the in-hero slot (e.g. Agenda day tabs)
+                 has enough darkness behind it to sit clean. Homepage uses
+                 its own custom hero with the rocky.mp4 video; this change
+                 doesn't touch it. */
+              background: image
+                ? `radial-gradient(ellipse at 85% 0%, ${BRAND}44 0%, transparent 55%), linear-gradient(180deg, rgba(10,10,10,0.75) 0%, rgba(10,10,10,0.35) 45%, rgba(10,10,10,0.55) 100%)`
+                : `radial-gradient(ellipse at 80% 10%, ${BRAND}55 0%, transparent 50%), linear-gradient(180deg, #0a0a0a 0%, transparent 40%, #0a0a0a 100%)`,
+            }}
+          />
+          <Grain />
+        </div>
+      )}
       {/* Narrative reveal — eyebrow first, then headline, then body, then
           caption. Each piece arrives with a 80ms stagger after the parent
           waits 150ms (delayChildren) so the page settles before the

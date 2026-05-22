@@ -81,6 +81,7 @@ export default function MediaCoverage() {
         title={<>Media <GradientText>coverage.</GradientText></>}
         subtitle="Press articles, broadcast clips and social posts covering the road to Port of Spain and the conference itself."
         image={HERO_MEDIA}
+        imageOverlayStrength={0.5}
       />
 
       <GatedBody>

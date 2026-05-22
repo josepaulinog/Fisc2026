@@ -54,6 +54,7 @@ export default function DelegateGuide() {
         title={<>{delegateGuide.countryName}<br /><GradientText>from gate to gate.</GradientText></>}
         subtitle={delegateGuide.intro}
         image={HERO_GUIDE}
+        imageOverlayStrength={0.5}
       />
 
       <GatedBody>

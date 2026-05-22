@@ -104,6 +104,7 @@ export default function Materials() {
         title={<>Every deck. <GradientText>Every one-pager.</GradientText></>}
         subtitle="FISC Takeaways translate four days of conversation into reform-ready briefs. Browse the full archive — gated to registered delegates."
         image={HERO_MATERIALS}
+        imageOverlayStrength={0.5}
       />
 
       <GatedBody>
