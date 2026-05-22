@@ -88,10 +88,10 @@ export function Header() {
                     <NavLink
                       to={n.to ?? n.children[0].to}
                       className={({ isActive }) =>
-                        `inline-flex items-center gap-1.5 pl-3 pr-3 py-2 rounded-sm transition-fluid ${
+                        `inline-flex items-center gap-1.5 pl-3 pr-3 py-2 rounded-sm transition-fluid font-medium ${
                           isActive
                             ? "bg-neutral-950 text-white shadow-[inset_0_1px_0_rgba(255,255,255,0.08)]"
-                            : "text-neutral-800 hover:bg-black/[0.05] hover:text-neutral-950"
+                            : "text-neutral-900 hover:bg-black/[0.05]"
                         }`
                       }
                     >
@@ -155,10 +155,10 @@ export function Header() {
                     key={n.label}
                     to={n.to ?? "#"}
                     className={({ isActive }) =>
-                      `inline-flex items-center gap-1.5 pl-3 pr-3 py-2 rounded-sm transition-fluid ${
+                      `inline-flex items-center gap-1.5 pl-3 pr-3 py-2 rounded-sm transition-fluid font-medium ${
                         isActive
                           ? "bg-neutral-950 text-white shadow-[inset_0_1px_0_rgba(255,255,255,0.08)]"
-                          : "text-neutral-700 hover:bg-black/[0.05] hover:text-neutral-950"
+                          : "text-neutral-900 hover:bg-black/[0.05]"
                       }`
                     }
                   >
