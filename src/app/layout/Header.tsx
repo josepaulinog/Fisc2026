@@ -65,9 +65,14 @@ export function Header() {
           <div
             className={`flex items-center justify-between rounded-md ring-1 transition-fluid px-3 md:px-5 ${
               scrolled
-                ? "ring-black/[0.08] bg-white/98 backdrop-blur-2xl h-14 md:h-16 shadow-[0_12px_36px_-14px_rgba(0,0,0,0.18)]"
-                : "ring-black/[0.05] bg-white/95 backdrop-blur-2xl h-16 md:h-[68px] shadow-[0_8px_30px_-12px_rgba(0,0,0,0.12)]"
+                ? "ring-black/[0.08] bg-[#fbfaf7]/85 backdrop-blur-2xl h-14 md:h-16"
+                : "ring-black/[0.05] bg-white/75 backdrop-blur-2xl h-16 md:h-[68px]"
             }`}
+            style={{
+              boxShadow: scrolled
+                ? "inset 0 1px 0 rgba(255, 255, 255, 0.9), 0 12px 36px -14px rgba(0, 0, 0, 0.16)"
+                : "inset 0 1px 0 rgba(255, 255, 255, 0.75), 0 8px 30px -12px rgba(0, 0, 0, 0.1)"
+            }}
           >
             <Link to="/" className="flex items-center shrink-0" aria-label="FISC 2026 home">
               <Lockup variant="dark" size="sm" />
@@ -88,10 +93,10 @@ export function Header() {
                     <NavLink
                       to={n.to ?? n.children[0].to}
                       className={({ isActive }) =>
-                        `inline-flex items-center gap-1.5 pl-3 pr-3 py-2 rounded-sm transition-fluid font-medium text-sm ${
+                        `inline-flex items-center gap-1.5 pl-3 pr-3 py-2 rounded-sm transition-fluid font-medium text-sm active:scale-[0.98] ${
                           isActive
                             ? "bg-neutral-950 text-white shadow-[inset_0_1px_0_rgba(255,255,255,0.08)]"
-                            : "text-neutral-900 hover:bg-black/[0.05]"
+                            : "text-neutral-700 hover:text-neutral-950 hover:bg-black/[0.04]"
                         }`
                       }
                     >
@@ -155,10 +160,10 @@ export function Header() {
                     key={n.label}
                     to={n.to ?? "#"}
                     className={({ isActive }) =>
-                      `inline-flex items-center gap-1.5 pl-3 pr-3 py-2 rounded-sm transition-fluid font-medium text-sm ${
+                      `inline-flex items-center gap-1.5 pl-3 pr-3 py-2 rounded-sm transition-fluid font-medium text-sm active:scale-[0.98] ${
                         isActive
                           ? "bg-neutral-950 text-white shadow-[inset_0_1px_0_rgba(255,255,255,0.08)]"
-                          : "text-neutral-900 hover:bg-black/[0.05]"
+                          : "text-neutral-700 hover:text-neutral-950 hover:bg-black/[0.04]"
                       }`
                     }
                   >

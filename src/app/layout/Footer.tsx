@@ -24,6 +24,7 @@ export function Newsletter() {
   const [value, setValue] = useState("");
   const [error, setError] = useState<string | null>(null);
   const [submitted, setSubmitted] = useState(false);
+  const [isFocused, setIsFocused] = useState(false);
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -133,18 +134,30 @@ export function Newsletter() {
                   // would otherwise feel ambiguous.
                   <form className="flex flex-col gap-3" onSubmit={handleSubmit} noValidate>
                     <div
-                      className={`flex flex-col sm:flex-row sm:items-stretch bg-white rounded-sm overflow-hidden border transition-fluid ${
-                        error ? "border-red-400" : "border-transparent"
+                      className={`flex flex-col sm:flex-row sm:items-stretch bg-white rounded-sm overflow-hidden border transition-all duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] ${
+                        error
+                          ? "border-red-400 focus-within:ring-2 focus-within:ring-red-400/40"
+                          : isFocused
+                          ? "border-[#fd6b18] ring-2 ring-[#fd6b18]/30 shadow-[0_0_15px_rgba(253,107,24,0.15)]"
+                          : "border-neutral-200"
                       }`}
                     >
                       <div className="flex items-center pl-4 sm:pl-5 sm:flex-1">
-                        <Mail size={15} strokeWidth={1.75} className="text-neutral-500 shrink-0" />
+                        <Mail
+                          size={15}
+                          strokeWidth={1.75}
+                          className={`shrink-0 transition-all duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] ${
+                            isFocused ? "text-[#fd6b18] scale-110 translate-x-0.5" : "text-neutral-400"
+                          }`}
+                        />
                         <input
                           type="email"
                           aria-label="Your work email"
                           aria-invalid={!!error}
                           placeholder="Your work email"
                           value={value}
+                          onFocus={() => setIsFocused(true)}
+                          onBlur={() => setIsFocused(false)}
                           onChange={(e) => {
                             setValue(e.target.value);
                             if (error) setError(null);
@@ -155,11 +168,13 @@ export function Newsletter() {
                       <button
                         type="submit"
                         aria-label="Follow"
-                        style={{ backgroundColor: BRAND }}
-                        className="group inline-flex items-center justify-center gap-2 px-5 py-3 sm:py-0 sm:px-5 text-white transition-fluid will-change-transform active:scale-[0.98] hover:brightness-105 shrink-0"
+                        className="group relative overflow-hidden inline-flex items-center justify-center gap-2 px-5 py-3 sm:py-0 sm:px-6 text-white font-medium transition-all duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] will-change-transform active:scale-[0.97] shrink-0"
                       >
-                        <span className="sm:hidden" style={{ fontSize: TYPE.body, fontWeight: 500 }}>Follow</span>
-                        <span className="inline-flex transition-fluid group-hover:translate-x-[1.5px] group-hover:-translate-y-[1.5px]">
+                        <div
+                          className="absolute inset-0 transition-all duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] bg-gradient-to-r from-[#fd6b18] to-[#ff843a] group-hover:from-[#ff843a] group-hover:to-[#fd6b18]"
+                        />
+                        <span className="relative sm:hidden" style={{ fontSize: TYPE.body, fontWeight: 500 }}>Follow</span>
+                        <span className="relative inline-flex transition-transform duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] group-hover:translate-x-1 group-hover:-translate-y-0.5">
                           <BracketArrow
                             size={14}
                             strokeWidth={1.75}

@@ -84,7 +84,16 @@ function Hero() {
       <div
         className="absolute inset-0"
         style={{
-          background: `radial-gradient(ellipse at 80% 10%, ${BRAND}55 0%, transparent 50%), radial-gradient(ellipse at 0% 100%, #00000099 0%, transparent 60%), linear-gradient(180deg, ${INK} 0%, transparent 30%, ${INK}cc 100%)`,
+          background: `radial-gradient(ellipse at 80% 10%, ${BRAND}55 0%, transparent 50%), radial-gradient(ellipse at 20% 40%, #ff8e421a 0%, transparent 40%), radial-gradient(ellipse at 0% 100%, #000000a6 0%, transparent 60%), linear-gradient(180deg, ${INK} 0%, transparent 30%, ${INK}cc 100%)`,
+        }}
+      />
+      <div 
+        className="absolute inset-0 pointer-events-none opacity-[0.06] mix-blend-overlay"
+        style={{
+          backgroundImage: `linear-gradient(to right, rgba(255,255,255,0.15) 1px, transparent 1px), linear-gradient(to bottom, rgba(255,255,255,0.15) 1px, transparent 1px)`,
+          backgroundSize: '40px 40px',
+          maskImage: 'radial-gradient(ellipse at center, black 40%, transparent 80%)',
+          WebkitMaskImage: 'radial-gradient(ellipse at center, black 40%, transparent 80%)'
         }}
       />
       <Grain />
@@ -289,10 +298,10 @@ function CountdownAndActions() {
                 { ref: countriesCount.ref, value: countriesCount.value, l: "Countries" },
                 { ref: homeDelegatesCount.ref, value: homeDelegatesCount.value, l: "Delegates" },
               ].map((s) => (
-                <div key={s.l} className="flex flex-col">
+                <div key={s.l} className="flex flex-col group cursor-default relative pb-2 min-w-[90px]">
                   <span
                     ref={s.ref}
-                    className="tabular-nums tracking-tight"
+                    className="tabular-nums tracking-tight transition-transform duration-300 ease-[cubic-bezier(0.32,0.72,0,1)] group-hover:-translate-y-1 block"
                     style={{
                       color: BRAND,
                       fontSize: "clamp(1.875rem, 3.5vw, 2.625rem)",
@@ -304,11 +313,12 @@ function CountdownAndActions() {
                     {s.value}
                   </span>
                   <span
-                    className="mt-1.5 text-neutral-500 uppercase"
+                    className="mt-1.5 text-neutral-500 uppercase transition-colors duration-300 group-hover:text-neutral-800"
                     style={{ fontSize: "0.6875rem", letterSpacing: "0.22em", fontWeight: 500 }}
                   >
                     {s.l}
                   </span>
+                  <span className="absolute bottom-0 left-0 w-0 h-[2px] transition-all duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] group-hover:w-[40px]" style={{ backgroundColor: BRAND }} />
                 </div>
               ))}
             </motion.div>
@@ -345,49 +355,37 @@ function CountdownAndActions() {
             >
               {/* Left column — 2 stacked tiles with parallax drift */}
               <div className="flex flex-col gap-4 md:gap-5">
-                {/* Top-left: medium tile (4:5 — slightly tall).
-                    Parallax y: 40 → -40 across scroll progress = subtle
-                    upward drift as user scrolls past. scaleIn entry sets
-                    scale/blur/opacity (no y), so style.y composes cleanly
-                    via the merged transform. */}
                 <motion.div
                   variants={scaleIn}
                   style={{ y: tileTopLeftY }}
-                  className="group aspect-[4/5] relative overflow-hidden rounded-xl bg-neutral-100 ring-1 ring-black/[0.06]"
+                  className="group aspect-[4/5] relative overflow-hidden rounded-xl bg-neutral-100 ring-1 ring-black/[0.08] shadow-sm hover:shadow-xl hover:shadow-black/[0.08] transition-[box-shadow] duration-500 ease-[cubic-bezier(0.32,0.72,0,1)]"
                 >
                   <ImageWithFallback
                     src={COLLAGE_1}
                     alt="FISC 2026 — Trinidad and Tobago"
                     className="absolute inset-0 w-full h-full object-cover transition-fluid group-hover:scale-[1.03]"
                   />
+                  <div className="absolute inset-0 pointer-events-none opacity-0 group-hover:opacity-100 -translate-x-full group-hover:translate-x-full transition-all duration-1000 ease-[cubic-bezier(0.32,0.72,0,1)] bg-gradient-to-r from-transparent via-white/20 to-transparent z-10" />
                 </motion.div>
 
-                {/* Bottom-left: small square. Slower parallax (±20) so the
-                    smaller tile doesn't compete with the larger ones. */}
                 <motion.div
                   variants={scaleIn}
                   style={{ y: tileBottomLeftY }}
-                  className="group aspect-square relative overflow-hidden rounded-xl bg-neutral-100 ring-1 ring-black/[0.06]"
+                  className="group aspect-square relative overflow-hidden rounded-xl bg-neutral-100 ring-1 ring-black/[0.08] shadow-sm hover:shadow-xl hover:shadow-black/[0.08] transition-[box-shadow] duration-500 ease-[cubic-bezier(0.32,0.72,0,1)]"
                 >
                   <ImageWithFallback
                     src={COLLAGE_3}
                     alt="Tobago"
                     className="absolute inset-0 w-full h-full object-cover transition-fluid group-hover:scale-[1.03]"
                   />
+                  <div className="absolute inset-0 pointer-events-none opacity-0 group-hover:opacity-100 -translate-x-full group-hover:translate-x-full transition-all duration-1000 ease-[cubic-bezier(0.32,0.72,0,1)] bg-gradient-to-r from-transparent via-white/20 to-transparent z-10" />
                 </motion.div>
               </div>
 
-              {/* Right column — tall hero with vertical offset + the deepest
-                  parallax (±60) so it drifts the most during scroll, creating
-                  a clear Z-depth hierarchy. The image inside also runs a
-                  slow Ken-Burns scale loop (24s) so the photograph "breathes"
-                  continuously — Trinidad feels alive in the frame, not
-                  static. The Ken-Burns runs on a wrapper div so the tile's
-                  hover-scale interaction doesn't fight a continuous animation. */}
               <motion.div
                 variants={scaleIn}
                 style={{ y: tileRightY }}
-                className="group aspect-[3/5] relative overflow-hidden rounded-xl bg-neutral-100 ring-1 ring-black/[0.06] mt-[6%]"
+                className="group aspect-[3/5] relative overflow-hidden rounded-xl bg-neutral-100 ring-1 ring-black/[0.08] shadow-sm hover:shadow-xl hover:shadow-black/[0.08] transition-[box-shadow] duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] mt-[6%]"
               >
                 <motion.div
                   className="absolute inset-0"
@@ -397,9 +395,10 @@ function CountdownAndActions() {
                   <ImageWithFallback
                     src={COLLAGE_2}
                     alt="The FISC delegation"
-                    className="absolute inset-0 w-full h-full object-cover object-[center_30%]"
+                    className="absolute inset-0 w-full h-full object-cover object-[center_30%] transition-fluid group-hover:scale-[1.03]"
                   />
                 </motion.div>
+                <div className="absolute inset-0 pointer-events-none opacity-0 group-hover:opacity-100 -translate-x-full group-hover:translate-x-full transition-all duration-1000 ease-[cubic-bezier(0.32,0.72,0,1)] bg-gradient-to-r from-transparent via-white/20 to-transparent z-10" />
                 <span
                   className="absolute bottom-3 left-3 inline-flex items-center gap-1.5 px-2 py-1 rounded-sm bg-white/85 backdrop-blur text-[10px] tracking-[0.18em] uppercase text-neutral-700 z-10"
                   style={{ fontWeight: 500 }}
@@ -1035,46 +1034,55 @@ function WhatsNew() {
               <motion.div key={u.title} variants={fadeUpTight}>
                 <Link
                   to={u.to}
-                  className="group grid md:grid-cols-12 gap-3 md:gap-6 items-start md:items-center rounded-md border border-neutral-200 bg-white p-5 md:p-6 hover:border-neutral-950 transition"
+                  className="group block rounded-xl p-1.5 bg-black/[0.02] hover:bg-black/[0.04] ring-1 ring-black/[0.04] hover:ring-black/[0.08] hover:-translate-y-0.5 shadow-sm hover:shadow-md transition-all duration-500 ease-[cubic-bezier(0.32,0.72,0,1)]"
                 >
-                  <div className="md:col-span-3 flex items-center gap-3">
-                    <div className="text-xs tracking-[0.2em] uppercase text-neutral-500 shrink-0 tabular-nums">
-                      {u.date}
+                  <div className="rounded-lg overflow-hidden bg-white border border-black/[0.03] shadow-[inset_0_1.5px_0_rgba(255,255,255,0.9)] p-5 md:p-6 group-hover:bg-[#fbfaf8]/40 transition-colors duration-500 ease-[cubic-bezier(0.32,0.72,0,1)]">
+                    <div className="grid md:grid-cols-12 gap-3 md:gap-6 items-start md:items-center">
+                      <div className="md:col-span-3 flex items-center gap-3">
+                        <div className="text-xs tracking-[0.2em] uppercase text-neutral-500 shrink-0 tabular-nums">
+                          {u.date}
+                        </div>
+                      </div>
+                      <div className="md:col-span-2">
+                        <span
+                          className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-sm text-[10px] tracking-wider uppercase font-semibold border"
+                          style={{
+                            backgroundColor: tone.bg,
+                            color: tone.fg,
+                            borderColor: `${tone.fg}20`,
+                          }}
+                        >
+                          <span
+                            className="w-1.5 h-1.5 rounded-full shrink-0 animate-pulse"
+                            style={{ backgroundColor: tone.fg }}
+                          />
+                          {u.category}
+                        </span>
+                      </div>
+                      <div className="md:col-span-6 min-w-0">
+                        <div className="tracking-tight text-neutral-950" style={{ fontSize: "1.0625rem", lineHeight: 1.3, fontWeight: 500 }}>
+                          {u.title}
+                        </div>
+                        <p className="mt-1 text-neutral-700 text-[15px]" style={{ lineHeight: 1.55 }}>
+                          {u.excerpt}
+                        </p>
+                      </div>
+                      <div className="md:col-span-1 md:justify-self-end">
+                        {u.category === "Recap" ? (
+                          <span
+                            className="inline-flex items-center justify-center w-9 h-9 rounded-full text-white shadow-sm transition-transform duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] group-hover:scale-110"
+                            style={{ backgroundColor: BRAND }}
+                          >
+                            <Play size={13} fill="currentColor" className="translate-x-[1px]" />
+                          </span>
+                        ) : (
+                          <ArrowUpRight
+                            size={18}
+                            className="text-neutral-400 group-hover:text-neutral-950 group-hover:-translate-y-0.5 group-hover:translate-x-0.5 transition-all duration-500 ease-[cubic-bezier(0.32,0.72,0,1)]"
+                          />
+                        )}
+                      </div>
                     </div>
-                  </div>
-                  <div className="md:col-span-2">
-                    <span
-                      className="inline-flex items-center px-2.5 py-1 rounded-sm text-xs whitespace-nowrap"
-                      style={{ backgroundColor: tone.bg, color: tone.fg }}
-                    >
-                      {u.category}
-                    </span>
-                  </div>
-                  <div className="md:col-span-6 min-w-0">
-                    <div className="tracking-tight text-neutral-950" style={{ fontSize: "1.0625rem", lineHeight: 1.3, fontWeight: 500 }}>
-                      {u.title}
-                    </div>
-                    <p className="mt-1 text-neutral-700 text-[15px]" style={{ lineHeight: 1.55 }}>
-                      {u.excerpt}
-                    </p>
-                  </div>
-                  <div className="md:col-span-1 md:justify-self-end">
-                    {/* Recap rows get a filled play badge so they read as a
-                        video CTA, not another news headline. Everything else
-                        keeps the consistent arrow-up-right affordance. */}
-                    {u.category === "Recap" ? (
-                      <span
-                        className="inline-flex items-center justify-center w-9 h-9 rounded-full text-white shadow-sm transition group-hover:scale-110"
-                        style={{ backgroundColor: BRAND }}
-                      >
-                        <Play size={13} fill="currentColor" className="translate-x-[1px]" />
-                      </span>
-                    ) : (
-                      <ArrowUpRight
-                        size={18}
-                        className="text-neutral-400 group-hover:text-neutral-950 group-hover:-translate-y-0.5 group-hover:translate-x-0.5 transition"
-                      />
-                    )}
                   </div>
                 </Link>
               </motion.div>
