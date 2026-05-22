@@ -1,59 +1,13 @@
 import { useMemo, useState } from "react";
 import { Link } from "react-router";
 import { motion } from "motion/react";
-import { ArrowUpRight, Linkedin, Mail, Search, Twitter } from "lucide-react";
+import { Search } from "lucide-react";
 import { ImageWithFallback } from "../components/figma/ImageWithFallback";
 import { Grain, GradientText, PageHero, SectionLabel } from "../components/shared";
 import { BRAND, BRAND_SOFT, HERO_SPEAKERS, INK, speakers } from "../data";
+import { BracketArrow } from "../components/ui/BracketArrow";
 
 type Speaker = (typeof speakers)[number];
-
-function Socials({ s, dark = false }: { s: Speaker; dark?: boolean }) {
-  const base = dark
-    ? "border-white/20 text-white/78"
-    : "border-neutral-200 text-neutral-500";
-  return (
-    <div className="flex items-center gap-2">
-      {s.email && (
-        <a
-          href={s.email}
-          aria-label="Email"
-          className={`w-9 h-9 rounded-full border ${base} flex items-center justify-center hover:text-white transition`}
-          onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = BRAND)}
-          onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = "")}
-        >
-          <Mail size={15} strokeWidth={1.5} />
-        </a>
-      )}
-      {s.linkedin && (
-        <a
-          href={s.linkedin}
-          target="_blank"
-          rel="noreferrer"
-          aria-label="LinkedIn"
-          className={`w-9 h-9 rounded-full border ${base} flex items-center justify-center hover:text-white transition`}
-          onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = BRAND)}
-          onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = "")}
-        >
-          <Linkedin size={15} strokeWidth={1.5} />
-        </a>
-      )}
-      {s.twitter && (
-        <a
-          href={s.twitter}
-          target="_blank"
-          rel="noreferrer"
-          aria-label="Twitter"
-          className={`w-9 h-9 rounded-full border ${base} flex items-center justify-center hover:text-white transition`}
-          onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = BRAND)}
-          onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = "")}
-        >
-          <Twitter size={15} strokeWidth={1.5} />
-        </a>
-      )}
-    </div>
-  );
-}
 
 function FeaturedCard({ s, accent = false }: { s: Speaker; accent?: boolean }) {
   return (
@@ -70,9 +24,7 @@ function FeaturedCard({ s, accent = false }: { s: Speaker; accent?: boolean }) {
            crop centers the face, keeps the keynote chip + caption legible,
            and brings the total featured-row height to under one screen on
            mobile. Desktop keeps the portrait crop. */
-        className={`relative block group rounded-md overflow-hidden border ${
-          accent ? "border-transparent" : "border-neutral-200"
-        } bg-neutral-950 text-white aspect-[16/11] sm:aspect-[16/12] md:aspect-[4/5]`}
+        className={`relative block group rounded-md overflow-hidden ring-1 ring-black/[0.08] shadow-[0_4px_18px_-12px_rgba(0,0,0,0.12)] bg-neutral-950 text-white aspect-[16/11] sm:aspect-[16/12] md:aspect-[4/5] transition-fluid hover:-translate-y-0.5 hover:ring-black/[0.15] hover:shadow-[0_12px_32px_-12px_rgba(0,0,0,0.22)] active:scale-[0.99] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-neutral-950 focus-visible:ring-offset-2`}
       >
         <ImageWithFallback
           src={s.img}
@@ -89,14 +41,14 @@ function FeaturedCard({ s, accent = false }: { s: Speaker; accent?: boolean }) {
         />
         <Grain />
         <div className="absolute top-5 left-5 right-5 flex items-start justify-between">
-          <span className="inline-flex items-center gap-2 px-2.5 py-1 rounded-sm bg-black/45 backdrop-blur-sm border border-white/15 text-white text-xs tracking-[0.2em]" style={{ fontWeight: 500 }}>
+          <span className="inline-flex items-center gap-2 px-2.5 py-1 rounded-sm bg-black/45 backdrop-blur-sm ring-1 ring-white/15 text-white text-xs tracking-[0.2em]" style={{ fontWeight: 500 }}>
             KEYNOTE
           </span>
           <span
-            className="w-10 h-10 rounded-full flex items-center justify-center backdrop-blur border border-white/20 transition-transform group-hover:translate-x-1 group-hover:-translate-y-[1px]"
+            className="w-10 h-10 rounded-full flex items-center justify-center backdrop-blur ring-1 ring-white/20 transition-transform group-hover:translate-x-1 group-hover:-translate-y-[1px]"
             style={{ backgroundColor: accent ? BRAND : "rgba(255,255,255,0.1)" }}
           >
-            <ArrowUpRight size={16} strokeWidth={1.5} />
+            <BracketArrow size={14} strokeWidth={1.5} className="text-white" />
           </span>
         </div>
         <div className="absolute bottom-0 left-0 right-0 p-6 md:p-7">
@@ -131,7 +83,7 @@ function MiniCard({ s, i }: { s: Speaker; i: number }) {
     >
       <Link
         to={`/speakers/${s.slug}`}
-        className="group block overflow-hidden rounded-md bg-white ring-1 ring-black/[0.05] shadow-[0_8px_24px_-16px_rgba(0,0,0,0.12)] transition-fluid hover:shadow-[0_16px_40px_-16px_rgba(0,0,0,0.18)]"
+        className="group block overflow-hidden rounded-md bg-white ring-1 ring-black/[0.05] shadow-[0_8px_24px_-16px_rgba(0,0,0,0.12)] transition-fluid hover:-translate-y-0.5 hover:ring-black/15 hover:shadow-[0_16px_40px_-16px_rgba(0,0,0,0.18)] active:scale-[0.99] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-neutral-950 focus-visible:ring-offset-2"
       >
         <div className="grid grid-cols-[88px_1fr] md:grid-cols-[104px_1fr]">
           {/* Square rectangular portrait — replaces the circular avatar that
@@ -200,12 +152,14 @@ export default function Speakers() {
         }
         subtitle="A global lineup of finance ministers, FreeBalance leaders, and public sector innovators shaping the next chapter of Public Financial Management."
         image={HERO_SPEAKERS}
+        hasGrid={true}
+        hasSunset={true}
       />
 
       <section className="py-14 md:py-28 bg-white">
         <div className="max-w-7xl mx-auto px-5 md:px-6">
           <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-8 md:mb-12">
-            <div className="flex items-center gap-2 overflow-x-auto overscroll-x-contain touch-pan-x snap-x snap-proximity -mx-5 px-5 md:mx-0 md:px-0 scrollbar-hide [scroll-padding-inline:1.25rem]">
+            <div className="flex items-center gap-2 overflow-x-auto overscroll-x-contain touch-pan-x snap-x snap-proximity -mx-5 px-5 md:mx-0 md:px-0 scrollbar-hide [scroll-padding-inline:1.25rem] py-1.5">
               {filters.map((f) => {
                 const isActive = filter === f;
                 const count =
@@ -218,15 +172,15 @@ export default function Speakers() {
                   <button
                     key={f}
                     onClick={() => setFilter(f)}
-                    className={`snap-start shrink-0 inline-flex items-center gap-2 px-4 py-2.5 rounded-sm border transition ${
+                    className={`snap-start shrink-0 inline-flex items-center gap-2 px-4 py-2.5 rounded-sm transition-fluid active:scale-[0.97] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-neutral-950 focus-visible:ring-offset-2 ${
                       isActive
-                        ? "bg-neutral-900 border-neutral-900 text-white shadow-[inset_0_1px_0_rgba(255,255,255,0.07),0_3px_10px_-4px_rgba(0,0,0,0.18)]"
-                        : "bg-white border-neutral-200 text-neutral-700 hover:border-neutral-400"
+                        ? "bg-neutral-950 text-white ring-1 ring-neutral-950 shadow-[inset_0_1px_0_rgba(255,255,255,0.1),0_4px_12px_-4px_rgba(0,0,0,0.15)]"
+                        : "bg-white text-neutral-700 ring-1 ring-black/[0.08] hover:ring-black/[0.15] hover:bg-neutral-50"
                     }`}
                   >
                     {f}
                     <span
-                      className={`text-xs px-1.5 py-0.5 rounded ${
+                      className={`text-xs px-1.5 py-0.5 rounded-sm tabular-nums transition-fluid ${
                         isActive ? "bg-white/15 text-white/80" : "bg-neutral-100 text-neutral-500"
                       }`}
                     >
@@ -237,7 +191,7 @@ export default function Speakers() {
               })}
             </div>
 
-            <label className="flex items-center gap-2 bg-white border border-neutral-200 rounded-sm px-4 py-2.5 md:w-72 focus-within:border-neutral-950 transition">
+            <label className="flex items-center gap-2 bg-white ring-1 ring-black/[0.08] rounded-sm px-4 py-2.5 md:w-72 focus-within:ring-2 focus-within:ring-neutral-950 focus-within:ring-offset-2 transition-fluid">
               <Search size={16} strokeWidth={1.5} className="text-neutral-400 shrink-0" />
               <input
                 type="text"

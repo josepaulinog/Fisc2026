@@ -186,6 +186,8 @@ export function PageHero({
   image,
   imageOverlay = true,
   imageOverlayStrength = 1,
+  hasGrid = false,
+  hasSunset = false,
   children,
 }: {
   label: string;
@@ -200,6 +202,10 @@ export function PageHero({
   imageOverlay?: boolean;
   /** 1 matches the original overlay treatment; 0.5 renders it at half strength. */
   imageOverlayStrength?: number;
+  /** Support for grid pattern overlay. */
+  hasGrid?: boolean;
+  /** Support for secondary sunset wash overlay. */
+  hasSunset?: boolean;
   /** Optional in-hero content rendered below the subtitle. Used by Agenda
    *  to mount the day-tabs row directly inside the dark hero surface, so
    *  the tabs read as part of the page header rather than a separate
@@ -237,12 +243,27 @@ export function PageHero({
                  its own custom hero with the rocky.mp4 video; this change
                  doesn't touch it. */
               background: image
-                ? `radial-gradient(ellipse at 85% 0%, ${BRAND}44 0%, transparent 55%), linear-gradient(180deg, rgba(10,10,10,0.75) 0%, rgba(10,10,10,0.35) 45%, rgba(10,10,10,0.55) 100%)`
-                : `radial-gradient(ellipse at 80% 10%, ${BRAND}55 0%, transparent 50%), linear-gradient(180deg, #0a0a0a 0%, transparent 40%, #0a0a0a 100%)`,
+                ? hasSunset
+                  ? `radial-gradient(ellipse at 85% 0%, ${BRAND}44 0%, transparent 55%), radial-gradient(ellipse at 20% 40%, #ff8e421a 0%, transparent 40%), linear-gradient(180deg, rgba(10,10,10,0.75) 0%, rgba(10,10,10,0.35) 45%, rgba(10,10,10,0.55) 100%)`
+                  : `radial-gradient(ellipse at 85% 0%, ${BRAND}44 0%, transparent 55%), linear-gradient(180deg, rgba(10,10,10,0.75) 0%, rgba(10,10,10,0.35) 45%, rgba(10,10,10,0.55) 100%)`
+                : hasSunset
+                  ? `radial-gradient(ellipse at 80% 10%, ${BRAND}55 0%, transparent 50%), radial-gradient(ellipse at 20% 40%, #ff8e421a 0%, transparent 40%), linear-gradient(180deg, #0a0a0a 0%, transparent 40%, #0a0a0a 100%)`
+                  : `radial-gradient(ellipse at 80% 10%, ${BRAND}55 0%, transparent 50%), linear-gradient(180deg, #0a0a0a 0%, transparent 40%, #0a0a0a 100%)`,
             }}
           />
           <Grain />
         </div>
+      )}
+      {hasGrid && (
+        <div 
+          className="absolute inset-0 pointer-events-none opacity-[0.06] mix-blend-overlay"
+          style={{
+            backgroundImage: `linear-gradient(to right, rgba(255,255,255,0.15) 1px, transparent 1px), linear-gradient(to bottom, rgba(255,255,255,0.15) 1px, transparent 1px)`,
+            backgroundSize: '40px 40px',
+            maskImage: 'radial-gradient(ellipse at center, black 40%, transparent 80%)',
+            WebkitMaskImage: 'radial-gradient(ellipse at center, black 40%, transparent 80%)'
+          }}
+        />
       )}
       {/* Narrative reveal — eyebrow first, then headline, then body, then
           caption. Each piece arrives with a 80ms stagger after the parent

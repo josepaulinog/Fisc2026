@@ -122,6 +122,8 @@ export function NestedCTA(props: Props) {
   const sharedClasses =
     `group inline-flex items-center gap-3 pl-6 pr-2 py-2 rounded-sm transition-fluid will-change-transform ` +
     `hover:scale-[1.012] active:scale-[0.98] ` +
+    `focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 ` +
+    `${variant === "glass" ? "focus-visible:ring-white/80" : "focus-visible:ring-neutral-950"} ` +
     `${shadow} ${shadowHover} ${wrapper} ${props.className ?? ""}`;
 
   const inner = (

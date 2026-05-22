@@ -53,6 +53,8 @@ export default function About() {
         title={<>A global forum for <br></br><GradientText>public finance reform.</GradientText></>}
         subtitle="FISC is the annual gathering of the FreeBalance customer community — finance ministers, treasurers, budget directors and PFM practitioners from emerging and developing nations."
         image={HERO_ABOUT}
+        hasGrid={true}
+        hasSunset={true}
       />
 
       {/* OUR APPROACH — 3 pillars */}
@@ -77,24 +79,26 @@ export default function About() {
                 initial={{ opacity: 0, y: 24 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
-                transition={{ delay: i * 0.08 }}
-                className="group p-5 md:p-7 rounded-md border border-neutral-200 bg-white hover:border-neutral-950 hover:bg-neutral-950 hover:text-white transition-all"
+                transition={{ delay: i * 0.08, duration: 0.5, ease: [0.32, 0.72, 0, 1] }}
+                className="group block rounded-xl p-1.5 bg-black/[0.02] hover:bg-black/[0.04] ring-1 ring-black/[0.04] hover:ring-black/[0.08] hover:-translate-y-0.5 shadow-sm hover:shadow-md active:scale-[0.99] transition-all duration-500 ease-[cubic-bezier(0.32,0.72,0,1)]"
               >
-                <div
-                  className="w-11 h-11 md:w-12 md:h-12 rounded-sm flex items-center justify-center mb-4 md:mb-5 group-hover:bg-white/10 transition-colors"
-                  style={{ backgroundColor: `${BRAND}15`, color: BRAND }}
-                >
-                  <p.icon size={20} strokeWidth={1.5} />
+                <div className="h-full rounded-lg bg-white border border-black/[0.03] shadow-[inset_0_1.5px_0_rgba(255,255,255,0.9)] p-5 md:p-7 group-hover:bg-[#fbfaf8]/40 transition-colors duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] flex flex-col items-start">
+                  <div
+                    className="w-11 h-11 md:w-12 md:h-12 rounded-sm flex items-center justify-center mb-4 md:mb-5 transition-transform duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] group-hover:scale-105"
+                    style={{ backgroundColor: `${BRAND}15`, color: BRAND }}
+                  >
+                    <p.icon size={20} strokeWidth={1.5} />
+                  </div>
+                  <div className="tracking-tight text-neutral-950 text-[1.125rem] md:text-[1.25rem] font-medium" style={{ lineHeight: 1.2 }}>
+                    {p.title}
+                  </div>
+                  <p
+                    className="mt-2.5 md:mt-3 text-neutral-700 text-[0.9375rem] md:text-base"
+                    style={{ lineHeight: 1.6 }}
+                  >
+                    {p.desc}
+                  </p>
                 </div>
-                <div className="tracking-tight text-[1.125rem] md:text-[1.25rem]" style={{ lineHeight: 1.2 }}>
-                  {p.title}
-                </div>
-                <p
-                  className="mt-2.5 md:mt-3 text-neutral-700 group-hover:text-white/78 text-[0.9375rem] md:text-base"
-                  style={{ lineHeight: 1.6 }}
-                >
-                  {p.desc}
-                </p>
               </motion.div>
             ))}
           </div>
@@ -122,7 +126,7 @@ export default function About() {
               <p className="text-neutral-700" style={{ fontSize: "1.125rem", lineHeight: 1.7 }}>
                 Together, delegates share progress, challenge assumptions and co-create the next
                 generation of FreeBalance solutions. FISC has shaped product roadmap decisions
-                that now reach governments across more than 10 countries.
+                that now reach governments across more than 40 countries.
               </p>
 
               {/* Editorial pull-quotes replace the feature-bullet list — heritage
@@ -149,15 +153,15 @@ export default function About() {
                 ].map((pq) => (
                   <figure
                     key={pq.q}
-                    className="relative pl-4 md:pl-6"
+                    className="group/quote relative pl-4 md:pl-6 transition-all duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] hover:translate-x-1"
                   >
                     <span
                       aria-hidden
-                      className="absolute left-0 top-0 bottom-0 w-px md:w-[1px]"
+                      className="absolute left-0 top-0 bottom-0 w-px transition-all duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] group-hover/quote:w-0.5 md:group-hover/quote:w-[3px]"
                       style={{ backgroundColor: BRAND }}
                     />
                     <blockquote
-                      className="text-neutral-800 text-[1rem] md:text-[1.0625rem]"
+                      className="text-neutral-800 text-[1rem] md:text-[1.0625rem] transition-colors duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] group-hover/quote:text-neutral-950"
                       style={{ lineHeight: 1.55 }}
                     >
                       <span className="font-display italic">"</span>
@@ -175,7 +179,7 @@ export default function About() {
 
           <motion.div
             initial={{ opacity: 0, scale: 0.97 }} whileInView={{ opacity: 1, scale: 1 }} viewport={{ once: true }}
-            className="mt-12 md:mt-16 relative rounded-md overflow-hidden aspect-[21/9] md:aspect-[21/9] group"
+            className="mt-12 md:mt-16 relative rounded-xl overflow-hidden aspect-[21/9] md:aspect-[21/9] group ring-1 ring-black/[0.08] shadow-sm hover:shadow-xl hover:shadow-black/[0.08] transition-[box-shadow] duration-500 ease-[cubic-bezier(0.32,0.72,0,1)]"
           >
             <ImageWithFallback
               src={ABOUT_IMG}
@@ -183,15 +187,16 @@ export default function About() {
               className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-1000"
             />
             <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/10 to-transparent" />
-            <div className="absolute bottom-5 md:bottom-7 left-5 md:left-7 right-5 md:right-7 text-white flex items-end justify-between gap-4">
+            <div className="absolute inset-0 pointer-events-none opacity-0 group-hover:opacity-100 -translate-x-full group-hover:translate-x-full transition-all duration-1000 ease-[cubic-bezier(0.32,0.72,0,1)] bg-gradient-to-r from-transparent via-white/20 to-transparent z-10" />
+            <div className="absolute bottom-5 md:bottom-7 left-5 md:left-7 right-5 md:right-7 text-white flex items-end justify-between gap-4 z-20">
               <div>
                 <div className="tracking-widest text-white/70 text-sm">EST. 2007 · DILI 2025</div>
                 <div className="mt-1 tracking-tight" style={{ fontSize: "clamp(1.25rem, 3vw, 1.75rem)" }}>
                   The delegation, last year.
                 </div>
               </div>
-              <button className="group/btn w-11 h-11 md:w-12 md:h-12 rounded-full bg-white/10 border border-white/30 backdrop-blur flex items-center justify-center hover:bg-white hover:text-neutral-950 transition shrink-0">
-                <ArrowUpRight size={18} strokeWidth={1.5} className="transition-transform group-hover/btn:translate-x-0.5 group-hover/btn:-translate-y-0.5" />
+              <button className="group/btn w-11 h-11 md:w-12 md:h-12 rounded-full bg-white/10 border border-white/30 backdrop-blur flex items-center justify-center hover:bg-white hover:text-neutral-950 active:scale-[0.95] transition-all duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] shrink-0">
+                <ArrowUpRight size={18} strokeWidth={1.5} className="transition-transform duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] group-hover/btn:translate-x-0.5 group-hover/btn:-translate-y-0.5" />
               </button>
             </div>
           </motion.div>
@@ -229,14 +234,12 @@ export default function About() {
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
-                transition={{ delay: (i % 2) * 0.1 }}
-                className={`group py-6 md:py-8 border-t border-neutral-200 sm:[&:nth-child(-n+2)]:border-t ${
-                  i >= 2 ? "" : ""
-                }`}
+                transition={{ delay: (i % 2) * 0.1, duration: 0.5, ease: [0.32, 0.72, 0, 1] }}
+                className="group py-6 md:py-8 border-t border-neutral-200 transition-all duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] hover:bg-[#fbfaf8]/60 hover:-mx-4 hover:px-4 rounded-xl"
               >
                 <div className="flex items-baseline gap-4 md:gap-5">
                   <span
-                    className="tabular-nums tracking-tight text-neutral-300 shrink-0"
+                    className="tabular-nums tracking-tight text-neutral-300 shrink-0 transition-all duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] group-hover:text-[#fd6b18] group-hover:-translate-y-1 inline-block will-change-transform"
                     style={{ fontSize: "clamp(1.625rem, 2.5vw, 2rem)", lineHeight: 1, fontWeight: 300 }}
                   >
                     {b.n}
@@ -280,9 +283,7 @@ export default function About() {
                 aria-label={label}
                 target="_blank"
                 rel="noreferrer"
-                className="w-12 h-12 rounded-full border border-neutral-200 text-neutral-700 hover:text-white hover:border-transparent flex items-center justify-center transition"
-                onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = BRAND)}
-                onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = "")}
+                className="w-12 h-12 rounded-full border border-neutral-200 text-neutral-700 hover:text-white hover:bg-[#fd6b18] hover:border-[#fd6b18] flex items-center justify-center active:scale-[0.95] transition-all duration-500 ease-[cubic-bezier(0.32,0.72,0,1)]"
               >
                 <Icon size={18} strokeWidth={1.5} />
               </a>
@@ -290,11 +291,11 @@ export default function About() {
           </div>
 
           <div
-            className="mt-6 inline-flex items-center gap-2 px-4 py-2 rounded-full text-white"
-            style={{ backgroundColor: BRAND }}
+            className="mt-6 inline-flex items-center gap-2.5 px-4.5 py-2.5 rounded-full text-white shadow-sm ring-1 ring-black/[0.04] transition-all duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] hover:scale-[1.02] hover:shadow-md cursor-default"
+            style={{ backgroundColor: BRAND, paddingLeft: "1.125rem", paddingRight: "1.125rem", paddingTop: "0.5rem", paddingBottom: "0.5rem" }}
           >
             <span className="w-1.5 h-1.5 rounded-full bg-white animate-pulse" />
-            <span className="tracking-[0.18em] uppercase text-sm" style={{ fontWeight: 600 }}>
+            <span className="tracking-[0.18em] uppercase text-[11px]" style={{ fontWeight: 600 }}>
               #FISC2026
             </span>
           </div>

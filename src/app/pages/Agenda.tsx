@@ -133,16 +133,16 @@ export default function Agenda() {
                 key={d.label}
                 onClick={() => selectDay(i)}
                 aria-pressed={isActive}
-                className={`snap-start shrink-0 px-3 md:px-5 py-2 md:py-3 rounded-sm text-left transition-fluid will-change-transform ${
+                className={`snap-start shrink-0 px-3 md:px-5 py-2 md:py-3 rounded-sm text-left transition-fluid will-change-transform active:scale-[0.97] focus:outline-none focus-visible:ring-2 focus-visible:ring-neutral-950 focus-visible:ring-offset-2 focus-visible:ring-offset-[#f6f4ef] ${
                   isActive
-                    ? ""
-                    : "bg-white ring-1 ring-black/[0.07] hover:shadow-[0_2px_10px_-6px_rgba(0,0,0,0.12)] focus:outline-none focus-visible:ring-2 focus-visible:ring-neutral-950 focus-visible:ring-offset-2 focus-visible:ring-offset-[#f6f4ef]"
+                    ? "text-white"
+                    : "bg-white text-neutral-900 ring-1 ring-black/[0.07] hover:bg-neutral-50 hover:ring-black/[0.12] hover:shadow-[0_2px_10px_-6px_rgba(0,0,0,0.12)]"
                 }`}
                 style={
                   isActive
                     ? {
                         backgroundColor: BRAND,
-                        boxShadow: "inset 0 1px 0 rgba(255,255,255,0.18)",
+                        boxShadow: "inset 0 1px 0 rgba(255,255,255,0.18), 0 4px 12px -4px rgba(253,107,24,0.35)",
                       }
                     : undefined
                 }
@@ -187,6 +187,8 @@ export default function Agenda() {
         }
         subtitle="Country-led workshops, presentations and panels — alongside cultural moments across Trinidad and Tobago."
         image={HERO_AGENDA}
+        hasGrid={true}
+        hasSunset={true}
       />
 
       <section
@@ -316,21 +318,14 @@ function SessionRow({
 
   return (
     <li
-      className="group relative rounded-md bg-white ring-1 ring-black/[0.05] shadow-[0_4px_18px_-12px_rgba(0,0,0,0.1)] transition-fluid hover:shadow-[0_10px_28px_-14px_rgba(0,0,0,0.16)] overflow-hidden"
-      style={
-        tagAccent
-          ? {
-              // Tag-tinted left accent — 3px slab using chipAccent (vibrant
-              // mid-light OKLCH at 62% lightness / 0.2 chroma) instead of the
-              // chip's foreground colour (40% / 0.13). The fg was tuned for
-              // chip-text readability; as a border slab it read muddy and
-              // dark. chipAccent gives the bar real presence against white
-              // while staying within the same hue family as the chip below.
-              boxShadow: `inset 3px 0 0 0 ${tagAccent}, 0 4px 18px -12px rgba(0,0,0,0.1)`,
-            }
-          : undefined
-      }
+      className="group relative rounded-md bg-white ring-1 ring-black/[0.05] shadow-[0_4px_18px_-12px_rgba(0,0,0,0.1)] transition-fluid hover:-translate-y-0.5 hover:ring-black/[0.15] hover:shadow-[0_10px_28px_-14px_rgba(0,0,0,0.16)] active:scale-[0.99] focus-within:ring-2 focus-within:ring-neutral-950 focus-within:ring-offset-2 overflow-hidden"
     >
+      {tagAccent && (
+        <span
+          className="absolute left-0 top-0 bottom-0 w-[3px] pointer-events-none z-10"
+          style={{ backgroundColor: tagAccent }}
+        />
+      )}
       {/* Expand button — absolute top-right, anchored consistently across
           mobile (stacked layout) and desktop (row layout). Whole card is
           still the hit target; this is the affordance. Darkened from the
@@ -364,7 +359,7 @@ function SessionRow({
               }
             : undefined
         }
-        className={`p-5 md:p-7 flex flex-col md:flex-row items-start gap-3 md:gap-6 ${
+        className={`focus:outline-none p-5 md:p-7 flex flex-col md:flex-row items-start gap-3 md:gap-6 ${
           hasExpansion ? "cursor-pointer" : ""
         } ${hasExpansion ? "pr-14 md:pr-16" : ""}`}
       >
@@ -458,7 +453,7 @@ function SessionRow({
                   <Link
                     to={detailPath}
                     onClick={(e) => e.stopPropagation()}
-                    className="group/link mt-4 inline-flex items-center gap-2 text-neutral-950 underline underline-offset-4 decoration-1 transition-fluid hover:gap-3"
+                    className="group/link mt-4 inline-flex items-center gap-2 text-neutral-950 underline underline-offset-4 decoration-1 transition-fluid hover:gap-3 focus:outline-none focus-visible:ring-2 focus-visible:ring-neutral-950 focus-visible:ring-offset-2 rounded-sm"
                     style={{ fontSize: "0.9375rem", fontWeight: 500 }}
                   >
                     Open the full briefing
