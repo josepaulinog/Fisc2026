@@ -191,7 +191,7 @@ function CountdownAndActions() {
   // after the 18 editions has settled, so the eye lands on Editions first
   // and the bigger numbers reward continued attention. The "+" suffix is
   // baked into the format function so it appears only after the count
-  // finishes, mirroring the existing useCountUp pattern in TheRoom.
+  // finishes, mirroring the existing useCountUp pattern in Delegation.
   const editionsCount = useCountUp(18, { duration: 1.2 });
   const countriesCount = useCountUp(10, { duration: 1.4, format: (v) => `${v}+` });
   const homeDelegatesCount = useCountUp(20, { duration: 1.6, format: (v) => `${v}+` });
@@ -668,15 +668,15 @@ function CountdownAndActions() {
 }
 
 // ---------------------------------------------------------------------------
-// The Room — belonging moment. Most-underused data on the site (the gated
-// attendees list) becomes a public teaser here. Two states:
+// The 2026 Delegation — belonging moment. Most-underused data on the site
+// (the gated attendees list) becomes a public teaser here. Two states:
 //   - Signed out: flag mosaic with country names. Faces stay gated.
 //   - Signed in: face grid of confirmed delegates (sample of 12).
 // Privacy boundary: the Attendees page is gated; this section honours that
 // gate by never showing delegate faces or names to logged-out visitors.
 // ---------------------------------------------------------------------------
 
-function TheRoom() {
+function Delegation() {
   const { isAuthed } = useAuth();
   // Eight countries — the Marquee strip above already cycles through the
   // full 40+ list, so the Room's purpose is a deliberate scannable read.
@@ -701,16 +701,15 @@ function TheRoom() {
         {/* Header */}
         <div className="grid lg:grid-cols-12 gap-10 md:gap-16 items-end mb-10 md:mb-12">
           <div className="lg:col-span-6">
-            <SectionLabel>The room</SectionLabel>
+            <SectionLabel>The 2026 delegation</SectionLabel>
             <h2 className="tracking-[-0.02em] text-neutral-950" style={{ fontSize: TYPE.h2, lineHeight: 1.05, letterSpacing: TRACKING.snug }}>
-              Who's in <em className="italic">the room.</em>
+              Ten countries. <em className="italic">One conversation.</em>
             </h2>
           </div>
           <div className="lg:col-span-6 lg:pb-2">
             <p className="text-neutral-700 max-w-md" style={{ lineHeight: 1.65 }}>
               The Government of Trinidad &amp; Tobago hosts FISC 2026, welcoming
               delegates from across the FreeBalance customer community.
-              {!isAuthed && " Sign in to see who's coming."}
             </p>
           </div>
         </div>
@@ -903,7 +902,7 @@ function TheRoom() {
                   <span ref={delegatesCount.ref} className="tabular-nums" style={{ fontWeight: 600, color: "#0a0a0a" }}>
                     {delegatesCount.value}
                   </span>
-                  <span className="ml-1">confirmed · sign in to see the room</span>
+                  <span className="ml-1">confirmed · sign in for the full list</span>
                 </>
               )}
           </div>
@@ -913,7 +912,7 @@ function TheRoom() {
             prefixIcon={!isAuthed ? <Lock size={13} strokeWidth={1.75} /> : undefined}
             icon={<BracketArrow size={12} strokeWidth={1.75} />}
           >
-            {isAuthed ? "See the full delegation" : "Sign in to see the room"}
+            {isAuthed ? "See the full delegation" : "Sign in for the full delegation"}
           </NestedCTA>
         </div>
       </div>
@@ -1087,7 +1086,7 @@ export default function Home() {
     <>
       <Hero />
       <CountdownAndActions />
-      <TheRoom />
+      <Delegation />
       <WhatsNew />
     </>
   );
