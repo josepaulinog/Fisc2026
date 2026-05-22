@@ -88,7 +88,7 @@ export function Header() {
                     <NavLink
                       to={n.to ?? n.children[0].to}
                       className={({ isActive }) =>
-                        `inline-flex items-center gap-1.5 pl-3 pr-3 py-2 rounded-sm transition-fluid font-medium ${
+                        `inline-flex items-center gap-1.5 pl-3 pr-3 py-2 rounded-sm transition-fluid font-medium text-sm ${
                           isActive
                             ? "bg-neutral-950 text-white shadow-[inset_0_1px_0_rgba(255,255,255,0.08)]"
                             : "text-neutral-900 hover:bg-black/[0.05]"
@@ -155,7 +155,7 @@ export function Header() {
                     key={n.label}
                     to={n.to ?? "#"}
                     className={({ isActive }) =>
-                      `inline-flex items-center gap-1.5 pl-3 pr-3 py-2 rounded-sm transition-fluid font-medium ${
+                      `inline-flex items-center gap-1.5 pl-3 pr-3 py-2 rounded-sm transition-fluid font-medium text-sm ${
                         isActive
                           ? "bg-neutral-950 text-white shadow-[inset_0_1px_0_rgba(255,255,255,0.08)]"
                           : "text-neutral-900 hover:bg-black/[0.05]"
