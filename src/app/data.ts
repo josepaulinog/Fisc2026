@@ -16,6 +16,7 @@ import eventsImage from "../imports/events.jpg";
 // into src/imports/ during the prototype build. Replaces the earlier generic
 // Unsplash placeholders so the prototype reads as the actual destination.
 import portOfSpainAerial from "../imports/port-of-spain-aerial.jpg";
+import hyattTrinidad from "../imports/hyatt-trinidad.webp";
 import collage1Img from "../imports/collage1.png";
 import delegationImg from "../imports/delegation3.png";
 import tobagoImg from "../imports/tobago.png";
@@ -81,11 +82,11 @@ export const HERO_MEDIA = portOfSpainAerial;
 export const HERO_SIGNIN =
   "https://replicate.delivery/xezq/jWh9MKFLGZ61KBEdNPT1P2TyowbN0EMHzWeJv4pmILjfSlXUA/tmp6_134lj_.jpg";
 
-// The Hyatt Regency stands on the Port of Spain waterfront — until we get
-// the hotel's own photography, the aerial shows the actual location (the
-// Hyatt's white tower is visible in frame) and is more honest than the
-// Croatian coastline placeholder it replaces.
-export const VENUE_HOTEL = portOfSpainAerial;
+// The Hyatt Regency stands on the Port of Spain waterfront. VENUE_HOTEL
+// is the hotel's own property photography (hyatt-trinidad.webp) used on
+// the Venue page's Hotel hero. The wider aerial (portOfSpainAerial) is
+// still available for context-of-place surfaces via VENUE_STREET / HERO_MEDIA.
+export const VENUE_HOTEL = hyattTrinidad;
 export const VENUE_STREET = portOfSpainAerial;
 export const VENUE_FOOD = maracasCabin;
 export const VENUE_STEELPAN = carnivalDancer;

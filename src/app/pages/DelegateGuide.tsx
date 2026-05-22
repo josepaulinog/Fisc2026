@@ -118,7 +118,7 @@ export default function DelegateGuide() {
               className="lg:col-span-6 relative rounded-3xl overflow-hidden"
               style={{ aspectRatio: "4 / 4" }}
             >
-              <ImageWithFallback src={portOfSpainMap2} alt="Map of Port of Spain marking the Hyatt Regency venue location" className="absolute inset-0 w-full h-full object-cover md:p-10" />
+              <ImageWithFallback src={portOfSpainMap2} alt="Map of Port of Spain marking the Hyatt Regency venue location" className="absolute inset-0 w-full h-full object-cover" />
 
 
             </motion.div>
