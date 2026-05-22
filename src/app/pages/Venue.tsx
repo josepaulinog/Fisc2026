@@ -1,9 +1,7 @@
 import { motion } from "motion/react";
 import {
   Calendar,
-  Clock,
   Compass,
-  Globe,
   Landmark,
   MapPin,
   Plane,
@@ -11,7 +9,6 @@ import {
   Sun,
   Utensils,
   Waves,
-  Wind,
 } from "lucide-react";
 import { ImageWithFallback } from "../components/figma/ImageWithFallback";
 import { Grain, GradientText, PageHero, SectionLabel } from "../components/shared";
@@ -19,7 +16,6 @@ import { NestedCTA } from "../components/ui/NestedCTA";
 import { BracketArrow } from "../components/ui/BracketArrow";
 import {
   BRAND,
-  BRAND_SOFT,
   HERO_VENUE,
   INK,
   VENUE_FOOD,
@@ -36,15 +32,6 @@ const quickFacts = [
   { icon: Landmark, label: "Venue", value: "Hyatt Regency" },
   { icon: MapPin, label: "City", value: "Port of Spain" },
   { icon: Plane, label: "Airport", value: "POS · 30 min" },
-];
-
-const essentials = [
-  { icon: Sun, title: "Climate", text: "Tropical, 28–32°C in June. Pack light, breathable layers and an umbrella." },
-  { icon: Clock, title: "Time zone", text: "AST · UTC-4. No daylight saving — straightforward for European arrivals." },
-  { icon: Globe, title: "Language", text: "English is the official language; Trinidadian Creole is widely spoken." },
-  { icon: Compass, title: "Currency", text: "Trinidad & Tobago Dollar (TTD). USD widely accepted at the venue." },
-  { icon: Wind, title: "Getting around", text: "Hyatt arranges shuttles between the airport, sessions and cultural evenings." },
-  { icon: Sparkles, title: "Visa & invitation", text: "Delegation leads coordinate official invitation letters via the secretariat." },
 ];
 
 // Order matters: indices 0 and 3 land in the WIDE bento slots. Carnival
@@ -194,7 +181,7 @@ export default function Venue() {
                   Book delegate rate
                 </NestedCTA>
                 <NestedCTA
-                  href="#map"
+                  href="https://www.google.com/maps/search/?api=1&query=Hyatt+Regency+Trinidad"
                   variant="ghost"
                   icon={<MapPin size={15} strokeWidth={1.5} />}
                 >
@@ -262,115 +249,58 @@ export default function Venue() {
         </div>
       </section>
 
-      {/* Travel essentials */}
-      <section className="py-14 md:py-28 relative overflow-hidden" style={{ backgroundColor: INK }}>
-        <Grain />
-        <div
-          className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[60rem] h-[30rem] rounded-full blur-3xl opacity-25"
-          style={{ backgroundColor: BRAND }}
-        />
-        <div className="relative max-w-7xl mx-auto px-5 md:px-6">
-          <div className="grid lg:grid-cols-12 gap-8 md:gap-12 mb-10 md:mb-14">
-            <div className="lg:col-span-6">
-              <SectionLabel tone="light">Travel essentials</SectionLabel>
-              <h2 className="tracking-[-0.02em] text-white/95" style={{ fontSize: "clamp(1.875rem, 4vw, 3rem)", lineHeight: 1.05 }}>
-                Everything you need <br className="hidden md:block" />before you land.
-              </h2>
-            </div>
-            <div className="lg:col-span-6 lg:pt-10 text-white/70" style={{ lineHeight: 1.7 }}>
-              Each delegate receives a detailed travel pack from the secretariat
-              two weeks before arrival, including ground transport, room
-              assignments and a personalised programme.
-            </div>
-          </div>
-
-          {/* Doppelrand essentials cards — outer hairline tray + inner darker
-              core with inset top highlight. Reads as a glass plate set into
-              a frame on the INK background. Hover deepens the inner core +
-              strengthens the outer ring (instead of swapping a flat bg). */}
-          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-3 md:gap-4">
-            {essentials.map((e, i) => (
-              <motion.div
-                key={e.title}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: (i % 3) * 0.07 }}
-                className="group rounded-md p-1 bg-white/[0.03] ring-1 ring-white/[0.08] hover:ring-white/[0.16] transition-all"
-              >
-                <div
-                  className="rounded-sm bg-white/[0.04] group-hover:bg-white/[0.07] transition-colors p-5 md:p-6"
-                  style={{ boxShadow: "inset 0 1px 0 rgba(255,255,255,0.06)" }}
-                >
-                  <div
-                    className="w-11 h-11 rounded-sm flex items-center justify-center mb-5"
-                    style={{ backgroundColor: `${BRAND}22`, color: BRAND_SOFT }}
-                  >
-                    <e.icon size={18} strokeWidth={1.5} />
-                  </div>
-                  <div className="tracking-tight text-white" style={{ fontSize: "1.125rem" }}>{e.title}</div>
-                  <p className="mt-2 text-white/65" style={{ lineHeight: 1.6 }}>{e.text}</p>
-                </div>
-              </motion.div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Arrival / map */}
-      <section id="map" className="py-14 md:py-28 bg-white scroll-mt-24">
+      {/* Closing handoff — Venue page sells the destination, Delegate Guide
+          owns the operational arrival pack. This card bridges the two
+          without duplicating content. Replaces the previous "Travel
+          essentials" + "Arrival/map" sections, both of which now live
+          (canonically) on /resources/delegate-guide. */}
+      <section className="py-14 md:py-24" style={{ backgroundColor: "#f6f4ef" }}>
         <div className="max-w-7xl mx-auto px-5 md:px-6">
-          <div className="rounded-md overflow-hidden border border-neutral-200 grid md:grid-cols-2">
-            <div className="relative min-h-[280px] md:min-h-[420px]">
-              <ImageWithFallback src={VENUE_STREET} alt="Map" className="absolute inset-0 w-full h-full object-cover" />
-              <div className="absolute inset-0 bg-gradient-to-tr from-black/60 to-transparent" />
-              <div className="absolute top-5 left-5 inline-flex items-center gap-2 px-3 py-1.5 rounded-sm bg-white/90 text-neutral-900 text-xs tracking-[0.2em]">
-                <MapPin size={14} strokeWidth={1.5} style={{ color: BRAND }} /> 10.6488° N · 61.5179° W
-              </div>
-              <div className="absolute bottom-5 left-5 right-5 text-white">
-                <div className="text-white/70 text-xs tracking-[0.2em] uppercase">Hyatt Regency</div>
-                <div className="mt-1 tracking-tight" style={{ fontSize: "1.5rem" }}>1 Wrightson Road</div>
-              </div>
-            </div>
-            <div className="p-8 md:p-10 flex flex-col justify-between">
-              <div>
-                <SectionLabel>Arrival</SectionLabel>
-                <h3 className="tracking-[-0.02em] text-neutral-950" style={{ fontSize: "clamp(1.5rem, 3vw, 2rem)", lineHeight: 1.1 }}>
-                  Land at <span style={{ color: BRAND }}>POS</span>. Shuttle to the venue.
-                </h3>
-                <p className="mt-4 text-neutral-700" style={{ lineHeight: 1.7 }}>
-                  Piarco International Airport (POS) is the main gateway, with
-                  daily connections from Miami, New York, London, Toronto,
-                  Panama City and across the Caribbean.
+          <div
+            className="relative rounded-md overflow-hidden text-white"
+            style={{ backgroundColor: INK }}
+          >
+            <div
+              className="absolute inset-0"
+              style={{
+                background: `radial-gradient(circle at 85% 25%, ${BRAND}55, transparent 55%)`,
+              }}
+            />
+            <Grain />
+            <div className="relative p-8 md:p-14 grid lg:grid-cols-12 gap-8 md:gap-10 items-end">
+              <div className="lg:col-span-7">
+                <SectionLabel tone="light">Heading to Trinidad?</SectionLabel>
+                <h2
+                  className="tracking-[-0.02em] mt-3"
+                  style={{
+                    fontSize: "clamp(1.875rem, 3.5vw, 2.75rem)",
+                    lineHeight: 1.05,
+                  }}
+                >
+                  Your full arrival pack{" "}
+                  <em
+                    className="italic"
+                    style={{ paddingInline: "0.05em", marginInline: "-0.025em" }}
+                  >
+                    lives in the delegate guide.
+                  </em>
+                </h2>
+                <p
+                  className="mt-4 text-white/70 max-w-xl"
+                  style={{ lineHeight: 1.65 }}
+                >
+                  Airport routing, shuttle schedule, climate window, voltage,
+                  visa letters and the seven-step pre-arrival checklist — one
+                  gated page, kept current by the secretariat.
                 </p>
               </div>
-              <div className="mt-6 grid grid-cols-3 gap-4 pt-6 border-t border-neutral-100">
-                {[
-                  { k: "Airport", v: "POS" },
-                  { k: "To venue", v: "~30 min" },
-                  { k: "Shuttle", v: "Included" },
-                ].map((s) => (
-                  <div key={s.k}>
-                    <div className="text-xs text-neutral-500 tracking-[0.2em] uppercase">{s.k}</div>
-                    <div className="mt-1 tracking-tight text-neutral-950" style={{ fontSize: "1.125rem" }}>{s.v}</div>
-                  </div>
-                ))}
-              </div>
-              {/* Actionable endpoint — the page used to dead-end with stats. */}
-              <div className="mt-6 flex flex-wrap gap-3">
+              <div className="lg:col-span-5 lg:justify-self-end">
                 <NestedCTA
-                  href="https://www.google.com/maps/search/?api=1&query=Hyatt+Regency+Trinidad"
-                  variant="ink"
+                  to="/resources/delegate-guide"
+                  variant="brand"
                   icon={<BracketArrow size={13} strokeWidth={1.75} />}
                 >
-                  Open in Maps
-                </NestedCTA>
-                <NestedCTA
-                  href="data:text/calendar;charset=utf-8,BEGIN:VCALENDAR%0AVERSION:2.0%0ABEGIN:VEVENT%0ASUMMARY:FISC%202026%20Trinidad%20%26%20Tobago%0ADTSTART:20260629T130000Z%0ADTEND:20260702T230000Z%0ALOCATION:Hyatt%20Regency%2C%201%20Wrightson%20Road%2C%20Port%20of%20Spain%0AEND:VEVENT%0AEND:VCALENDAR"
-                  variant="ghost"
-                  icon={<Calendar size={15} strokeWidth={1.5} />}
-                >
-                  Add to calendar
+                  Open the delegate guide
                 </NestedCTA>
               </div>
             </div>
