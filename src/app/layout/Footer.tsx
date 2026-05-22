@@ -266,7 +266,7 @@ export function Footer({ variant = "compact" }: FooterProps = {}) {
           See you in
           <br />
           <span
-            className="italic"
+            className="italic font-display"
             style={{
               background: `linear-gradient(120deg, ${BRAND_SOFT} 0%, ${BRAND} 60%, #c64b00 100%)`,
               WebkitBackgroundClip: "text",

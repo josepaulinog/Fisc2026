@@ -37,7 +37,7 @@ import { BRAND } from "../../data";
  *     Delegate portal
  *   </NestedCTA>
  */
-type Variant = "brand" | "ink" | "ghost";
+type Variant = "brand" | "ink" | "ghost" | "glass";
 
 type CommonProps = {
   variant?: Variant;
@@ -103,6 +103,14 @@ function variantStyles(v: Variant): VariantSpec {
         wellHover: "group-hover:bg-black/[0.1]",
         shadow: "",
         shadowHover: "",
+      };
+    case "glass":
+      return {
+        wrapper: "bg-white/[0.08] text-white ring-1 ring-white/20 backdrop-blur-md group-hover:bg-white/[0.12] group-hover:ring-white/30",
+        well: "bg-white/10 text-white",
+        wellHover: "group-hover:bg-white/[0.18]",
+        shadow: "shadow-[inset_0_1px_0_rgba(255,255,255,0.08)]",
+        shadowHover: "group-hover:shadow-[inset_0_1px_0_rgba(255,255,255,0.16)]",
       };
   }
 }

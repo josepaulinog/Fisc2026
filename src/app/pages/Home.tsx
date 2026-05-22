@@ -98,7 +98,7 @@ function Hero() {
               <span className="absolute inline-flex h-full w-full rounded-full opacity-75 animate-ping" style={{ backgroundColor: BRAND }} />
               <span className="relative inline-flex rounded-full h-2 w-2" style={{ backgroundColor: BRAND }} />
             </span>
-            <span className="tracking-[0.2em] md:tracking-[0.25em] text-white/90 text-xs md:text-sm">
+            <span className="tracking-[0.2em] md:tracking-[0.25em] text-white/90 text-xs md:text-xs">
               FISC · 2026 · TRINIDAD & TOBAGO
             </span>
           </span>
@@ -265,7 +265,7 @@ function CountdownAndActions() {
               className="tracking-[-0.025em] text-neutral-950"
               style={{ fontSize: TYPE.h2, lineHeight: 1.05, letterSpacing: TRACKING.snug }}
             >
-              A platform for<br></br><GradientText>collaborative engagement.</GradientText>
+              A platform for collaborative engagement.
             </motion.h2>
             <motion.p
               variants={fadeUp}

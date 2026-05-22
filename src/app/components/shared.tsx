@@ -139,8 +139,8 @@ export function SectionLabel({
 export function Marquee() {
   return (
     <div
-      className="relative border-y border-white/10 py-7 md:py-8"
-      style={{ backgroundColor: "rgba(0,0,0,0.4)" }}
+      className="relative border-y border-white/10 py-5 md:py-8"
+      style={{ backgroundColor: "rgba(0,0,0,0.48)" }}
     >
       {/* The band itself is full-bleed (matches the hero width) but the
           scrolling track is contained inside max-w-7xl so items align with
@@ -150,15 +150,15 @@ export function Marquee() {
           be read" — previous size sat halfway between ambient and legible. */}
       <div className="relative max-w-7xl mx-auto px-5 md:px-6 overflow-hidden">
         <div
-          className="pointer-events-none absolute inset-y-0 left-0 z-10 w-16 md:w-24"
-          style={{ background: "linear-gradient(to right, rgba(0,0,0,0.95), rgba(0,0,0,0))" }}
+          className="pointer-events-none absolute inset-y-0 left-0 z-10 w-24 md:w-40"
+          style={{ background: "linear-gradient(to right, rgba(0,0,0,0.98), rgba(0,0,0,0.72) 38%, rgba(0,0,0,0))" }}
         />
         <div
-          className="pointer-events-none absolute inset-y-0 right-0 z-10 w-16 md:w-24"
-          style={{ background: "linear-gradient(to left, rgba(0,0,0,0.95), rgba(0,0,0,0))" }}
+          className="pointer-events-none absolute inset-y-0 right-0 z-10 w-24 md:w-40"
+          style={{ background: "linear-gradient(to left, rgba(0,0,0,0.98), rgba(0,0,0,0.72) 38%, rgba(0,0,0,0))" }}
         />
 
-        <div className="marquee-track flex gap-14 md:gap-16 whitespace-nowrap w-max">
+        <div className="marquee-track flex gap-9 md:gap-16 whitespace-nowrap w-max">
           {[...countries, ...countries].map((c, i) => (
             <span
               key={i}
@@ -167,9 +167,9 @@ export function Marquee() {
             >
               <CountryFlag
                 country={c}
-                className="h-4 md:h-5 w-auto rounded-[2px] shadow-sm shrink-0 ring-1 ring-white/10"
+                className="h-5 w-auto rounded-[2px] shadow-sm shrink-0 ring-1 ring-white/10"
               />
-              <span>{c}</span>
+              <span className="hidden md:inline">{c}</span>
             </span>
           ))}
         </div>
