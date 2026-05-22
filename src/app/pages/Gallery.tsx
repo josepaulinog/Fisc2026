@@ -35,7 +35,7 @@ function PhotoTile({
       viewport={{ once: true, margin: "-40px" }}
       transition={{ duration: 0.4, delay: (i % 8) * 0.04 }}
       onClick={() => onOpen(flatIndex)}
-      aria-label={`Open ${p.caption} — ${p.date}, ${p.time}`}
+      aria-label={`Open ${p.caption} — ${p.date}`}
       className={`group relative rounded-2xl overflow-hidden text-left transition-fluid hover:shadow-[0_18px_40px_-22px_rgba(0,0,0,0.18)] ${
         wide ? "col-span-2 aspect-[16/10]" : "aspect-[4/5]"
       }`}
@@ -46,16 +46,16 @@ function PhotoTile({
         label="Photo · capture pending"
       />
 
-      {/* Top-left day chip — small editorial tag so day-grouping survives
-          even if a tile gets shared/embedded out of its section context. */}
+      {/* Day chip only — the time pill was previously rendered here too,
+          but minute-precise timestamps on a placeholder card implied a
+          schedule-style specificity that's wrong for a gallery surface.
+          The chip survives because it disambiguates a tile shared out
+          of its section header context (deep link, social embed). */}
       <span
         className="absolute top-3 left-3 px-2 py-0.5 rounded-sm text-[10px] tracking-[0.2em] uppercase"
         style={{ backgroundColor: `${BRAND}cc`, color: "#fff" }}
       >
         {p.day}
-      </span>
-      <span className="absolute top-3 right-3 inline-flex items-center gap-1 px-2 py-0.5 rounded-sm bg-black/55 text-white/90 text-[10px] tabular-nums">
-        <Clock size={10} strokeWidth={1.5} /> {p.time}
       </span>
 
       {/* Bottom slab — caption + location. The transparent-to-cream
