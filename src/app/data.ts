@@ -90,6 +90,7 @@ export const VENUE_STREET = portOfSpainAerial;
 export const VENUE_FOOD = maracasCabin;
 export const VENUE_STEELPAN = carnivalDancer;
 export const VENUE_NATURE = scarletIbis;
+export const VENUE_TOBAGO = tobagoImg;
 
 export const BRAND = "#fd6b18";
 export const BRAND_SOFT = "#ffb27a";

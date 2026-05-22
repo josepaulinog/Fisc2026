@@ -18,13 +18,13 @@ import {
   BRAND,
   HERO_VENUE,
   INK,
-  VENUE_FOOD,
   VENUE_HOTEL,
   VENUE_IMG_1,
   VENUE_IMG_2,
+  VENUE_IMG_3,
   VENUE_NATURE,
   VENUE_STEELPAN,
-  VENUE_STREET,
+  VENUE_TOBAGO,
 } from "../data";
 
 const quickFacts = [
@@ -35,16 +35,22 @@ const quickFacts = [
 ];
 
 // Order matters: indices 0 and 3 land in the WIDE bento slots. Carnival
-// Mas + Maracas Bay are the strongest portrait + landscape compositions
+// Mas + Tobago are the strongest cultural-anchor + landscape compositions
 // in the set, so they anchor each desktop row. The narrow tiles fill the
 // remaining slots and the grid-auto-flow:dense layout packs them tightly.
+//
+// Image discipline: every tile uses a distinct asset (no duplicates), and
+// no tile re-shows the Port-of-Spain aerial that's already in the Hotel
+// hero above. The cabin photo is reframed as Maracas food-shack culture
+// (real local context: Maracas is famous for shark-and-bake stalls)
+// because we don't have a dedicated food image in the set.
 const experiences = [
   { img: VENUE_STEELPAN, title: "Carnival Mas", subtitle: "Feathers, music, mas", icon: Sparkles },
   { img: VENUE_NATURE, title: "Scarlet Ibis", subtitle: "Caroni Swamp · national bird", icon: Compass },
-  { img: VENUE_FOOD, title: "Doubles & Roti", subtitle: "Street food culture", icon: Utensils },
-  { img: VENUE_IMG_1, title: "Maracas Bay", subtitle: "North Coast · 40 min drive", icon: Waves },
-  { img: VENUE_STREET, title: "Downtown Port of Spain", subtitle: "Aerial · waterfront capital", icon: Landmark },
-  { img: VENUE_IMG_2, title: "Queen's Royal College", subtitle: "Historic architecture, Port of Spain", icon: Sun },
+  { img: VENUE_IMG_3, title: "Maracas Bay", subtitle: "North Coast · 40 min drive", icon: Waves },
+  { img: VENUE_TOBAGO, title: "Tobago", subtitle: "Sister island · 25 min flight", icon: Sun },
+  { img: VENUE_IMG_1, title: "Beach huts", subtitle: "Maracas Coast · shark-and-bake", icon: Utensils },
+  { img: VENUE_IMG_2, title: "Queen's Royal College", subtitle: "Historic architecture, Port of Spain", icon: Landmark },
 ];
 
 export default function Venue() {
