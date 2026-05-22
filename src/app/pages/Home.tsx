@@ -681,7 +681,14 @@ function TheRoom() {
   // Eight countries — the Marquee strip above already cycles through the
   // full 40+ list, so the Room's purpose is a deliberate scannable read.
   const publicCountries = countries.slice(0, 8);
-  const visibleDelegates = attendees.slice(0, 12);
+  // Exclude the Trinidad delegation leads here — they already get the full
+  // protocol-grade "Hosted by" treatment above, and repeating them as small
+  // avatar tiles makes the duplication read as a layout bug (truncated
+  // "Davendra..." / "Kamla Per..." on mobile in particular). The "And the
+  // delegation" eyebrow implies "the visitors beyond the hosts" — match it.
+  const visibleDelegates = attendees
+    .filter((a) => !(a.country === "Trinidad & Tobago" && a.delegationLead))
+    .slice(0, 12);
   // CountUp on the "300+ confirmed" stat — animates from 0 → 300 when the
   // stat enters the viewport. Makes the number feel earned rather than
   // hardcoded. Format prepends "+" once the count completes.
