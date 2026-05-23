@@ -23,7 +23,7 @@ function AttendeeCard({ a, i }: { a: AttendeeEntry; i: number }) {
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
       transition={{ delay: (i % 8) * 0.04 }}
-      className="group relative rounded-md bg-white p-5 ring-1 ring-black/[0.05] shadow-[0_8px_24px_-16px_rgba(0,0,0,0.1)] hover:ring-neutral-300 hover:shadow-[0_16px_40px_-20px_rgba(0,0,0,0.18)] transition-fluid"
+      className="group relative rounded-md bg-white p-5 ring-1 ring-black/[0.08] shadow-[0_8px_24px_-16px_rgba(0,0,0,0.1)] hover:ring-neutral-300 hover:shadow-[0_16px_40px_-20px_rgba(0,0,0,0.18)] transition-fluid"
     >
       {/* Lead badge — bolder treatment. Was bg-orange/15 + brand-orange
           text (too quiet for a status that signals "speaks for their
@@ -40,7 +40,7 @@ function AttendeeCard({ a, i }: { a: AttendeeEntry; i: number }) {
       <div className="flex items-start gap-4">
         <div className="relative shrink-0">
           {a.img ? (
-            <div className="w-16 h-16 rounded-sm overflow-hidden bg-neutral-100 ring-1 ring-black/[0.05]">
+            <div className="w-16 h-16 rounded-sm overflow-hidden bg-neutral-100 ring-1 ring-black/[0.08]">
               <ImageWithFallback src={a.img} alt={a.name} className="w-full h-full object-cover" />
             </div>
           ) : (
@@ -48,7 +48,7 @@ function AttendeeCard({ a, i }: { a: AttendeeEntry; i: number }) {
             // treatment. Warm cream + muted ink initials reads as a deliberate
             // "portrait pending" state rather than a loud brand chip.
             <div
-              className="w-16 h-16 rounded-sm flex items-center justify-center tracking-tight ring-1 ring-black/[0.05]"
+              className="w-16 h-16 rounded-sm flex items-center justify-center tracking-tight ring-1 ring-black/[0.08]"
               style={{ backgroundColor: "#f4efe6", color: "#737373", fontSize: "0.95rem", fontWeight: 500 }}
             >
               {initialsOf(a.name)}
@@ -71,17 +71,17 @@ function AttendeeCard({ a, i }: { a: AttendeeEntry; i: number }) {
       </div>
       <div className="mt-4 flex items-center gap-2">
         {a.email && (
-          <a href={a.email} aria-label="Email" className="w-8 h-8 rounded-full border border-neutral-200 text-neutral-500 hover:text-white flex items-center justify-center transition" onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = BRAND)} onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = "")}>
+          <a href={a.email} aria-label="Email" className="w-8 h-8 rounded-full ring-1 ring-black/10 text-neutral-500 hover:text-white hover:bg-[#fd6b18] hover:ring-transparent flex items-center justify-center transition-fluid active:scale-[0.95] focus-visible:ring-2 focus-visible:ring-neutral-950 focus-visible:ring-offset-2 focus:outline-none">
             <Mail size={13} />
           </a>
         )}
         {a.linkedin && (
-          <a href={a.linkedin} target="_blank" rel="noreferrer" aria-label="LinkedIn" className="w-8 h-8 rounded-full border border-neutral-200 text-neutral-500 hover:text-white flex items-center justify-center transition" onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = BRAND)} onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = "")}>
+          <a href={a.linkedin} target="_blank" rel="noreferrer" aria-label="LinkedIn" className="w-8 h-8 rounded-full ring-1 ring-black/10 text-neutral-500 hover:text-white hover:bg-[#fd6b18] hover:ring-transparent flex items-center justify-center transition-fluid active:scale-[0.95] focus-visible:ring-2 focus-visible:ring-neutral-950 focus-visible:ring-offset-2 focus:outline-none">
             <Linkedin size={13} />
           </a>
         )}
         {a.twitter && (
-          <a href={a.twitter} target="_blank" rel="noreferrer" aria-label="X" className="w-8 h-8 rounded-full border border-neutral-200 text-neutral-500 hover:text-white flex items-center justify-center transition" onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = BRAND)} onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = "")}>
+          <a href={a.twitter} target="_blank" rel="noreferrer" aria-label="X" className="w-8 h-8 rounded-full ring-1 ring-black/10 text-neutral-500 hover:text-white hover:bg-[#fd6b18] hover:ring-transparent flex items-center justify-center transition-fluid active:scale-[0.95] focus-visible:ring-2 focus-visible:ring-neutral-950 focus-visible:ring-offset-2 focus:outline-none">
             <Twitter size={13} />
           </a>
         )}
@@ -131,7 +131,7 @@ export default function Attendees() {
           { label: "Delegate community" },
         ]}
         title={<>Delegate <GradientText>community.</GradientText></>}
-        subtitle="FISC 2026 brings together finance ministers, treasurers and reformers from 10+ countries. Sign in to see the full list — or scroll on for a preview of the delegation."
+        subtitle="FISC 2026 brings together finance ministers, treasurers and reformers from 40+ countries. Sign in to see the full list — or scroll on for a preview of the delegation."
         image={HERO_ATTENDEES}
         imageOverlayStrength={0.5}
       />
@@ -141,7 +141,7 @@ export default function Attendees() {
         <div className="max-w-7xl mx-auto px-5 md:px-6">
           <div className="grid lg:grid-cols-12 gap-6 md:gap-10 mb-8 md:mb-12">
             <div className="lg:col-span-7">
-              <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-md border border-neutral-200 bg-neutral-50 text-neutral-700 text-xs tracking-[0.2em]">
+              <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-sm ring-1 ring-black/[0.08] bg-neutral-50 text-neutral-700 text-xs tracking-[0.2em]">
                 <Lock size={12} style={{ color: BRAND }} />
                 INVITATION ONLY · PREVIEW
               </div>
@@ -155,7 +155,7 @@ export default function Attendees() {
               </p>
             </div>
             <div className="lg:col-span-5 flex flex-col gap-3 justify-end">
-              <label className="flex items-center gap-2 bg-neutral-50 border border-neutral-200 rounded-lg px-4 py-2.5 focus-within:border-neutral-950 transition">
+              <label className="flex items-center gap-2 bg-neutral-50 ring-1 ring-black/[0.08] focus-within:ring-2 focus-within:ring-neutral-950 focus-within:ring-offset-2 rounded-md px-4 py-2.5 transition-fluid">
                 <Search size={16} className="text-neutral-400 shrink-0" />
                 <input
                   type="text"
@@ -165,17 +165,17 @@ export default function Attendees() {
                   className="flex-1 min-w-0 bg-transparent outline-none text-neutral-900 placeholder:text-neutral-400 text-sm"
                 />
               </label>
-              <div className="flex items-center gap-2 overflow-x-auto overscroll-x-contain touch-pan-x snap-x snap-proximity -mx-5 px-5 md:mx-0 md:px-0 scrollbar-hide [scroll-padding-inline:1.25rem]">
+              <div className="flex items-center gap-2 overflow-x-auto overscroll-x-contain touch-pan-x snap-x snap-proximity -mx-5 px-5 md:mx-0 md:px-0 py-1.5 scrollbar-hide [scroll-padding-inline:1.25rem]">
                 {REGIONS.map((r) => {
                   const isActive = region === r;
                   return (
                     <button
                       key={r}
                       onClick={() => setRegion(r)}
-                      className={`snap-start shrink-0 px-3.5 py-2 rounded-sm border text-sm transition ${
+                      className={`snap-start shrink-0 px-3.5 py-2 rounded-sm text-sm focus-visible:ring-2 focus-visible:ring-neutral-950 focus-visible:ring-offset-2 focus:outline-none active:scale-[0.98] transition-fluid ${
                         isActive
-                          ? "bg-neutral-900 border-neutral-900 text-white shadow-[inset_0_1px_0_rgba(255,255,255,0.07),0_3px_10px_-4px_rgba(0,0,0,0.18)]"
-                          : "bg-white border-neutral-200 text-neutral-700 hover:border-neutral-400"
+                          ? "bg-neutral-900 ring-1 ring-neutral-900 text-white shadow-[inset_0_1px_0_rgba(255,255,255,0.07),0_3px_10px_-4px_rgba(0,0,0,0.18)]"
+                          : "bg-white ring-1 ring-black/[0.08] text-neutral-700 hover:ring-neutral-400"
                       }`}
                     >
                       {r}
@@ -220,7 +220,7 @@ export default function Attendees() {
               .sort((a, b) => b[1] - a[1])
               .slice(0, 8)
               .map(([country, n]) => (
-                <div key={country} className="rounded-md border border-neutral-200 bg-white p-4 flex items-center justify-between gap-3">
+                <div key={country} className="rounded-md ring-1 ring-black/[0.08] bg-white p-4 flex items-center justify-between gap-3">
                   <div className="flex items-center gap-3 min-w-0">
                     <CountryFlag
                       country={country}
@@ -233,7 +233,7 @@ export default function Attendees() {
                       </div>
                     </div>
                   </div>
-                  <div className="w-9 h-9 rounded-full flex items-center justify-center tracking-tight shrink-0" style={{ backgroundColor: BRAND_SOFT, color: "#7a3000" }}>
+                  <div className="w-9 h-9 rounded-full flex items-center justify-center tracking-tight shrink-0 tabular-nums" style={{ backgroundColor: BRAND_SOFT, color: "#7a3000" }}>
                     {n}
                   </div>
                 </div>

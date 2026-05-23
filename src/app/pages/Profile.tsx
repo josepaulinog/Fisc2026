@@ -277,8 +277,8 @@ export default function Profile() {
 
   const fieldBorder = (hasError: boolean) =>
     hasError
-      ? "border-red-300 focus-within:border-red-500"
-      : "border-neutral-200 focus-within:border-neutral-950";
+      ? "ring-1 ring-red-500 focus-within:ring-2 focus-within:ring-red-600 focus-within:ring-offset-2"
+      : "ring-1 ring-black/[0.08] focus-within:ring-2 focus-within:ring-neutral-950 focus-within:ring-offset-2";
 
   return (
     <>
@@ -586,7 +586,7 @@ export default function Profile() {
                   onChange={(e) => update("bio", e.target.value.slice(0, 600))}
                   rows={5}
                   placeholder="Brief introduction…"
-                  className={`mt-2 w-full bg-neutral-50 border rounded-sm px-4 py-3 text-neutral-900 outline-none placeholder:text-neutral-400 transition-fluid resize-y text-[0.9375rem] md:text-base ${fieldBorder(false)}`}
+                  className={`mt-2 w-full bg-neutral-50 rounded-sm px-4 py-3 text-neutral-900 outline-none placeholder:text-neutral-400 transition-fluid resize-y text-[0.9375rem] md:text-base ${fieldBorder(false)}`}
                   style={{ lineHeight: 1.55 }}
                 />
                 <div className="mt-1 text-xs text-neutral-400">
@@ -712,7 +712,7 @@ function FormField({
         {label}
         {required && <span className="text-red-500"> *</span>}
       </span>
-      <div className={`mt-2 flex items-center bg-neutral-50 border rounded-sm px-4 transition-fluid ${fieldBorder(!!error)}`}>
+      <div className={`mt-2 flex items-center bg-neutral-50 rounded-sm px-4 transition-fluid ${fieldBorder(!!error)}`}>
         <Icon size={16} strokeWidth={1.5} className="text-neutral-400 shrink-0" />
         <input
           type={type}

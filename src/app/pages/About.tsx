@@ -80,9 +80,9 @@ export default function About() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: i * 0.08, duration: 0.5, ease: [0.32, 0.72, 0, 1] }}
-                className="group block rounded-xl p-1.5 bg-black/[0.02] hover:bg-black/[0.04] ring-1 ring-black/[0.04] hover:ring-black/[0.08] hover:-translate-y-0.5 shadow-sm hover:shadow-md active:scale-[0.99] transition-all duration-500 ease-[cubic-bezier(0.32,0.72,0,1)]"
+                className="group block rounded-xl p-1.5 bg-black/[0.02] hover:bg-black/[0.04] ring-1 ring-black/[0.04] hover:ring-black/[0.08] hover:-translate-y-0.5 shadow-sm hover:shadow-md active:scale-[0.98] transition-fluid"
               >
-                <div className="h-full rounded-lg bg-white border border-black/[0.03] shadow-[inset_0_1.5px_0_rgba(255,255,255,0.9)] p-5 md:p-7 group-hover:bg-[#fbfaf8]/40 transition-colors duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] flex flex-col items-start">
+                <div className="h-full rounded-lg bg-white ring-1 ring-black/[0.03] shadow-[inset_0_1.5px_0_rgba(255,255,255,0.9)] p-5 md:p-7 group-hover:bg-[#fbfaf8]/40 transition-colors duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] flex flex-col items-start">
                   <div
                     className="w-11 h-11 md:w-12 md:h-12 rounded-sm flex items-center justify-center mb-4 md:mb-5 transition-transform duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] group-hover:scale-105"
                     style={{ backgroundColor: `${BRAND}15`, color: BRAND }}
@@ -283,7 +283,7 @@ export default function About() {
                 aria-label={label}
                 target="_blank"
                 rel="noreferrer"
-                className="w-12 h-12 rounded-full border border-neutral-200 text-neutral-700 hover:text-white hover:bg-[#fd6b18] hover:border-[#fd6b18] flex items-center justify-center active:scale-[0.95] transition-all duration-500 ease-[cubic-bezier(0.32,0.72,0,1)]"
+                className="w-12 h-12 rounded-full ring-1 ring-black/[0.08] text-neutral-700 hover:text-white hover:bg-[#fd6b18] hover:ring-[#fd6b18] flex items-center justify-center active:scale-[0.98] transition-fluid"
               >
                 <Icon size={18} strokeWidth={1.5} />
               </a>

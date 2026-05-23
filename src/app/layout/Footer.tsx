@@ -348,9 +348,7 @@ export function Footer({ variant = "compact" }: FooterProps = {}) {
                   key={label}
                   href="#"
                   aria-label={label}
-                  className="w-10 h-10 rounded-full border border-white/20 text-white/80 flex items-center justify-center hover:text-white hover:border-transparent transition"
-                  onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = BRAND)}
-                  onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = "")}
+                  className="w-10 h-10 rounded-full ring-1 ring-white/20 text-white/80 flex items-center justify-center hover:text-white hover:bg-[#fd6b18] hover:ring-transparent transition-fluid active:scale-90 focus-visible:ring-2 focus-visible:ring-white focus:outline-none"
                 >
                   <Icon size={16} />
                 </a>

@@ -1,6 +1,6 @@
-import { Link } from "react-router";
-import { ArrowRight } from "lucide-react";
 import { Grain, GradientText } from "../components/shared";
+import { NestedCTA } from "../components/ui/NestedCTA";
+import { BracketArrow } from "../components/ui/BracketArrow";
 import { BRAND, INK } from "../data";
 
 export default function NotFound() {
@@ -16,9 +16,11 @@ export default function NotFound() {
         <p className="mt-6 max-w-xl text-white/70" style={{ fontSize: "1.125rem" }}>
           The page you were looking for doesn't exist — or it's still on the boat to Port of Spain.
         </p>
-        <Link to="/" className="mt-8 inline-flex items-center gap-2 px-6 py-3 rounded-lg text-white hover:scale-[1.02] transition" style={{ backgroundColor: BRAND }}>
-          Back to home <ArrowRight size={18} />
-        </Link>
+        <div className="mt-8">
+          <NestedCTA to="/" variant="brand" icon={<BracketArrow size={13} strokeWidth={1.75} />}>
+            Back to home
+          </NestedCTA>
+        </div>
       </div>
     </section>
   );

@@ -99,8 +99,8 @@ export default function DelegateGuide() {
                   { icon: Plug, k: "Voltage", v: delegateGuide.keyFacts.voltage },
                   { icon: Users, k: "Population", v: delegateGuide.keyFacts.population },
                 ].map((row) => (
-                  <div key={row.k} className="flex items-start gap-3 rounded-md border border-neutral-200 bg-white p-4">
-                    <div className="w-9 h-9 rounded-lg flex items-center justify-center shrink-0" style={{ backgroundColor: `${BRAND}15`, color: BRAND }}>
+                  <div key={row.k} className="flex items-start gap-3 rounded-md ring-1 ring-black/[0.08] bg-white p-4">
+                    <div className="w-9 h-9 rounded-sm flex items-center justify-center shrink-0" style={{ backgroundColor: `${BRAND}15`, color: BRAND }}>
                       <row.icon size={15} />
                     </div>
                     <div className="min-w-0">
@@ -116,7 +116,7 @@ export default function DelegateGuide() {
               initial={{ opacity: 0, scale: 0.97 }}
               whileInView={{ opacity: 1, scale: 1 }}
               viewport={{ once: true }}
-              className="lg:col-span-6 relative rounded-3xl overflow-hidden"
+              className="lg:col-span-6 relative rounded-2xl overflow-hidden"
               style={{ aspectRatio: "4 / 4" }}
             >
               <ImageWithFallback src={portOfSpainMap2} alt="Map of Port of Spain marking the Hyatt Regency venue location" className="absolute inset-0 w-full h-full object-cover" />
@@ -129,11 +129,11 @@ export default function DelegateGuide() {
 
       <section className="py-12 md:py-16" style={{ backgroundColor: "#f6f4ef" }}>
         <div className="max-w-7xl mx-auto px-5 md:px-6 grid md:grid-cols-2 gap-4 md:gap-6">
-          <div className="relative rounded-3xl overflow-hidden text-white" style={{ backgroundColor: INK }}>
+          <div className="relative rounded-2xl overflow-hidden text-white" style={{ backgroundColor: INK }}>
             <div className="absolute inset-0" style={{ background: `radial-gradient(circle at 80% 10%, ${BRAND}55, transparent 55%)` }} />
             <Grain />
             <div className="relative p-7 md:p-9">
-              <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-md border border-white/15 bg-white/5 text-xs tracking-[0.2em]">
+              <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-sm border border-white/15 bg-white/5 text-xs tracking-[0.2em]">
                 <Plane size={12} style={{ color: BRAND_SOFT }} /> ARRIVAL
               </div>
               <h3 className="mt-4 tracking-[-0.02em]" style={{ fontSize: "clamp(1.5rem, 2.5vw, 2rem)", lineHeight: 1.05 }}>
@@ -146,7 +146,7 @@ export default function DelegateGuide() {
                 <div className="text-white/55 text-xs tracking-[0.2em] uppercase mb-3">Major routes</div>
                 <div className="flex flex-wrap gap-2">
                   {delegateGuide.flight.majorRoutes.map((r) => (
-                    <span key={r} className="px-3 py-1.5 rounded-md border border-white/15 bg-white/[0.04] text-sm">
+                    <span key={r} className="px-3 py-1.5 rounded-sm border border-white/15 bg-white/[0.04] text-sm">
                       {r}
                     </span>
                   ))}
@@ -155,9 +155,9 @@ export default function DelegateGuide() {
             </div>
           </div>
 
-          <div className="relative rounded-3xl overflow-hidden border border-neutral-200 bg-white">
+          <div className="relative rounded-2xl overflow-hidden ring-1 ring-black/[0.08] bg-white">
             <div className="p-7 md:p-9">
-              <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-md text-xs tracking-[0.2em]" style={{ backgroundColor: `${BRAND}15`, color: BRAND }}>
+              <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-sm text-xs tracking-[0.2em]" style={{ backgroundColor: `${BRAND}15`, color: BRAND }}>
                 <CloudSun size={12} /> WEATHER
               </div>
               <h3 className="mt-4 tracking-[-0.02em] text-neutral-950" style={{ fontSize: "clamp(1.5rem, 2.5vw, 2rem)", lineHeight: 1.05 }}>
@@ -166,11 +166,11 @@ export default function DelegateGuide() {
               <div className="mt-2 text-neutral-500 text-sm tracking-widest uppercase">{delegateGuide.weather.season}</div>
               <p className="mt-4 text-neutral-700" style={{ lineHeight: 1.65 }}>{delegateGuide.weather.notes}</p>
               <div className="mt-6 grid grid-cols-2 gap-3">
-                <div className="rounded-md border border-neutral-200 p-4">
+                <div className="rounded-md ring-1 ring-black/[0.08] p-4">
                   <div className="text-xs tracking-[0.2em] uppercase text-neutral-500">Range</div>
                   <div className="mt-1 tracking-tight text-neutral-950">{delegateGuide.weather.tempC}</div>
                 </div>
-                <div className="rounded-md border border-neutral-200 p-4">
+                <div className="rounded-md ring-1 ring-black/[0.08] p-4">
                   <div className="text-xs tracking-[0.2em] uppercase text-neutral-500">Humidity</div>
                   <div className="mt-1 tracking-tight text-neutral-950">{delegateGuide.weather.humidity}</div>
                 </div>
@@ -198,8 +198,8 @@ export default function DelegateGuide() {
                 <button
                   key={i}
                   onClick={() => toggle(i)}
-                  className={`group w-full flex items-center gap-4 px-5 py-4 rounded-sm border transition text-left ${
-                    done ? "bg-neutral-950 border-neutral-950 text-white" : "bg-white border-neutral-200 hover:border-neutral-400"
+                  className={`group w-full flex items-center gap-4 px-5 py-4 rounded-sm text-left focus-visible:ring-2 focus-visible:ring-neutral-950 focus-visible:ring-offset-2 focus:outline-none active:scale-[0.98] transition-fluid ${
+                    done ? "bg-neutral-950 ring-1 ring-neutral-950 text-white" : "bg-white ring-1 ring-black/[0.08] hover:ring-neutral-400 text-neutral-700"
                   }`}
                 >
                   <span className={`w-7 h-7 rounded-full flex items-center justify-center shrink-0 transition ${done ? "bg-white text-neutral-950" : "border border-neutral-300 bg-white"}`}>
@@ -213,7 +213,7 @@ export default function DelegateGuide() {
                       <span className={`block text-sm mt-0.5 ${done ? "text-white/55" : "text-neutral-500"}`}>{c.detail}</span>
                     )}
                   </span>
-                  <span className={`shrink-0 inline-flex items-center gap-2 px-3 py-1 rounded-md text-xs tracking-widest uppercase ${done ? "bg-white/10 text-white/78" : "bg-neutral-100 text-neutral-700"}`}>
+                  <span className={`shrink-0 inline-flex items-center gap-2 px-3 py-1 rounded-sm text-xs tracking-widest uppercase ${done ? "bg-white/10 text-white/78" : "bg-neutral-100 text-neutral-700"}`}>
                     <Calendar size={12} /> {formatDeadline(c.dueDate).label}
                   </span>
                 </button>
@@ -245,21 +245,23 @@ export default function DelegateGuide() {
             {delegateGuide.essentials.map((g) => {
               const open = openEssential === g.category;
               return (
-                <div key={g.category} className="rounded-2xl border border-white/10 bg-white/[0.04] backdrop-blur overflow-hidden">
-                  <button onClick={() => setOpenEssential(open ? null : g.category)} className="w-full px-5 md:px-6 py-4 flex items-center justify-between gap-4 text-left text-white">
+                <div key={g.category} className="rounded-2xl ring-1 ring-white/15 bg-white/[0.04] backdrop-blur overflow-hidden">
+                  <button
+                    onClick={() => setOpenEssential(open ? null : g.category)}
+                    className="w-full px-5 md:px-6 py-4 flex items-center justify-between gap-4 text-left text-white focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-neutral-950 active:scale-[0.98] transition-fluid"
+                  >
                     <span className="tracking-tight" style={{ fontSize: "1.0625rem" }}>{g.category}</span>
                     <span className={`w-8 h-8 rounded-full flex items-center justify-center transition ${open ? "rotate-45 bg-white text-neutral-950" : "border border-white/20 text-white/80"}`}>
                       <Plus size={16} />
                     </span>
                   </button>
-                  {open && (
-                    <motion.div
-                      initial={{ opacity: 0, gridTemplateRows: "0fr" }}
-                      animate={{ opacity: 1, gridTemplateRows: "1fr" }}
-                      transition={{ duration: 0.2 }}
-                      className="grid"
-                    >
-                      <ul className="overflow-hidden px-5 md:px-6 pb-5 space-y-2 text-white/75" style={{ lineHeight: 1.65 }}>
+                  <div
+                    className={`grid transition-all duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] ${
+                      open ? "grid-rows-[1fr] opacity-100" : "grid-rows-[0fr] opacity-0"
+                    }`}
+                  >
+                    <div className="overflow-hidden">
+                      <ul className="px-5 md:px-6 pb-5 space-y-2 text-white/75" style={{ lineHeight: 1.65 }}>
                         {g.items.map((item, i) => (
                           <li key={i} className="flex items-start gap-3">
                             <span className="w-1.5 h-1.5 rounded-full mt-2.5 shrink-0" style={{ backgroundColor: BRAND }} />
@@ -267,8 +269,8 @@ export default function DelegateGuide() {
                           </li>
                         ))}
                       </ul>
-                    </motion.div>
-                  )}
+                    </div>
+                  </div>
                 </div>
               );
             })}
@@ -278,11 +280,11 @@ export default function DelegateGuide() {
 
       <section className="py-12 md:py-16 bg-white">
         <div className="max-w-7xl mx-auto px-5 md:px-6">
-          <div className="rounded-3xl overflow-hidden border border-neutral-200 grid md:grid-cols-5">
+          <div className="rounded-2xl overflow-hidden ring-1 ring-black/[0.08] grid md:grid-cols-5">
             <div className="relative min-h-[260px] md:col-span-3 md:min-h-[400px]">
               <ImageWithFallback src={VENUE_STREET} alt="Downtown Port of Spain near the venue" className="absolute inset-0 w-full h-full object-cover" />
               <div className="absolute inset-0 bg-gradient-to-tr from-black/60 to-transparent" />
-              <div className="absolute top-5 left-5 inline-flex items-center gap-2 px-3 py-1.5 rounded-md bg-white/90 text-neutral-900 text-xs tracking-[0.2em]">
+              <div className="absolute top-5 left-5 inline-flex items-center gap-2 px-3 py-1.5 rounded-sm bg-white/90 text-neutral-900 text-xs tracking-[0.2em]">
                 <MapPin size={14} style={{ color: BRAND }} /> 10.6488° N · 61.5179° W
               </div>
             </div>
@@ -292,7 +294,7 @@ export default function DelegateGuide() {
                 {delegateGuide.emergency.map((e) => (
                   <div key={e.service} className="flex items-center justify-between gap-4 py-3 border-t border-neutral-100 first:border-t-0">
                     <div className="flex items-center gap-3">
-                      <div className="w-9 h-9 rounded-lg flex items-center justify-center" style={{ backgroundColor: `${BRAND}15`, color: BRAND }}>
+                      <div className="w-9 h-9 rounded-sm flex items-center justify-center" style={{ backgroundColor: `${BRAND}15`, color: BRAND }}>
                         <Phone size={15} />
                       </div>
                       <div>
@@ -303,7 +305,7 @@ export default function DelegateGuide() {
                   </div>
                 ))}
               </div>
-              <div className="mt-2 inline-flex items-center gap-2 px-3 py-2 rounded-lg bg-neutral-50 border border-neutral-200 text-neutral-700 text-sm">
+              <div className="mt-2 inline-flex items-center gap-2 px-3 py-2 rounded-sm bg-neutral-50 ring-1 ring-black/[0.08] text-neutral-700 text-sm">
                 <Globe size={14} style={{ color: BRAND }} />
                 Country code: +1 868
               </div>

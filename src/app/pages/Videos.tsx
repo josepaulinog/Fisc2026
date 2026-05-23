@@ -28,7 +28,7 @@ function FeatureCard({ v, onPlay }: { v: VideoEntry; onPlay: (v: VideoEntry) => 
       initial={{ opacity: 0, y: 20 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
-      className="group relative rounded-3xl overflow-hidden block aspect-[16/9] md:aspect-[2/1] w-full text-left"
+      className="group relative rounded-2xl overflow-hidden block aspect-[16/9] md:aspect-[2/1] w-full text-left active:scale-[0.98] transition-fluid focus:outline-none focus-visible:ring-2 focus-visible:ring-neutral-950 focus-visible:ring-offset-2"
     >
       <PlaceholderTile
         variant="dark"
@@ -38,10 +38,10 @@ function FeatureCard({ v, onPlay }: { v: VideoEntry; onPlay: (v: VideoEntry) => 
       <Grain />
       <div className="absolute inset-0 flex flex-col justify-between p-6 md:p-8 text-white">
         <div className="flex items-start justify-between">
-          <span className="inline-flex items-center gap-2 px-3 py-1.5 rounded-md bg-white/10 backdrop-blur border border-white/15 text-white/85 text-xs tracking-[0.2em]">
+          <span className="inline-flex items-center gap-2 px-3 py-1.5 rounded-sm bg-white/10 backdrop-blur border border-white/15 text-white/85 text-xs tracking-[0.2em]">
             FEATURED · {v.day?.toUpperCase()}
           </span>
-          <span className="inline-flex items-center gap-2 px-3 py-1.5 rounded-md bg-black/30 border border-white/15 text-white/85 text-xs">
+          <span className="inline-flex items-center gap-2 px-3 py-1.5 rounded-sm bg-black/30 border border-white/15 text-white/85 text-xs">
             <Clock size={12} /> {v.duration}
           </span>
         </div>
@@ -71,7 +71,7 @@ function VideoCard({ v, i, onPlay }: { v: VideoEntry; i: number; onPlay: (v: Vid
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
       transition={{ delay: (i % 4) * 0.06 }}
-      className="group rounded-2xl border border-neutral-200 bg-white overflow-hidden hover:border-neutral-950 transition-all block w-full text-left"
+      className="group rounded-md ring-1 ring-black/[0.08] bg-white overflow-hidden hover:ring-neutral-950 focus-visible:ring-2 focus-visible:ring-neutral-950 focus-visible:ring-offset-2 hover:shadow-[0_12px_40px_-20px_rgba(0,0,0,0.18)] active:scale-[0.98] transition-fluid focus:outline-none block w-full text-left"
     >
       <div className="relative aspect-[16/10] overflow-hidden">
         <PlaceholderTile
@@ -81,11 +81,11 @@ function VideoCard({ v, i, onPlay }: { v: VideoEntry; i: number; onPlay: (v: Vid
         <div className="absolute inset-0 flex items-center justify-center">
           <PlayBadge size="md" />
         </div>
-        <span className="absolute top-3 right-3 inline-flex items-center gap-1.5 px-2 py-0.5 rounded-md bg-black/60 text-white/90 text-xs">
+        <span className="absolute top-3 right-3 inline-flex items-center gap-1.5 px-2 py-0.5 rounded-sm bg-black/60 text-white/90 text-xs">
           <Clock size={11} /> {v.duration}
         </span>
         {v.day && (
-          <span className="absolute top-3 left-3 px-2 py-0.5 rounded-md text-[10px] tracking-[0.2em] uppercase" style={{ backgroundColor: `${BRAND}cc`, color: "#fff" }}>
+          <span className="absolute top-3 left-3 px-2 py-0.5 rounded-sm text-[10px] tracking-[0.2em] uppercase" style={{ backgroundColor: `${BRAND}cc`, color: "#fff" }}>
             {v.day}
           </span>
         )}
@@ -154,14 +154,14 @@ export default function Videos() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: i * 0.05 }}
-                className="rounded-md border border-neutral-200 bg-white p-5 flex items-center gap-4"
+                className="rounded-md ring-1 ring-black/[0.08] bg-white p-5 flex items-center gap-4"
               >
-                <div className="w-11 h-11 rounded-xl flex items-center justify-center shrink-0" style={{ backgroundColor: `${BRAND_SOFT}33`, color: BRAND }}>
+                <div className="w-11 h-11 rounded-sm flex items-center justify-center shrink-0" style={{ backgroundColor: `${BRAND_SOFT}33`, color: BRAND }}>
                   <Film size={18} />
                 </div>
                 <div>
                   <div className="text-neutral-500 text-xs tracking-widest uppercase">{s.k}</div>
-                  <div className="mt-1 tracking-tight text-neutral-950" style={{ fontSize: "1.25rem" }}>{s.v}</div>
+                  <div className="mt-1 tracking-tight text-neutral-950 tabular-nums" style={{ fontSize: "1.25rem" }}>{s.v}</div>
                   <div className="text-neutral-500 text-sm mt-0.5">{s.sub}</div>
                 </div>
               </motion.div>

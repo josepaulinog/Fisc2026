@@ -3,6 +3,8 @@ import { motion } from "motion/react";
 import { Download, Lock, Search } from "lucide-react";
 import { GatedBody } from "../components/GatedBody";
 import { GradientText, PageHero } from "../components/shared";
+import { NestedCTA } from "../components/ui/NestedCTA";
+import { BracketArrow } from "../components/ui/BracketArrow";
 import { BRAND, BRAND_SOFT, HERO_MATERIALS, INK, materials, type MaterialEntry } from "../data";
 import { chipTone, CHIP_HUE } from "../tokens";
 
@@ -28,7 +30,7 @@ function MaterialCard({ m, i }: { m: MaterialEntry; i: number }) {
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
       transition={{ delay: (i % 6) * 0.05 }}
-      className="group relative rounded-md border border-neutral-200 bg-white overflow-hidden hover:border-neutral-950 hover:shadow-[0_12px_40px_-20px_rgba(0,0,0,0.18)] transition-all"
+      className="group relative rounded-md ring-1 ring-black/[0.08] bg-white overflow-hidden hover:ring-neutral-950 focus-visible:ring-2 focus-visible:ring-neutral-950 focus-visible:ring-offset-2 focus:outline-none hover:shadow-[0_12px_40px_-20px_rgba(0,0,0,0.18)] active:scale-[0.98] transition-fluid"
     >
       {/* Typographic ticket — the old faux-PDF preview (gradient blobs +
           skeleton lines pretending to be document content) read as
@@ -109,7 +111,7 @@ export default function Materials() {
         <div className="max-w-7xl mx-auto px-5 md:px-6">
           <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-4 mb-8 md:mb-12">
             <div>
-              <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-md border border-neutral-200 bg-neutral-50 text-neutral-700 text-xs tracking-[0.2em]">
+              <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-sm ring-1 ring-black/[0.08] bg-neutral-50 text-neutral-700 text-xs tracking-[0.2em]">
                 <Lock size={12} style={{ color: BRAND }} />
                 INVITATION ONLY
               </div>
@@ -117,7 +119,7 @@ export default function Materials() {
                 Browse by topic, pull what you need.
               </h2>
             </div>
-            <label className="flex items-center gap-2 bg-neutral-50 border border-neutral-200 rounded-lg px-4 py-2.5 md:w-80 focus-within:border-neutral-950 transition">
+            <label className="flex items-center gap-2 bg-neutral-50 ring-1 ring-black/[0.08] focus-within:ring-2 focus-within:ring-neutral-950 focus-within:ring-offset-2 rounded-md px-4 py-2.5 md:w-80 transition-fluid">
               <Search size={16} className="text-neutral-400 shrink-0" />
               <input
                 type="text"
@@ -129,7 +131,7 @@ export default function Materials() {
             </label>
           </div>
 
-          <div className="flex items-center gap-2 mb-8 overflow-x-auto overscroll-x-contain touch-pan-x snap-x snap-proximity -mx-5 px-5 md:mx-0 md:px-0 scrollbar-hide [scroll-padding-inline:1.25rem]">
+          <div className="flex items-center gap-2 mb-8 overflow-x-auto overscroll-x-contain touch-pan-x snap-x snap-proximity -mx-5 px-5 md:mx-0 md:px-0 py-1.5 scrollbar-hide [scroll-padding-inline:1.25rem]">
             {TOPICS.map((t) => {
               const isActive = topic === t;
               const count = t === "All" ? materials.length : materials.filter((m) => m.topic === t).length;
@@ -137,14 +139,14 @@ export default function Materials() {
                 <button
                   key={t}
                   onClick={() => setTopic(t)}
-                  className={`snap-start shrink-0 inline-flex items-center gap-2 px-4 py-2 rounded-sm border text-sm transition ${
+                  className={`snap-start shrink-0 inline-flex items-center gap-2 px-4 py-2 rounded-sm text-sm focus-visible:ring-2 focus-visible:ring-neutral-950 focus-visible:ring-offset-2 focus:outline-none active:scale-[0.98] transition-fluid ${
                     isActive
-                      ? "bg-neutral-900 border-neutral-900 text-white shadow-[inset_0_1px_0_rgba(255,255,255,0.07),0_3px_10px_-4px_rgba(0,0,0,0.18)]"
-                      : "bg-white border-neutral-200 text-neutral-700 hover:border-neutral-400"
+                      ? "bg-neutral-900 ring-1 ring-neutral-900 text-white shadow-[inset_0_1px_0_rgba(255,255,255,0.07),0_3px_10px_-4px_rgba(0,0,0,0.18)]"
+                      : "bg-white ring-1 ring-black/[0.08] text-neutral-700 hover:ring-neutral-400"
                   }`}
                 >
                   {t}
-                  <span className={`text-xs px-1.5 py-0.5 rounded ${isActive ? "bg-white/15 text-white/80" : "bg-neutral-100 text-neutral-500"}`}>
+                  <span className={`text-xs px-1.5 py-0.5 rounded-sm ${isActive ? "bg-white/15 text-white/80" : "bg-neutral-100 text-neutral-500"}`}>
                     {count}
                   </span>
                 </button>
@@ -181,7 +183,7 @@ export default function Materials() {
             </div>
           )}
 
-          <div className="mt-12 md:mt-16 rounded-3xl overflow-hidden relative" style={{ backgroundColor: INK }}>
+          <div className="mt-12 md:mt-16 rounded-2xl overflow-hidden relative" style={{ backgroundColor: INK }}>
             <div className="absolute inset-0 pointer-events-none" style={{ background: `radial-gradient(ellipse at 85% 10%, ${BRAND}44, transparent 55%)` }} />
             <div className="relative grid md:grid-cols-12 gap-6 md:gap-10 items-center p-8 md:p-12 text-white">
               <div className="md:col-span-8">
@@ -194,12 +196,13 @@ export default function Materials() {
                 </p>
               </div>
               <div className="md:col-span-4 flex md:justify-end">
-                <a href="#" className="inline-flex items-center gap-3 pl-5 pr-2 py-3 rounded-sm text-white hover:opacity-95 transition" style={{ backgroundColor: BRAND }}>
+                <NestedCTA
+                  href="#"
+                  variant="brand"
+                  icon={<Download size={13} strokeWidth={1.75} />}
+                >
                   Download all (.zip · 32 MB)
-                  <span className="w-9 h-9 rounded-full bg-white/15 flex items-center justify-center">
-                    <Download size={16} />
-                  </span>
-                </a>
+                </NestedCTA>
               </div>
             </div>
           </div>

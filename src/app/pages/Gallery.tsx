@@ -36,7 +36,7 @@ function PhotoTile({
       transition={{ duration: 0.4, delay: (i % 8) * 0.04 }}
       onClick={() => onOpen(flatIndex)}
       aria-label={`Open ${p.caption} — ${p.date}`}
-      className={`group relative rounded-2xl overflow-hidden text-left transition-fluid hover:shadow-[0_18px_40px_-22px_rgba(0,0,0,0.18)] ${
+      className={`group relative rounded-2xl overflow-hidden text-left transition-fluid hover:shadow-[0_18px_40px_-22px_rgba(0,0,0,0.18)] active:scale-[0.98] focus:outline-none focus-visible:ring-2 focus-visible:ring-neutral-950 focus-visible:ring-offset-2 ${
         wide ? "col-span-2 aspect-[16/10]" : "aspect-[4/5]"
       }`}
     >
@@ -220,7 +220,7 @@ export default function Gallery() {
               <button
                 onClick={close}
                 aria-label="Close"
-                className="absolute top-5 right-5 w-10 h-10 rounded-full bg-white/10 border border-white/20 text-white hover:bg-white hover:text-neutral-950 flex items-center justify-center transition"
+                className="absolute top-5 right-5 w-10 h-10 rounded-full bg-white/10 ring-1 ring-white/20 text-white hover:bg-white hover:text-neutral-950 hover:ring-white flex items-center justify-center transition-fluid active:scale-[0.95] focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-black/90 focus:outline-none"
               >
                 <X size={18} strokeWidth={1.5} />
               </button>
@@ -232,7 +232,7 @@ export default function Gallery() {
                     prev();
                   }}
                   aria-label="Previous photo"
-                  className="absolute left-3 md:left-6 top-1/2 -translate-y-1/2 w-11 h-11 md:w-12 md:h-12 rounded-full bg-white/10 border border-white/20 text-white hover:bg-white hover:text-neutral-950 flex items-center justify-center transition"
+                  className="absolute left-3 md:left-6 top-1/2 -translate-y-1/2 w-11 h-11 md:w-12 md:h-12 rounded-full bg-white/10 ring-1 ring-white/20 text-white hover:bg-white hover:text-neutral-950 hover:ring-white flex items-center justify-center transition-fluid active:scale-[0.95] focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-black/90 focus:outline-none"
                 >
                   <ChevronLeft size={20} strokeWidth={1.5} />
                 </button>
@@ -244,7 +244,7 @@ export default function Gallery() {
                     next();
                   }}
                   aria-label="Next photo"
-                  className="absolute right-3 md:right-6 top-1/2 -translate-y-1/2 w-11 h-11 md:w-12 md:h-12 rounded-full bg-white/10 border border-white/20 text-white hover:bg-white hover:text-neutral-950 flex items-center justify-center transition"
+                  className="absolute right-3 md:right-6 top-1/2 -translate-y-1/2 w-11 h-11 md:w-12 md:h-12 rounded-full bg-white/10 ring-1 ring-white/20 text-white hover:bg-white hover:text-neutral-950 hover:ring-white flex items-center justify-center transition-fluid active:scale-[0.95] focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-black/90 focus:outline-none"
                 >
                   <ChevronRight size={20} strokeWidth={1.5} />
                 </button>

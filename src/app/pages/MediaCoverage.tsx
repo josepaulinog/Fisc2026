@@ -24,10 +24,10 @@ function MediaCard({ m, i }: { m: MediaItem; i: number }) {
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
       transition={{ delay: (i % 6) * 0.05 }}
-      className="group relative rounded-md border border-neutral-200 bg-white p-6 md:p-7 hover:border-neutral-950 transition-all block"
+      className="group relative rounded-md ring-1 ring-black/[0.08] bg-white p-6 md:p-7 hover:ring-neutral-950 focus-visible:ring-2 focus-visible:ring-neutral-950 focus-visible:ring-offset-2 focus:outline-none active:scale-[0.98] hover:shadow-[0_12px_40px_-20px_rgba(0,0,0,0.18)] transition-fluid block"
     >
       <div className="flex items-center justify-between mb-5">
-        <span className="inline-flex items-center gap-2 px-2.5 py-1 rounded-md text-xs" style={{ backgroundColor: meta.bg, color: meta.fg }}>
+        <span className="inline-flex items-center gap-2 px-2.5 py-1 rounded-sm text-xs" style={{ backgroundColor: meta.bg, color: meta.fg }}>
           <Icon size={12} />
           {m.type}
         </span>
@@ -88,28 +88,28 @@ export default function MediaCoverage() {
       <section className="py-12 md:py-20 bg-white">
         <div className="max-w-7xl mx-auto px-5 md:px-6">
           <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-8 md:mb-12">
-            <div className="flex items-center gap-2 overflow-x-auto overscroll-x-contain touch-pan-x snap-x snap-proximity -mx-5 px-5 md:mx-0 md:px-0 scrollbar-hide [scroll-padding-inline:1.25rem]">
+            <div className="flex items-center gap-2 overflow-x-auto overscroll-x-contain touch-pan-x snap-x snap-proximity -mx-5 px-5 md:mx-0 md:px-0 py-1.5 scrollbar-hide [scroll-padding-inline:1.25rem]">
               {FILTERS.map((f) => {
                 const isActive = type === f;
                 return (
                   <button
                     key={f}
                     onClick={() => setType(f)}
-                    className={`snap-start shrink-0 inline-flex items-center gap-2 px-4 py-2 rounded-lg border text-sm transition ${
+                    className={`snap-start shrink-0 inline-flex items-center gap-2 px-4 py-2 rounded-sm text-sm focus-visible:ring-2 focus-visible:ring-neutral-950 focus-visible:ring-offset-2 focus:outline-none active:scale-[0.98] transition-fluid ${
                       isActive
-                        ? "bg-neutral-900 border-neutral-900 text-white shadow-[inset_0_1px_0_rgba(255,255,255,0.07),0_3px_10px_-4px_rgba(0,0,0,0.18)]"
-                        : "bg-white border-neutral-200 text-neutral-700 hover:border-neutral-400"
+                        ? "bg-neutral-900 ring-1 ring-neutral-900 text-white shadow-[inset_0_1px_0_rgba(255,255,255,0.07),0_3px_10px_-4px_rgba(0,0,0,0.18)]"
+                        : "bg-white ring-1 ring-black/[0.08] text-neutral-700 hover:ring-neutral-400"
                     }`}
                   >
                     {f}
-                    <span className={`text-xs px-1.5 py-0.5 rounded ${isActive ? "bg-white/15 text-white/80" : "bg-neutral-100 text-neutral-500"}`}>
+                    <span className={`text-xs px-1.5 py-0.5 rounded-sm ${isActive ? "bg-white/15 text-white/80" : "bg-neutral-100 text-neutral-500"}`}>
                       {counts[f] ?? 0}
                     </span>
                   </button>
                 );
               })}
             </div>
-            <a href="#" className="inline-flex items-center gap-2 px-4 py-2 rounded-sm border border-neutral-300 text-neutral-700 hover:border-neutral-950 transition text-sm">
+            <a href="#" className="inline-flex items-center gap-2 px-4 py-2 rounded-sm ring-1 ring-black/[0.08] text-neutral-700 hover:ring-neutral-950 focus-visible:ring-2 focus-visible:ring-neutral-950 focus-visible:ring-offset-2 focus:outline-none active:scale-[0.98] transition-fluid text-sm">
               <Rss size={14} style={{ color: BRAND }} /> Subscribe to the press feed
             </a>
           </div>

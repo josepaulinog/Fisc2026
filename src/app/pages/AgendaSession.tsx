@@ -14,6 +14,7 @@ import {
 } from "lucide-react";
 import { ImageWithFallback } from "../components/figma/ImageWithFallback";
 import { PageHero, SectionLabel } from "../components/shared";
+import { BracketArrow } from "../components/ui/BracketArrow";
 import { chipTone } from "../tokens";
 import portOfSpainMap from "../../imports/map-port-of-spain.png";
 import { useDocumentTitle } from "../motion";
@@ -331,7 +332,9 @@ export default function AgendaSession() {
                   </div>
                 );
                 const baseClass =
-                  "group block overflow-hidden rounded-md bg-white ring-1 ring-black/[0.05] shadow-[0_8px_24px_-16px_rgba(0,0,0,0.12)] transition-fluid";
+                  "group block overflow-hidden rounded-md bg-white ring-1 ring-black/[0.08] shadow-[0_8px_24px_-16px_rgba(0,0,0,0.12)] transition-fluid";
+                const linkClass =
+                  `${baseClass} hover:ring-neutral-950 focus-visible:ring-2 focus-visible:ring-neutral-950 focus-visible:ring-offset-2 active:scale-[0.98] focus:outline-none hover:shadow-[0_16px_40px_-16px_rgba(0,0,0,0.18)]`;
                 return (
                   <motion.div
                     key={`${sp.name}-${i}`}
@@ -343,7 +346,7 @@ export default function AgendaSession() {
                     {sp.slug ? (
                       <Link
                         to={`/speakers/${sp.slug}`}
-                        className={`${baseClass} hover:shadow-[0_16px_40px_-16px_rgba(0,0,0,0.18)]`}
+                        className={linkClass}
                       >
                         {cardInner}
                       </Link>
@@ -372,13 +375,15 @@ export default function AgendaSession() {
                   Take this <em className="italic">home with you.</em>
                 </h2>
               </div>
-              <Link
-                to="/materials"
-                className="group inline-flex items-center gap-2 px-5 py-3 rounded-sm border border-neutral-300 hover:bg-neutral-950 hover:text-white hover:border-neutral-950 transition"
-              >
-                Full library
-                <ArrowUpRight size={16} className="group-hover:rotate-45 transition-transform" />
-              </Link>
+              <div className="shrink-0">
+                <NestedCTA
+                  to="/materials"
+                  variant="ghost"
+                  icon={<BracketArrow size={13} strokeWidth={1.75} />}
+                >
+                  Full library
+                </NestedCTA>
+              </div>
             </div>
 
             <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-5">
@@ -392,12 +397,12 @@ export default function AgendaSession() {
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true }}
                     transition={{ delay: (i % 3) * 0.06 }}
-                    className="group rounded-2xl border border-neutral-200 bg-white overflow-hidden hover:border-neutral-950 transition-all block"
+                    className="group rounded-md bg-white overflow-hidden ring-1 ring-black/[0.08] hover:ring-neutral-950 focus-visible:ring-2 focus-visible:ring-neutral-950 focus-visible:ring-offset-2 active:scale-[0.98] transition-fluid focus:outline-none block"
                   >
                     <div className="p-5 md:p-6">
                       <div className="flex items-center justify-between mb-4">
                         <span
-                          className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md text-xs"
+                          className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-sm text-xs"
                           style={{ backgroundColor: tone.bg, color: tone.fg }}
                         >
                           <FileText size={11} />
@@ -451,7 +456,7 @@ export default function AgendaSession() {
           </div>
 
           <div className="grid lg:grid-cols-12 gap-4 md:gap-5">
-            <div className="lg:col-span-8 relative rounded-3xl overflow-hidden border border-neutral-200 bg-white">
+            <div className="lg:col-span-8 relative rounded-2xl overflow-hidden bg-white ring-1 ring-black/[0.08]">
               <img
                 src={portOfSpainMap}
                 alt="Map of Port of Spain showing the Hyatt Regency venue location"
@@ -460,9 +465,9 @@ export default function AgendaSession() {
               />
             </div>
 
-            <div className="lg:col-span-4 rounded-md overflow-hidden border border-neutral-200 bg-white p-6 md:p-7 flex flex-col">
+            <div className="lg:col-span-4 rounded-md overflow-hidden bg-white ring-1 ring-black/[0.08] p-6 md:p-7 flex flex-col">
               <div
-                className="w-11 h-11 rounded-xl flex items-center justify-center mb-5"
+                className="w-11 h-11 rounded-sm flex items-center justify-center mb-5"
                 style={{ backgroundColor: `${BRAND}15`, color: BRAND }}
               >
                 <MapPin size={18} />
@@ -487,24 +492,24 @@ export default function AgendaSession() {
                 href="https://www.google.com/maps/place/Hyatt+Regency+Trinidad/@10.6488,-61.5179,17z"
                 target="_blank"
                 rel="noreferrer"
-                className="mt-6 group inline-flex items-center justify-between gap-2 px-4 py-3 rounded-sm text-white hover:opacity-95 transition"
+                className="mt-6 group inline-flex items-center justify-between gap-2 px-4 py-3 rounded-sm text-white hover:opacity-95 transition-fluid ring-1 ring-white/10 hover:ring-white/20 focus-visible:ring-2 focus-visible:ring-white active:scale-[0.98] focus:outline-none"
                 style={{ backgroundColor: INK }}
               >
                 Open in Google Maps
                 <span
-                  className="w-7 h-7 rounded-full flex items-center justify-center"
+                  className="w-7 h-7 rounded-full flex items-center justify-center transition-transform duration-300"
                   style={{ backgroundColor: BRAND }}
                 >
-                  <ArrowUpRight size={13} className="group-hover:rotate-45 transition-transform" />
+                  <BracketArrow size={12} strokeWidth={1.75} className="text-white transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
                 </span>
               </a>
 
               <Link
                 to="/venue"
-                className="mt-3 inline-flex items-center gap-2 px-4 py-3 rounded-sm border border-neutral-300 text-neutral-800 hover:border-neutral-950 transition text-sm"
+                className="mt-3 inline-flex items-center gap-2 px-4 py-3 rounded-sm ring-1 ring-black/[0.08] hover:ring-neutral-950 text-neutral-800 focus-visible:ring-2 focus-visible:ring-neutral-950 focus-visible:ring-offset-2 active:scale-[0.98] transition-fluid focus:outline-none text-sm"
               >
                 Venue & arrival details
-                <ArrowUpRight size={14} />
+                <ArrowUpRight size={14} className="group-hover:rotate-45 transition-transform" />
               </Link>
             </div>
           </div>
@@ -518,7 +523,7 @@ export default function AgendaSession() {
             {prev ? (
               <Link
                 to={pathOf(prev)}
-                className="group p-5 md:p-6 rounded-md border border-neutral-200 hover:border-neutral-950 transition"
+                className="group p-5 md:p-6 rounded-md bg-white ring-1 ring-black/[0.08] hover:ring-neutral-950 focus-visible:ring-2 focus-visible:ring-neutral-950 focus-visible:ring-offset-2 active:scale-[0.98] transition-fluid focus:outline-none"
               >
                 <div className="flex items-center gap-2 text-xs tracking-[0.25em] uppercase text-neutral-500">
                   <ArrowLeft size={12} /> Previous day
@@ -539,7 +544,7 @@ export default function AgendaSession() {
             {next ? (
               <Link
                 to={pathOf(next)}
-                className="group p-5 md:p-6 rounded-md border border-neutral-200 hover:border-neutral-950 transition md:text-right"
+                className="group p-5 md:p-6 rounded-md bg-white ring-1 ring-black/[0.08] hover:ring-neutral-950 focus-visible:ring-2 focus-visible:ring-neutral-950 focus-visible:ring-offset-2 active:scale-[0.98] transition-fluid focus:outline-none md:text-right"
               >
                 <div className="flex items-center md:justify-end gap-2 text-xs tracking-[0.25em] uppercase text-neutral-500">
                   Next day <ArrowRight size={12} />

@@ -122,7 +122,7 @@ export function CountryDropdown({
           aria-expanded={open}
           aria-controls={listboxId}
           onClick={() => setOpen((v) => !v)}
-          className={`w-full flex items-center bg-neutral-50 border rounded-sm px-4 py-3 text-left transition-fluid ${fieldBorder(!!error)}`}
+          className={`w-full flex items-center bg-neutral-50 rounded-sm px-4 py-3 text-left transition-fluid focus:outline-none focus-visible:ring-2 focus-visible:ring-neutral-950 focus-visible:ring-offset-2 active:scale-[0.98] ${fieldBorder(!!error)}`}
         >
           <span className="shrink-0 flex items-center justify-center w-5 h-4">
             {showFlag ? (

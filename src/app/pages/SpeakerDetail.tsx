@@ -12,6 +12,8 @@ import {
 } from "lucide-react";
 import { ImageWithFallback } from "../components/figma/ImageWithFallback";
 import { GradientText, Grain, SectionLabel } from "../components/shared";
+import { NestedCTA } from "../components/ui/NestedCTA";
+import { BracketArrow } from "../components/ui/BracketArrow";
 import { useDocumentTitle } from "../motion";
 import { Breadcrumbs } from "../components/ui/Breadcrumbs";
 import { chipTone } from "../tokens";
@@ -95,7 +97,7 @@ export default function SpeakerDetail() {
               initial={{ opacity: 0, y: 24 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5 }}
-              className="lg:col-span-4 relative rounded-3xl overflow-hidden aspect-[4/5]"
+              className="lg:col-span-4 relative rounded-2xl overflow-hidden aspect-[4/5]"
             >
               <ImageWithFallback
                 src={speaker.img}
@@ -135,9 +137,7 @@ export default function SpeakerDetail() {
                   <a
                     href={speaker.email}
                     aria-label="Email"
-                    className="w-10 h-10 rounded-full border border-white/20 text-white/80 hover:text-white hover:border-transparent flex items-center justify-center transition"
-                    onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = BRAND)}
-                    onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = "")}
+                    className="w-10 h-10 rounded-full ring-1 ring-white/20 text-white/80 hover:text-white hover:bg-[#fd6b18] hover:ring-transparent flex items-center justify-center transition-fluid active:scale-[0.95] focus-visible:ring-2 focus-visible:ring-white focus:outline-none"
                   >
                     <Mail size={15} />
                   </a>
@@ -148,9 +148,7 @@ export default function SpeakerDetail() {
                     target="_blank"
                     rel="noreferrer"
                     aria-label="LinkedIn"
-                    className="w-10 h-10 rounded-full border border-white/20 text-white/80 hover:text-white hover:border-transparent flex items-center justify-center transition"
-                    onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = BRAND)}
-                    onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = "")}
+                    className="w-10 h-10 rounded-full ring-1 ring-white/20 text-white/80 hover:text-white hover:bg-[#fd6b18] hover:ring-transparent flex items-center justify-center transition-fluid active:scale-[0.95] focus-visible:ring-2 focus-visible:ring-white focus:outline-none"
                   >
                     <Linkedin size={15} />
                   </a>
@@ -161,9 +159,7 @@ export default function SpeakerDetail() {
                     target="_blank"
                     rel="noreferrer"
                     aria-label="X / Twitter"
-                    className="w-10 h-10 rounded-full border border-white/20 text-white/80 hover:text-white hover:border-transparent flex items-center justify-center transition"
-                    onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = BRAND)}
-                    onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = "")}
+                    className="w-10 h-10 rounded-full ring-1 ring-white/20 text-white/80 hover:text-white hover:bg-[#fd6b18] hover:ring-transparent flex items-center justify-center transition-fluid active:scale-[0.95] focus-visible:ring-2 focus-visible:ring-white focus:outline-none"
                   >
                     <Twitter size={15} />
                   </a>
@@ -194,7 +190,7 @@ export default function SpeakerDetail() {
 
             {/* Sessions sidebar */}
             <aside className="lg:col-span-5">
-              <div className="rounded-md border border-neutral-200 bg-neutral-50/60 p-6 md:p-7 sticky top-28">
+              <div className="rounded-md ring-1 ring-black/[0.08] bg-neutral-50/60 p-6 md:p-7 sticky top-28">
                 <div className="flex items-center gap-2 mb-4">
                   <Mic size={14} style={{ color: BRAND }} />
                   <span className="text-xs tracking-[0.25em] uppercase text-neutral-500">
@@ -209,7 +205,7 @@ export default function SpeakerDetail() {
                         <Link
                           key={`${a.dayIdx}-${a.sessionIdx}`}
                           to={`/agenda/${daySlugFor(a.day)}/${a.sessionIdx}`}
-                          className="group block p-4 rounded-md bg-white border border-neutral-200 hover:border-neutral-950 transition"
+                          className="group block p-4 rounded-md bg-white ring-1 ring-black/[0.08] hover:ring-neutral-950 focus-visible:ring-2 focus-visible:ring-neutral-950 focus-visible:ring-offset-2 active:scale-[0.98] transition-fluid focus:outline-none"
                         >
                           <div className="flex items-center gap-2 mb-2">
                             <span className="text-[10px] tracking-[0.25em] uppercase text-neutral-500">
@@ -266,13 +262,15 @@ export default function SpeakerDetail() {
                   Other <em className="italic">presenters.</em>
                 </h2>
               </div>
-              <Link
-                to="/speakers"
-                className="group inline-flex items-center gap-2 px-5 py-3 rounded-sm border border-neutral-300 bg-white hover:bg-neutral-950 hover:text-white hover:border-neutral-950 transition"
-              >
-                All presenters
-                <ArrowUpRight size={16} className="group-hover:rotate-45 transition-transform" />
-              </Link>
+              <div className="shrink-0">
+                <NestedCTA
+                  to="/speakers"
+                  variant="ghost"
+                  icon={<BracketArrow size={13} strokeWidth={1.75} />}
+                >
+                  All presenters
+                </NestedCTA>
+              </div>
             </div>
 
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 md:gap-4">
@@ -280,7 +278,7 @@ export default function SpeakerDetail() {
                 <Link
                   key={s.slug}
                   to={`/speakers/${s.slug}`}
-                  className="group rounded-2xl overflow-hidden bg-white border border-neutral-200 hover:border-neutral-950 transition"
+                  className="group rounded-md overflow-hidden bg-white ring-1 ring-black/[0.08] hover:ring-neutral-950 focus-visible:ring-2 focus-visible:ring-neutral-950 focus-visible:ring-offset-2 active:scale-[0.98] transition-fluid focus:outline-none"
                 >
                   <div className="relative aspect-[4/5] overflow-hidden bg-neutral-100">
                     <ImageWithFallback
@@ -307,7 +305,7 @@ export default function SpeakerDetail() {
         <div className="max-w-7xl mx-auto px-5 md:px-6">
           <Link
             to="/agenda"
-            className="group block rounded-3xl overflow-hidden p-8 md:p-10 text-white relative"
+            className="group block rounded-2xl overflow-hidden p-8 md:p-10 text-white relative ring-1 ring-white/10 hover:ring-white/20 focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 active:scale-[0.98] transition-fluid focus:outline-none"
             style={{ backgroundColor: INK }}
           >
             <div
@@ -330,10 +328,10 @@ export default function SpeakerDetail() {
                 </div>
               </div>
               <span
-                className="w-12 h-12 rounded-full flex items-center justify-center group-hover:rotate-45 transition-transform"
+                className="w-12 h-12 rounded-full flex items-center justify-center transition-transform duration-300"
                 style={{ backgroundColor: BRAND }}
               >
-                <ArrowUpRight size={18} />
+                <BracketArrow size={16} strokeWidth={1.75} className="text-white transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
               </span>
             </div>
           </Link>

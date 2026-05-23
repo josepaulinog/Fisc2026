@@ -68,7 +68,7 @@ export function VideoPlayer({
       <button
         onClick={onClose}
         aria-label="Close video"
-        className="absolute top-5 right-5 w-10 h-10 rounded-full bg-white/10 border border-white/20 text-white hover:bg-white hover:text-neutral-950 flex items-center justify-center transition"
+        className="absolute top-5 right-5 w-10 h-10 rounded-full bg-white/10 ring-1 ring-white/20 text-white hover:bg-white hover:text-neutral-950 hover:ring-white flex items-center justify-center transition-fluid active:scale-90 focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-black/90 focus:outline-none"
       >
         <X size={18} strokeWidth={1.5} />
       </button>
@@ -187,7 +187,7 @@ function PlaceholderState({ video }: { video: VideoEntry }) {
         <a
           href="data:text/calendar;charset=utf-8,BEGIN:VCALENDAR%0AVERSION:2.0%0ABEGIN:VEVENT%0ASUMMARY:FISC%202026%20Trinidad%20%26%20Tobago%0ADTSTART:20260629T130000Z%0ADTEND:20260702T230000Z%0ALOCATION:Hyatt%20Regency%2C%201%20Wrightson%20Road%2C%20Port%20of%20Spain%0AEND:VEVENT%0AEND:VCALENDAR"
           download="fisc-2026.ics"
-          className="group mt-5 inline-flex items-center gap-2 px-4 py-2.5 rounded-sm bg-white/10 border border-white/20 text-white text-sm hover:bg-white hover:text-neutral-950 transition"
+          className="group mt-5 inline-flex items-center gap-2 px-4 py-2.5 rounded-sm bg-white/10 ring-1 ring-white/20 text-white text-sm hover:bg-white hover:text-neutral-950 hover:ring-white transition-fluid active:scale-[0.98] focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-black/90 focus:outline-none"
         >
           <Calendar size={14} strokeWidth={1.5} />
           Add the event to my calendar

@@ -131,8 +131,8 @@ export default function SignIn() {
 
   const fieldBorder = (hasError: boolean) =>
     hasError
-      ? "border-red-300 focus-within:border-red-500"
-      : "border-neutral-200 focus-within:border-neutral-950";
+      ? "ring-1 ring-red-500 focus-within:ring-2 focus-within:ring-red-600 focus-within:ring-offset-2"
+      : "ring-1 ring-black/[0.08] focus-within:ring-2 focus-within:ring-neutral-950 focus-within:ring-offset-2";
 
   return (
     <section
@@ -230,13 +230,17 @@ export default function SignIn() {
               <label className="block">
                 <span className="text-sm text-neutral-700" style={{ fontWeight: 500 }}>Invited email</span>
                 <div
-                  className={`mt-2 flex items-center bg-neutral-50 border rounded-sm px-4 transition-fluid ${fieldBorder(!!errors.email)}`}
+                  className={`mt-2 flex items-center bg-neutral-50 rounded-sm px-4 transition-fluid ${fieldBorder(!!errors.email)}`}
                 >
-                  <Mail size={18} strokeWidth={1.5} className="text-neutral-400 shrink-0" />
+                  <Mail size={18} strokeWidth={1.5} className="text-neutral-500 shrink-0" />
                   <input
-                    type="text"
+                    id="email"
+                    name="email"
+                    type="email"
+                    required
                     autoComplete="username"
                     inputMode="email"
+                    enterKeyHint="next"
                     placeholder="you@ministry.gov"
                     value={email}
                     onChange={(e) => {
@@ -258,12 +262,16 @@ export default function SignIn() {
               <label className="block">
                 <span className="text-sm text-neutral-700" style={{ fontWeight: 500 }}>Access code</span>
                 <div
-                  className={`mt-2 flex items-center bg-neutral-50 border rounded-sm px-4 transition-fluid ${fieldBorder(!!errors.code)}`}
+                  className={`mt-2 flex items-center bg-neutral-50 rounded-sm px-4 transition-fluid ${fieldBorder(!!errors.code)}`}
                 >
-                  <Lock size={18} strokeWidth={1.5} className="text-neutral-400 shrink-0" />
+                  <Lock size={18} strokeWidth={1.5} className="text-neutral-500 shrink-0" />
                   <input
+                    id="current-password"
+                    name="current-password"
                     type="password"
+                    required
                     autoComplete="current-password"
+                    enterKeyHint="done"
                     placeholder="Access code"
                     value={code}
                     onChange={(e) => {
@@ -272,7 +280,7 @@ export default function SignIn() {
                       if (errors.form) setErrors((p) => ({ ...p, form: undefined }));
                     }}
                     aria-invalid={!!errors.code}
-                    className="flex-1 min-w-0 bg-transparent px-3 py-3 text-neutral-900 outline-none placeholder:text-neutral-400 tracking-[0.3em] text-[16px]"
+                    className="flex-1 min-w-0 bg-transparent px-3 py-3 text-neutral-900 outline-none placeholder:text-neutral-400 placeholder:tracking-normal tracking-[0.3em] text-[16px]"
                   />
                 </div>
                 {errors.code && (
@@ -305,7 +313,7 @@ export default function SignIn() {
               </button>
             </form>
 
-            <div className="mt-6 flex flex-wrap items-center justify-between gap-3 text-sm">
+            <div className="mt-8 flex flex-wrap items-center justify-between gap-3 text-sm">
               <button
                 type="button"
                 onClick={() => setLostOpen(true)}
@@ -316,7 +324,7 @@ export default function SignIn() {
               <Link to="/" className="text-neutral-500 hover:text-neutral-950 transition-fluid">← Back to home</Link>
             </div>
 
-            <div className="mt-8 md:mt-10 p-4 rounded-md bg-neutral-50 border border-neutral-200 text-[0.8125rem] md:text-sm text-neutral-700" style={{ lineHeight: 1.55 }}>
+            <div className="mt-8 md:mt-10 p-4 rounded-md bg-neutral-50/50 ring-1 ring-black/[0.08] text-[0.8125rem] md:text-sm text-neutral-700" style={{ lineHeight: 1.55 }}>
               FISC 2026 is invitation only. If you believe you should have
               access, contact your country's delegation lead or{" "}
               <a href="mailto:fisc@freebalance.com" className="text-neutral-950 underline">fisc@freebalance.com</a>.
@@ -381,7 +389,7 @@ export default function SignIn() {
                       <label className="block">
                         <span className="text-sm text-neutral-700" style={{ fontWeight: 500 }}>Invited email</span>
                         <div
-                          className={`mt-2 flex items-center bg-neutral-50 border rounded-sm px-4 transition-fluid ${fieldBorder(!!lostErrors.email)}`}
+                          className={`mt-2 flex items-center bg-neutral-50 rounded-sm px-4 transition-fluid ${fieldBorder(!!lostErrors.email)}`}
                         >
                           <Mail size={18} strokeWidth={1.5} className="text-neutral-400 shrink-0" />
                           <input

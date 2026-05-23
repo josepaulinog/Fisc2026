@@ -121,7 +121,7 @@ export default function Venue() {
               initial={{ opacity: 0, scale: 0.97 }}
               whileInView={{ opacity: 1, scale: 1 }}
               viewport={{ once: true }}
-              className="relative rounded-md overflow-hidden group w-full min-w-0"
+              className="relative rounded-2xl overflow-hidden group w-full min-w-0"
               style={{ aspectRatio: "4 / 3" }}
             >
               <ImageWithFallback src={VENUE_HOTEL} alt="Hyatt Regency Port of Spain" className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-1000" />
@@ -229,7 +229,7 @@ export default function Venue() {
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
                   transition={{ delay: (i % 4) * 0.06 }}
-                  className={`relative group rounded-md overflow-hidden ${
+                  className={`relative group rounded-2xl overflow-hidden ${
                     wide ? "md:col-span-2" : ""
                   }`}
                 >
@@ -259,7 +259,7 @@ export default function Venue() {
       <section className="py-14 md:py-24" style={{ backgroundColor: "#f6f4ef" }}>
         <div className="max-w-7xl mx-auto px-5 md:px-6">
           <div
-            className="relative rounded-md overflow-hidden text-white"
+            className="relative rounded-2xl overflow-hidden text-white"
             style={{ backgroundColor: INK }}
           >
             <div
