@@ -66,7 +66,7 @@ export function Header() {
             className={`flex items-center justify-between rounded-md ring-1 transition-fluid px-3 md:px-5 ${
               scrolled
                 ? "ring-black/[0.08] bg-[#fbfaf7]/85 backdrop-blur-2xl h-14 md:h-16"
-                : "ring-black/[0.05] bg-white/75 backdrop-blur-2xl h-16 md:h-[68px]"
+                : "ring-black/[0.05] bg-white backdrop-blur-2xl h-16 md:h-[68px]"
             }`}
             style={{
               boxShadow: scrolled
@@ -93,7 +93,7 @@ export function Header() {
                     <NavLink
                       to={n.to ?? n.children[0].to}
                       className={({ isActive }) =>
-                        `inline-flex items-center gap-1.5 pl-3 pr-3 py-2 rounded-sm transition-fluid font-medium text-sm active:scale-[0.98] ${
+                        `inline-flex items-center gap-1.5 pl-3 pr-3 py-2 rounded-sm transition-fluid font-medium active:scale-[0.98] ${
                           isActive
                             ? "bg-neutral-950 text-white shadow-[inset_0_1px_0_rgba(255,255,255,0.08)]"
                             : "text-neutral-700 hover:text-neutral-950 hover:bg-black/[0.04]"
@@ -160,7 +160,7 @@ export function Header() {
                     key={n.label}
                     to={n.to ?? "#"}
                     className={({ isActive }) =>
-                      `inline-flex items-center gap-1.5 pl-3 pr-3 py-2 rounded-sm transition-fluid font-medium text-sm active:scale-[0.98] ${
+                      `inline-flex items-center gap-1.5 pl-3 pr-3 py-2 rounded-sm transition-fluid font-medium active:scale-[0.98] ${
                         isActive
                           ? "bg-neutral-950 text-white shadow-[inset_0_1px_0_rgba(255,255,255,0.08)]"
                           : "text-neutral-700 hover:text-neutral-950 hover:bg-black/[0.04]"
@@ -194,7 +194,7 @@ export function Header() {
                         initialsOf(user.name)
                       )}
                     </span>
-                    <span className="hidden md:inline text-sm text-neutral-800 truncate max-w-[120px]">
+                    <span className="hidden md:inline text-neutral-800 truncate max-w-[120px]">
                       {firstNameOf(user.name)}
                     </span>
                   </Link>
@@ -380,7 +380,7 @@ export function Header() {
                       className="flex items-center gap-3 px-3 py-2.5 rounded-sm bg-neutral-100 hover:bg-neutral-200 transition"
                     >
                       <span
-                        className="w-10 h-10 rounded-full overflow-hidden flex items-center justify-center text-white text-sm ring-2 ring-white"
+                        className="w-10 h-10 rounded-full overflow-hidden flex items-center justify-center text-white ring-2 ring-white"
                         style={{ backgroundColor: BRAND, fontWeight: 600 }}
                       >
                         {profile?.photoUrl ? (

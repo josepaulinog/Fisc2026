@@ -1,12 +1,12 @@
 /* -----------------------------------------------------------------------
  * Type stack
  * -----------------------------------------------------------------------
- * Body:    Inter (loaded as a Google Fonts <link> in index.html). Modern
- *          neutral Grotesk tuned for screen reading at every size — pairs
- *          cleanly with the serif accent without competing for attention.
+ * Body:    Instrument Sans (loaded as a Google Fonts <link> in index.html).
+ *          Clean, highly legible grotesque that adds a slightly technical
+ *          but refined edge compared to default system fonts.
  *
- * Display: Libre Baskerville (loaded as a Google Fonts <link> in
- *          index.html). Used only for italic accent phrases — the
+ * Display: Instrument Serif (loaded as a Google Fonts <link> in
+ *          index.html). Used for italic accent phrases — the
  *          gradient words inside hero h1s and the footer wordmark.
  *          Activated via .font-display.
  *
@@ -16,7 +16,7 @@
 
 body {
   font-family:
-    "Inter",
+    "Instrument Sans",
     system-ui,
     -apple-system,
     "Segoe UI",
@@ -29,12 +29,11 @@ body {
 
 .font-display {
   font-family:
+    "Instrument Serif",
     "Libre Baskerville",
     "Charter",
     "Iowan Old Style",
     Georgia,
     serif;
-  /* Optical sizing on a true display face: tighten counter rhythm slightly
-     so the italic descenders don't read as too airy at large sizes. */
   font-feature-settings: "liga", "dlig";
 }

@@ -58,13 +58,11 @@ export function GradientText({
         background: GRADIENT_BY_TONE[effectiveTone],
         WebkitBackgroundClip: "text",
         WebkitTextFillColor: "transparent",
-        // Italic glyphs (especially descenders like *p* and *j*) lean left
-        // of their advance-width box. Without this padding the gradient
-        // stops at the box edge and the overflowing ink renders unfilled,
-        // making the letter look clipped. The negative margin counter-shifts
-        // so the visible position of the word doesn't move in the line.
-        paddingInline: "0.1em",
-        marginInline: "-0.1em",
+        // Instrument Serif italic has different optical bounds than Libre Baskerville.
+        // It leans elegantly, so we still need inline padding to prevent clipping,
+        // but we can adjust it slightly for a tighter fit.
+        paddingInline: "0.15em",
+        marginInline: "-0.15em",
         // Libre Baskerville's natural italic sits a touch narrower than
         // Inter upright at the same point size — pull it up half a
         // baseline so the cap-heights line up against the surrounding text.
@@ -222,7 +220,7 @@ export function PageHero({
           <ImageWithFallback
             src={image}
             alt=""
-            fetchPriority="high"
+            fetchpriority="high"
             className="w-full h-full object-cover"
             style={{ opacity: imageOpacity }}
           />
@@ -266,6 +264,14 @@ export function PageHero({
           }}
         />
       )}
+      
+      {/* Noise Texture Overlay for Premium Print Feel */}
+      <div 
+        className="absolute inset-0 pointer-events-none opacity-20 mix-blend-overlay z-0"
+        style={{
+          backgroundImage: "url('data:image/svg+xml;utf8,%3Csvg viewBox=%220 0 200 200%22 xmlns=%22http://www.w3.org/2000/svg%22%3E%3Cfilter id=%22noiseFilter%22%3E%3CfeTurbulence type=%22fractalNoise%22 baseFrequency=%220.65%22 numOctaves=%223%22 stitchTiles=%22stitch%22/%3E%3C/filter%3E%3Crect width=%22100%25%22 height=%22100%25%22 filter=%22url(%23noiseFilter)%22/%3E%3C/svg%3E')"
+        }}
+      />
       {/* Narrative reveal — eyebrow first, then headline, then body, then
           caption. Each piece arrives with a 80ms stagger after the parent
           waits 150ms (delayChildren) so the page settles before the
