@@ -63,7 +63,7 @@ export function Lockup({
     sm: {
       icon: "h-8 md:h-9",
       gap: "gap-2 md:gap-2.5",
-      title: "text-xs md:text-[13px] leading-[1.1]",
+      title: "text-xs md:text-[14px] leading-[1.1]",
       tagline: "text-[8px] md:text-[9px] tracking-[0.22em] mt-0.5",
     },
     md: {
