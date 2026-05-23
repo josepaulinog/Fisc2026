@@ -1,5 +1,6 @@
 import { useEffect } from "react";
 import { Outlet, useLocation } from "react-router";
+import { MotionConfig } from "motion/react";
 import { Header } from "./Header";
 import { Footer, Newsletter } from "./Footer";
 import { OnboardingTour } from "../components/OnboardingTour";
@@ -62,21 +63,16 @@ export function Root() {
        to re-open the tour after dismissal. The auto-open-on-first-sign-in
        behavior is unchanged. */
     <OnboardingTour>
-      {/* overflow-x-clip (not -hidden) — `overflow-x: hidden` implicitly
-          creates a scroll container that breaks any `position: sticky`
-          descendant (the sticky element sticks inside the hidden container,
-          which scrolls with the page, so it never actually pins). `clip`
-          gives the same horizontal-overflow protection without becoming a
-          scroll context, so the Countdown column on the homepage can stick
-          to the viewport as the user scrolls past it. */}
-      <div className="min-h-[100dvh] bg-white text-neutral-900 overflow-x-clip">
-        <Header />
-        <main>
-          <Outlet />
-        </main>
-        {showNewsletter && <Newsletter />}
-        <Footer variant={footerVariant} />
-      </div>
+      <MotionConfig reducedMotion="user">
+        <div className="min-h-[100dvh] bg-white text-neutral-900 overflow-x-clip">
+          <Header />
+          <main>
+            <Outlet />
+          </main>
+          {showNewsletter && <Newsletter />}
+          <Footer variant={footerVariant} />
+        </div>
+      </MotionConfig>
     </OnboardingTour>
   );
 }

@@ -24,7 +24,7 @@ function FeaturedCard({ s, accent = false }: { s: Speaker; accent?: boolean }) {
            crop centers the face, keeps the keynote chip + caption legible,
            and brings the total featured-row height to under one screen on
            mobile. Desktop keeps the portrait crop. */
-        className={`relative block group rounded-md overflow-hidden ring-1 ring-black/[0.08] shadow-[0_4px_18px_-12px_rgba(0,0,0,0.12)] bg-neutral-950 text-white aspect-[16/11] sm:aspect-[16/12] md:aspect-[4/5] transition-fluid hover:-translate-y-0.5 hover:ring-black/[0.15] hover:shadow-[0_12px_32px_-12px_rgba(0,0,0,0.22)] active:scale-[0.99] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-neutral-950 focus-visible:ring-offset-2`}
+        className={`relative block group rounded-md overflow-hidden ring-1 ring-black/[0.08] shadow-[0_4px_18px_-12px_rgba(0,0,0,0.12)] bg-neutral-950 text-white aspect-[16/11] sm:aspect-[16/12] md:aspect-[4/5] transition-fluid hover:-translate-y-0.5 hover:ring-black/[0.15] hover:shadow-[0_12px_32px_-12px_rgba(0,0,0,0.22)] active:scale-[0.99] focus-ring`}
       >
         <ImageWithFallback
           src={s.img}
@@ -83,7 +83,7 @@ function MiniCard({ s, i }: { s: Speaker; i: number }) {
     >
       <Link
         to={`/speakers/${s.slug}`}
-        className="group block overflow-hidden rounded-md bg-white ring-1 ring-black/[0.05] shadow-[0_8px_24px_-16px_rgba(0,0,0,0.12)] transition-fluid hover:-translate-y-0.5 hover:ring-black/15 hover:shadow-[0_16px_40px_-16px_rgba(0,0,0,0.18)] active:scale-[0.99] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-neutral-950 focus-visible:ring-offset-2"
+        className="group block overflow-hidden rounded-md bg-white ring-1 ring-black/[0.05] shadow-[0_8px_24px_-16px_rgba(0,0,0,0.12)] transition-fluid hover:-translate-y-0.5 hover:ring-black/15 hover:shadow-[0_16px_40px_-16px_rgba(0,0,0,0.18)] active:scale-[0.99] focus-ring"
       >
         <div className="grid grid-cols-[88px_1fr] md:grid-cols-[104px_1fr]">
           {/* Square rectangular portrait — replaces the circular avatar that
@@ -172,7 +172,7 @@ export default function Speakers() {
                   <button
                     key={f}
                     onClick={() => setFilter(f)}
-                    className={`snap-start shrink-0 inline-flex items-center gap-2 px-4 py-2.5 rounded-sm transition-fluid active:scale-[0.97] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-neutral-950 focus-visible:ring-offset-2 ${
+                    className={`snap-start shrink-0 inline-flex items-center gap-2 px-4 py-2.5 min-h-[44px] rounded-sm transition-fluid active:scale-[0.97] focus-ring ${
                       isActive
                         ? "bg-neutral-950 text-white ring-1 ring-neutral-950 shadow-[inset_0_1px_0_rgba(255,255,255,0.1),0_4px_12px_-4px_rgba(0,0,0,0.15)]"
                         : "bg-white text-neutral-700 ring-1 ring-black/[0.08] hover:ring-black/[0.15] hover:bg-neutral-50"
@@ -191,7 +191,7 @@ export default function Speakers() {
               })}
             </div>
 
-            <label className="flex items-center gap-2 bg-white ring-1 ring-black/[0.08] rounded-sm px-4 py-2.5 md:w-72 focus-within:ring-2 focus-within:ring-neutral-950 focus-within:ring-offset-2 transition-fluid">
+            <label className="flex items-center gap-2 bg-white ring-1 ring-black/[0.08] rounded-sm px-4 py-2.5 min-h-[44px] md:w-72 focus-within:outline-none focus-within:ring-2 focus-within:ring-neutral-950 focus-within:ring-offset-2 transition-fluid">
               <Search size={16} strokeWidth={1.5} className="text-neutral-400 shrink-0" />
               <input
                 type="text"

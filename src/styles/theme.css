@@ -451,3 +451,17 @@
     transform: none;
   }
 }
+
+/* -------------------------------------------------------------------------
+ * UI/UX Pro Max: Focus Ring Utility
+ * -------------------------------------------------------------------------
+ * Centralized focus state that meets WCAG AAA standards for interactive
+ * elements. Used via the .focus-ring class to avoid repeating utilities.
+ * ------------------------------------------------------------------------- */
+.focus-ring {
+  outline: none;
+}
+.focus-ring:focus-visible {
+  outline: 2px solid var(--foreground);
+  outline-offset: 2px;
+}

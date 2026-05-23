@@ -236,7 +236,7 @@ export function Header() {
                   ±45° to form an X; the middle line fades out. Rounded line
                   caps for refined edges. */}
               <button
-                className="lg:hidden inline-flex items-center justify-center w-10 h-10 text-neutral-800 rounded-sm hover:bg-black/[0.05] transition-fluid"
+                className="lg:hidden inline-flex items-center justify-center w-11 h-11 text-neutral-800 rounded-sm hover:bg-black/[0.05] transition-fluid focus-ring"
                 onClick={() => setOpen((v) => !v)}
                 aria-label={open ? "Close menu" : "Open menu"}
                 aria-expanded={open}
@@ -287,7 +287,7 @@ export function Header() {
               <div className="flex items-center justify-between p-5 border-b border-neutral-100">
                 <Lockup variant="dark" size="sm" />
                 <button
-                  className="p-2 rounded-sm hover:bg-neutral-100 text-neutral-700"
+                  className="min-h-[44px] min-w-[44px] flex items-center justify-center rounded-sm hover:bg-neutral-100 text-neutral-700 focus-ring"
                   onClick={() => setOpen(false)}
                   aria-label="Close menu"
                 >
@@ -328,7 +328,7 @@ export function Header() {
                           <button
                             onClick={() => setMobileExpanded(expanded ? null : n.label)}
                             aria-label={expanded ? `Collapse ${n.label}` : `Expand ${n.label}`}
-                            className="px-3 rounded-md text-neutral-500 hover:bg-neutral-100"
+                            className="px-3 min-h-[44px] min-w-[44px] flex items-center justify-center rounded-md text-neutral-500 hover:bg-neutral-100 focus-ring"
                           >
                             <Chevron
                               size={16}
@@ -402,7 +402,7 @@ export function Header() {
                         setOpen(false);
                       }}
                       style={{ backgroundColor: INK }}
-                      className="group w-full inline-flex items-center justify-between text-white pl-5 pr-2 py-3 rounded-sm hover:opacity-90 transition"
+                      className="group w-full min-h-[44px] inline-flex items-center justify-between text-white pl-5 pr-2 py-3 rounded-sm hover:opacity-90 transition focus-ring"
                     >
                       Sign out
                       <span
