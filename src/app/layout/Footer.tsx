@@ -271,17 +271,28 @@ export function Footer({ variant = "compact" }: FooterProps = {}) {
             footer reads as a clean nav/contact band, not a third hero. */}
         {showClosingBand && (
           <>
-        <motion.div
-          initial={{ opacity: 0, y: 24 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
+        {/* Headline reveals line-by-line on scroll: "See you in" rises first,
+            then the gradient "Trinidad." follows a beat later. Block spans
+            replace the <br/> so each line is its own transform target. */}
+        <div
           className="tracking-[-0.04em] text-white mb-10 md:mb-20 leading-[1] md:leading-[1.1]"
           style={{ fontSize: "clamp(3.25rem, 14vw, 12rem)" }}
         >
-          See you in
-          <br />
-          <span
-            className="italic font-display"
+          <motion.span
+            className="block"
+            initial={{ opacity: 0, y: 32 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, amount: 0.3 }}
+            transition={{ duration: 0.7, ease: [0.32, 0.72, 0, 1] }}
+          >
+            See you in
+          </motion.span>
+          <motion.span
+            className="block italic font-display"
+            initial={{ opacity: 0, y: 32 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, amount: 0.3 }}
+            transition={{ duration: 0.7, ease: [0.32, 0.72, 0, 1], delay: 0.12 }}
             style={{
               background: `linear-gradient(120deg, ${BRAND_SOFT} 0%, ${BRAND} 60%, #c64b00 100%)`,
               WebkitBackgroundClip: "text",
@@ -291,40 +302,59 @@ export function Footer({ variant = "compact" }: FooterProps = {}) {
             }}
           >
             Trinidad.
-          </span>
-        </motion.div>
+          </motion.span>
+        </div>
 
+        {/* CTA cards stagger up after the headline. Each card is wrapped in a
+            motion.div (the grid item) with h-full so the inner card still
+            stretches to equal heights as it did when it was the grid item. */}
         <div className="grid md:grid-cols-2 gap-3 md:gap-4 mb-14 md:mb-20">
-          <Link
-            to="/sign-in"
-            className="group relative rounded-lg p-6 md:p-7 flex items-center justify-between overflow-hidden transition-all hover:scale-[1.01]"
-            style={{ background: `linear-gradient(135deg, ${BRAND} 0%, #c64b00 100%)` }}
+          <motion.div
+            className="h-full"
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, amount: 0.3 }}
+            transition={{ duration: 0.6, ease: [0.32, 0.72, 0, 1], delay: 0.1 }}
           >
-            <div className="relative z-10 text-white">
-              <div className="text-white/80 text-xs tracking-[0.25em] uppercase">For delegates</div>
-              <div className="mt-2 tracking-tight" style={{ fontSize: "clamp(1.25rem, 2.5vw, 1.75rem)", lineHeight: 1.1 }}>
-                Access the portal.
+            <Link
+              to="/sign-in"
+              className="group relative h-full rounded-lg p-6 md:p-7 flex items-center justify-between overflow-hidden transition-all hover:scale-[1.01]"
+              style={{ background: `linear-gradient(135deg, ${BRAND} 0%, #c64b00 100%)` }}
+            >
+              <div className="relative z-10 text-white">
+                <div className="text-white/80 text-xs tracking-[0.25em] uppercase">For delegates</div>
+                <div className="mt-2 tracking-tight" style={{ fontSize: "clamp(1.25rem, 2.5vw, 1.75rem)", lineHeight: 1.1 }}>
+                  Access the portal.
+                </div>
               </div>
-            </div>
-            <span className="relative z-10 w-12 h-12 rounded-full bg-white/15 border border-white/25 backdrop-blur flex items-center justify-center group-hover:rotate-45 transition-transform">
-              <BracketArrow size={16} strokeWidth={1.75} className="text-white" />
-            </span>
-          </Link>
+              <span className="relative z-10 w-12 h-12 rounded-full bg-white/15 border border-white/25 backdrop-blur flex items-center justify-center group-hover:rotate-45 transition-transform">
+                <BracketArrow size={16} strokeWidth={1.75} className="text-white" />
+              </span>
+            </Link>
+          </motion.div>
 
-          <a
-            href="mailto:fisc@freebalance.com"
-            className="group relative rounded-md p-6 md:p-7 flex items-center justify-between border border-white/15 bg-white/[0.04] hover:bg-white/[0.08] hover:border-white/25 transition"
+          <motion.div
+            className="h-full"
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, amount: 0.3 }}
+            transition={{ duration: 0.6, ease: [0.32, 0.72, 0, 1], delay: 0.2 }}
           >
-            <div className="text-white">
-              <div className="text-white/60 text-xs tracking-[0.25em] uppercase">For the press & partners</div>
-              <div className="mt-2 tracking-tight" style={{ fontSize: "clamp(1.25rem, 2.5vw, 1.75rem)", lineHeight: 1.1 }}>
-                Get in touch.
+            <a
+              href="mailto:fisc@freebalance.com"
+              className="group relative h-full rounded-md p-6 md:p-7 flex items-center justify-between border border-white/15 bg-white/[0.04] hover:bg-white/[0.08] hover:border-white/25 transition"
+            >
+              <div className="text-white">
+                <div className="text-white/60 text-xs tracking-[0.25em] uppercase">For the press & partners</div>
+                <div className="mt-2 tracking-tight" style={{ fontSize: "clamp(1.25rem, 2.5vw, 1.75rem)", lineHeight: 1.1 }}>
+                  Get in touch.
+                </div>
               </div>
-            </div>
-            <span className="w-12 h-12 rounded-full bg-white/10 border border-white/20 flex items-center justify-center group-hover:rotate-45 transition-transform">
-              <Mail size={18} className="text-white" />
-            </span>
-          </a>
+              <span className="w-12 h-12 rounded-full bg-white/10 border border-white/20 flex items-center justify-center group-hover:rotate-45 transition-transform">
+                <Mail size={18} className="text-white" />
+              </span>
+            </a>
+          </motion.div>
         </div>
           </>
         )}

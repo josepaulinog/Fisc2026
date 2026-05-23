@@ -27,15 +27,15 @@ import scarletIbis from "../imports/scarlet-ibis.jpg";
 import queensRoyalCollege from "../imports/queens-royal-college.jpg";
 import carnivalDancer from "../imports/carnival-dancer.jpg";
 import fisc2025DiliDay3 from "../imports/fisc-2025-dili-day3.jpg";
-import speakersImage from "../imports/speakers5.png";
+import speakersHero from "../imports/speakers5.png";
 import newsletterImage from "../imports/newsletter.jpg";
 import resourcesHero from "../imports/resources-hero.webp";
-import materialsHero from "../imports/materials-hero.webp";
-import videosHero from "../imports/videos-hero.webp";
-import galleryHero from "../imports/gallery-hero.webp";
-import mediaHero from "../imports/media-hero.webp";
-import attendeesHero from "../imports/attendees-hero.webp";
-import delegateGuideHero from "../imports/delegate-guide-hero.webp";
+import materialsHero from "../imports/replicate-materials.webp";
+import videosHero from "../imports/replicate-videos.webp";
+import galleryHero from "../imports/replicate-gallery.webp";
+import mediaHero from "../imports/replicate-media.webp";
+import attendeesHero from "../imports/replicate-attendees.webp";
+import delegateGuideHero from "../imports/replicate-delegate.webp";
 
 // Host-country officials — Trinidad & Tobago is FISC 2026's host, so the
 // 2025 Timor-Leste keynotes are replaced by the current PM and Minister of
@@ -61,7 +61,7 @@ export const COLLAGE_1 = collage1Img;
 // bottom-left atmospheric square → Tobago imagery (the second island
 // in the country's name — adds visual range alongside the Trinidad
 // aerial top-left).
-export const COLLAGE_2 = delegationImg;
+export const COLLAGE_2 = delegateGuideHero;
 export const COLLAGE_3 = tobagoImg;
 export const VENUE_IMG_1 = maracasCabin;
 export const VENUE_IMG_2 = queensRoyalCollege;
@@ -74,7 +74,7 @@ export const VENUE_IMG_3 = maracasBeach;
 export const HERO_ABOUT = aboutHeroImage;
 export const NEWSLETTER_IMG = newsletterImage;
 export const HERO_AGENDA = speakers6;
-export const HERO_SPEAKERS = speakersImage;
+export const HERO_SPEAKERS = speakersHero;
 export const HERO_VENUE = maracasBeach;
 export const HERO_RESOURCES = resourcesHero;
 export const HERO_ATTENDEES = attendeesHero;
