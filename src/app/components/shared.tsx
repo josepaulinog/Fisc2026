@@ -222,6 +222,7 @@ export function PageHero({
           <ImageWithFallback
             src={image}
             alt=""
+            fetchPriority="high"
             className="w-full h-full object-cover"
             style={{ opacity: imageOpacity }}
           />

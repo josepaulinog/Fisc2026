@@ -155,16 +155,18 @@ export default function Attendees() {
               </p>
             </div>
             <div className="lg:col-span-5 flex flex-col gap-3 justify-end">
-              <label className="flex items-center gap-2 bg-neutral-50 ring-1 ring-black/[0.08] focus-within:ring-2 focus-within:ring-neutral-950 focus-within:ring-offset-2 rounded-md px-4 py-2.5 transition-fluid">
-                <Search size={16} className="text-neutral-400 shrink-0" />
-                <input
-                  type="text"
-                  value={query}
-                  onChange={(e) => setQuery(e.target.value)}
-                  placeholder="Search by name, role, country"
-                  className="flex-1 min-w-0 bg-transparent outline-none text-neutral-900 placeholder:text-neutral-400 text-sm"
-                />
-              </label>
+              <search>
+                <label className="flex items-center gap-2 bg-neutral-50 ring-1 ring-black/[0.08] focus-within:ring-2 focus-within:ring-neutral-950 focus-within:ring-offset-2 rounded-md px-4 py-2.5 transition-fluid">
+                  <Search size={16} className="text-neutral-400 shrink-0" />
+                  <input
+                    type="search"
+                    value={query}
+                    onChange={(e) => setQuery(e.target.value)}
+                    placeholder="Search by name, role, country"
+                    className="flex-1 min-w-0 bg-transparent outline-none text-neutral-900 placeholder:text-neutral-400 text-sm [&::-webkit-search-cancel-button]:hidden"
+                  />
+                </label>
+              </search>
               <div className="flex items-center gap-2 overflow-x-auto overscroll-x-contain touch-pan-x snap-x snap-proximity -mx-5 px-5 md:mx-0 md:px-0 py-1.5 scrollbar-hide [scroll-padding-inline:1.25rem]">
                 {REGIONS.map((r) => {
                   const isActive = region === r;

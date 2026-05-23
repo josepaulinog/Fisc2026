@@ -326,8 +326,9 @@ export default function Profile() {
                   {profile.photoUrl ? (
                     <img
                       src={profile.photoUrl}
-                      alt={profile.displayName}
-                      className="w-full h-full object-cover"
+                      alt=""
+                      loading="lazy"
+                      className="w-full h-full object-cover transition-fluid group-hover:scale-105"
                     />
                   ) : (
                     <div
@@ -481,6 +482,7 @@ export default function Profile() {
                   value={profile.displayName}
                   onChange={(v) => update("displayName", v)}
                   error={errors.displayName}
+                  autoComplete="name"
                   required
                   fieldBorder={fieldBorder}
                 />
@@ -492,6 +494,8 @@ export default function Profile() {
                   value={profile.email}
                   onChange={(v) => update("email", v)}
                   error={errors.email}
+                  autoComplete="email"
+                  inputMode="email"
                   required
                   fieldBorder={fieldBorder}
                 />
@@ -502,6 +506,7 @@ export default function Profile() {
                   value={profile.position}
                   onChange={(v) => update("position", v)}
                   placeholder="e.g. Director of Public Budget"
+                  autoComplete="organization-title"
                   fieldBorder={fieldBorder}
                   error={errors.position}
                 />
@@ -512,6 +517,7 @@ export default function Profile() {
                   value={profile.organization}
                   onChange={(v) => update("organization", v)}
                   placeholder="e.g. Ministry of Finance"
+                  autoComplete="organization"
                   fieldBorder={fieldBorder}
                   error={errors.organization}
                 />
@@ -530,6 +536,8 @@ export default function Profile() {
                   value={profile.website}
                   onChange={(v) => update("website", v)}
                   placeholder="https://example.com"
+                  autoComplete="url"
+                  inputMode="url"
                   fieldBorder={fieldBorder}
                   error={errors.website}
                 />
@@ -550,6 +558,8 @@ export default function Profile() {
                   value={profile.linkedin}
                   onChange={(v) => update("linkedin", v)}
                   placeholder="https://linkedin.com/in/username"
+                  autoComplete="url"
+                  inputMode="url"
                   fieldBorder={fieldBorder}
                   error={errors.linkedin}
                 />
@@ -561,6 +571,8 @@ export default function Profile() {
                   value={profile.twitter}
                   onChange={(v) => update("twitter", v)}
                   placeholder="https://x.com/username"
+                  autoComplete="url"
+                  inputMode="url"
                   fieldBorder={fieldBorder}
                   error={errors.twitter}
                 />
@@ -693,6 +705,9 @@ function FormField({
   placeholder,
   type = "text",
   required,
+  autoComplete,
+  inputMode,
+  enterKeyHint,
   fieldBorder,
 }: {
   label: string;
@@ -704,6 +719,9 @@ function FormField({
   placeholder?: string;
   type?: string;
   required?: boolean;
+  autoComplete?: string;
+  inputMode?: "text" | "none" | "tel" | "url" | "email" | "numeric" | "decimal" | "search";
+  enterKeyHint?: "enter" | "done" | "go" | "next" | "previous" | "search" | "send";
   fieldBorder: (hasError: boolean) => string;
 }) {
   return (
@@ -720,6 +738,9 @@ function FormField({
           value={value}
           onChange={(e) => onChange(e.target.value)}
           placeholder={placeholder}
+          autoComplete={autoComplete}
+          inputMode={inputMode}
+          enterKeyHint={enterKeyHint}
           aria-invalid={!!error}
           aria-describedby={error ? `${name}-err` : undefined}
           className="flex-1 min-w-0 bg-transparent px-3 py-3 text-neutral-900 outline-none placeholder:text-neutral-400 text-[16px]"

@@ -124,7 +124,7 @@ export default function Venue() {
               className="relative rounded-2xl overflow-hidden group w-full min-w-0"
               style={{ aspectRatio: "4 / 3" }}
             >
-              <ImageWithFallback src={VENUE_HOTEL} alt="Hyatt Regency Port of Spain" className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-1000" />
+              <ImageWithFallback loading="lazy" src={VENUE_HOTEL} alt="Hyatt Regency Port of Spain" className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-1000" />
               <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-transparent" />
               <div className="absolute top-5 left-5 inline-flex items-center gap-2 px-3 py-1.5 rounded-sm bg-white/15 backdrop-blur border border-white/20 text-white text-xs tracking-[0.2em]">
                 <span className="w-1.5 h-1.5 rounded-full" style={{ backgroundColor: BRAND }} />
@@ -233,7 +233,7 @@ export default function Venue() {
                     wide ? "md:col-span-2" : ""
                   }`}
                 >
-                  <ImageWithFallback src={e.img} alt={e.title} className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-1000" />
+                  <ImageWithFallback loading="lazy" src={e.img} alt={e.title} className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-1000" />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-black/10 to-transparent" />
                   <div className="absolute top-3 left-3 w-8 h-8 md:w-9 md:h-9 rounded-full bg-white/15 backdrop-blur border border-white/20 flex items-center justify-center text-white">
                     <e.icon size={14} strokeWidth={1.5} />
