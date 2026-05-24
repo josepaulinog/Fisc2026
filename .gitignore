@@ -25,3 +25,6 @@ FISC2025/
 # actually use are copied into src/imports/ and bundled by Vite; this folder
 # is the unprocessed source dump and stays local.
 resources/
+
+# Roots project (backend) ignored for now
+fisc-backend/
