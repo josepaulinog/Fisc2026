@@ -61,7 +61,7 @@ export const COLLAGE_1 = collage1Img;
 // bottom-left atmospheric square → Tobago imagery (the second island
 // in the country's name — adds visual range alongside the Trinidad
 // aerial top-left).
-export const COLLAGE_2 = delegateGuideHero;
+export const COLLAGE_2 = delegationImg;
 export const COLLAGE_3 = tobagoImg;
 export const VENUE_IMG_1 = maracasCabin;
 export const VENUE_IMG_2 = queensRoyalCollege;
