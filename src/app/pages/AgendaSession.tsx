@@ -21,7 +21,6 @@ import { useDocumentTitle } from "../motion";
 import {
   BRAND,
   BRAND_SOFT,
-  HERO_AGENDA,
   INK,
   TAG_HUES,
   agenda,
@@ -121,7 +120,6 @@ export default function AgendaSession() {
         ]}
         title={styledSessionTitle(session.title)}
         subtitle={session.desc}
-        image={HERO_AGENDA}
       />
 
       {/* Key facts strip */}
