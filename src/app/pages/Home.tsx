@@ -96,7 +96,6 @@ function Hero() {
           WebkitMaskImage: 'radial-gradient(ellipse at center, black 40%, transparent 80%)'
         }}
       />
-      <Grain />
       <div className="relative max-w-7xl mx-auto px-5 md:px-6 pt-0 pb-9 md:pt-6 md:pb-13">
         <motion.div
           initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8 }}
