@@ -106,7 +106,7 @@ export default function About() {
       </section>
 
       {/* 18 EDITIONS — heritage moment */}
-      <section className="py-14 md:py-28" style={{ backgroundColor: "#f6f4ef" }}>
+      <section className="py-14 md:py-28" style={{ backgroundColor: "#ededed" }}>
         <div className="max-w-7xl mx-auto px-5 md:px-6">
           <div className="grid lg:grid-cols-12 gap-10 md:gap-16">
             <motion.div

@@ -157,8 +157,10 @@ export default function Speakers() {
         hasSunset={true}
       />
 
-      <section className="py-14 md:py-28 bg-white">
+      <section className="pt-10 md:pt-16 pb-14 md:pb-28 bg-white">
         <div className="max-w-7xl mx-auto px-5 md:px-6">
+          {/* Filter + search toolbar hidden per request — flip `false` to `true` to restore */}
+          {false && (
           <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-8 md:mb-12">
             <div className="flex items-center gap-2 overflow-x-auto md:overflow-visible overscroll-x-contain touch-pan-x snap-x snap-proximity -mx-5 px-5 md:mx-0 md:px-0 scrollbar-hide [scroll-padding-inline:1.25rem] py-1.5">
               {filters.map((f) => {
@@ -188,6 +190,7 @@ export default function Speakers() {
               />
             </label>
           </div>
+          )}
 
           {featured.length > 0 && (
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-5 mb-10 md:mb-12">

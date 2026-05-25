@@ -196,7 +196,7 @@ export default function Venue() {
       </section>
 
       {/* Around the islands — bento */}
-      <section className="py-14 md:py-28" style={{ backgroundColor: "#f6f4ef" }}>
+      <section className="py-14 md:py-28" style={{ backgroundColor: "#ededed" }}>
         <div className="max-w-7xl mx-auto px-5 md:px-6">
           <div className="flex flex-wrap items-end justify-between gap-4 mb-8 md:mb-12">
             <div>
@@ -256,7 +256,7 @@ export default function Venue() {
           without duplicating content. Replaces the previous "Travel
           essentials" + "Arrival/map" sections, both of which now live
           (canonically) on /resources/delegate-guide. */}
-      <section className="py-14 md:py-24" style={{ backgroundColor: "#f6f4ef" }}>
+      <section className="py-14 md:py-24" style={{ backgroundColor: "#ededed" }}>
         <div className="max-w-7xl mx-auto px-5 md:px-6">
           <div
             className="relative rounded-2xl overflow-hidden text-white"

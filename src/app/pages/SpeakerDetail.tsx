@@ -250,7 +250,7 @@ export default function SpeakerDetail() {
 
       {/* Other speakers */}
       {otherSpeakers.length > 0 && (
-        <section className="py-12 md:py-20" style={{ backgroundColor: "#f6f4ef" }}>
+        <section className="py-12 md:py-20" style={{ backgroundColor: "#ededed" }}>
           <div className="max-w-7xl mx-auto px-5 md:px-6">
             <div className="flex flex-wrap items-end justify-between gap-4 mb-8 md:mb-10">
               <div>

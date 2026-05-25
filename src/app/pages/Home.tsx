@@ -7,7 +7,6 @@ import {
   Calendar,
   Check,
   Landmark,
-  Lock,
   MapPin,
   Play,
   Sun,
@@ -134,7 +133,7 @@ function Hero() {
             <p className="text-white/78" style={{ fontSize: "clamp(1.1rem, 2.1vw, 1.125rem)", lineHeight: 1.55 }}>
               The FreeBalance International Steering Committee comes to Port of Spain for
               four days of country-led reform, cooperation, and public financial
-              management exchange. Invitations for 2026 are now closed.
+              management exchange.
             </p>
             {/* Hero CTA — single intentional moment. The "Watch FISC 2025"
                 button used to live here, but the hero footage was already
@@ -242,7 +241,7 @@ function CountdownAndActions() {
   return (
     <section
       className="py-16 md:py-24 relative"
-      style={{ backgroundColor: "#f6f4ef" }}
+      style={{ backgroundColor: "#ededed" }}
     >
       <div className="max-w-7xl mx-auto px-5 md:px-6">
         {/* About + photo collage — editorial intro row that grounds the
@@ -676,9 +675,7 @@ function CountdownAndActions() {
 
 function TheRoom() {
   const { isAuthed } = useAuth();
-  // Eight countries — the Marquee strip above already cycles through the
-  // full 40+ list, so the Room's purpose is a deliberate scannable read.
-  const publicCountries = countries.slice(0, 8);
+  // (The signed-out flag mosaic was removed — it duplicated the hero marquee.)
   // Exclude the Trinidad delegation leads here — they already get the full
   // protocol-grade "Hosted by" treatment above, and repeating them as small
   // avatar tiles makes the duplication read as a layout bug (truncated
@@ -771,18 +768,9 @@ function TheRoom() {
                           {h.name.split(" ").slice(0, 2).map((p) => p[0]).join("")}
                         </div>
                       )}
-                      <div className="absolute bottom-3 left-3 inline-flex items-center gap-1.5 px-2 py-1 rounded-sm bg-white/90 backdrop-blur-sm ring-1 ring-black/[0.06]">
-                        <CountryFlag
-                          country={h.country}
-                          className="h-2.5 w-auto rounded-[1px] shadow-sm shrink-0 ring-1 ring-black/[0.05]"
-                        />
-                        <span className="text-[10px] tracking-wide text-neutral-800" style={{ fontWeight: 500 }}>
-                          {h.country}
-                        </span>
-                      </div>
                     </div>
 
-                    <div className="px-6 py-6 md:px-8 md:py-8 flex flex-col justify-center">
+                    <div className="px-6 py-6 md:px-8 md:py-8 flex flex-col justify-start">
                       <div
                         className="text-neutral-500 uppercase"
                         style={{
@@ -820,12 +808,13 @@ function TheRoom() {
           </>
         )}
 
-        {/* Visiting delegations — flag mosaic (signed-out) or faces (signed-in) */}
-        <div className="mb-5 text-xs tracking-[0.25em] uppercase text-neutral-500">
-          {isAuthed ? "And the delegation" : "Joined by"}
-        </div>
-
-        {isAuthed ? (
+        {/* Visiting delegations — signed-in delegates only. The signed-out
+            flag mosaic was removed; it duplicated the hero country marquee. */}
+        {isAuthed && (
+          <>
+            <div className="mb-5 text-xs tracking-[0.25em] uppercase text-neutral-500">
+              And the delegation
+            </div>
           // Faces — signed-in delegates only. Country flag floats in the
           // corner of each portrait so the eye can scan for region.
           <motion.div
@@ -869,35 +858,7 @@ function TheRoom() {
               </motion.div>
             ))}
           </motion.div>
-        ) : (
-          // Flag mosaic — no faces, no names. The gate stays intact. Eight
-          // flags in a single row on desktop, 4×2 on mobile. Each cell now
-          // has roughly 2× the horizontal space it had at 16 flags, so the
-          // flag itself scales up (h-10 → h-16) to fill the room and read
-          // as a deliberate directory rather than a token strip.
-          <motion.div
-            variants={staggerList}
-            initial="hidden"
-            whileInView="show"
-            viewport={REVEAL_VIEWPORT}
-            className="grid grid-cols-4 md:grid-cols-8 gap-4 md:gap-6"
-          >
-            {publicCountries.map((c) => (
-              <motion.div
-                key={c}
-                variants={fadeUpTight}
-                className="flex flex-col items-center text-center"
-              >
-                <CountryFlag
-                  country={c}
-                  className="h-10 md:h-16 w-auto rounded shadow-sm ring-1 ring-black/5"
-                />
-                <div className="mt-3 text-neutral-700 text-[15px] tracking-tight truncate w-full">
-                  {c}
-                </div>
-              </motion.div>
-            ))}
-          </motion.div>
+          </>
         )}
 
         <div className="mt-8 md:mt-10 flex flex-wrap items-center justify-between gap-4">
@@ -917,7 +878,6 @@ function TheRoom() {
           <NestedCTA
             to={isAuthed ? "/attendees" : "/sign-in?return=/attendees"}
             variant="gray"
-            prefixIcon={!isAuthed ? <Lock size={13} strokeWidth={1.75} /> : undefined}
             icon={<BracketArrow size={12} strokeWidth={1.75} />}
           >
             {isAuthed ? "See the full delegation" : "Sign in for the full delegation"}
@@ -1002,7 +962,7 @@ const CATEGORY_TONES: Record<SiteUpdate["category"], { bg: string; fg: string }>
 
 function WhatsNew() {
   return (
-    <section className="py-16 md:py-24" style={{ backgroundColor: "#f6f4ef" }}>
+    <section className="py-16 md:py-24" style={{ backgroundColor: "#ededed" }}>
       <div className="max-w-7xl mx-auto px-5 md:px-6">
         <div className="grid lg:grid-cols-12 gap-10 md:gap-16 items-end mb-10 md:mb-14">
           <div className="lg:col-span-6">

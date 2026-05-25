@@ -127,7 +127,7 @@ export default function DelegateGuide() {
         </div>
       </section>
 
-      <section className="py-12 md:py-16" style={{ backgroundColor: "#f6f4ef" }}>
+      <section className="py-12 md:py-16" style={{ backgroundColor: "#ededed" }}>
         <div className="max-w-7xl mx-auto px-5 md:px-6 grid md:grid-cols-2 gap-4 md:gap-6">
           <div className="relative rounded-2xl overflow-hidden text-white" style={{ backgroundColor: INK }}>
             <div className="absolute inset-0" style={{ background: `radial-gradient(circle at 80% 10%, ${BRAND}55, transparent 55%)` }} />

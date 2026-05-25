@@ -273,7 +273,7 @@ export default function AgendaSession() {
 
       {/* Speakers */}
       {enrichedSpeakers.length > 0 && (
-        <section className="py-12 md:py-20" style={{ backgroundColor: "#f6f4ef" }}>
+        <section className="py-12 md:py-20" style={{ backgroundColor: "#ededed" }}>
           <div className="max-w-7xl mx-auto px-5 md:px-6">
             <div className="mb-8 md:mb-12">
               <SectionLabel>Speakers</SectionLabel>
@@ -442,7 +442,7 @@ export default function AgendaSession() {
       )}
 
       {/* Location & map */}
-      <section className="py-12 md:py-20" style={{ backgroundColor: "#f6f4ef" }}>
+      <section className="py-12 md:py-20" style={{ backgroundColor: "#ededed" }}>
         <div className="max-w-7xl mx-auto px-5 md:px-6">
           <div className="mb-8 md:mb-10">
             <SectionLabel>Where it happens</SectionLabel>

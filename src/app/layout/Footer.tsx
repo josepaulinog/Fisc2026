@@ -14,6 +14,7 @@ import {
 } from "lucide-react";
 import { Lockup } from "../components/brand/Lockup";
 import { BracketArrow } from "../components/ui/BracketArrow";
+import freebalanceLogo from "../../imports/freebalance-logo.svg";
 import { ImageWithFallback } from "../components/figma/ImageWithFallback";
 import { Grain, SectionLabel } from "../components/shared";
 import { looksLikeEmail } from "../auth";
@@ -439,11 +440,12 @@ export function Footer({ variant = "compact" }: FooterProps = {}) {
             (the host government); burying it at body-copy weight alongside
             the copyright undersold the relationship. */}
         <div className="pt-6 md:pt-8 space-y-4 md:space-y-5">
-          <div
-            className="inline-flex items-center gap-2.5 text-white/75"
-            style={{ fontSize: "0.875rem", fontWeight: 500 }}
-          >
-            <span className="w-1.5 h-1.5 rounded-full" style={{ backgroundColor: BRAND }} />
+          <div className="flex flex-wrap items-center gap-x-5 gap-y-2 text-white/75" style={{ fontSize: "0.875rem", fontWeight: 500 }}>
+            <span className="inline-flex items-center gap-2.5">
+              Presented by
+              <img src={freebalanceLogo} alt="FreeBalance" className="h-[18px] w-auto brightness-0 invert opacity-90" />
+            </span>
+            <span className="hidden sm:block w-px h-3.5 bg-white/15" aria-hidden="true" />
             <span>
               Hosted by the{" "}
               <span className="text-white">Ministry of Finance, Trinidad and Tobago</span>

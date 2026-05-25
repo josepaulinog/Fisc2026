@@ -2,9 +2,8 @@ import type { CSSProperties } from "react";
 import { BRAND } from "../../data";
 
 /**
- * IconMark — the abstract FreeBalance "F" logo, SVG-inlined.
- * Uses `fill="currentColor"` so the parent can recolor it via CSS `color`.
- * Defaults to brand orange.
+ * IconMark — the FreeBalance "F" logo, SVG-inlined. Multi-tone brand mark
+ * (orange body with darker left-edge depth strips); colors are baked in.
  */
 export function IconMark({
   className = "",
@@ -17,21 +16,21 @@ export function IconMark({
 }) {
   return (
     <svg
-      viewBox="0 0 51.95 61.72"
+      viewBox="0 0 52.19 68.78"
       xmlns="http://www.w3.org/2000/svg"
       className={`iconmark-svg ${className}`}
-      style={{ color: BRAND, ...style }}
+      style={style}
       role="img"
       aria-label={title}
     >
-      {/* Three shapes assembled top-to-bottom: top bar, middle bar, dot.
-          Per-shape classes are used by theme.css to (a) stagger a build-in
-          on mount and (b) hop the dot on hover. */}
-      <g fill="currentColor">
-        <path className="iconmark-piece iconmark-piece-1" d="M0,25.34v-11.26C0,6.08,6.42,0,14.42,0h29.62c.79,0,1.46.34,2.03,1.01l5.29,6.42c.79.9.79,2.14,0,3.04l-5.29,6.42c-.56.9-1.35,1.46-2.48,1.46H12.84c-5.97,0-10.14,3.04-12.84,6.98Z" />
-        <path className="iconmark-piece iconmark-piece-2" d="M0,46.85v-13.51c0-6.53,5.63-11.49,12.84-11.49h21.06c1.01,0,1.91.45,2.59,1.24l5.18,6.19c.9,1.01.9,2.25,0,3.27l-5.18,6.19c-.68.79-1.58,1.24-2.59,1.24H12.84c-5.97,0-10.14,2.93-12.84,6.87Z" />
-        <circle className="iconmark-piece iconmark-piece-3 iconmark-dot" cx="9.46" cy="53.05" r="8.67" />
-      </g>
+      {/* FreeBalance "F" mark — orange body (top + middle arms + dot) with
+          darker left-edge strips for depth. Colors baked in. */}
+      <path fill="#eb7233" d="M7.81,68.78c4.31,0,7.8-3.49,7.8-7.8s-3.49-7.8-7.8-7.8S.01,56.67.01,60.98s3.49,7.8,7.8,7.8" />
+      <path fill="#ec7333" d="M51.87,9.86L45.07.67c-.31-.42-.8-.67-1.32-.67H7.8C3.49,0,0,3.49,0,7.8v19.85C0,23.33,3.5,21.68,7.82,21.68h35.92c.52,0,1.01-.25,1.32-.67l6.81-9.19c.43-.58.43-1.38,0-1.96" />
+      <path fill="#eb7233" d="M38.43,36.09l-6.81-9.19c-.31-.42-.8-.67-1.32-.67H7.8c-4.31,0-7.8,3.49-7.8,7.8v19.89c0-4.32,3.5-6.01,7.82-6.01h22.48c.52,0,1.01-.25,1.32-.67l6.81-9.19c.43-.58.43-1.38,0-1.96" />
+      <path fill="#df5b26" d="M7.43,53.2C3.3,53.4.01,56.8.01,60.98s3.29,7.58,7.42,7.78v-15.56Z" />
+      <path fill="#df5b26" d="M7.51,26.26C3.34,26.41,0,29.83,0,34.04v19.85C0,49.68,3.34,48.01,7.51,47.93v-21.67Z" />
+      <path fill="#df5b26" d="M7.51,0C3.34.16,0,3.58,0,7.79v19.85C0,23.43,3.34,21.76,7.51,21.68V0Z" />
     </svg>
   );
 }

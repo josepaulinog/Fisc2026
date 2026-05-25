@@ -103,7 +103,7 @@ export default function Agenda() {
     // CTA below it. The right-edge fade uses mask-image (applied to the
     // scroll viewport itself) rather than an overlay div, because the
     // section's brand-orange radial glow tints the cream background
-    // near the right edge — an overlay gradient hardcoded to #f6f4ef
+    // near the right edge — an overlay gradient hardcoded to #ededed
     // looked subtly off against that gradient backdrop.
     <div className="relative flex-1 min-w-0">
       {/* py-2 on the scroll container is load-bearing: overflow-x: auto
@@ -133,7 +133,7 @@ export default function Agenda() {
                 key={d.label}
                 onClick={() => selectDay(i)}
                 aria-pressed={isActive}
-                className={`snap-start shrink-0 px-3 md:px-5 py-2 md:py-3 rounded-sm text-left transition-fluid will-change-transform active:scale-[0.98] focus:outline-none focus-visible:ring-2 focus-visible:ring-neutral-950 focus-visible:ring-offset-2 focus-visible:ring-offset-[#f6f4ef] ${
+                className={`snap-start shrink-0 px-3 md:px-5 py-2 md:py-3 rounded-sm text-left transition-fluid will-change-transform active:scale-[0.98] focus:outline-none focus-visible:ring-2 focus-visible:ring-neutral-950 focus-visible:ring-offset-2 focus-visible:ring-offset-[#ededed] ${
                   isActive
                     ? "text-white"
                     : "bg-white text-neutral-900 ring-1 ring-black/[0.07] hover:bg-neutral-50 hover:ring-black/[0.12] hover:shadow-[0_2px_10px_-6px_rgba(0,0,0,0.12)]"
@@ -193,7 +193,7 @@ export default function Agenda() {
 
       <section
         className="py-10 md:py-16 pb-32 md:pb-40 relative overflow-hidden"
-        style={{ backgroundColor: "#f6f4ef" }}
+        style={{ backgroundColor: "#ededed" }}
       >
         <div
           className="absolute top-0 right-0 w-[40rem] h-[40rem] rounded-full opacity-[0.07] blur-3xl -translate-y-1/2 translate-x-1/3 pointer-events-none"
