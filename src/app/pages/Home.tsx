@@ -916,7 +916,7 @@ function TheRoom() {
           </div>
           <NestedCTA
             to={isAuthed ? "/attendees" : "/sign-in?return=/attendees"}
-            variant="ink"
+            variant="gray"
             prefixIcon={!isAuthed ? <Lock size={13} strokeWidth={1.75} /> : undefined}
             icon={<BracketArrow size={12} strokeWidth={1.75} />}
           >

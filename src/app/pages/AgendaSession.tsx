@@ -22,7 +22,7 @@ import { useDocumentTitle } from "../motion";
 import {
   BRAND,
   BRAND_SOFT,
-  INK,
+  BTN,
   TAG_HUES,
   agenda,
   daySlugFor,
@@ -491,8 +491,8 @@ export default function AgendaSession() {
                 href="https://www.google.com/maps/place/Hyatt+Regency+Trinidad/@10.6488,-61.5179,17z"
                 target="_blank"
                 rel="noreferrer"
-                className="mt-6 group inline-flex items-center justify-between gap-2 px-4 py-3 rounded-sm text-white hover:opacity-95 transition-fluid ring-1 ring-white/10 hover:ring-white/20 focus-visible:ring-2 focus-visible:ring-white active:scale-[0.98] focus:outline-none"
-                style={{ backgroundColor: INK }}
+                className="mt-6 group inline-flex items-center justify-between gap-2 px-4 py-3 rounded-sm text-neutral-900 hover:opacity-95 transition-fluid ring-1 ring-black/10 hover:ring-black/20 focus-visible:ring-2 focus-visible:ring-neutral-900 active:scale-[0.98] focus:outline-none"
+                style={{ backgroundColor: BTN }}
               >
                 Open in Google Maps
                 <span

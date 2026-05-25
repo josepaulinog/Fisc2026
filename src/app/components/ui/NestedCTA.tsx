@@ -37,7 +37,7 @@ import { BRAND } from "../../data";
  *     Delegate portal
  *   </NestedCTA>
  */
-type Variant = "brand" | "ink" | "ghost" | "glass";
+type Variant = "brand" | "ink" | "gray" | "ghost" | "glass";
 
 type CommonProps = {
   variant?: Variant;
@@ -91,6 +91,16 @@ function variantStyles(v: Variant): VariantSpec {
         wellHover: "group-hover:bg-white/[0.14]",
         shadow: "shadow-[0_3px_10px_-5px_rgba(0,0,0,0.28)]",
         shadowHover: "group-hover:shadow-[0_8px_20px_-8px_rgba(0,0,0,0.36)]",
+      };
+    case "gray":
+      // Secondary "sign in to see more" teaser — light gray, near-black text,
+      // flat (no shadow), so it sits below the primary black sign-in CTA.
+      return {
+        wrapper: "bg-neutral-200 text-neutral-900",
+        well: "bg-black/[0.06]",
+        wellHover: "group-hover:bg-black/[0.12]",
+        shadow: "",
+        shadowHover: "",
       };
     case "ghost":
       // True ghost — no fill, just a hairline border. Background stays

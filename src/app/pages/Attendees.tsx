@@ -6,6 +6,7 @@ import { ImageWithFallback } from "../components/figma/ImageWithFallback";
 import { GatedBody } from "../components/GatedBody";
 import { GradientText, PageHero } from "../components/shared";
 import { BRAND, BRAND_SOFT, HERO_ATTENDEES, attendees, type AttendeeEntry } from "../data";
+import { FilterTab } from "../components/ui/FilterTab";
 
 function initialsOf(name: string) {
   return name
@@ -167,21 +168,13 @@ export default function Attendees() {
                   />
                 </label>
               </search>
-              <div className="flex items-center gap-2 overflow-x-auto overscroll-x-contain touch-pan-x snap-x snap-proximity -mx-5 px-5 md:mx-0 md:px-0 py-1.5 scrollbar-hide [scroll-padding-inline:1.25rem]">
+              <div className="flex items-center gap-2 overflow-x-auto md:overflow-visible overscroll-x-contain touch-pan-x snap-x snap-proximity -mx-5 px-5 md:mx-0 md:px-0 py-1.5 scrollbar-hide [scroll-padding-inline:1.25rem]">
                 {REGIONS.map((r) => {
                   const isActive = region === r;
                   return (
-                    <button
-                      key={r}
-                      onClick={() => setRegion(r)}
-                      className={`snap-start shrink-0 px-3.5 py-2 rounded-sm text-sm focus-visible:ring-2 focus-visible:ring-neutral-950 focus-visible:ring-offset-2 focus:outline-none active:scale-[0.98] transition-fluid ${
-                        isActive
-                          ? "bg-neutral-900 ring-1 ring-neutral-900 text-white shadow-[inset_0_1px_0_rgba(255,255,255,0.07),0_3px_10px_-4px_rgba(0,0,0,0.18)]"
-                          : "bg-white ring-1 ring-black/[0.08] text-neutral-700 hover:ring-neutral-400"
-                      }`}
-                    >
+                    <FilterTab key={r} active={isActive} onClick={() => setRegion(r)}>
                       {r}
-                    </button>
+                    </FilterTab>
                   );
                 })}
               </div>

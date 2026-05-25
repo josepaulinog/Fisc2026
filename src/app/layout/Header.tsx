@@ -95,7 +95,7 @@ export function Header() {
                       className={({ isActive }) =>
                         `inline-flex items-center gap-1.5 pl-3 pr-3 py-2 rounded-sm transition-fluid font-medium active:scale-[0.98] ${
                           isActive
-                            ? "bg-neutral-950 text-white shadow-[inset_0_1px_0_rgba(255,255,255,0.08)]"
+                            ? "bg-neutral-300 text-neutral-900 shadow-[inset_0_1px_0_rgba(255,255,255,0.08)]"
                             : "text-neutral-700 hover:text-neutral-950 hover:bg-black/[0.04]"
                         }`
                       }
@@ -129,7 +129,7 @@ export function Header() {
                               className={({ isActive }) =>
                                 `group/item flex items-center justify-between gap-3 px-4 py-2.5 transition-fluid ${
                                   isActive
-                                    ? "bg-neutral-950 text-white"
+                                    ? "bg-neutral-300 text-neutral-900"
                                     : "text-neutral-700 hover:bg-black/[0.03] hover:text-neutral-950"
                                 }`
                               }
@@ -141,7 +141,7 @@ export function Header() {
                                   </span>
                                   {c.gated && (
                                     <span className={`inline-flex items-center gap-1 text-[10px] tracking-[0.15em] uppercase transition-fluid ${
-                                      isActive ? "text-white/55" : "text-neutral-400 group-hover/item:text-neutral-500"
+                                      isActive ? "text-neutral-500" : "text-neutral-400 group-hover/item:text-neutral-500"
                                     }`}>
                                       <Lock size={10} strokeWidth={1.5} />
                                       Gated
@@ -162,7 +162,7 @@ export function Header() {
                     className={({ isActive }) =>
                       `inline-flex items-center gap-1.5 pl-3 pr-3 py-2 rounded-sm transition-fluid font-medium active:scale-[0.98] ${
                         isActive
-                          ? "bg-neutral-950 text-white shadow-[inset_0_1px_0_rgba(255,255,255,0.08)]"
+                          ? "bg-neutral-300 text-neutral-900 shadow-[inset_0_1px_0_rgba(255,255,255,0.08)]"
                           : "text-neutral-700 hover:text-neutral-950 hover:bg-black/[0.04]"
                       }`
                     }
@@ -201,7 +201,7 @@ export function Header() {
                   <button
                     onClick={signOut}
                     aria-label="Sign out"
-                    className="group hidden sm:inline-flex items-center justify-center w-9 h-9 rounded-full bg-black/[0.04] ring-1 ring-black/[0.04] hover:bg-neutral-950 hover:ring-neutral-950 hover:text-white text-neutral-700 transition-fluid"
+                    className="group hidden sm:inline-flex items-center justify-center w-9 h-9 rounded-full bg-black/[0.04] ring-1 ring-black/[0.04] hover:bg-neutral-300 hover:ring-neutral-400 hover:text-neutral-900 text-neutral-700 transition-fluid"
                   >
                     <LogOut size={14} strokeWidth={1.5} className="transition-transform group-hover:translate-x-0.5" />
                   </button>
@@ -300,7 +300,7 @@ export function Header() {
                   end
                   className={({ isActive }) =>
                     `block px-4 py-3 rounded-sm mb-1 transition ${
-                      isActive ? "bg-neutral-950 text-white" : "text-neutral-800 hover:bg-neutral-100"
+                      isActive ? "bg-neutral-300 text-neutral-900" : "text-neutral-800 hover:bg-neutral-100"
                     }`
                   }
                   style={{ fontSize: "1.125rem" }}
@@ -317,7 +317,7 @@ export function Header() {
                           to={n.to ?? n.children?.[0]?.to ?? "#"}
                           className={({ isActive }) =>
                             `flex-1 block px-4 py-3 rounded-sm transition ${
-                              isActive ? "bg-neutral-950 text-white" : "text-neutral-800 hover:bg-neutral-100"
+                              isActive ? "bg-neutral-300 text-neutral-900" : "text-neutral-800 hover:bg-neutral-100"
                             }`
                           }
                           style={{ fontSize: "1.125rem" }}
@@ -352,7 +352,7 @@ export function Header() {
                               className={({ isActive }) =>
                                 `flex items-center justify-between px-3 py-2.5 rounded-sm transition ${
                                   isActive
-                                    ? "bg-neutral-950 text-white"
+                                    ? "bg-neutral-300 text-neutral-900"
                                     : "text-neutral-700 hover:bg-neutral-100"
                                 }`
                               }

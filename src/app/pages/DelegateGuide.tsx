@@ -199,21 +199,21 @@ export default function DelegateGuide() {
                   key={i}
                   onClick={() => toggle(i)}
                   className={`group w-full flex items-center gap-4 px-5 py-4 rounded-sm text-left focus-visible:ring-2 focus-visible:ring-neutral-950 focus-visible:ring-offset-2 focus:outline-none active:scale-[0.98] transition-fluid ${
-                    done ? "bg-neutral-950 ring-1 ring-neutral-950 text-white" : "bg-white ring-1 ring-black/[0.08] hover:ring-neutral-400 text-neutral-700"
+                    done ? "bg-neutral-300 ring-1 ring-neutral-400 text-neutral-900" : "bg-white ring-1 ring-black/[0.08] hover:ring-neutral-400 text-neutral-700"
                   }`}
                 >
-                  <span className={`w-7 h-7 rounded-full flex items-center justify-center shrink-0 transition ${done ? "bg-white text-neutral-950" : "border border-neutral-300 bg-white"}`}>
+                  <span className={`w-7 h-7 rounded-full flex items-center justify-center shrink-0 transition ${done ? "bg-neutral-900 text-white" : "border border-neutral-300 bg-white"}`}>
                     {done ? <CheckCircle2 size={18} /> : <span className="text-neutral-300 text-xs">{i + 1}</span>}
                   </span>
                   <span className="flex-1 min-w-0">
-                    <span className={`block tracking-tight ${done ? "line-through text-white/70" : "text-neutral-950"}`} style={{ fontSize: "1rem" }}>
+                    <span className={`block tracking-tight ${done ? "line-through text-neutral-500" : "text-neutral-950"}`} style={{ fontSize: "1rem" }}>
                       {c.task}
                     </span>
                     {c.detail && (
-                      <span className={`block text-sm mt-0.5 ${done ? "text-white/55" : "text-neutral-500"}`}>{c.detail}</span>
+                      <span className={`block text-sm mt-0.5 ${done ? "text-neutral-400" : "text-neutral-500"}`}>{c.detail}</span>
                     )}
                   </span>
-                  <span className={`shrink-0 inline-flex items-center gap-2 px-3 py-1 rounded-sm text-xs tracking-widest uppercase ${done ? "bg-white/10 text-white/78" : "bg-neutral-100 text-neutral-700"}`}>
+                  <span className={`shrink-0 inline-flex items-center gap-2 px-3 py-1 rounded-sm text-xs tracking-widest uppercase ${done ? "bg-black/[0.06] text-neutral-600" : "bg-neutral-100 text-neutral-700"}`}>
                     <Calendar size={12} /> {formatDeadline(c.dueDate).label}
                   </span>
                 </button>

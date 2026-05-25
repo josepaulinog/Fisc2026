@@ -6,6 +6,7 @@ import { GradientText, PageHero } from "../components/shared";
 import { NestedCTA } from "../components/ui/NestedCTA";
 import { BracketArrow } from "../components/ui/BracketArrow";
 import { BRAND, BRAND_SOFT, HERO_MATERIALS, INK, materials, type MaterialEntry } from "../data";
+import { FilterTab } from "../components/ui/FilterTab";
 import { chipTone, CHIP_HUE } from "../tokens";
 
 // Topic tones via chipTone(hue) — replaces the previous per-topic hex+alpha
@@ -133,25 +134,14 @@ export default function Materials() {
             </search>
           </div>
 
-          <div className="flex items-center gap-2 mb-8 overflow-x-auto overscroll-x-contain touch-pan-x snap-x snap-proximity -mx-5 px-5 md:mx-0 md:px-0 py-1.5 scrollbar-hide [scroll-padding-inline:1.25rem]">
+          <div className="flex items-center gap-2 mb-8 overflow-x-auto md:overflow-visible overscroll-x-contain touch-pan-x snap-x snap-proximity -mx-5 px-5 md:mx-0 md:px-0 py-1.5 scrollbar-hide [scroll-padding-inline:1.25rem]">
             {TOPICS.map((t) => {
               const isActive = topic === t;
               const count = t === "All" ? materials.length : materials.filter((m) => m.topic === t).length;
               return (
-                <button
-                  key={t}
-                  onClick={() => setTopic(t)}
-                  className={`snap-start shrink-0 inline-flex items-center gap-2 px-4 py-2 rounded-sm text-sm focus-visible:ring-2 focus-visible:ring-neutral-950 focus-visible:ring-offset-2 focus:outline-none active:scale-[0.98] transition-fluid ${
-                    isActive
-                      ? "bg-neutral-900 ring-1 ring-neutral-900 text-white shadow-[inset_0_1px_0_rgba(255,255,255,0.07),0_3px_10px_-4px_rgba(0,0,0,0.18)]"
-                      : "bg-white ring-1 ring-black/[0.08] text-neutral-700 hover:ring-neutral-400"
-                  }`}
-                >
+                <FilterTab key={t} active={isActive} onClick={() => setTopic(t)} count={count}>
                   {t}
-                  <span className={`text-xs px-1.5 py-0.5 rounded-sm ${isActive ? "bg-white/15 text-white/80" : "bg-neutral-100 text-neutral-500"}`}>
-                    {count}
-                  </span>
-                </button>
+                </FilterTab>
               );
             })}
           </div>

@@ -4,6 +4,7 @@ import { ArrowUpRight, ExternalLink, Newspaper, Play, Rss, Share2 } from "lucide
 import { GatedBody } from "../components/GatedBody";
 import { GradientText, PageHero } from "../components/shared";
 import { BRAND, HERO_MEDIA, mediaItems, type MediaItem } from "../data";
+import { FilterTab } from "../components/ui/FilterTab";
 
 const TYPE_META: Record<MediaItem["type"], { icon: typeof Newspaper; bg: string; fg: string; verb: string }> = {
   Article: { icon: Newspaper, bg: "#fd6b1815", fg: "#fd6b18", verb: "Read full article" },
@@ -88,24 +89,13 @@ export default function MediaCoverage() {
       <section className="py-12 md:py-20 bg-white">
         <div className="max-w-7xl mx-auto px-5 md:px-6">
           <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-8 md:mb-12">
-            <div className="flex items-center gap-2 overflow-x-auto overscroll-x-contain touch-pan-x snap-x snap-proximity -mx-5 px-5 md:mx-0 md:px-0 py-1.5 scrollbar-hide [scroll-padding-inline:1.25rem]">
+            <div className="flex items-center gap-2 overflow-x-auto md:overflow-visible overscroll-x-contain touch-pan-x snap-x snap-proximity -mx-5 px-5 md:mx-0 md:px-0 py-1.5 scrollbar-hide [scroll-padding-inline:1.25rem]">
               {FILTERS.map((f) => {
                 const isActive = type === f;
                 return (
-                  <button
-                    key={f}
-                    onClick={() => setType(f)}
-                    className={`snap-start shrink-0 inline-flex items-center gap-2 px-4 py-2 rounded-sm text-sm focus-visible:ring-2 focus-visible:ring-neutral-950 focus-visible:ring-offset-2 focus:outline-none active:scale-[0.98] transition-fluid ${
-                      isActive
-                        ? "bg-neutral-900 ring-1 ring-neutral-900 text-white shadow-[inset_0_1px_0_rgba(255,255,255,0.07),0_3px_10px_-4px_rgba(0,0,0,0.18)]"
-                        : "bg-white ring-1 ring-black/[0.08] text-neutral-700 hover:ring-neutral-400"
-                    }`}
-                  >
+                  <FilterTab key={f} active={isActive} onClick={() => setType(f)} count={counts[f] ?? 0}>
                     {f}
-                    <span className={`text-xs px-1.5 py-0.5 rounded-sm ${isActive ? "bg-white/15 text-white/80" : "bg-neutral-100 text-neutral-500"}`}>
-                      {counts[f] ?? 0}
-                    </span>
-                  </button>
+                  </FilterTab>
                 );
               })}
             </div>

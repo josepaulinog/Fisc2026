@@ -5,6 +5,7 @@ import { Search } from "lucide-react";
 import { ImageWithFallback } from "../components/figma/ImageWithFallback";
 import { Grain, GradientText, PageHero, SectionLabel } from "../components/shared";
 import { BRAND, BRAND_SOFT, HERO_SPEAKERS, INK, speakers } from "../data";
+import { FilterTab } from "../components/ui/FilterTab";
 import { BracketArrow } from "../components/ui/BracketArrow";
 
 type Speaker = (typeof speakers)[number];
@@ -159,7 +160,7 @@ export default function Speakers() {
       <section className="py-14 md:py-28 bg-white">
         <div className="max-w-7xl mx-auto px-5 md:px-6">
           <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-8 md:mb-12">
-            <div className="flex items-center gap-2 overflow-x-auto overscroll-x-contain touch-pan-x snap-x snap-proximity -mx-5 px-5 md:mx-0 md:px-0 scrollbar-hide [scroll-padding-inline:1.25rem] py-1.5">
+            <div className="flex items-center gap-2 overflow-x-auto md:overflow-visible overscroll-x-contain touch-pan-x snap-x snap-proximity -mx-5 px-5 md:mx-0 md:px-0 scrollbar-hide [scroll-padding-inline:1.25rem] py-1.5">
               {filters.map((f) => {
                 const isActive = filter === f;
                 const count =
@@ -169,24 +170,9 @@ export default function Speakers() {
                       ? speakers.filter((s) => s.org === "FreeBalance").length
                       : speakers.filter((s) => s.org !== "FreeBalance").length;
                 return (
-                  <button
-                    key={f}
-                    onClick={() => setFilter(f)}
-                    className={`snap-start shrink-0 inline-flex items-center gap-2 px-4 py-2.5 min-h-[44px] rounded-sm transition-fluid active:scale-[0.97] focus-ring ${
-                      isActive
-                        ? "bg-neutral-950 text-white ring-1 ring-neutral-950 shadow-[inset_0_1px_0_rgba(255,255,255,0.1),0_4px_12px_-4px_rgba(0,0,0,0.15)]"
-                        : "bg-white text-neutral-700 ring-1 ring-black/[0.08] hover:ring-black/[0.15] hover:bg-neutral-50"
-                    }`}
-                  >
+                  <FilterTab key={f} active={isActive} onClick={() => setFilter(f)} count={count}>
                     {f}
-                    <span
-                      className={`text-xs px-1.5 py-0.5 rounded-sm tabular-nums transition-fluid ${
-                        isActive ? "bg-white/15 text-white/80" : "bg-neutral-100 text-neutral-500"
-                      }`}
-                    >
-                      {count}
-                    </span>
-                  </button>
+                  </FilterTab>
                 );
               })}
             </div>

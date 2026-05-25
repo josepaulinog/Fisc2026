@@ -103,6 +103,9 @@ export const VENUE_TOBAGO = tobagoImg;
 export const BRAND = "#fd6b18";
 export const BRAND_SOFT = "#ffb27a";
 export const INK = "#0a0a0a";
+// Solid button/CTA background — light gray with near-black text
+// (text-neutral-900). Single source of truth; nudge here to adjust the shade.
+export const BTN = "#d4d4d4";
 
 // Conference kickoff — Mon Jun 29 2026, 09:00 Atlantic Standard Time (UTC-4).
 // Single source of truth for the homepage countdown. Inline strings in the
