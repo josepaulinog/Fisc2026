@@ -815,8 +815,6 @@ function TheRoom() {
             <div className="mb-5 text-xs tracking-[0.25em] uppercase text-neutral-500">
               And the delegation
             </div>
-          // Faces — signed-in delegates only. Country flag floats in the
-          // corner of each portrait so the eye can scan for region.
           <motion.div
             variants={staggerList}
             initial="hidden"
