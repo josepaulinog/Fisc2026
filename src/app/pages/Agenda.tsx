@@ -193,7 +193,7 @@ export default function Agenda() {
 
       <section
         className="py-10 md:py-16 pb-32 md:pb-40 relative overflow-hidden"
-        style={{ backgroundColor: "#fff" }}
+        style={{ backgroundColor: "rgb(237, 237, 237)" }}
       >
 
         <div className="relative max-w-7xl mx-auto px-5 md:px-6">
