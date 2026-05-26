@@ -12,7 +12,6 @@ import {
   Twitter,
   Youtube,
 } from "lucide-react";
-import { Lockup } from "../components/brand/Lockup";
 import { BracketArrow } from "../components/ui/BracketArrow";
 import freebalanceLogo from "../../imports/freebalance-logo.svg";
 import { ImageWithFallback } from "../components/figma/ImageWithFallback";
@@ -363,7 +362,24 @@ export function Footer({ variant = "compact" }: FooterProps = {}) {
         {/* Link columns */}
         <div className={`grid sm:grid-cols-2 lg:grid-cols-12 gap-8 md:gap-12 border-b border-white/10 ${showClosingBand ? "pb-10 md:pb-14" : "pb-8 md:pb-10"}`}>
           <div className="lg:col-span-5">
-            <Lockup variant="light" size="lg" />
+            <div className="flex flex-col gap-3">
+              <span className="text-[11px] uppercase tracking-[0.25em] text-white/45" style={{ fontWeight: 600 }}>
+                Presented by
+              </span>
+              <a
+                href="https://www.freebalance.com"
+                target="_blank"
+                rel="noreferrer"
+                aria-label="FreeBalance"
+                className="group inline-flex items-center w-fit active:scale-[0.98] transition-fluid"
+              >
+                <img
+                  src={freebalanceLogo}
+                  alt="FreeBalance"
+                  className="h-9 md:h-10 w-auto brightness-0 invert opacity-90 group-hover:opacity-100 transition-fluid"
+                />
+              </a>
+            </div>
             <p className="mt-5 md:mt-6 max-w-md text-white/65" style={{ lineHeight: 1.7 }}>
               The FreeBalance International Steering Committee unites
               governments and partners advancing the digital transformation
@@ -441,11 +457,6 @@ export function Footer({ variant = "compact" }: FooterProps = {}) {
             the copyright undersold the relationship. */}
         <div className="pt-6 md:pt-8 space-y-4 md:space-y-5">
           <div className="flex flex-wrap items-center gap-x-5 gap-y-2 text-white/75" style={{ fontSize: "0.875rem", fontWeight: 500 }}>
-            <span className="inline-flex items-center gap-2.5">
-              Presented by
-              <img src={freebalanceLogo} alt="FreeBalance" className="h-[18px] w-auto brightness-0 invert opacity-90" />
-            </span>
-            <span className="hidden sm:block w-px h-3.5 bg-white/15" aria-hidden="true" />
             <span>
               Hosted by the{" "}
               <span className="text-white">Ministry of Finance, Trinidad and Tobago</span>
