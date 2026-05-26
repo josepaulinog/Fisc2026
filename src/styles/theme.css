@@ -32,6 +32,12 @@
   transition-duration: 500ms;
 }
 
+/* Primary CTA fill — neutral dark gray, one shade darker on hover. Single
+   source for the "Delegate sign in" / ink button family; the button's own
+   transition-fluid (or Tailwind `transition`) animates the background change. */
+.cta-fill { background-color: #565a61; }
+.cta-fill:hover { background-color: #41444a; }
+
 .fade-up-blur-in {
   animation: fade-up-blur 900ms cubic-bezier(0.22, 1, 0.36, 1) both;
 }

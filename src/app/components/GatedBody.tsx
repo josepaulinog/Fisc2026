@@ -31,7 +31,7 @@ export function GatedBody({ children }: { children: ReactNode }) {
       <div className="max-w-3xl mx-auto px-5 md:px-6 text-center">
         <div
           className="w-16 h-16 mx-auto rounded-2xl flex items-center justify-center mb-6"
-          style={{ backgroundColor: `${BRAND}15`, color: BRAND }}
+          style={{ backgroundColor: `${INK}15`, color: INK }}
         >
           <Lock size={24} />
         </div>
@@ -50,15 +50,13 @@ export function GatedBody({ children }: { children: ReactNode }) {
 
         <Link
           to={`/sign-in?return=${returnTo}`}
-          style={{ backgroundColor: INK }}
-          className="mt-8 group inline-flex items-center gap-2 text-white pl-6 pr-2 py-3 rounded-sm hover:opacity-90 transition"
+          className="mt-8 cta-fill group inline-flex items-center text-white pl-6 pr-2 py-3 rounded-sm transition"
         >
           Delegate sign in
           <span
-            className="w-8 h-8 rounded-full flex items-center justify-center"
-            style={{ backgroundColor: BRAND }}
+            className="w-8 h-8 rounded-sm flex items-center justify-center"
           >
-            <ArrowUpRight size={14} className="group-hover:rotate-45 transition-transform" />
+            <ArrowUpRight size={24} className="group-hover:rotate-45 transition-transform" />
           </span>
         </Link>
 

@@ -7,7 +7,7 @@ import { BracketArrow } from "../components/ui/BracketArrow";
 import { Chevron } from "../components/ui/Chevron";
 import { useAuth } from "../auth";
 import { firstNameOf, initialsOf, useProfile } from "../profile";
-import { BRAND, INK, navItems } from "../data";
+import { BRAND, navItems } from "../data";
 import { Z } from "../tokens";
 
 export function Header() {
@@ -65,7 +65,7 @@ export function Header() {
           <div
             className={`flex items-center justify-between rounded-md ring-1 transition-fluid px-3 md:px-5 ${
               scrolled
-                ? "ring-black/[0.08] bg-[#fbfaf7]/85 backdrop-blur-2xl h-14 md:h-16"
+                ? "ring-black/[0.08] bg-white backdrop-blur-2xl h-14 md:h-16"
                 : "ring-black/[0.05] bg-white backdrop-blur-2xl h-16 md:h-[68px]"
             }`}
             style={{
@@ -214,13 +214,11 @@ export function Header() {
                   </span>
                   <Link
                     to="/sign-in"
-                    style={{ backgroundColor: INK }}
-                    className="group hidden sm:inline-flex items-center gap-2.5 text-white pl-5 pr-1.5 py-1.5 rounded-sm transition-fluid will-change-transform hover:scale-[1.015] active:scale-[0.98] shadow-[0_3px_10px_-5px_rgba(0,0,0,0.28)] hover:shadow-[0_8px_20px_-8px_rgba(0,0,0,0.36)]"
+                    className="cta-fill group hidden sm:inline-flex items-center gap-0 text-white pl-5 pr-1.5 py-1.5 rounded-sm transition-fluid will-change-transform hover:scale-[1.015] active:scale-[0.98] shadow-[0_3px_10px_-5px_rgba(0,0,0,0.28)] hover:shadow-[0_8px_20px_-8px_rgba(0,0,0,0.36)]"
                   >
                     <span className="text-sm" style={{ fontWeight: 500 }}>Delegate sign in</span>
                     <span
                       className="w-8 h-8 rounded-sm flex items-center justify-center transition-fluid group-hover:brightness-105"
-                      style={{ backgroundColor: BRAND }}
                     >
                       <span className="inline-flex transition-fluid group-hover:translate-x-[1.5px] group-hover:-translate-y-[1.5px]">
                         <BracketArrow size={11} strokeWidth={1.75} />
@@ -401,8 +399,7 @@ export function Header() {
                         signOut();
                         setOpen(false);
                       }}
-                      style={{ backgroundColor: INK }}
-                      className="group w-full min-h-[44px] inline-flex items-center justify-between text-white pl-5 pr-2 py-3 rounded-sm hover:opacity-90 transition focus-ring"
+                      className="cta-fill group w-full min-h-[44px] inline-flex items-center justify-between text-white pl-5 pr-2 py-3 rounded-sm transition focus-ring"
                     >
                       Sign out
                       <span
@@ -421,8 +418,7 @@ export function Header() {
                     </div>
                     <Link
                       to="/sign-in"
-                      style={{ backgroundColor: INK }}
-                      className="group w-full inline-flex items-center justify-between text-white pl-5 pr-2 py-3 rounded-sm hover:opacity-90 transition"
+                      className="cta-fill group w-full inline-flex items-center justify-between text-white pl-5 pr-2 py-3 rounded-sm transition"
                     >
                       Delegate sign in
                       <span

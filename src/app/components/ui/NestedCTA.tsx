@@ -78,7 +78,7 @@ function variantStyles(v: Variant): VariantSpec {
     case "brand":
       return {
         wrapper: "text-white",
-        well: "bg-black/15",
+        well: "",
         wellHover: "group-hover:bg-black/[0.22]",
         shadow: "shadow-[0_3px_10px_-5px_rgba(253,107,24,0.35)]",
         shadowHover: "group-hover:shadow-[0_8px_18px_-8px_rgba(253,107,24,0.42)]",
@@ -86,9 +86,9 @@ function variantStyles(v: Variant): VariantSpec {
       };
     case "ink":
       return {
-        wrapper: "bg-neutral-950 text-white",
-        well: "bg-white/10",
-        wellHover: "group-hover:bg-white/[0.14]",
+        wrapper: "text-white cta-fill",
+        well: "",
+        wellHover: "",
         shadow: "shadow-[0_3px_10px_-5px_rgba(0,0,0,0.28)]",
         shadowHover: "group-hover:shadow-[0_8px_20px_-8px_rgba(0,0,0,0.36)]",
       };
@@ -97,8 +97,8 @@ function variantStyles(v: Variant): VariantSpec {
       // flat (no shadow), so it sits below the primary black sign-in CTA.
       return {
         wrapper: "bg-neutral-200 text-neutral-900",
-        well: "bg-black/[0.06]",
-        wellHover: "group-hover:bg-black/[0.12]",
+        well: "",
+        wellHover: "",
         shadow: "",
         shadowHover: "",
       };
@@ -109,8 +109,8 @@ function variantStyles(v: Variant): VariantSpec {
       // icon has a home, but it doesn't read as a filled button.
       return {
         wrapper: "bg-transparent text-neutral-950 ring-1 ring-black/15 group-hover:ring-black/35",
-        well: "bg-black/[0.05]",
-        wellHover: "group-hover:bg-black/[0.1]",
+        well: "",
+        wellHover: "",
         shadow: "",
         shadowHover: "",
       };
@@ -130,7 +130,7 @@ export function NestedCTA(props: Props) {
   const { wrapper, well, wellHover, shadow, shadowHover, style } = variantStyles(variant);
 
   const sharedClasses =
-    `group inline-flex items-center gap-3 pl-6 pr-2 py-2 rounded-sm transition-fluid will-change-transform ` +
+    `group inline-flex items-center gap-0 pl-6 pr-2 py-2 rounded-sm transition-fluid will-change-transform ` +
     `hover:scale-[1.012] active:scale-[0.98] ` +
     `focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 ` +
     `${variant === "glass" ? "focus-visible:ring-white/80" : "focus-visible:ring-neutral-950"} ` +

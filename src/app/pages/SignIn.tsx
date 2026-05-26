@@ -298,8 +298,7 @@ export default function SignIn() {
               <button
                 type="submit"
                 disabled={submitting}
-                style={{ backgroundColor: INK }}
-                className="group w-full inline-flex items-center justify-between text-white pl-5 pr-2 py-3 rounded-sm disabled:opacity-60 disabled:cursor-not-allowed disabled:hover:scale-100 transition-fluid will-change-transform hover:scale-[1.008] active:scale-[0.99] shadow-[0_3px_10px_-5px_rgba(0,0,0,0.28)] hover:shadow-[0_8px_20px_-8px_rgba(0,0,0,0.36)]"
+                className="cta-fill group w-full inline-flex items-center justify-between text-white pl-5 pr-2 py-3 rounded-sm disabled:opacity-60 disabled:cursor-not-allowed disabled:hover:scale-100 transition-fluid will-change-transform hover:scale-[1.008] active:scale-[0.99] shadow-[0_3px_10px_-5px_rgba(0,0,0,0.28)] hover:shadow-[0_8px_20px_-8px_rgba(0,0,0,0.36)]"
               >
                 <span style={{ fontSize: "1rem", fontWeight: 500 }}>{submitting ? "Signing in…" : "Sign in"}</span>
                 <span
@@ -416,13 +415,11 @@ export default function SignIn() {
 
                       <button
                         type="submit"
-                        style={{ backgroundColor: INK }}
-                        className="group w-full inline-flex items-center justify-between text-white pl-5 pr-2 py-3 rounded-sm transition-fluid will-change-transform hover:scale-[1.008] active:scale-[0.99] shadow-[0_3px_10px_-5px_rgba(0,0,0,0.28)] hover:shadow-[0_8px_20px_-8px_rgba(0,0,0,0.36)]"
+                        className="cta-fill group w-full inline-flex items-center justify-between text-white pl-5 pr-2 py-3 rounded-sm transition-fluid will-change-transform hover:scale-[1.008] active:scale-[0.99] shadow-[0_3px_10px_-5px_rgba(0,0,0,0.28)] hover:shadow-[0_8px_20px_-8px_rgba(0,0,0,0.36)]"
                       >
                         <span style={{ fontSize: "1rem", fontWeight: 500 }}>Resend access code</span>
                         <span
                           className="w-8 h-8 rounded-sm flex items-center justify-center transition-fluid group-hover:brightness-105"
-                          style={{ backgroundColor: BRAND }}
                         >
                           <span className="inline-flex transition-fluid group-hover:translate-x-[1.5px] group-hover:-translate-y-[1.5px]">
                             <BracketArrow size={12} strokeWidth={1.75} />

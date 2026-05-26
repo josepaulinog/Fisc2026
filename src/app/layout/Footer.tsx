@@ -110,7 +110,7 @@ export function Newsletter() {
                   >
                     <span
                       className="w-8 h-8 rounded-sm flex items-center justify-center shrink-0"
-                      style={{ backgroundColor: `${BRAND}33`, color: "#fff" }}
+                      style={{ color: "#fff" }}
                     >
                       <CheckCircle2 size={16} strokeWidth={1.5} />
                     </span>
@@ -308,7 +308,7 @@ export function Footer({ variant = "compact" }: FooterProps = {}) {
         {/* CTA cards stagger up after the headline. Each card is wrapped in a
             motion.div (the grid item) with h-full so the inner card still
             stretches to equal heights as it did when it was the grid item. */}
-        <div className="grid md:grid-cols-2 gap-3 md:gap-4 mb-14 md:mb-20">
+        <div className="grid md:grid-cols-2 gap-3 md:gap-4 mb-14 md:mb-20 hidden">
           <motion.div
             className="h-full"
             initial={{ opacity: 0, y: 30 }}
@@ -376,7 +376,7 @@ export function Footer({ variant = "compact" }: FooterProps = {}) {
                 <img
                   src={freebalanceLogo}
                   alt="FreeBalance"
-                  className="h-9 md:h-10 w-auto brightness-0 invert opacity-90 group-hover:opacity-100 transition-fluid"
+                  className="h-9 md:h-10 w-auto group-hover:opacity-100 transition-fluid"
                 />
               </a>
             </div>
