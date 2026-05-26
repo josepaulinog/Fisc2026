@@ -300,7 +300,7 @@ export default function SignIn() {
                 disabled={submitting}
                 className="cta-fill group w-full inline-flex items-center justify-between text-white pl-5 pr-2 py-3 rounded-sm disabled:opacity-60 disabled:cursor-not-allowed disabled:hover:scale-100 transition-fluid will-change-transform hover:scale-[1.008] active:scale-[0.99] shadow-[0_3px_10px_-5px_rgba(0,0,0,0.28)] hover:shadow-[0_8px_20px_-8px_rgba(0,0,0,0.36)]"
               >
-                <span style={{ fontSize: "1rem", fontWeight: 500 }}>{submitting ? "Signing in…" : "Sign in"}</span>
+                <span style={{ fontSize: "1rem", fontWeight: 600 }}>{submitting ? "Signing in…" : "Sign in"}</span>
                 <span
                   className="w-9 h-9 rounded-sm flex items-center justify-center"
                 >

@@ -68,7 +68,7 @@ function Hero() {
           <ImageWithFallback src={HERO_IMG} alt="Caribbean coast" className="w-full h-full object-cover object-right md:object-center opacity-50" />
         ) : (
           <video
-            src="/rocky.mp4"
+            src="/hero-video-fisc.mp4"
             poster={HERO_IMG}
             autoPlay
             muted

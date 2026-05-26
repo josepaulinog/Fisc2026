@@ -50,7 +50,7 @@ export function GatedBody({ children }: { children: ReactNode }) {
 
         <Link
           to={`/sign-in?return=${returnTo}`}
-          className="mt-8 cta-fill group inline-flex items-center text-white pl-6 pr-2 py-3 rounded-sm transition"
+          style={{ fontWeight: 600 }} className="text-[17px] mt-8 cta-fill group inline-flex items-center text-white pl-6 pr-2 py-3 rounded-sm transition"
         >
           Delegate sign in
           <span

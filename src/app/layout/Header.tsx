@@ -216,7 +216,7 @@ export function Header() {
                     to="/sign-in"
                     className="cta-fill group hidden sm:inline-flex items-center gap-0 text-white pl-5 pr-1.5 py-1.5 rounded-sm transition-fluid will-change-transform hover:scale-[1.015] active:scale-[0.98] shadow-[0_3px_10px_-5px_rgba(0,0,0,0.28)] hover:shadow-[0_8px_20px_-8px_rgba(0,0,0,0.36)]"
                   >
-                    <span className="text-sm" style={{ fontWeight: 500 }}>Delegate sign in</span>
+                    <span className="text-[17px]" style={{ fontWeight: 600 }}>Delegate sign in</span>
                     <span
                       className="w-8 h-8 rounded-sm flex items-center justify-center transition-fluid group-hover:brightness-105"
                     >
