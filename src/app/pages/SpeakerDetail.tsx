@@ -76,7 +76,7 @@ export default function SpeakerDetail() {
         <div
           className="absolute inset-0"
           style={{
-            background: `radial-gradient(ellipse at 85% 0%, ${BRAND}55 0%, transparent 55%), linear-gradient(180deg, rgba(10,10,10,0.85) 0%, rgba(10,10,10,0.6) 40%, ${INK} 100%)`,
+            background: `radial-gradient(ellipse at 85% 0%, ${BRAND}38 0%, transparent 55%), linear-gradient(180deg, rgba(23,19,17,0.85) 0%, rgba(23,19,17,0.6) 40%, ${INK} 100%)`,
           }}
         />
         <Grain />
@@ -310,7 +310,7 @@ export default function SpeakerDetail() {
           >
             <div
               className="absolute inset-0 pointer-events-none"
-              style={{ background: `radial-gradient(ellipse at 85% 0%, ${BRAND}44, transparent 55%)` }}
+              style={{ background: `radial-gradient(ellipse at 85% 0%, ${BRAND}30, transparent 55%)` }}
             />
             <div className="relative flex flex-wrap items-center justify-between gap-6">
               <div>

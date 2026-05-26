@@ -57,7 +57,7 @@ export function Newsletter() {
           <div
             className="absolute inset-0 pointer-events-none"
             style={{
-              background: `radial-gradient(circle at 100% 0%, ${BRAND}2e, transparent 38%), radial-gradient(circle at 0% 100%, ${BRAND}1a, transparent 38%)`,
+              background: `radial-gradient(circle at 100% 0%, ${BRAND}22, transparent 38%), radial-gradient(circle at 0% 100%, ${BRAND}14, transparent 38%)`,
             }}
           />
           <Grain />
@@ -84,7 +84,7 @@ export function Newsletter() {
               <div
                 className="absolute inset-0 pointer-events-none"
                 style={{
-                  background: `radial-gradient(circle at 10% 0%, ${BRAND}33, transparent 45%)`,
+                  background: `radial-gradient(circle at 10% 0%, ${BRAND}26, transparent 45%)`,
                 }}
               />
             </div>
@@ -245,7 +245,7 @@ export function Footer({ variant = "compact" }: FooterProps = {}) {
       <div
         className="absolute inset-0 pointer-events-none"
         style={{
-          background: `radial-gradient(ellipse at 90% 0%, ${BRAND}33 0%, transparent 55%), radial-gradient(ellipse at 0% 100%, ${BRAND}22 0%, transparent 50%)`,
+          background: `radial-gradient(ellipse at 90% 0%, ${BRAND}26 0%, transparent 55%), radial-gradient(ellipse at 0% 100%, ${BRAND}18 0%, transparent 50%)`,
         }}
       />
       <Grain />

@@ -199,7 +199,7 @@ export function OnboardingTour({ children }: { children?: React.ReactNode }) {
               <div
                 className="absolute inset-0 pointer-events-none"
                 style={{
-                  background: `radial-gradient(ellipse at 100% 0%, ${BRAND}55 0%, transparent 55%), radial-gradient(ellipse at 0% 100%, #00000088 0%, transparent 55%)`,
+                  background: `radial-gradient(ellipse at 100% 0%, ${BRAND}38 0%, transparent 55%), radial-gradient(ellipse at 0% 100%, #00000088 0%, transparent 55%)`,
                 }}
               />
               <button

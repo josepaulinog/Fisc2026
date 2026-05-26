@@ -206,7 +206,7 @@ export function PageHero({
   const imageOpacity = 1 - overlayStrength * 0.55;
 
   return (
-    <section className="relative overflow-hidden pt-24 pb-14 md:pt-36 md:pb-24" style={{ backgroundColor: "#0a0a0a" }}>
+    <section className="relative overflow-hidden pt-24 pb-14 md:pt-36 md:pb-24" style={{ backgroundColor: "#171311" }}>
       {image && (
         <div className="absolute inset-0">
           <ImageWithFallback
@@ -235,11 +235,11 @@ export function PageHero({
                  doesn't touch it. */
               background: image
                 ? hasSunset
-                  ? `radial-gradient(ellipse at 85% 0%, ${BRAND}44 0%, transparent 55%), radial-gradient(ellipse at 20% 40%, #ff8e421a 0%, transparent 40%), linear-gradient(180deg, rgba(10,10,10,0.75) 0%, rgba(10,10,10,0.35) 45%, rgba(10,10,10,0.55) 100%)`
-                  : `radial-gradient(ellipse at 85% 0%, ${BRAND}44 0%, transparent 55%), linear-gradient(180deg, rgba(10,10,10,0.75) 0%, rgba(10,10,10,0.35) 45%, rgba(10,10,10,0.55) 100%)`
+                  ? `radial-gradient(ellipse at 85% 0%, ${BRAND}30 0%, transparent 55%), radial-gradient(ellipse at 20% 40%, #ff8e421a 0%, transparent 40%), linear-gradient(180deg, rgba(23,19,17,0.75) 0%, rgba(23,19,17,0.35) 45%, rgba(23,19,17,0.55) 100%)`
+                  : `radial-gradient(ellipse at 85% 0%, ${BRAND}30 0%, transparent 55%), linear-gradient(180deg, rgba(23,19,17,0.75) 0%, rgba(23,19,17,0.35) 45%, rgba(23,19,17,0.55) 100%)`
                 : hasSunset
-                  ? `radial-gradient(ellipse at 80% 10%, ${BRAND}55 0%, transparent 50%), radial-gradient(ellipse at 20% 40%, #ff8e421a 0%, transparent 40%), linear-gradient(180deg, #0a0a0a 0%, transparent 40%, #0a0a0a 100%)`
-                  : `radial-gradient(ellipse at 80% 10%, ${BRAND}55 0%, transparent 50%), linear-gradient(180deg, #0a0a0a 0%, transparent 40%, #0a0a0a 100%)`,
+                  ? `radial-gradient(ellipse at 80% 10%, ${BRAND}38 0%, transparent 50%), radial-gradient(ellipse at 20% 40%, #ff8e421a 0%, transparent 40%), linear-gradient(180deg, #171311 0%, transparent 40%, #171311 100%)`
+                  : `radial-gradient(ellipse at 80% 10%, ${BRAND}38 0%, transparent 50%), linear-gradient(180deg, #171311 0%, transparent 40%, #171311 100%)`,
             }}
           />
         </div>

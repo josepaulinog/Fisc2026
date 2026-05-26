@@ -102,7 +102,7 @@ export const VENUE_TOBAGO = tobagoImg;
 
 export const BRAND = "#fd6b18";
 export const BRAND_SOFT = "#ffb27a";
-export const INK = "#0a0a0a";
+export const INK = "#171311";
 // Solid button/CTA background — light gray with near-black text
 // (text-neutral-900). Single source of truth; nudge here to adjust the shade.
 export const BTN = "#d4d4d4";

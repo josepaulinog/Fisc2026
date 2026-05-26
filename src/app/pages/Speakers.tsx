@@ -36,7 +36,7 @@ function FeaturedCard({ s, accent = false }: { s: Speaker; accent?: boolean }) {
           className="absolute inset-0"
           style={{
             background: accent
-              ? `linear-gradient(180deg, transparent 30%, ${INK}cc 70%, ${INK} 100%), radial-gradient(ellipse at 80% 10%, ${BRAND}66 0%, transparent 50%)`
+              ? `linear-gradient(180deg, transparent 30%, ${INK}cc 70%, ${INK} 100%), radial-gradient(ellipse at 80% 10%, ${BRAND}40 0%, transparent 50%)`
               : `linear-gradient(180deg, transparent 35%, ${INK}cc 75%, ${INK} 100%)`,
           }}
         />

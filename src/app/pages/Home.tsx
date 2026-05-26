@@ -83,7 +83,7 @@ function Hero() {
       <div
         className="absolute inset-0"
         style={{
-          background: `radial-gradient(ellipse at 80% 10%, ${BRAND}55 0%, transparent 50%), radial-gradient(ellipse at 20% 40%, #ff8e421a 0%, transparent 40%), radial-gradient(ellipse at 0% 100%, #000000a6 0%, transparent 60%), linear-gradient(180deg, ${INK} 0%, transparent 30%, ${INK}cc 100%)`,
+          background: `radial-gradient(ellipse at 80% 10%, ${BRAND}38 0%, transparent 50%), radial-gradient(ellipse at 20% 40%, #ff8e421a 0%, transparent 40%), radial-gradient(ellipse at 0% 100%, #000000a6 0%, transparent 60%), linear-gradient(180deg, ${INK} 0%, transparent 30%, ${INK}cc 100%)`,
         }}
       />
       <div 

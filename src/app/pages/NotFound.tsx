@@ -6,7 +6,7 @@ import { BRAND, INK } from "../data";
 export default function NotFound() {
   return (
     <section className="relative min-h-[100dvh] flex items-center pt-32 pb-16" style={{ backgroundColor: INK }}>
-      <div className="absolute inset-0" style={{ background: `radial-gradient(ellipse at 80% 10%, ${BRAND}55 0%, transparent 50%)` }} />
+      <div className="absolute inset-0" style={{ background: `radial-gradient(ellipse at 80% 10%, ${BRAND}38 0%, transparent 50%)` }} />
       <Grain />
       <div className="relative max-w-7xl mx-auto px-5 md:px-6 text-white">
         <div className="tracking-[0.25em] text-white/60 text-sm">ERROR · 404</div>

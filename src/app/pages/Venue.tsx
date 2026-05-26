@@ -265,7 +265,7 @@ export default function Venue() {
             <div
               className="absolute inset-0"
               style={{
-                background: `radial-gradient(circle at 85% 25%, ${BRAND}55, transparent 55%)`,
+                background: `radial-gradient(circle at 85% 25%, ${BRAND}38, transparent 55%)`,
               }}
             />
             <Grain />

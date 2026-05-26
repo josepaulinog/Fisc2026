@@ -176,7 +176,7 @@ export default function Materials() {
           )}
 
           <div className="mt-12 md:mt-16 rounded-2xl overflow-hidden relative" style={{ backgroundColor: INK }}>
-            <div className="absolute inset-0 pointer-events-none" style={{ background: `radial-gradient(ellipse at 85% 10%, ${BRAND}44, transparent 55%)` }} />
+            <div className="absolute inset-0 pointer-events-none" style={{ background: `radial-gradient(ellipse at 85% 10%, ${BRAND}30, transparent 55%)` }} />
             <div className="relative grid md:grid-cols-12 gap-6 md:gap-10 items-center p-8 md:p-12 text-white">
               <div className="md:col-span-8">
                 <div className="text-xs tracking-[0.25em] text-white/60">THE FULL ARCHIVE</div>

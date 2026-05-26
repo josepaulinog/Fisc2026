@@ -153,7 +153,7 @@ export default function SignIn() {
       <div
         className="absolute inset-0 pointer-events-none"
         style={{
-          background: `radial-gradient(ellipse at 100% 0%, ${BRAND}44 0%, transparent 50%), radial-gradient(ellipse at 0% 100%, #00000066 0%, transparent 55%)`,
+          background: `radial-gradient(ellipse at 100% 0%, ${BRAND}30 0%, transparent 50%), radial-gradient(ellipse at 0% 100%, #00000066 0%, transparent 55%)`,
         }}
       />
       <Grain />

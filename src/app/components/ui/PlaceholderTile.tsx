@@ -38,7 +38,7 @@ export function PlaceholderTile({
     <div
       className={`absolute inset-0 overflow-hidden ${className}`}
       style={{
-        backgroundColor: isDark ? "#0a0a0a" : "#efe9dd",
+        backgroundColor: isDark ? "#171311" : "#efe9dd",
       }}
     >
       {/* Brand-orange ambient glow at top-right — subtle on the cream
@@ -48,7 +48,7 @@ export function PlaceholderTile({
         className="absolute inset-0 pointer-events-none"
         style={{
           background: isDark
-            ? `radial-gradient(circle at 85% 20%, ${BRAND}40, transparent 50%)`
+            ? `radial-gradient(circle at 85% 20%, ${BRAND}2e, transparent 50%)`
             : `radial-gradient(circle at 85% 20%, ${BRAND}1c, transparent 55%)`,
         }}
       />
