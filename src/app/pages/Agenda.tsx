@@ -193,12 +193,8 @@ export default function Agenda() {
 
       <section
         className="py-10 md:py-16 pb-32 md:pb-40 relative overflow-hidden"
-        style={{ backgroundColor: "#ededed" }}
+        style={{ backgroundColor: "#fff" }}
       >
-        <div
-          className="absolute top-0 right-0 w-[40rem] h-[40rem] rounded-full opacity-[0.07] blur-3xl -translate-y-1/2 translate-x-1/3 pointer-events-none"
-          style={{ backgroundColor: BRAND }}
-        />
 
         <div className="relative max-w-7xl mx-auto px-5 md:px-6">
           {/* Day header strip — folds the previous "day at a glance" line

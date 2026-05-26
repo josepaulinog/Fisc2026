@@ -302,8 +302,7 @@ export default function SignIn() {
               >
                 <span style={{ fontSize: "1rem", fontWeight: 500 }}>{submitting ? "Signing in…" : "Sign in"}</span>
                 <span
-                  className="w-9 h-9 rounded-sm flex items-center justify-center transition-fluid group-hover:brightness-105"
-                  style={{ backgroundColor: BRAND }}
+                  className="w-9 h-9 rounded-sm flex items-center justify-center"
                 >
                   <span className="inline-flex transition-fluid group-hover:translate-x-[1.5px] group-hover:-translate-y-[1.5px]">
                     <BracketArrow size={13} strokeWidth={1.75} />
