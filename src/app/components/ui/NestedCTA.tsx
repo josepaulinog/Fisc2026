@@ -79,7 +79,7 @@ function variantStyles(v: Variant): VariantSpec {
       return {
         wrapper: "text-white",
         well: "",
-        wellHover: "group-hover:bg-black/[0.22]",
+        wellHover: "",
         shadow: "shadow-[0_3px_10px_-5px_rgba(253,107,24,0.35)]",
         shadowHover: "group-hover:shadow-[0_8px_18px_-8px_rgba(253,107,24,0.42)]",
         style: { backgroundColor: BRAND },
@@ -117,8 +117,8 @@ function variantStyles(v: Variant): VariantSpec {
     case "glass":
       return {
         wrapper: "bg-white/[0.08] text-white ring-1 ring-white/20 backdrop-blur-md group-hover:bg-white/[0.12] group-hover:ring-white/30",
-        well: "bg-white/10 text-white",
-        wellHover: "group-hover:bg-white/[0.18]",
+        well: "",
+        wellHover: "",
         shadow: "shadow-[inset_0_1px_0_rgba(255,255,255,0.08)]",
         shadowHover: "group-hover:shadow-[inset_0_1px_0_rgba(255,255,255,0.16)]",
       };
