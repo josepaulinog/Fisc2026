@@ -29,8 +29,8 @@ export function FilterTab({ active, onClick, count, children }: FilterTabProps) 
       aria-pressed={active}
       className={`snap-start shrink-0 inline-flex items-center gap-2 px-4 py-2.5 min-h-[44px] rounded-sm text-sm transition-fluid will-change-transform active:scale-[0.98] focus:outline-none focus-visible:ring-2 focus-visible:ring-neutral-950 focus-visible:ring-offset-2 ${
         active
-          ? "bg-neutral-300 text-neutral-900 ring-1 ring-neutral-400"
-          : "bg-white text-neutral-700 ring-1 ring-black/[0.08] hover:ring-black/[0.15] hover:bg-neutral-50"
+          ? "bg-neutral-200 text-neutral-900"
+          : "bg-white text-neutral-700 hover:ring-black/[0.15] hover:bg-neutral-50"
       }`}
     >
       {children}

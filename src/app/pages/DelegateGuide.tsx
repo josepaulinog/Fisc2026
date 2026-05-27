@@ -100,8 +100,8 @@ export default function DelegateGuide() {
                   { icon: Users, k: "Population", v: delegateGuide.keyFacts.population },
                 ].map((row) => (
                   <div key={row.k} className="flex items-start gap-3 rounded-md ring-1 ring-black/[0.08] bg-white p-4">
-                    <div className="w-9 h-9 rounded-sm flex items-center justify-center shrink-0" style={{ backgroundColor: `${BRAND}15`, color: BRAND }}>
-                      <row.icon size={15} />
+                    <div className="w-9 h-9 rounded-sm flex items-center justify-center shrink-0" style={{ backgroundColor: `${INK}15`, color: INK }}>
+                      <row.icon size={20} />
                     </div>
                     <div className="min-w-0">
                       <dt className="text-xs tracking-[0.2em] uppercase text-neutral-500">{row.k}</dt>
@@ -157,7 +157,7 @@ export default function DelegateGuide() {
 
           <div className="relative rounded-2xl overflow-hidden ring-1 ring-black/[0.08] bg-white">
             <div className="p-7 md:p-9">
-              <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-sm text-xs tracking-[0.2em]" style={{ backgroundColor: `${BRAND}15`, color: BRAND }}>
+              <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-sm text-xs tracking-[0.2em]" style={{ backgroundColor: `${INK}15`, color: INK }}>
                 <CloudSun size={12} /> WEATHER
               </div>
               <h3 className="mt-4 tracking-[-0.02em] text-neutral-950" style={{ fontSize: "clamp(1.5rem, 2.5vw, 2rem)", lineHeight: 1.05 }}>
@@ -294,7 +294,7 @@ export default function DelegateGuide() {
                 {delegateGuide.emergency.map((e) => (
                   <div key={e.service} className="flex items-center justify-between gap-4 py-3 border-t border-neutral-100 first:border-t-0">
                     <div className="flex items-center gap-3">
-                      <div className="w-9 h-9 rounded-sm flex items-center justify-center" style={{ backgroundColor: `${BRAND}15`, color: BRAND }}>
+                      <div className="w-9 h-9 rounded-sm flex items-center justify-center" style={{ backgroundColor: `${INK}15`, color: INK }}>
                         <Phone size={15} />
                       </div>
                       <div>
@@ -306,7 +306,7 @@ export default function DelegateGuide() {
                 ))}
               </div>
               <div className="mt-2 inline-flex items-center gap-2 px-3 py-2 rounded-sm bg-neutral-50 ring-1 ring-black/[0.08] text-neutral-700 text-sm">
-                <Globe size={14} style={{ color: BRAND }} />
+                <Globe size={14} style={{ color: INK }} />
                 Country code: +1 868
               </div>
             </div>

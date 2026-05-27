@@ -52,8 +52,8 @@ export default function Resources() {
                     className="group block p-5 md:p-6 rounded-md ring-1 ring-black/[0.08] hover:ring-neutral-900 bg-white hover:shadow-[0_12px_40px_-20px_rgba(0,0,0,0.18)] focus-visible:ring-2 focus-visible:ring-neutral-950 focus-visible:ring-offset-2 focus:outline-none active:scale-[0.98] transition-fluid h-full"
                   >
                     <div className="flex items-center justify-between">
-                      <div className="w-12 h-12 rounded-sm flex items-center justify-center" style={{ backgroundColor: `${BRAND}15`, color: BRAND }}>
-                        <r.icon size={20} />
+                      <div className="w-12 h-12 rounded-sm flex items-center justify-center" style={{ backgroundColor: `${INK}15`, color: INK }}>
+                        <r.icon size={24} />
                       </div>
                       <div className="flex items-center gap-2">
                         {r.gated && (

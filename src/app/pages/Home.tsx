@@ -69,7 +69,7 @@ function Hero() {
         ) : (
           <video
             src="/hero-video-fisc.mp4"
-            poster={HERO_IMG}
+            poster="/hero-video-fisc.jpg"
             autoPlay
             muted
             loop
@@ -356,7 +356,7 @@ function CountdownAndActions() {
                 <motion.div
                   variants={scaleIn}
                   style={{ y: tileTopLeftY }}
-                  className="group aspect-[4/5] relative overflow-hidden rounded-xl bg-neutral-100 ring-1 ring-black/[0.08] shadow-sm hover:shadow-xl hover:shadow-black/[0.08] transition-[box-shadow] duration-500 ease-[cubic-bezier(0.32,0.72,0,1)]"
+                  className="group aspect-[4/5] relative overflow-hidden rounded-xl bg-neutral-100 shadow-sm hover:shadow-xl hover:shadow-black/[0.08] transition-[box-shadow] duration-500 ease-[cubic-bezier(0.32,0.72,0,1)]"
                 >
                   <ImageWithFallback
                     src={COLLAGE_1}
@@ -369,7 +369,7 @@ function CountdownAndActions() {
                 <motion.div
                   variants={scaleIn}
                   style={{ y: tileBottomLeftY }}
-                  className="group aspect-square relative overflow-hidden rounded-xl bg-neutral-100 ring-1 ring-black/[0.08] shadow-sm hover:shadow-xl hover:shadow-black/[0.08] transition-[box-shadow] duration-500 ease-[cubic-bezier(0.32,0.72,0,1)]"
+                  className="group aspect-square relative overflow-hidden rounded-xl bg-neutral-100 shadow-sm hover:shadow-xl hover:shadow-black/[0.08] transition-[box-shadow] duration-500 ease-[cubic-bezier(0.32,0.72,0,1)]"
                 >
                   <ImageWithFallback
                     src={COLLAGE_3}
@@ -383,7 +383,7 @@ function CountdownAndActions() {
               <motion.div
                 variants={scaleIn}
                 style={{ y: tileRightY }}
-                className="group aspect-[3/5] relative overflow-hidden rounded-xl bg-neutral-100 ring-1 ring-black/[0.08] shadow-sm hover:shadow-xl hover:shadow-black/[0.08] transition-[box-shadow] duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] mt-[6%]"
+                className="group aspect-[3/5] relative overflow-hidden rounded-xl bg-neutral-100 shadow-sm hover:shadow-xl hover:shadow-black/[0.08] transition-[box-shadow] duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] mt-[6%]"
               >
                 <motion.div
                   className="absolute inset-0"
