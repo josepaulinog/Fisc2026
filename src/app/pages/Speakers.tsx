@@ -53,7 +53,7 @@ function FeaturedCard({ s, accent = false }: { s: Speaker; accent?: boolean }) {
           </span>
         </div>
         <div className="absolute bottom-0 left-0 right-0 p-6 md:p-7">
-          <div className="text-xs tracking-[0.25em] text-white/60">{s.org.toUpperCase()}</div>
+          <div className="text-xs tracking-[0.16em] md:tracking-[0.25em] text-white/60">{s.org.toUpperCase()}</div>
           <h3
             className="mt-2 tracking-[-0.02em]"
             style={{ fontSize: "clamp(1.5rem, 2.5vw, 2rem)", lineHeight: 1.05 }}

@@ -84,7 +84,7 @@ export default function Venue() {
             style={{ boxShadow: "0 18px 50px -24px rgba(0,0,0,0.18)" }}
           >
             <div
-              className="rounded-sm bg-white grid grid-cols-2 md:grid-cols-4 overflow-hidden divide-x divide-y md:divide-y-0 divide-neutral-100"
+              className="rounded-sm bg-white grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 overflow-hidden divide-y sm:divide-x md:divide-y-0 divide-neutral-100"
               style={{ boxShadow: "inset 0 1px 0 rgba(255,255,255,0.8)" }}
             >
               {quickFacts.map((f, i) => (
@@ -104,7 +104,7 @@ export default function Venue() {
                   </div>
                   <div className="min-w-0">
                     <div className="text-[10.5px] md:text-xs tracking-[0.18em] md:tracking-[0.2em] text-neutral-500 uppercase">{f.label}</div>
-                    <div className="tracking-tight text-neutral-950 truncate text-[0.9375rem] md:text-base">{f.value}</div>
+                    <div className="tracking-tight text-neutral-950 text-[0.9375rem] md:text-base">{f.value}</div>
                   </div>
                 </motion.div>
               ))}

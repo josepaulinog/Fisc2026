@@ -60,19 +60,19 @@ export function Lockup({
 }: LockupProps) {
   const sizes = {
     sm: {
-      icon: "h-8 md:h-9",
+      icon: "h-9 md:h-10",
       gap: "gap-2 md:gap-2.5",
       title: "text-xs md:text-[14px] leading-[1.1]",
       tagline: "text-[8px] md:text-[9px] tracking-[0.22em] mt-0.5",
     },
     md: {
-      icon: "h-9 md:h-11",
+      icon: "h-10 md:h-12",
       gap: "gap-2.5 md:gap-3",
       title: "text-[11px] md:text-xs leading-[1.15]",
       tagline: "text-[9px] md:text-[10px] tracking-[0.2em] mt-1",
     },
     lg: {
-      icon: "h-12 md:h-14",
+      icon: "h-13 md:h-15",
       gap: "gap-3 md:gap-4",
       title: "text-sm md:text-base leading-[1.15]",
       tagline: "text-xs md:text-sm tracking-[0.22em] mt-1.5",

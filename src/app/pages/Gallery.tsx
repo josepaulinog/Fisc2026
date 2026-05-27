@@ -220,7 +220,7 @@ export default function Gallery() {
               <button
                 onClick={close}
                 aria-label="Close"
-                className="absolute top-5 right-5 w-10 h-10 rounded-full bg-white/10 ring-1 ring-white/20 text-white hover:bg-white hover:text-neutral-950 hover:ring-white flex items-center justify-center transition-fluid active:scale-[0.95] focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-black/90 focus:outline-none"
+                className="absolute z-20 top-5 right-5 w-10 h-10 rounded-full bg-white/10 ring-1 ring-white/20 text-white hover:bg-white hover:text-neutral-950 hover:ring-white flex items-center justify-center transition-fluid active:scale-[0.95] focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-black/90 focus:outline-none"
               >
                 <X size={18} strokeWidth={1.5} />
               </button>
@@ -232,7 +232,7 @@ export default function Gallery() {
                     prev();
                   }}
                   aria-label="Previous photo"
-                  className="absolute left-3 md:left-6 top-1/2 -translate-y-1/2 w-11 h-11 md:w-12 md:h-12 rounded-full bg-white/10 ring-1 ring-white/20 text-white hover:bg-white hover:text-neutral-950 hover:ring-white flex items-center justify-center transition-fluid active:scale-[0.95] focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-black/90 focus:outline-none"
+                  className="absolute z-20 left-3 md:left-6 top-1/2 -translate-y-1/2 w-11 h-11 md:w-12 md:h-12 rounded-full bg-white/10 ring-1 ring-white/20 text-white hover:bg-white hover:text-neutral-950 hover:ring-white flex items-center justify-center transition-fluid active:scale-[0.95] focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-black/90 focus:outline-none"
                 >
                   <ChevronLeft size={20} strokeWidth={1.5} />
                 </button>
@@ -244,7 +244,7 @@ export default function Gallery() {
                     next();
                   }}
                   aria-label="Next photo"
-                  className="absolute right-3 md:right-6 top-1/2 -translate-y-1/2 w-11 h-11 md:w-12 md:h-12 rounded-full bg-white/10 ring-1 ring-white/20 text-white hover:bg-white hover:text-neutral-950 hover:ring-white flex items-center justify-center transition-fluid active:scale-[0.95] focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-black/90 focus:outline-none"
+                  className="absolute z-20 right-3 md:right-6 top-1/2 -translate-y-1/2 w-11 h-11 md:w-12 md:h-12 rounded-full bg-white/10 ring-1 ring-white/20 text-white hover:bg-white hover:text-neutral-950 hover:ring-white flex items-center justify-center transition-fluid active:scale-[0.95] focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-black/90 focus:outline-none"
                 >
                   <ChevronRight size={20} strokeWidth={1.5} />
                 </button>

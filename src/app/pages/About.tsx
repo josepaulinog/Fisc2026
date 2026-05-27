@@ -179,7 +179,7 @@ export default function About() {
 
           <motion.div
             initial={{ opacity: 0, scale: 0.97 }} whileInView={{ opacity: 1, scale: 1 }} viewport={{ once: true }}
-            className="mt-12 md:mt-16 relative rounded-xl overflow-hidden aspect-[21/9] md:aspect-[21/9] group ring-1 ring-black/[0.08] shadow-sm hover:shadow-xl hover:shadow-black/[0.08] transition-[box-shadow] duration-500 ease-[cubic-bezier(0.32,0.72,0,1)]"
+            className="mt-12 md:mt-16 relative rounded-xl overflow-hidden aspect-square md:aspect-[21/9] group ring-1 ring-black/[0.08] shadow-sm hover:shadow-xl hover:shadow-black/[0.08] transition-[box-shadow] duration-500 ease-[cubic-bezier(0.32,0.72,0,1)]"
           >
             <ImageWithFallback
               src={ABOUT_IMG}

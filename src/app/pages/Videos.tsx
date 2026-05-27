@@ -28,7 +28,7 @@ function FeatureCard({ v, onPlay }: { v: VideoEntry; onPlay: (v: VideoEntry) => 
       initial={{ opacity: 0, y: 20 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
-      className="group relative rounded-2xl overflow-hidden block aspect-[16/9] md:aspect-[2/1] w-full text-left active:scale-[0.98] transition-fluid focus:outline-none focus-visible:ring-2 focus-visible:ring-neutral-950 focus-visible:ring-offset-2"
+      className="group relative rounded-2xl overflow-hidden block aspect-[4/5] sm:aspect-[16/9] md:aspect-[2/1] w-full text-left active:scale-[0.98] transition-fluid focus:outline-none focus-visible:ring-2 focus-visible:ring-neutral-950 focus-visible:ring-offset-2"
     >
       <PlaceholderTile
         variant="dark"
