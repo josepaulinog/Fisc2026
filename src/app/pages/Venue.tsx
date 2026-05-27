@@ -255,7 +255,7 @@ export default function Venue() {
           owns the operational arrival pack. This card bridges the two
           without duplicating content. Replaces the previous "Travel
           essentials" + "Arrival/map" sections, both of which now live
-          (canonically) on /resources/delegate-guide. */}
+          (canonically) on /delegate-guide. */}
       <section className="py-14 md:py-24" style={{ backgroundColor: "#ededed" }}>
         <div className="max-w-7xl mx-auto px-5 md:px-6">
           <div
@@ -298,7 +298,7 @@ export default function Venue() {
               </div>
               <div className="lg:col-span-5 lg:justify-self-end">
                 <NestedCTA
-                  to="/resources/delegate-guide"
+                  to="/delegate-guide"
                   variant="brand"
                   icon={<BracketArrow size={13} strokeWidth={1.75} />}
                 >
