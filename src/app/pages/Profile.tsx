@@ -653,10 +653,8 @@ export default function Profile() {
                   type="submit"
                   disabled={saveStatus === "saving"}
                   aria-disabled={saveStatus === "saving" || !isDirty}
-                  style={{ backgroundColor: saveStatus === "saved" ? "#15803d" : INK }}
-                  className={`group inline-flex items-center justify-between gap-3 pl-5 pr-2 py-3 rounded-sm text-white transition-fluid will-change-transform disabled:cursor-not-allowed hover:scale-[1.012] active:scale-[0.98] shadow-[0_3px_10px_-5px_rgba(0,0,0,0.28)] hover:shadow-[0_8px_20px_-8px_rgba(0,0,0,0.36)] ${
-                    !isDirty && saveStatus === "idle" ? "opacity-70" : ""
-                  }`}
+                  style={{ backgroundColor: saveStatus === "saved" ? "#15803d" : undefined }}
+                  className="cta-fill group inline-flex items-center justify-between gap-3 pl-5 pr-2 py-3 rounded-sm text-white transition-fluid will-change-transform disabled:cursor-not-allowed hover:scale-[1.012] active:scale-[0.98] shadow-[0_3px_10px_-5px_rgba(0,0,0,0.28)] hover:shadow-[0_8px_20px_-8px_rgba(0,0,0,0.36)]"
                 >
                   <span className="text-[15px]" style={{ fontWeight: 500 }}>
                     {saveStatus === "saving"
@@ -667,7 +665,7 @@ export default function Profile() {
                   </span>
                   <span
                     className="w-8 h-8 rounded-sm flex items-center justify-center transition-fluid group-hover:brightness-105"
-                    style={{ backgroundColor: saveStatus === "saved" ? "rgba(255,255,255,0.18)" : BRAND }}
+                    style={{ backgroundColor: saveStatus === "saved" ? "rgba(255,255,255,0.18)" : "" }}
                   >
                     {saveStatus === "saving" ? (
                       <Loader2 size={14} strokeWidth={1.75} className="animate-spin" />
