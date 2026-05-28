@@ -19,6 +19,7 @@ import { BracketArrow } from "../components/ui/BracketArrow";
 import { BRAND } from "../data";
 import { useInstallPrompt, type InstallState } from "../installPrompt";
 import hyattTrinidad from "../../imports/hyatt-trinidad.webp";
+import iphoneHero from "../../imports/get-the-app-hero.jpg";
 
 // Local surface tokens. The PageHero and the global Footer keep the warm
 // site-wide INK treatment (handled in shared.tsx / Footer.tsx). Everything in
@@ -116,23 +117,41 @@ function HeroShowcase({ state }: { state: InstallState }) {
   const phoneY = useTransform(scrollYProgress, [0, 1], [60, -60]);
 
   return (
-    <section ref={sectionRef} className="relative overflow-hidden" style={{ backgroundColor: SHOWCASE_BG }}>
-      {/* Ambient depth — light radial highlights on a gray surface read as
-          architectural lift rather than colour flood. A single restrained
-          brand-orange whisper sits behind the phone mockup so the section
-          still ties to the page's accent system. */}
+    <section ref={sectionRef} className="relative overflow-hidden lg:min-h-[680px]" style={{ backgroundColor: SHOWCASE_BG }}>
+      {/* Right-half hero photograph — full bleed on lg+, no padding around
+          the edges. The phone in the photo sits at the left of the frame
+          so object-position: left anchors it as close to the text rail as
+          possible. Subtle scroll-tied parallax keeps the image alive
+          without creating empty strips above or below. */}
+      <motion.div
+        className="absolute inset-y-0 right-0 w-1/2 hidden lg:block"
+        style={{ y: phoneY }}
+        aria-hidden="true"
+      >
+        <img
+          src={iphoneHero}
+          alt=""
+          className="w-full h-full object-cover object-left"
+          loading="lazy"
+          decoding="async"
+        />
+      </motion.div>
+
+      {/* Ambient depth — only on the left side now; the right half is
+          carried by the photograph. A single restrained brand-orange
+          whisper still ties the section to the page's accent system. */}
       <div
         className="absolute inset-0 pointer-events-none"
         style={{
-          background: `radial-gradient(ellipse at 78% 32%, ${BRAND}12 0%, transparent 50%), radial-gradient(ellipse at 8% 95%, rgba(255,255,255,0.7) 0%, transparent 45%), radial-gradient(ellipse at 95% 95%, rgba(0,0,0,0.04) 0%, transparent 45%)`,
+          background: `radial-gradient(ellipse at 8% 95%, rgba(255,255,255,0.7) 0%, transparent 45%), radial-gradient(ellipse at 30% 10%, ${BRAND}08 0%, transparent 40%)`,
         }}
         aria-hidden="true"
       />
 
       <div className="relative max-w-7xl mx-auto px-5 md:px-6 pt-16 pb-20 md:pb-32 md:pt-24">
-        <div className="grid lg:grid-cols-12 gap-12 lg:gap-10 items-center">
+        <div className="grid lg:grid-cols-2 gap-12 lg:gap-10 items-center">
           {/* Left rail — status + smart CTA */}
-          <div className="lg:col-span-6 order-2 lg:order-1">
+          <div className="lg:pr-6 order-2 lg:order-1">
             <StatusPill tone={status.tone} surface="light">{status.label}</StatusPill>
 
             <h2
@@ -177,16 +196,18 @@ function HeroShowcase({ state }: { state: InstallState }) {
             </ul>
           </div>
 
-          {/* Right rail — phone mockup with scroll-tied parallax. Wrapping
-              motion.div drifts the device on the y-axis as the viewer
-              scrolls; the PhoneMockup itself stays scroll-agnostic.
-              Phone column is 6 wide and the device sits centred inside it
-              so it reads as part of the same composition as the text on
-              the left, not banished to the far edge. */}
-          <div className="lg:col-span-6 order-1 lg:order-2 flex justify-center">
-            <motion.div style={{ y: phoneY }}>
-              <PhoneMockup />
-            </motion.div>
+          {/* Right rail — on mobile only, render the hero photograph
+              stacked above the text. On lg+ this column stays empty so
+              the grid reserves space for the absolute-positioned photo
+              that bleeds to the section's right edge. */}
+          <div className="lg:hidden order-1 -mx-5 md:-mx-6">
+            <img
+              src={iphoneHero}
+              alt="Delegate holding the FISC portal on iPhone"
+              className="w-full h-auto block"
+              loading="lazy"
+              decoding="async"
+            />
           </div>
         </div>
       </div>
@@ -362,332 +383,6 @@ function SmartInstallCTA({ state }: { state: InstallState }) {
   );
 }
 
-// ─── PhoneMockup ───────────────────────────────────────────────────────────
-// CSS-only phone bezel + faux "FISC home" preview inside. Sits upright, dead
-// centre, grounded only by a floor shadow tinted to the surface hue.
-// (Earlier iterations had a white "ghost backdrop card" behind the phone, but
-// it read as a literal white background plate attached to the device — exactly
-// the wrong reading. Removed in favour of the cleaner floating-on-shelf look.)
-
-// Hardware side button — protrudes 2px outside the bezel on either edge, with
-// a darker face + thin inset highlight so it reads as a machined component
-// catching real ambient light rather than a flat painted bar.
-function SideButton({
-  side,
-  top,
-  height,
-}: {
-  side: "left" | "right";
-  top: string;
-  height: number;
-}) {
-  return (
-    <div
-      aria-hidden="true"
-      className="absolute pointer-events-none"
-      style={{
-        [side === "left" ? "left" : "right"]: -2,
-        top,
-        width: 3,
-        height,
-        borderRadius: side === "left" ? "2px 0 0 2px" : "0 2px 2px 0",
-        background:
-          "linear-gradient(180deg, #1d1d20 0%, #0c0c0e 50%, #1a1a1d 100%)",
-        boxShadow:
-          "inset 0 1px 0 rgba(255,255,255,0.08), inset 0 -1px 0 rgba(0,0,0,0.6)",
-      }}
-    />
-  );
-}
-
-// iOS-style status-bar icons. Drawn as small SVGs so the bars/wi-fi/battery
-// outlines stay crisp rather than reading as anonymous grey stubs.
-function SignalGlyph() {
-  return (
-    <svg width="13" height="9" viewBox="0 0 13 9" fill="currentColor" aria-hidden="true">
-      <rect x="0" y="6" width="2" height="3" rx="0.5" />
-      <rect x="3.5" y="4" width="2" height="5" rx="0.5" />
-      <rect x="7" y="2" width="2" height="7" rx="0.5" />
-      <rect x="10.5" y="0" width="2" height="9" rx="0.5" />
-    </svg>
-  );
-}
-function WifiGlyph() {
-  return (
-    <svg width="12" height="9" viewBox="0 0 14 10" fill="none" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" aria-hidden="true">
-      <path d="M1.6 4.2 A8 8 0 0 1 12.4 4.2" />
-      <path d="M3.6 6 A5 5 0 0 1 10.4 6" />
-      <path d="M5.6 7.7 A2.2 2.2 0 0 1 8.4 7.7" />
-      <circle cx="7" cy="9.1" r="0.7" fill="currentColor" stroke="none" />
-    </svg>
-  );
-}
-function BatteryGlyph() {
-  return (
-    <svg width="20" height="10" viewBox="0 0 22 10" fill="none" stroke="currentColor" strokeWidth="0.9" aria-hidden="true">
-      <rect x="0.5" y="0.5" width="18" height="9" rx="2" />
-      <rect x="20" y="3" width="1.4" height="4" rx="0.6" fill="currentColor" stroke="none" />
-      <rect x="2" y="2" width="15" height="6" rx="1" fill="currentColor" stroke="none" />
-    </svg>
-  );
-}
-
-function PhoneMockup() {
-  return (
-    <motion.div
-      initial={{ opacity: 0, y: 32 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true }}
-      transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
-      className="relative will-change-transform"
-    >
-      {/* Ambient glow — softer, cooler bloom that ties the phone into the
-          page's brand-orange accent system without flooding the surface. */}
-      <div
-        className="absolute -inset-10 pointer-events-none blur-3xl opacity-40"
-        style={{
-          background: `radial-gradient(circle at 50% 45%, ${BRAND}28 0%, transparent 55%)`,
-        }}
-        aria-hidden="true"
-      />
-
-      {/* Phone shell — outer aluminium ring (Double-Bezel outer shell). Sits
-          dead upright. Hardware side buttons hang off the left and right
-          edges; a thin gradient highlight runs along the top to catch the
-          light like a real machined frame. */}
-      <div
-        className="relative w-[260px] sm:w-[280px] aspect-[9/19.5] rounded-[2.6rem] p-[5px]"
-        style={{
-          background:
-            "linear-gradient(160deg, #2a2a2d 0%, #16161a 45%, #07070a 100%)",
-          boxShadow:
-            "0 0 0 1px rgba(255,255,255,0.06), 0 30px 70px -20px rgba(0,0,0,0.75), 0 8px 24px -8px rgba(0,0,0,0.4), inset 0 1px 1px rgba(255,255,255,0.08)",
-        }}
-      >
-        {/* Top edge highlight — thin specular glint along the top bezel. */}
-        <div
-          aria-hidden="true"
-          className="absolute top-0 left-[18%] right-[18%] h-px rounded-full pointer-events-none"
-          style={{
-            background:
-              "linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.35) 50%, transparent 100%)",
-          }}
-        />
-
-        {/* Mute / silent switch — left side, near the top. */}
-        <SideButton side="left" top="13%" height={14} />
-        {/* Volume up. */}
-        <SideButton side="left" top="22%" height={26} />
-        {/* Volume down. */}
-        <SideButton side="left" top="31%" height={26} />
-        {/* Power / lock — right side, slightly lower than the mute switch. */}
-        <SideButton side="right" top="20%" height={42} />
-        {/* Inner screen — light theme mirroring the actual FISC mobile site
-            (white cards on cream/white, dark text, brand-orange accents).
-            Earlier iterations rendered a dark UI here but that diverged from
-            how the real site looks when delegates browse it on their phones. */}
-        <div
-          className="relative h-full w-full rounded-[2.3rem] overflow-hidden flex flex-col"
-          style={{
-            background: "linear-gradient(180deg, #ffffff 0%, #fafaf9 65%, #f4f3f0 100%)",
-          }}
-        >
-          {/* Dynamic island — black pill housing the front camera + sensor.
-              Two tiny lens dots inside make it read as actual hardware
-              rather than a featureless rectangle. */}
-          <div className="absolute top-2 left-1/2 -translate-x-1/2 w-20 h-5 rounded-full bg-black z-10 flex items-center justify-end pr-1.5 gap-1">
-            {/* Sensor cluster — flat dark dot. */}
-            <div className="w-1 h-1 rounded-full bg-[#15151a]" />
-            {/* Camera lens — subtle inner highlight, like a real glass aperture. */}
-            <div
-              className="w-2 h-2 rounded-full"
-              style={{
-                background:
-                  "radial-gradient(circle at 30% 30%, #2a2a35 0%, #0a0a0c 60%, #050507 100%)",
-                boxShadow: "inset 0 0 0 0.5px rgba(80,80,90,0.6)",
-              }}
-            />
-          </div>
-
-          {/* Status bar — dark glyphs on the white nav strip, matching iOS. */}
-          <div className="relative z-10 flex items-center justify-between px-6 pt-3 text-neutral-900 text-[10px] tracking-tight font-medium">
-            <span>9:41</span>
-            <div className="flex items-center gap-1.5 text-neutral-900">
-              <SignalGlyph />
-              <WifiGlyph />
-              <BatteryGlyph />
-            </div>
-          </div>
-
-          {/* App content */}
-          <div className="relative z-0 flex-1 px-4 pt-7 pb-3 flex flex-col">
-            {/* Brand pill — same vocab as SectionLabel: orange dot + uppercase
-                label on a subtle neutral chip. */}
-            <div className="inline-flex items-center gap-1.5 self-start px-2 py-0.5 rounded-full bg-neutral-100 ring-1 ring-black/[0.04] text-neutral-700 text-[7.5px] uppercase tracking-[0.22em]">
-              <span
-                className="w-1 h-1 rounded-full"
-                style={{ backgroundColor: BRAND }}
-              />
-              FISC 2026
-            </div>
-
-            {/* Greeting */}
-            <h4
-              className="mt-3 text-neutral-950 tracking-tight"
-              style={{ fontSize: "1.05rem", lineHeight: 1.1, fontWeight: 600 }}
-            >
-              Day 1 · <span className="text-neutral-500">Mon Jun 29</span>
-            </h4>
-            <p
-              className="mt-1 text-neutral-500"
-              style={{ fontSize: "8.5px", lineHeight: 1.45 }}
-            >
-              Three sessions left today
-            </p>
-
-            {/* Session previews */}
-            <div className="mt-4 flex flex-col gap-2">
-              <MiniSession time="10:30" title="Opening Plenary" tag="Plenary" />
-              <MiniSession time="14:00" title="PFM in the Caribbean" tag="Panel" featured />
-              <MiniSession time="16:30" title="Reform Roundtable" tag="Closed" />
-            </div>
-
-            {/* Notification banner — ties to "Push for room changes" feature */}
-            <div className="mt-auto mb-2 flex items-center gap-2 px-2 py-1.5 rounded-[6px] bg-white ring-1 ring-black/[0.06] shadow-[0_2px_8px_-4px_rgba(0,0,0,0.08)]">
-              <span
-                className="w-5 h-5 rounded-full flex items-center justify-center shrink-0"
-                style={{ backgroundColor: `${BRAND}1c`, color: BRAND }}
-              >
-                <Bell size={10} strokeWidth={2} />
-              </span>
-              <div className="flex-1 min-w-0">
-                <div className="text-neutral-950 text-[8px] tracking-tight" style={{ fontWeight: 500 }}>
-                  Room change · 14:00 panel
-                </div>
-                <div className="text-neutral-500 text-[7px]">Now in Salon Tobago, 4th floor</div>
-              </div>
-            </div>
-
-            {/* Bottom dock */}
-            <div className="flex items-center justify-around pt-2 border-t border-black/[0.06]">
-              <DockGlyph active />
-              <DockGlyph />
-              <DockGlyph />
-              <DockGlyph />
-            </div>
-          </div>
-
-          {/* Screen glare — subtle diagonal sheen for the "glass" feel */}
-          <div
-            className="absolute inset-0 pointer-events-none mix-blend-overlay opacity-30"
-            style={{
-              background:
-                "linear-gradient(135deg, rgba(255,255,255,0.4) 0%, transparent 30%, transparent 70%, rgba(0,0,0,0.04) 100%)",
-            }}
-            aria-hidden="true"
-          />
-        </div>
-      </div>
-
-      {/* Floor shadow — a softly diffused ellipse beneath the phone gives it
-          physical grounding, like a device standing on a shelf. Sits behind
-          the platform badge in the z-stack. */}
-      <div
-        aria-hidden="true"
-        className="absolute left-1/2 -translate-x-1/2 pointer-events-none"
-        style={{
-          bottom: -28,
-          width: "70%",
-          height: "32px",
-          background:
-            "radial-gradient(ellipse at center, rgba(0,0,0,0.22) 0%, rgba(0,0,0,0.08) 50%, transparent 75%)",
-          filter: "blur(10px)",
-        }}
-      />
-
-      {/* Floating Apple/Android badge below — reinforces that the same app
-          works on both platforms. Styled for the light gray surface. */}
-      <motion.div
-        initial={{ opacity: 0, y: 14 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true }}
-        transition={{ duration: 0.6, delay: 0.3 }}
-        className="absolute -bottom-5 left-1/2 -translate-x-1/2 inline-flex items-center gap-2 px-3.5 py-2 rounded-full bg-white ring-1 ring-black/[0.06] text-neutral-800 text-[11px] shadow-[0_8px_22px_-12px_rgba(0,0,0,0.25)]"
-        style={{ fontWeight: 500 }}
-      >
-        <AppleMark size={12} />
-        iOS
-        <span className="w-px h-2.5 bg-black/15 mx-0.5" />
-        <AndroidMark size={12} />
-        Android
-        <span className="w-px h-2.5 bg-black/15 mx-0.5" />
-        <Monitor size={12} strokeWidth={1.75} />
-        Desktop
-      </motion.div>
-    </motion.div>
-  );
-}
-
-function MiniSession({
-  time,
-  title,
-  tag,
-  featured = false,
-}: {
-  time: string;
-  title: string;
-  tag: string;
-  featured?: boolean;
-}) {
-  return (
-    <div
-      className={`flex items-start gap-2 px-2.5 py-2 rounded-[8px] ${
-        featured
-          ? "ring-1 ring-[#fd6b18]/25"
-          : "ring-1 ring-black/[0.06]"
-      } shadow-[0_2px_8px_-4px_rgba(0,0,0,0.06)]`}
-      style={{
-        background: featured
-          ? `linear-gradient(135deg, ${BRAND}14 0%, #ffffff 80%)`
-          : "#ffffff",
-      }}
-    >
-      <div className="text-neutral-500 text-[8.5px] tracking-tight font-medium shrink-0 w-7 pt-0.5">
-        {time}
-      </div>
-      <div className="flex-1 min-w-0">
-        <div
-          className="text-neutral-950 truncate"
-          style={{ fontSize: "8.5px", lineHeight: 1.25, fontWeight: 500 }}
-        >
-          {title}
-        </div>
-        <div
-          className="text-neutral-500 mt-0.5 inline-block px-1 py-px rounded-[3px] bg-neutral-100"
-          style={{ fontSize: "6.5px", textTransform: "uppercase", letterSpacing: "0.1em" }}
-        >
-          {tag}
-        </div>
-      </div>
-    </div>
-  );
-}
-
-function DockGlyph({ active = false }: { active?: boolean }) {
-  return (
-    <div
-      className="w-7 h-7 rounded-md flex items-center justify-center"
-      style={{
-        backgroundColor: active ? `${BRAND}1c` : "transparent",
-      }}
-    >
-      <div
-        className="w-3 h-3 rounded-[3px]"
-        style={{ backgroundColor: active ? BRAND : "rgba(0,0,0,0.2)" }}
-      />
-    </div>
-  );
-}
 
 // ─── PlatformGrid ──────────────────────────────────────────────────────────
 // The "three paths to home screen" — iOS / Android / Desktop. Each card uses
