@@ -37,6 +37,7 @@ import galleryHero from "../imports/replicate-gallery.webp";
 import mediaHero from "../imports/replicate-media.webp";
 import attendeesHero from "../imports/replicate-attendees.webp";
 import delegateGuideHero from "../imports/replicate-delegate.webp";
+import getTheAppHero from "../imports/get-the-app-hero.webp";
 
 // Host-country officials — Trinidad & Tobago is FISC 2026's host, so the
 // 2025 Timor-Leste keynotes are replaced by the current PM and Minister of
@@ -84,6 +85,7 @@ export const HERO_GUIDE = delegateGuideHero;
 export const HERO_GALLERY = galleryHero;
 export const HERO_VIDEOS = videosHero;
 export const HERO_MEDIA = mediaHero;
+export const HERO_GET_THE_APP = getTheAppHero;
 // Sign-in background is a purpose-generated Replicate image (no Trinidad
 // stand-in covers the same composition), so it stays remote — the only
 // non-bundled hero in the build.
