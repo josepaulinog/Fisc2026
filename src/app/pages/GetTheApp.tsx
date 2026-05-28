@@ -1,5 +1,5 @@
-import { useRef, useState } from "react";
-import { motion, AnimatePresence, useScroll, useTransform } from "motion/react";
+import { useState } from "react";
+import { motion, AnimatePresence } from "motion/react";
 import {
   Bell,
   CheckCircle,
@@ -106,36 +106,26 @@ function AndroidMark({ size = 22 }: { size?: number }) {
 
 function HeroShowcase({ state }: { state: InstallState }) {
   const status = resolveStatus(state);
-  const sectionRef = useRef<HTMLElement>(null);
-  // Scroll-tied parallax — the phone drifts gently upward as the viewer
-  // scrolls past the section. Offset is calibrated so the device sits at
-  // its natural position right when the section is centred in the viewport.
-  const { scrollYProgress } = useScroll({
-    target: sectionRef,
-    offset: ["start end", "end start"],
-  });
-  const phoneY = useTransform(scrollYProgress, [0, 1], [60, -60]);
 
   return (
-    <section ref={sectionRef} className="relative overflow-hidden lg:min-h-[680px]" style={{ backgroundColor: SHOWCASE_BG }}>
+    <section className="relative overflow-hidden lg:min-h-[680px]" style={{ backgroundColor: SHOWCASE_BG }}>
       {/* Right-half hero photograph — full bleed on lg+, no padding around
           the edges. The phone in the photo sits at the left of the frame
           so object-position: left anchors it as close to the text rail as
           possible. Subtle scroll-tied parallax keeps the image alive
           without creating empty strips above or below. */}
-      <motion.div
+      <div
         className="absolute inset-y-0 right-0 w-1/2 hidden lg:block"
-        style={{ y: phoneY }}
         aria-hidden="true"
       >
         <img
           src={iphoneHero}
           alt=""
-          className="w-full h-full object-contain object-left-top"
+          className="w-full h-full object-cover object-left-top"
           loading="lazy"
           decoding="async"
         />
-      </motion.div>
+      </div>
 
       {/* Ambient depth — only on the left side now; the right half is
           carried by the photograph. A single restrained brand-orange
