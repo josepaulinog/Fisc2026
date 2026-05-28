@@ -340,32 +340,53 @@ function SmartInstallCTA({ state }: { state: InstallState }) {
 }
 
 // ─── PhoneMockup ───────────────────────────────────────────────────────────
-// CSS-only phone bezel + faux "FISC home" preview inside. Avoids a real
-// screenshot import so the mockup stays in sync with brand tokens if the
-// palette ever shifts. The slight -2deg rotation + ambient glow makes it
-// read as a hovering object rather than a flat illustration.
+// CSS-only phone bezel + faux "FISC home" preview inside. Sits upright, dead
+// centre, grounded by a soft floor shadow and a ghost backdrop card so it
+// reads as a physical object on a shelf — not a tilted illustration floating
+// in space. The previous -2deg rotation made the whole composition feel like
+// a skew and was the first thing the eye snagged on.
 
 function PhoneMockup() {
   return (
     <motion.div
-      initial={{ opacity: 0, y: 28, rotate: -4 }}
-      whileInView={{ opacity: 1, y: 0, rotate: -2 }}
+      initial={{ opacity: 0, y: 32 }}
+      whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
       transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
       className="relative will-change-transform"
     >
-      {/* Outer halo — tightened, cooler bloom. Was a heavy brand-orange wash;
-          now a restrained warm glow that reads as ambient light, not flood. */}
+      {/* Ghost backdrop card — a soft second plane behind the phone, slightly
+          offset and rotated 1deg. Adds depth and breaks the "lone device on
+          a flat surface" emptiness without competing with the phone. */}
       <div
-        className="absolute -inset-10 pointer-events-none blur-3xl opacity-35"
+        aria-hidden="true"
+        className="absolute hidden sm:block pointer-events-none"
         style={{
-          background: `radial-gradient(circle at 50% 45%, ${BRAND}40 0%, transparent 55%)`,
+          top: 24,
+          left: -36,
+          right: 28,
+          bottom: 60,
+          borderRadius: "1.75rem",
+          background:
+            "linear-gradient(160deg, rgba(255,255,255,0.6) 0%, rgba(255,255,255,0.25) 60%, rgba(255,255,255,0.05) 100%)",
+          boxShadow:
+            "0 1px 0 rgba(255,255,255,0.7) inset, 0 24px 60px -28px rgba(0,0,0,0.25)",
+          transform: "rotate(-3deg)",
+        }}
+      />
+
+      {/* Ambient glow — softer, cooler bloom that ties the phone into the
+          page's brand-orange accent system without flooding the surface. */}
+      <div
+        className="absolute -inset-10 pointer-events-none blur-3xl opacity-40"
+        style={{
+          background: `radial-gradient(circle at 50% 45%, ${BRAND}30 0%, transparent 55%)`,
         }}
         aria-hidden="true"
       />
 
-      {/* Phone shell — outer aluminium ring (Double-Bezel outer shell). Pure
-          neutral charcoal gradient, no warm brown undertone. */}
+      {/* Phone shell — outer aluminium ring (Double-Bezel outer shell). Sits
+          dead upright. */}
       <div
         className="relative w-[260px] sm:w-[280px] aspect-[9/19.5] rounded-[2.6rem] p-[5px]"
         style={{
@@ -467,22 +488,38 @@ function PhoneMockup() {
         </div>
       </div>
 
+      {/* Floor shadow — a softly diffused ellipse beneath the phone gives it
+          physical grounding, like a device standing on a shelf. Sits behind
+          the platform badge in the z-stack. */}
+      <div
+        aria-hidden="true"
+        className="absolute left-1/2 -translate-x-1/2 pointer-events-none"
+        style={{
+          bottom: -28,
+          width: "70%",
+          height: "32px",
+          background:
+            "radial-gradient(ellipse at center, rgba(0,0,0,0.22) 0%, rgba(0,0,0,0.08) 50%, transparent 75%)",
+          filter: "blur(10px)",
+        }}
+      />
+
       {/* Floating Apple/Android badge below — reinforces that the same app
-          works on both platforms. */}
+          works on both platforms. Styled for the light gray surface. */}
       <motion.div
         initial={{ opacity: 0, y: 14 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
         transition={{ duration: 0.6, delay: 0.3 }}
-        className="absolute -bottom-6 left-1/2 -translate-x-1/2 inline-flex items-center gap-2 px-3.5 py-2 rounded-full bg-white/[0.08] ring-1 ring-white/14 backdrop-blur-md text-white text-[11px]"
+        className="absolute -bottom-5 left-1/2 -translate-x-1/2 inline-flex items-center gap-2 px-3.5 py-2 rounded-full bg-white ring-1 ring-black/[0.06] text-neutral-800 text-[11px] shadow-[0_8px_22px_-12px_rgba(0,0,0,0.25)]"
         style={{ fontWeight: 500 }}
       >
         <AppleMark size={12} />
         iOS
-        <span className="w-px h-2.5 bg-white/20 mx-0.5" />
+        <span className="w-px h-2.5 bg-black/15 mx-0.5" />
         <AndroidMark size={12} />
         Android
-        <span className="w-px h-2.5 bg-white/20 mx-0.5" />
+        <span className="w-px h-2.5 bg-black/15 mx-0.5" />
         <Monitor size={12} strokeWidth={1.75} />
         Desktop
       </motion.div>
