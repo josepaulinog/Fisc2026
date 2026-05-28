@@ -845,39 +845,51 @@ function Faq() {
 function ClosingCTA({ state }: { state: InstallState }) {
   const status = resolveStatus(state);
   return (
-    <section className="relative overflow-hidden py-20 md:py-28" style={{ backgroundColor: SHOWCASE_BG }}>
-      <div
-        className="absolute inset-0 pointer-events-none"
-        style={{
-          background: `radial-gradient(ellipse at 50% 110%, ${BRAND}14 0%, transparent 55%), radial-gradient(ellipse at 50% 0%, rgba(255,255,255,0.6) 0%, transparent 45%)`,
-        }}
-        aria-hidden="true"
-      />
-      <div className="relative max-w-5xl mx-auto px-5 md:px-6 text-center">
-        <StatusPill tone={status.tone} surface="light">{status.label}</StatusPill>
-        <h2
-          className="mt-6 tracking-[-0.02em] mx-auto max-w-3xl"
-          style={{
-            fontSize: "clamp(2rem, 5vw, 3.25rem)",
-            lineHeight: 1.02,
-            color: SHOWCASE_FG,
-          }}
-        >
-          Ready when you are.
-        </h2>
-        <p className="mt-5 text-neutral-600 mx-auto max-w-xl" style={{ lineHeight: 1.65 }}>
-          Drop the portal on your home screen now and it'll be a tap away for every session in
-          Port of Spain.
-        </p>
-        <div className="mt-9 flex flex-wrap items-center justify-center gap-3">
-          <SmartInstallCTA state={state} />
-          <NestedCTA
-            href="#platforms"
-            variant="ghost"
-            icon={<BracketArrow size={12} strokeWidth={1.75} />}
+    <section className="py-16 md:py-24 bg-white">
+      <div className="max-w-7xl mx-auto px-5 md:px-6">
+        {/* Doppelrand — outer hairline tray + inner panel, mirroring the
+            Newsletter container in the footer so the page closes on a
+            visually-consistent panel rather than a flat band. */}
+        <div className="rounded-md p-1.5 bg-black/[0.03] ring-1 ring-black/[0.05]">
+          <div
+            className="relative overflow-hidden rounded-sm py-20 md:py-28"
+            style={{ backgroundColor: SHOWCASE_BG }}
           >
-            See all platforms
-          </NestedCTA>
+            <div
+              className="absolute inset-0 pointer-events-none"
+              style={{
+                background: `radial-gradient(ellipse at 50% 110%, ${BRAND}14 0%, transparent 55%), radial-gradient(ellipse at 50% 0%, rgba(255,255,255,0.6) 0%, transparent 45%)`,
+              }}
+              aria-hidden="true"
+            />
+            <div className="relative max-w-5xl mx-auto px-5 md:px-6 text-center">
+              <StatusPill tone={status.tone} surface="light">{status.label}</StatusPill>
+              <h2
+                className="mt-6 tracking-[-0.02em] mx-auto max-w-3xl"
+                style={{
+                  fontSize: "clamp(2rem, 5vw, 3.25rem)",
+                  lineHeight: 1.02,
+                  color: SHOWCASE_FG,
+                }}
+              >
+                Ready when you are.
+              </h2>
+              <p className="mt-5 text-neutral-600 mx-auto max-w-xl" style={{ lineHeight: 1.65 }}>
+                Drop the portal on your home screen now and it'll be a tap away for every session in
+                Port of Spain.
+              </p>
+              <div className="mt-9 flex flex-wrap items-center justify-center gap-3">
+                <SmartInstallCTA state={state} />
+                <NestedCTA
+                  href="#platforms"
+                  variant="ghost"
+                  icon={<BracketArrow size={12} strokeWidth={1.75} />}
+                >
+                  See all platforms
+                </NestedCTA>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </section>
