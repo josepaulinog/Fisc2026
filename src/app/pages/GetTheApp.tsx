@@ -130,9 +130,9 @@ function HeroShowcase({ state }: { state: InstallState }) {
       />
 
       <div className="relative max-w-7xl mx-auto px-5 md:px-6 pt-16 pb-20 md:pb-32 md:pt-24">
-        <div className="grid lg:grid-cols-12 gap-12 lg:gap-16 items-center">
+        <div className="grid lg:grid-cols-12 gap-12 lg:gap-10 items-center">
           {/* Left rail — status + smart CTA */}
-          <div className="lg:col-span-7 order-2 lg:order-1">
+          <div className="lg:col-span-6 order-2 lg:order-1">
             <StatusPill tone={status.tone} surface="light">{status.label}</StatusPill>
 
             <h2
@@ -179,8 +179,11 @@ function HeroShowcase({ state }: { state: InstallState }) {
 
           {/* Right rail — phone mockup with scroll-tied parallax. Wrapping
               motion.div drifts the device on the y-axis as the viewer
-              scrolls; the PhoneMockup itself stays scroll-agnostic. */}
-          <div className="lg:col-span-5 order-1 lg:order-2 flex justify-center lg:justify-end">
+              scrolls; the PhoneMockup itself stays scroll-agnostic.
+              Phone column is 6 wide and the device sits centred inside it
+              so it reads as part of the same composition as the text on
+              the left, not banished to the far edge. */}
+          <div className="lg:col-span-6 order-1 lg:order-2 flex justify-center">
             <motion.div style={{ y: phoneY }}>
               <PhoneMockup />
             </motion.div>
