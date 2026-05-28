@@ -13,7 +13,7 @@ import {
   WifiOff,
   Zap,
 } from "lucide-react";
-import { PageHero, SectionLabel } from "../components/shared";
+import { GradientText, PageHero, SectionLabel } from "../components/shared";
 import { NestedCTA } from "../components/ui/NestedCTA";
 import { BracketArrow } from "../components/ui/BracketArrow";
 import { BRAND, BRAND_SOFT } from "../data";
@@ -47,10 +47,10 @@ export default function GetTheApp() {
           { label: "Resources", to: "/resources" },
           { label: "Get the app" },
         ]}
-        title={<>Install the delegate portal.</>}
+        title={<>Install the <GradientText>delegate portal.</GradientText></>}
         subtitle="Your schedule, sessions, and delegate guide — saved to your home screen, ready offline, and a tap away during the four days in Port of Spain."
         image={hyattTrinidad}
-        imageOverlayStrength={0.85}
+        imageOverlayStrength={0.5}
         hasSunset
       />
 
