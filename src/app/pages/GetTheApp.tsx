@@ -16,8 +16,13 @@ import {
 import { PageHero, SectionLabel } from "../components/shared";
 import { NestedCTA } from "../components/ui/NestedCTA";
 import { BracketArrow } from "../components/ui/BracketArrow";
-import { BRAND, BRAND_SOFT, INK } from "../data";
+import { BRAND, BRAND_SOFT } from "../data";
 import { useInstallPrompt, type InstallState } from "../installPrompt";
+
+// Local dark surface — neutral charcoal, not the site-wide warm INK (#171311).
+// This page leans grayscale on purpose so the brand-orange accents pop rather
+// than blend into a warm-brown wash.
+const DARK = "#0c0c0e";
 
 /**
  * /get-the-app — installable-PWA landing page.
@@ -88,22 +93,25 @@ function AndroidMark({ size = 22 }: { size?: number }) {
 }
 
 // ─── HeroShowcase ──────────────────────────────────────────────────────────
-// Sits flush under the PageHero, continuing the dark INK surface so the two
-// sections read as one cinematic moment. Floats the phone mockup on the right
-// with an ambient brand-orange glow halo; the left rail carries the smart
-// status badge, an "elevator pitch" line and the smart CTA pair.
+// Sits flush under the PageHero. Uses a cooler neutral charcoal (not the
+// site-wide warm INK) so the orange brand accents read as deliberate
+// highlights instead of vanishing into a brown wash. Floats the phone mockup
+// on the right; the left rail carries the smart status badge, an "elevator
+// pitch" line and the smart CTA pair.
 
 function HeroShowcase({ state }: { state: InstallState }) {
   const status = resolveStatus(state);
 
   return (
-    <section className="relative overflow-hidden" style={{ backgroundColor: INK }}>
-      {/* Ambient brand-orange halo bleeding from the right — ties the phone
-          mockup into the page's radial accent and matches the PageHero glow. */}
+    <section className="relative overflow-hidden" style={{ backgroundColor: DARK }}>
+      {/* Ambient halo — a single restrained brand-orange wash behind the
+          phone mockup, plus a cooler neutral lift on the left. Reduced from
+          the previous heavier orange flood so the section reads as charcoal
+          first, brand accent second. */}
       <div
         className="absolute inset-0 pointer-events-none"
         style={{
-          background: `radial-gradient(ellipse at 75% 30%, ${BRAND}24 0%, transparent 55%), radial-gradient(ellipse at 10% 90%, ${BRAND}10 0%, transparent 40%)`,
+          background: `radial-gradient(ellipse at 80% 35%, ${BRAND}14 0%, transparent 50%), radial-gradient(ellipse at 12% 90%, rgba(255,255,255,0.04) 0%, transparent 45%)`,
         }}
         aria-hidden="true"
       />
@@ -342,30 +350,33 @@ function PhoneMockup() {
       transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
       className="relative will-change-transform"
     >
-      {/* Outer halo — soft brand-orange bloom behind the device. */}
+      {/* Outer halo — tightened, cooler bloom. Was a heavy brand-orange wash;
+          now a restrained warm glow that reads as ambient light, not flood. */}
       <div
-        className="absolute -inset-10 pointer-events-none blur-3xl opacity-50"
+        className="absolute -inset-10 pointer-events-none blur-3xl opacity-35"
         style={{
-          background: `radial-gradient(circle at 50% 45%, ${BRAND}66 0%, transparent 60%)`,
+          background: `radial-gradient(circle at 50% 45%, ${BRAND}40 0%, transparent 55%)`,
         }}
         aria-hidden="true"
       />
 
-      {/* Phone shell — outer aluminium ring (Double-Bezel outer shell). */}
+      {/* Phone shell — outer aluminium ring (Double-Bezel outer shell). Pure
+          neutral charcoal gradient, no warm brown undertone. */}
       <div
-        className="relative w-[260px] sm:w-[280px] aspect-[9/19.5] rounded-[2.6rem] p-[5px] shadow-[0_30px_70px_-20px_rgba(0,0,0,0.7),0_8px_24px_-8px_rgba(253,107,24,0.18)]"
+        className="relative w-[260px] sm:w-[280px] aspect-[9/19.5] rounded-[2.6rem] p-[5px]"
         style={{
           background:
-            "linear-gradient(160deg, #2a2421 0%, #1a1614 45%, #0e0a08 100%)",
+            "linear-gradient(160deg, #2a2a2d 0%, #16161a 45%, #07070a 100%)",
           boxShadow:
-            "0 0 0 1px rgba(255,255,255,0.06), 0 30px 70px -20px rgba(0,0,0,0.7), 0 8px 24px -8px rgba(253,107,24,0.18), inset 0 1px 1px rgba(255,255,255,0.08)",
+            "0 0 0 1px rgba(255,255,255,0.06), 0 30px 70px -20px rgba(0,0,0,0.75), 0 8px 24px -8px rgba(0,0,0,0.4), inset 0 1px 1px rgba(255,255,255,0.08)",
         }}
       >
-        {/* Inner screen — sits in the bezel like a glass plate in a tray. */}
+        {/* Inner screen — sits in the bezel like a glass plate in a tray.
+            Cool neutral charcoal, no warm wash. */}
         <div
           className="relative h-full w-full rounded-[2.3rem] overflow-hidden flex flex-col"
           style={{
-            background: "linear-gradient(180deg, #1a1614 0%, #211a16 60%, #2c211b 100%)",
+            background: "linear-gradient(180deg, #131316 0%, #1a1a1e 60%, #1f1f24 100%)",
           }}
         >
           {/* Dynamic island */}
@@ -547,7 +558,7 @@ function PlatformGrid({ state }: { state: InstallState }) {
     {
       id: "ios",
       brand: "Apple",
-      icon: <AppleMark size={26} />,
+      icon: <AppleMark size={30} />,
       eyebrow: "iPhone / iPad",
       title: "Safari on iOS",
       desc: "Apple doesn't expose a one-tap install — the share menu does it instead.",
@@ -569,7 +580,7 @@ function PlatformGrid({ state }: { state: InstallState }) {
     {
       id: "android",
       brand: "Android",
-      icon: <AndroidMark size={26} />,
+      icon: <AndroidMark size={30} />,
       eyebrow: "Android",
       title: "Chrome on Android",
       desc: "The cleanest path — Chrome detects the portal and offers a one-tap install.",
@@ -591,7 +602,7 @@ function PlatformGrid({ state }: { state: InstallState }) {
     {
       id: "desktop",
       brand: "Desktop",
-      icon: <Monitor size={26} strokeWidth={1.5} />,
+      icon: <Monitor size={28} strokeWidth={1.5} />,
       eyebrow: "Mac / Windows / Linux",
       title: "Chrome or Edge on desktop",
       desc: "Optional but handy — turns the portal into a windowed app on your dock.",
@@ -692,12 +703,16 @@ function PlatformCardView({ card, index }: { card: PlatformCard; index: number }
           boxShadow: "inset 0 1px 1px rgba(255,255,255,0.6), inset 0 -1px 0 rgba(0,0,0,0.02)",
         }}
       >
-        {/* Brand glyph in a textured square well */}
+        {/* Brand glyph — large polished black well so the Apple and Android
+            marks read with the authority they need. White icon over near-black
+            charcoal mirrors how each company actually presents its mark. */}
         <div
-          className="w-14 h-14 rounded-[14px] flex items-center justify-center text-neutral-950 transition-fluid group-hover:scale-105"
+          className="w-16 h-16 rounded-[18px] flex items-center justify-center text-white transition-fluid group-hover:scale-105"
           style={{
-            background: "linear-gradient(135deg, #f5f3f0 0%, #ebe7e1 100%)",
-            boxShadow: "inset 0 1px 0 rgba(255,255,255,0.8), inset 0 -1px 0 rgba(0,0,0,0.04), 0 1px 0 rgba(0,0,0,0.03)",
+            background:
+              "linear-gradient(135deg, #1c1c1f 0%, #0a0a0c 100%)",
+            boxShadow:
+              "inset 0 1px 0 rgba(255,255,255,0.10), inset 0 -1px 0 rgba(0,0,0,0.4), 0 8px 22px -10px rgba(0,0,0,0.35), 0 1px 0 rgba(255,255,255,0.6)",
           }}
         >
           {card.icon}
@@ -735,7 +750,7 @@ function PlatformCardView({ card, index }: { card: PlatformCard; index: number }
                 <div
                   className="w-9 h-9 rounded-[10px] flex items-center justify-center text-neutral-700 transition-fluid group-hover:text-neutral-950"
                   style={{
-                    background: "linear-gradient(135deg, #f8f6f3 0%, #ede9e2 100%)",
+                    background: "linear-gradient(135deg, #f6f7f9 0%, #eaecef 100%)",
                   }}
                 >
                   {s.icon}
@@ -799,13 +814,14 @@ function FeaturesStrip() {
   return (
     <section
       className="relative py-20 md:py-28 overflow-hidden"
-      style={{ backgroundColor: "#f6f4f0" }}
+      style={{ backgroundColor: "#f3f4f6" }}
     >
-      {/* Soft brand wash bleeding from the right */}
+      {/* Soft tonal wash — single restrained orange whisper at the top-right
+          corner so the band has accent without flooding warm. */}
       <div
         className="absolute inset-0 pointer-events-none"
         style={{
-          background: `radial-gradient(ellipse at 90% 0%, ${BRAND}10 0%, transparent 45%), radial-gradient(ellipse at 0% 100%, ${BRAND}08 0%, transparent 40%)`,
+          background: `radial-gradient(ellipse at 95% -10%, ${BRAND}08 0%, transparent 38%), radial-gradient(ellipse at 0% 110%, rgba(0,0,0,0.025) 0%, transparent 40%)`,
         }}
         aria-hidden="true"
       />
@@ -994,17 +1010,18 @@ function Faq() {
 }
 
 // ─── ClosingCTA ────────────────────────────────────────────────────────────
-// Final reinforcement band — dark INK, brand glow, the smart CTA again so the
-// install action is reachable without scrolling back to the top.
+// Final reinforcement band — same neutral charcoal as the hero showcase, with
+// the smart CTA again so the install action is reachable without scrolling
+// back to the top.
 
 function ClosingCTA({ state }: { state: InstallState }) {
   const status = resolveStatus(state);
   return (
-    <section className="relative overflow-hidden py-20 md:py-28" style={{ backgroundColor: INK }}>
+    <section className="relative overflow-hidden py-20 md:py-28" style={{ backgroundColor: DARK }}>
       <div
         className="absolute inset-0 pointer-events-none"
         style={{
-          background: `radial-gradient(ellipse at 50% 100%, ${BRAND}28 0%, transparent 60%), radial-gradient(ellipse at 50% 0%, ${BRAND}10 0%, transparent 50%)`,
+          background: `radial-gradient(ellipse at 50% 110%, ${BRAND}1c 0%, transparent 55%), radial-gradient(ellipse at 50% 0%, rgba(255,255,255,0.03) 0%, transparent 45%)`,
         }}
         aria-hidden="true"
       />
