@@ -341,10 +341,10 @@ function SmartInstallCTA({ state }: { state: InstallState }) {
 
 // ─── PhoneMockup ───────────────────────────────────────────────────────────
 // CSS-only phone bezel + faux "FISC home" preview inside. Sits upright, dead
-// centre, grounded by a soft floor shadow and a ghost backdrop card so it
-// reads as a physical object on a shelf — not a tilted illustration floating
-// in space. The previous -2deg rotation made the whole composition feel like
-// a skew and was the first thing the eye snagged on.
+// centre, grounded only by a floor shadow tinted to the surface hue.
+// (Earlier iterations had a white "ghost backdrop card" behind the phone, but
+// it read as a literal white background plate attached to the device — exactly
+// the wrong reading. Removed in favour of the cleaner floating-on-shelf look.)
 
 function PhoneMockup() {
   return (
@@ -355,32 +355,12 @@ function PhoneMockup() {
       transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
       className="relative will-change-transform"
     >
-      {/* Ghost backdrop card — a soft second plane behind the phone, slightly
-          offset and rotated 1deg. Adds depth and breaks the "lone device on
-          a flat surface" emptiness without competing with the phone. */}
-      <div
-        aria-hidden="true"
-        className="absolute hidden sm:block pointer-events-none"
-        style={{
-          top: 24,
-          left: -36,
-          right: 28,
-          bottom: 60,
-          borderRadius: "1.75rem",
-          background:
-            "linear-gradient(160deg, rgba(255,255,255,0.6) 0%, rgba(255,255,255,0.25) 60%, rgba(255,255,255,0.05) 100%)",
-          boxShadow:
-            "0 1px 0 rgba(255,255,255,0.7) inset, 0 24px 60px -28px rgba(0,0,0,0.25)",
-          transform: "rotate(-3deg)",
-        }}
-      />
-
       {/* Ambient glow — softer, cooler bloom that ties the phone into the
           page's brand-orange accent system without flooding the surface. */}
       <div
         className="absolute -inset-10 pointer-events-none blur-3xl opacity-40"
         style={{
-          background: `radial-gradient(circle at 50% 45%, ${BRAND}30 0%, transparent 55%)`,
+          background: `radial-gradient(circle at 50% 45%, ${BRAND}28 0%, transparent 55%)`,
         }}
         aria-hidden="true"
       />
