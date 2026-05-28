@@ -293,13 +293,23 @@ function SmartInstallCTA({ state }: { state: InstallState }) {
 
   // Already installed → success card replaces the CTA.
   if (state.isInstalled) {
+    // Mirror the NestedCTA architecture so the success pill stands shoulder
+    // to shoulder with the ghost CTA next to it. Solid emerald reads as
+    // confident celebration, not muted "disabled".
     return (
       <span
-        className="inline-flex items-center gap-2.5 px-5 py-2.5 rounded-sm bg-emerald-500/15 ring-1 ring-emerald-400/30 text-emerald-200 text-[15px]"
-        style={{ fontWeight: 500 }}
+        className="inline-flex items-center gap-0 pl-6 pr-2 py-2 rounded-sm text-white shadow-[0_3px_10px_-5px_rgba(16,185,129,0.45)]"
+        style={{ backgroundColor: "#059669" }}
       >
-        <CheckCircle size={16} strokeWidth={1.75} />
-        Installed
+        <span
+          className="text-[17px]"
+          style={{ fontWeight: 600, letterSpacing: "-0.005em" }}
+        >
+          Installed
+        </span>
+        <span className="w-10 h-10 rounded-sm flex items-center justify-center">
+          <CheckCircle size={16} strokeWidth={2} />
+        </span>
       </span>
     );
   }
