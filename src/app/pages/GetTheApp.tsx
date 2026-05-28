@@ -14,11 +14,13 @@ import {
   Zap,
 } from "lucide-react";
 import { GradientText, PageHero, SectionLabel } from "../components/shared";
+import { CountryFlag } from "../components/CountryFlag";
 import { NestedCTA } from "../components/ui/NestedCTA";
 import { BracketArrow } from "../components/ui/BracketArrow";
 import { BRAND } from "../data";
 import { useInstallPrompt, type InstallState } from "../installPrompt";
 import hyattTrinidad from "../../imports/hyatt-trinidad.webp";
+import fiscLogo from "../../imports/Asset_1.svg";
 
 // Local surface tokens. The PageHero and the global Footer keep the warm
 // site-wide INK treatment (handled in shared.tsx / Footer.tsx). Everything in
@@ -399,20 +401,16 @@ function PhoneMockup() {
             "0 0 0 1px rgba(255,255,255,0.06), 0 30px 70px -20px rgba(0,0,0,0.75), 0 8px 24px -8px rgba(0,0,0,0.4), inset 0 1px 1px rgba(255,255,255,0.08)",
         }}
       >
-        {/* Inner screen — light theme mirroring the actual FISC mobile site
-            (white cards on cream/white, dark text, brand-orange accents).
-            Earlier iterations rendered a dark UI here but that diverged from
-            how the real site looks when delegates browse it on their phones. */}
-        <div
-          className="relative h-full w-full rounded-[2.3rem] overflow-hidden flex flex-col"
-          style={{
-            background: "linear-gradient(180deg, #ffffff 0%, #fafaf9 65%, #f4f3f0 100%)",
-          }}
-        >
+        {/* Inner screen — mirrors the actual FISC homepage on mobile:
+            white nav strip on top, dark warm sunset hero with the brand
+            italic-serif headline + orange Delegate portal CTA, and a row
+            of delegation flags below. Recognisable as the FISC site at a
+            glance rather than a generic agenda view. */}
+        <div className="relative h-full w-full rounded-[2.3rem] overflow-hidden flex flex-col bg-white">
           {/* Dynamic island — physical hardware cutout, stays black. */}
           <div className="absolute top-2 left-1/2 -translate-x-1/2 w-20 h-5 rounded-full bg-black z-10" />
 
-          {/* Status bar — dark text on light app, matching iOS appearance. */}
+          {/* Status bar — dark text on white, matches iOS appearance. */}
           <div className="relative z-10 flex items-center justify-between px-6 pt-3 text-neutral-900 text-[10px] tracking-tight font-medium">
             <span>9:41</span>
             <div className="flex items-center gap-1">
@@ -424,70 +422,97 @@ function PhoneMockup() {
             </div>
           </div>
 
-          {/* App content */}
-          <div className="relative z-0 flex-1 px-4 pt-7 pb-3 flex flex-col">
-            {/* Brand pill — same vocab as SectionLabel: orange dot + uppercase
-                label on a subtle neutral chip. */}
-            <div className="inline-flex items-center gap-1.5 self-start px-2 py-0.5 rounded-full bg-neutral-100 ring-1 ring-black/[0.04] text-neutral-700 text-[7.5px] uppercase tracking-[0.22em]">
-              <span
-                className="w-1 h-1 rounded-full"
-                style={{ backgroundColor: BRAND }}
-              />
-              FISC 2026
+          {/* White header strip — FISC logo + hamburger */}
+          <div className="relative z-10 flex items-center justify-between px-3 pt-3 pb-2.5">
+            <img src={fiscLogo} alt="" className="h-3.5 w-auto" />
+            <div className="flex flex-col gap-[3px] shrink-0">
+              <div className="w-3.5 h-px bg-neutral-900" />
+              <div className="w-3.5 h-px bg-neutral-900" />
+              <div className="w-3.5 h-px bg-neutral-900" />
+            </div>
+          </div>
+
+          {/* Dark sunset hero — the brand moment */}
+          <div className="relative flex-1 flex flex-col px-3 pt-3 pb-2 overflow-hidden" style={{ backgroundColor: "#100904" }}>
+            {/* Warm radial wash — simulates the palm/sunset background photo
+                without actually loading one, so the mockup stays light. */}
+            <div
+              className="absolute inset-0 pointer-events-none"
+              style={{
+                background: `radial-gradient(ellipse at 25% 0%, ${BRAND}50 0%, transparent 55%), radial-gradient(ellipse at 90% 100%, ${BRAND}1a 0%, transparent 50%), linear-gradient(180deg, rgba(0,0,0,0.15) 0%, transparent 30%)`,
+              }}
+              aria-hidden="true"
+            />
+
+            {/* Pill */}
+            <div className="relative inline-flex items-center gap-1 self-start px-1.5 py-0.5 rounded-full bg-white/[0.08] ring-1 ring-white/15 text-white/85 text-[6px] uppercase" style={{ letterSpacing: "0.16em", fontWeight: 500 }}>
+              <span className="w-[3px] h-[3px] rounded-full" style={{ backgroundColor: BRAND }} />
+              FISC · 2026 · TT
             </div>
 
-            {/* Greeting */}
-            <h4
-              className="mt-3 text-neutral-950 tracking-tight"
-              style={{ fontSize: "1.05rem", lineHeight: 1.1, fontWeight: 600 }}
-            >
-              Day 1 · <span className="text-neutral-500">Mon Jun 29</span>
+            {/* Headline — italic serif accent on "Caribbean." mirrors site */}
+            <h4 className="relative mt-2.5 text-white tracking-[-0.015em]" style={{ fontSize: "15px", lineHeight: 1.02, fontWeight: 600 }}>
+              Where finance
+              <br />
+              meets the{" "}
+              <span
+                className="font-display italic"
+                style={{ color: BRAND, fontWeight: 400 }}
+              >
+                Caribbean.
+              </span>
             </h4>
-            <p
-              className="mt-1 text-neutral-500"
-              style={{ fontSize: "8.5px", lineHeight: 1.45 }}
-            >
-              Three sessions left today
+
+            {/* Body */}
+            <p className="relative mt-2 text-white/65" style={{ fontSize: "7.5px", lineHeight: 1.4 }}>
+              Four days. Port of Spain.
             </p>
 
-            {/* Session previews */}
-            <div className="mt-4 flex flex-col gap-2">
-              <MiniSession time="10:30" title="Opening Plenary" tag="Plenary" />
-              <MiniSession time="14:00" title="PFM in the Caribbean" tag="Panel" featured />
-              <MiniSession time="16:30" title="Reform Roundtable" tag="Closed" />
-            </div>
-
-            {/* Notification banner — ties to "Push for room changes" feature */}
-            <div className="mt-auto mb-2 flex items-center gap-2 px-2 py-1.5 rounded-[6px] bg-white ring-1 ring-black/[0.06] shadow-[0_2px_8px_-4px_rgba(0,0,0,0.08)]">
-              <span
-                className="w-5 h-5 rounded-full flex items-center justify-center shrink-0"
-                style={{ backgroundColor: `${BRAND}1c`, color: BRAND }}
-              >
-                <Bell size={10} strokeWidth={2} />
+            {/* Orange button */}
+            <div
+              className="relative mt-2.5 inline-flex items-center self-start gap-0 pl-2 pr-0.5 py-[3px] rounded-[3px] shadow-[0_2px_6px_-2px_rgba(253,107,24,0.45)]"
+              style={{ backgroundColor: BRAND }}
+            >
+              <span className="text-white" style={{ fontSize: "8px", fontWeight: 600 }}>
+                Delegate portal
               </span>
-              <div className="flex-1 min-w-0">
-                <div className="text-neutral-950 text-[8px] tracking-tight" style={{ fontWeight: 500 }}>
-                  Room change · 14:00 panel
-                </div>
-                <div className="text-neutral-500 text-[7px]">Now in Salon Tobago, 4th floor</div>
-              </div>
+              <span className="w-3 h-3 ml-1 inline-flex items-center justify-center text-white">
+                <BracketArrow size={6} strokeWidth={2} />
+              </span>
             </div>
 
-            {/* Bottom dock */}
-            <div className="flex items-center justify-around pt-2 border-t border-black/[0.06]">
-              <DockGlyph active />
-              <DockGlyph />
-              <DockGlyph />
-              <DockGlyph />
+            {/* Flag strip — anchored at the hero's bottom, just like the real
+                site has the country flags scrolling under the dark hero. */}
+            <div className="relative mt-auto pt-4 flex items-center gap-[5px] overflow-hidden">
+              {[
+                "Kosovo",
+                "Suriname",
+                "St. Lucia",
+                "Barbados",
+                "Jamaica",
+                "Antigua",
+                "Trinidad & Tobago",
+              ].map((c) => (
+                <CountryFlag
+                  key={c}
+                  country={c}
+                  className="h-2.5 w-auto rounded-[1px] ring-1 ring-white/20 shrink-0"
+                />
+              ))}
             </div>
+          </div>
+
+          {/* iOS home indicator — light strip below the hero */}
+          <div className="relative z-10 flex justify-center py-2 bg-white">
+            <div className="w-12 h-[3px] rounded-full bg-neutral-900/35" />
           </div>
 
           {/* Screen glare — subtle diagonal sheen for the "glass" feel */}
           <div
-            className="absolute inset-0 pointer-events-none mix-blend-overlay opacity-30"
+            className="absolute inset-0 pointer-events-none mix-blend-overlay opacity-25"
             style={{
               background:
-                "linear-gradient(135deg, rgba(255,255,255,0.4) 0%, transparent 30%, transparent 70%, rgba(0,0,0,0.04) 100%)",
+                "linear-gradient(135deg, rgba(255,255,255,0.3) 0%, transparent 30%, transparent 70%, rgba(0,0,0,0.04) 100%)",
             }}
             aria-hidden="true"
           />
@@ -530,67 +555,6 @@ function PhoneMockup() {
         Desktop
       </motion.div>
     </motion.div>
-  );
-}
-
-function MiniSession({
-  time,
-  title,
-  tag,
-  featured = false,
-}: {
-  time: string;
-  title: string;
-  tag: string;
-  featured?: boolean;
-}) {
-  return (
-    <div
-      className={`flex items-start gap-2 px-2.5 py-2 rounded-[8px] ${
-        featured
-          ? "ring-1 ring-[#fd6b18]/25"
-          : "ring-1 ring-black/[0.06]"
-      } shadow-[0_2px_8px_-4px_rgba(0,0,0,0.06)]`}
-      style={{
-        background: featured
-          ? `linear-gradient(135deg, ${BRAND}14 0%, #ffffff 80%)`
-          : "#ffffff",
-      }}
-    >
-      <div className="text-neutral-500 text-[8.5px] tracking-tight font-medium shrink-0 w-7 pt-0.5">
-        {time}
-      </div>
-      <div className="flex-1 min-w-0">
-        <div
-          className="text-neutral-950 truncate"
-          style={{ fontSize: "8.5px", lineHeight: 1.25, fontWeight: 500 }}
-        >
-          {title}
-        </div>
-        <div
-          className="text-neutral-500 mt-0.5 inline-block px-1 py-px rounded-[3px] bg-neutral-100"
-          style={{ fontSize: "6.5px", textTransform: "uppercase", letterSpacing: "0.1em" }}
-        >
-          {tag}
-        </div>
-      </div>
-    </div>
-  );
-}
-
-function DockGlyph({ active = false }: { active?: boolean }) {
-  return (
-    <div
-      className="w-7 h-7 rounded-md flex items-center justify-center"
-      style={{
-        backgroundColor: active ? `${BRAND}1c` : "transparent",
-      }}
-    >
-      <div
-        className="w-3 h-3 rounded-[3px]"
-        style={{ backgroundColor: active ? BRAND : "rgba(0,0,0,0.2)" }}
-      />
-    </div>
   );
 }
 
