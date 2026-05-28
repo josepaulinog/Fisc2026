@@ -14,13 +14,11 @@ import {
   Zap,
 } from "lucide-react";
 import { GradientText, PageHero, SectionLabel } from "../components/shared";
-import { CountryFlag } from "../components/CountryFlag";
 import { NestedCTA } from "../components/ui/NestedCTA";
 import { BracketArrow } from "../components/ui/BracketArrow";
-import { BRAND } from "../data";
+import { BRAND, HERO_GET_THE_APP } from "../data";
 import { useInstallPrompt, type InstallState } from "../installPrompt";
-import hyattTrinidad from "../../imports/hyatt-trinidad.webp";
-import fiscLogo from "../../imports/Asset_1.svg";
+import homeMobilePreview from "../../imports/home-mobile-preview.png";
 
 // Local surface tokens. The PageHero and the global Footer keep the warm
 // site-wide INK treatment (handled in shared.tsx / Footer.tsx). Everything in
@@ -51,7 +49,7 @@ export default function GetTheApp() {
         ]}
         title={<>Install the <GradientText>delegate portal.</GradientText></>}
         subtitle="Your schedule, sessions, and delegate guide — saved to your home screen, ready offline, and a tap away during the four days in Port of Spain."
-        image={hyattTrinidad}
+        image={HERO_GET_THE_APP}
         imageOverlayStrength={0.78}
         hasSunset
       />
@@ -401,17 +399,17 @@ function PhoneMockup() {
             "0 0 0 1px rgba(255,255,255,0.06), 0 30px 70px -20px rgba(0,0,0,0.75), 0 8px 24px -8px rgba(0,0,0,0.4), inset 0 1px 1px rgba(255,255,255,0.08)",
         }}
       >
-        {/* Inner screen — mirrors the actual FISC homepage on mobile:
-            white nav strip on top, dark warm sunset hero with the brand
-            italic-serif headline + orange Delegate portal CTA, and a row
-            of delegation flags below. Recognisable as the FISC site at a
-            glance rather than a generic agenda view. */}
-        <div className="relative h-full w-full rounded-[2.3rem] overflow-hidden flex flex-col bg-white">
-          {/* Dynamic island — physical hardware cutout, stays black. */}
+        {/* Inner screen — an actual screenshot of the FISC homepage at mobile
+            viewport (captured at 390x844) sits inside the bezel. Replaces the
+            previous CSS recreation so the mockup tracks the real site exactly,
+            including the hero photo, country flag scroll and brand typography. */}
+        <div className="relative h-full w-full rounded-[2.3rem] overflow-hidden bg-white">
+          {/* Dynamic island — physical hardware cutout floats over the image. */}
           <div className="absolute top-2 left-1/2 -translate-x-1/2 w-20 h-5 rounded-full bg-black z-10" />
 
-          {/* Status bar — dark text on white, matches iOS appearance. */}
-          <div className="relative z-10 flex items-center justify-between px-6 pt-3 text-neutral-900 text-[10px] tracking-tight font-medium">
+          {/* Status bar — sits above the image so 9:41 + battery read on
+              the white space at the top of the screenshot. */}
+          <div className="absolute inset-x-0 top-0 z-[5] flex items-center justify-between px-6 pt-3 text-neutral-900 text-[10px] tracking-tight font-medium">
             <span>9:41</span>
             <div className="flex items-center gap-1">
               <div className="w-3 h-2 rounded-[1px] bg-neutral-900/80" />
@@ -422,90 +420,18 @@ function PhoneMockup() {
             </div>
           </div>
 
-          {/* White header strip — FISC logo + hamburger */}
-          <div className="relative z-10 flex items-center justify-between px-3 pt-3 pb-2.5">
-            <img src={fiscLogo} alt="" className="h-3.5 w-auto" />
-            <div className="flex flex-col gap-[3px] shrink-0">
-              <div className="w-3.5 h-px bg-neutral-900" />
-              <div className="w-3.5 h-px bg-neutral-900" />
-              <div className="w-3.5 h-px bg-neutral-900" />
-            </div>
-          </div>
-
-          {/* Dark sunset hero — the brand moment */}
-          <div className="relative flex-1 flex flex-col px-3 pt-3 pb-2 overflow-hidden" style={{ backgroundColor: "#100904" }}>
-            {/* Warm radial wash — simulates the palm/sunset background photo
-                without actually loading one, so the mockup stays light. */}
-            <div
-              className="absolute inset-0 pointer-events-none"
-              style={{
-                background: `radial-gradient(ellipse at 25% 0%, ${BRAND}50 0%, transparent 55%), radial-gradient(ellipse at 90% 100%, ${BRAND}1a 0%, transparent 50%), linear-gradient(180deg, rgba(0,0,0,0.15) 0%, transparent 30%)`,
-              }}
-              aria-hidden="true"
-            />
-
-            {/* Pill */}
-            <div className="relative inline-flex items-center gap-1 self-start px-1.5 py-0.5 rounded-full bg-white/[0.08] ring-1 ring-white/15 text-white/85 text-[6px] uppercase" style={{ letterSpacing: "0.16em", fontWeight: 500 }}>
-              <span className="w-[3px] h-[3px] rounded-full" style={{ backgroundColor: BRAND }} />
-              FISC · 2026 · TT
-            </div>
-
-            {/* Headline — italic serif accent on "Caribbean." mirrors site */}
-            <h4 className="relative mt-2.5 text-white tracking-[-0.015em]" style={{ fontSize: "15px", lineHeight: 1.02, fontWeight: 600 }}>
-              Where finance
-              <br />
-              meets the{" "}
-              <span
-                className="font-display italic"
-                style={{ color: BRAND, fontWeight: 400 }}
-              >
-                Caribbean.
-              </span>
-            </h4>
-
-            {/* Body */}
-            <p className="relative mt-2 text-white/65" style={{ fontSize: "7.5px", lineHeight: 1.4 }}>
-              Four days. Port of Spain.
-            </p>
-
-            {/* Orange button */}
-            <div
-              className="relative mt-2.5 inline-flex items-center self-start gap-0 pl-2 pr-0.5 py-[3px] rounded-[3px] shadow-[0_2px_6px_-2px_rgba(253,107,24,0.45)]"
-              style={{ backgroundColor: BRAND }}
-            >
-              <span className="text-white" style={{ fontSize: "8px", fontWeight: 600 }}>
-                Delegate portal
-              </span>
-              <span className="w-3 h-3 ml-1 inline-flex items-center justify-center text-white">
-                <BracketArrow size={6} strokeWidth={2} />
-              </span>
-            </div>
-
-            {/* Flag strip — anchored at the hero's bottom, just like the real
-                site has the country flags scrolling under the dark hero. */}
-            <div className="relative mt-auto pt-4 flex items-center gap-[5px] overflow-hidden">
-              {[
-                "Kosovo",
-                "Suriname",
-                "St. Lucia",
-                "Barbados",
-                "Jamaica",
-                "Antigua",
-                "Trinidad & Tobago",
-              ].map((c) => (
-                <CountryFlag
-                  key={c}
-                  country={c}
-                  className="h-2.5 w-auto rounded-[1px] ring-1 ring-white/20 shrink-0"
-                />
-              ))}
-            </div>
-          </div>
-
-          {/* iOS home indicator — light strip below the hero */}
-          <div className="relative z-10 flex justify-center py-2 bg-white">
-            <div className="w-12 h-[3px] rounded-full bg-neutral-900/35" />
-          </div>
+          {/* Live homepage screenshot fills the screen. Aspect (390:844)
+              matches the bezel inner aspect (9:19.5) so the image fits with
+              no crop. Pushed down a hair so the status bar gets clean
+              white space above the FreeBalance logo card. */}
+          <img
+            src={homeMobilePreview}
+            alt="FISC homepage at mobile viewport"
+            className="block w-full h-full object-cover object-top"
+            style={{ objectPosition: "center 22px" }}
+            loading="lazy"
+            decoding="async"
+          />
 
           {/* Screen glare — subtle diagonal sheen for the "glass" feel */}
           <div
