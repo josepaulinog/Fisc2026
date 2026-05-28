@@ -4,6 +4,7 @@ import {
   Bell,
   CheckCircle,
   ChevronDown,
+  Info,
   Monitor,
   Plus,
   Share,
@@ -386,7 +387,7 @@ function PlatformGrid({ state }: { state: InstallState }) {
         {
           icon: <Share size={18} strokeWidth={1.5} />,
           title: "Tap the Share button",
-          body: "Bottom of Safari on iPhone, top-right on iPad — the square with the upward arrow.",
+          body: "Bottom of Safari on iPhone, top-right on iPad.",
         },
         {
           icon: <Plus size={18} strokeWidth={1.5} />,
@@ -577,12 +578,12 @@ function PlatformCardView({ card, index }: { card: PlatformCard; index: number }
                   {s.icon}
                 </div>
                 {i < card.steps.length - 1 && (
-                  <div className="w-px h-4 bg-black/[0.08] mt-1.5" aria-hidden="true" />
+                  <div className="w-px h-5 bg-black/[0.12] mt-1.5" aria-hidden="true" />
                 )}
               </div>
               <div className="pt-1 min-w-0">
                 <div
-                  className="text-[9.5px] uppercase tracking-[0.22em] text-neutral-400"
+                  className="text-[8.5px] uppercase tracking-[0.22em] text-neutral-400"
                   style={{ fontWeight: 500 }}
                 >
                   Step {i + 1}
@@ -601,9 +602,14 @@ function PlatformCardView({ card, index }: { card: PlatformCard; index: number }
           ))}
         </ol>
 
-        {/* Footnote */}
-        <p className="mt-5 pt-4 border-t border-black/[0.05] text-neutral-500 text-[12.5px]" style={{ lineHeight: 1.5 }}>
-          {card.footnote}
+        {/* Footnote — compatibility caveat. Lead with an info glyph so it
+            reads as a note rather than trailing trivia. */}
+        <p
+          className="mt-5 pt-4 border-t border-black/[0.05] text-neutral-500 text-[12.5px] flex items-start gap-1.5"
+          style={{ lineHeight: 1.5 }}
+        >
+          <Info size={12} strokeWidth={1.75} className="mt-0.5 shrink-0 text-neutral-400" />
+          <span>{card.footnote}</span>
         </p>
       </div>
     </motion.div>
