@@ -1,5 +1,5 @@
-import { useState } from "react";
-import { motion, AnimatePresence } from "motion/react";
+import { useRef, useState } from "react";
+import { motion, AnimatePresence, useScroll, useTransform } from "motion/react";
 import {
   Bell,
   CheckCircle,
@@ -16,7 +16,7 @@ import {
 import { GradientText, PageHero, SectionLabel } from "../components/shared";
 import { NestedCTA } from "../components/ui/NestedCTA";
 import { BracketArrow } from "../components/ui/BracketArrow";
-import { BRAND, BRAND_SOFT } from "../data";
+import { BRAND } from "../data";
 import { useInstallPrompt, type InstallState } from "../installPrompt";
 import hyattTrinidad from "../../imports/hyatt-trinidad.webp";
 
@@ -105,9 +105,18 @@ function AndroidMark({ size = 22 }: { size?: number }) {
 
 function HeroShowcase({ state }: { state: InstallState }) {
   const status = resolveStatus(state);
+  const sectionRef = useRef<HTMLElement>(null);
+  // Scroll-tied parallax — the phone drifts gently upward as the viewer
+  // scrolls past the section. Offset is calibrated so the device sits at
+  // its natural position right when the section is centred in the viewport.
+  const { scrollYProgress } = useScroll({
+    target: sectionRef,
+    offset: ["start end", "end start"],
+  });
+  const phoneY = useTransform(scrollYProgress, [0, 1], [60, -60]);
 
   return (
-    <section className="relative overflow-hidden" style={{ backgroundColor: SHOWCASE_BG }}>
+    <section ref={sectionRef} className="relative overflow-hidden" style={{ backgroundColor: SHOWCASE_BG }}>
       {/* Ambient depth — light radial highlights on a gray surface read as
           architectural lift rather than colour flood. A single restrained
           brand-orange whisper sits behind the phone mockup so the section
@@ -145,16 +154,13 @@ function HeroShowcase({ state }: { state: InstallState }) {
 
             <div className="mt-8 flex flex-wrap items-center gap-3">
               <SmartInstallCTA state={state} />
-              <a
+              <NestedCTA
                 href="#platforms"
-                className="group inline-flex items-center gap-2 px-5 py-2.5 rounded-sm ring-1 ring-black/15 text-neutral-700 hover:text-neutral-950 hover:ring-black/30 transition-fluid text-[15px]"
-                style={{ fontWeight: 500 }}
+                variant="ghost"
+                icon={<ChevronDown size={14} strokeWidth={1.75} />}
               >
                 Pick your platform
-                <span className="inline-flex transition-fluid group-hover:translate-y-[1px]">
-                  <ChevronDown size={14} strokeWidth={1.75} />
-                </span>
-              </a>
+              </NestedCTA>
             </div>
 
             {/* Trust strip — three reasons it's safe to install. */}
@@ -171,9 +177,13 @@ function HeroShowcase({ state }: { state: InstallState }) {
             </ul>
           </div>
 
-          {/* Right rail — phone mockup */}
+          {/* Right rail — phone mockup with scroll-tied parallax. Wrapping
+              motion.div drifts the device on the y-axis as the viewer
+              scrolls; the PhoneMockup itself stays scroll-agnostic. */}
           <div className="lg:col-span-5 order-1 lg:order-2 flex justify-center lg:justify-end">
-            <PhoneMockup />
+            <motion.div style={{ y: phoneY }}>
+              <PhoneMockup />
+            </motion.div>
           </div>
         </div>
       </div>
@@ -376,33 +386,36 @@ function PhoneMockup() {
             "0 0 0 1px rgba(255,255,255,0.06), 0 30px 70px -20px rgba(0,0,0,0.75), 0 8px 24px -8px rgba(0,0,0,0.4), inset 0 1px 1px rgba(255,255,255,0.08)",
         }}
       >
-        {/* Inner screen — sits in the bezel like a glass plate in a tray.
-            Cool neutral charcoal, no warm wash. */}
+        {/* Inner screen — light theme mirroring the actual FISC mobile site
+            (white cards on cream/white, dark text, brand-orange accents).
+            Earlier iterations rendered a dark UI here but that diverged from
+            how the real site looks when delegates browse it on their phones. */}
         <div
           className="relative h-full w-full rounded-[2.3rem] overflow-hidden flex flex-col"
           style={{
-            background: "linear-gradient(180deg, #131316 0%, #1a1a1e 60%, #1f1f24 100%)",
+            background: "linear-gradient(180deg, #ffffff 0%, #fafaf9 65%, #f4f3f0 100%)",
           }}
         >
-          {/* Dynamic island */}
+          {/* Dynamic island — physical hardware cutout, stays black. */}
           <div className="absolute top-2 left-1/2 -translate-x-1/2 w-20 h-5 rounded-full bg-black z-10" />
 
-          {/* Status bar */}
-          <div className="relative z-10 flex items-center justify-between px-6 pt-3 text-white/80 text-[10px] tracking-tight font-medium">
+          {/* Status bar — dark text on light app, matching iOS appearance. */}
+          <div className="relative z-10 flex items-center justify-between px-6 pt-3 text-neutral-900 text-[10px] tracking-tight font-medium">
             <span>9:41</span>
             <div className="flex items-center gap-1">
-              <div className="w-3 h-2 rounded-[1px] bg-white/80" />
-              <div className="w-3 h-2 rounded-[1px] bg-white/80" />
-              <div className="w-4 h-2 rounded-[1px] bg-white/80 relative">
-                <div className="absolute -right-0.5 top-0.5 w-0.5 h-1 bg-white/80 rounded-r-sm" />
+              <div className="w-3 h-2 rounded-[1px] bg-neutral-900/80" />
+              <div className="w-3 h-2 rounded-[1px] bg-neutral-900/80" />
+              <div className="w-4 h-2 rounded-[1px] bg-neutral-900/80 relative">
+                <div className="absolute -right-0.5 top-0.5 w-0.5 h-1 bg-neutral-900/80 rounded-r-sm" />
               </div>
             </div>
           </div>
 
           {/* App content */}
           <div className="relative z-0 flex-1 px-4 pt-7 pb-3 flex flex-col">
-            {/* Brand pill */}
-            <div className="inline-flex items-center gap-1.5 self-start px-2 py-0.5 rounded-full bg-white/[0.08] ring-1 ring-white/12 text-white/80 text-[7.5px] uppercase tracking-[0.22em]">
+            {/* Brand pill — same vocab as SectionLabel: orange dot + uppercase
+                label on a subtle neutral chip. */}
+            <div className="inline-flex items-center gap-1.5 self-start px-2 py-0.5 rounded-full bg-neutral-100 ring-1 ring-black/[0.04] text-neutral-700 text-[7.5px] uppercase tracking-[0.22em]">
               <span
                 className="w-1 h-1 rounded-full"
                 style={{ backgroundColor: BRAND }}
@@ -412,13 +425,13 @@ function PhoneMockup() {
 
             {/* Greeting */}
             <h4
-              className="mt-3 text-white tracking-tight"
+              className="mt-3 text-neutral-950 tracking-tight"
               style={{ fontSize: "1.05rem", lineHeight: 1.1, fontWeight: 600 }}
             >
-              Day 1 · <span className="text-white/55">Mon Jun 29</span>
+              Day 1 · <span className="text-neutral-500">Mon Jun 29</span>
             </h4>
             <p
-              className="mt-1 text-white/55"
+              className="mt-1 text-neutral-500"
               style={{ fontSize: "8.5px", lineHeight: 1.45 }}
             >
               Three sessions left today
@@ -432,23 +445,23 @@ function PhoneMockup() {
             </div>
 
             {/* Notification banner — ties to "Push for room changes" feature */}
-            <div className="mt-auto mb-2 flex items-center gap-2 px-2 py-1.5 rounded-[6px] bg-white/[0.06] ring-1 ring-white/10">
+            <div className="mt-auto mb-2 flex items-center gap-2 px-2 py-1.5 rounded-[6px] bg-white ring-1 ring-black/[0.06] shadow-[0_2px_8px_-4px_rgba(0,0,0,0.08)]">
               <span
                 className="w-5 h-5 rounded-full flex items-center justify-center shrink-0"
-                style={{ backgroundColor: `${BRAND}30`, color: BRAND_SOFT }}
+                style={{ backgroundColor: `${BRAND}1c`, color: BRAND }}
               >
                 <Bell size={10} strokeWidth={2} />
               </span>
               <div className="flex-1 min-w-0">
-                <div className="text-white/85 text-[8px] tracking-tight" style={{ fontWeight: 500 }}>
+                <div className="text-neutral-950 text-[8px] tracking-tight" style={{ fontWeight: 500 }}>
                   Room change · 14:00 panel
                 </div>
-                <div className="text-white/45 text-[7px]">Now in Salon Tobago, 4th floor</div>
+                <div className="text-neutral-500 text-[7px]">Now in Salon Tobago, 4th floor</div>
               </div>
             </div>
 
             {/* Bottom dock */}
-            <div className="flex items-center justify-around pt-2 border-t border-white/[0.06]">
+            <div className="flex items-center justify-around pt-2 border-t border-black/[0.06]">
               <DockGlyph active />
               <DockGlyph />
               <DockGlyph />
@@ -456,12 +469,12 @@ function PhoneMockup() {
             </div>
           </div>
 
-          {/* Screen glare — diagonal sheen for the "glass" feel */}
+          {/* Screen glare — subtle diagonal sheen for the "glass" feel */}
           <div
-            className="absolute inset-0 pointer-events-none mix-blend-overlay opacity-25"
+            className="absolute inset-0 pointer-events-none mix-blend-overlay opacity-30"
             style={{
               background:
-                "linear-gradient(135deg, rgba(255,255,255,0.18) 0%, transparent 30%, transparent 70%, rgba(255,255,255,0.06) 100%)",
+                "linear-gradient(135deg, rgba(255,255,255,0.4) 0%, transparent 30%, transparent 70%, rgba(0,0,0,0.04) 100%)",
             }}
             aria-hidden="true"
           />
@@ -522,27 +535,27 @@ function MiniSession({
     <div
       className={`flex items-start gap-2 px-2.5 py-2 rounded-[8px] ${
         featured
-          ? "ring-1 ring-white/15"
-          : "ring-1 ring-white/[0.07]"
-      }`}
+          ? "ring-1 ring-[#fd6b18]/25"
+          : "ring-1 ring-black/[0.06]"
+      } shadow-[0_2px_8px_-4px_rgba(0,0,0,0.06)]`}
       style={{
         background: featured
-          ? `linear-gradient(135deg, ${BRAND}22 0%, transparent 80%)`
-          : "rgba(255,255,255,0.025)",
+          ? `linear-gradient(135deg, ${BRAND}14 0%, #ffffff 80%)`
+          : "#ffffff",
       }}
     >
-      <div className="text-white/65 text-[8.5px] tracking-tight font-medium shrink-0 w-7 pt-0.5">
+      <div className="text-neutral-500 text-[8.5px] tracking-tight font-medium shrink-0 w-7 pt-0.5">
         {time}
       </div>
       <div className="flex-1 min-w-0">
         <div
-          className="text-white/95 truncate"
+          className="text-neutral-950 truncate"
           style={{ fontSize: "8.5px", lineHeight: 1.25, fontWeight: 500 }}
         >
           {title}
         </div>
         <div
-          className="text-white/45 mt-0.5 inline-block px-1 py-px rounded-[3px] bg-white/[0.06]"
+          className="text-neutral-500 mt-0.5 inline-block px-1 py-px rounded-[3px] bg-neutral-100"
           style={{ fontSize: "6.5px", textTransform: "uppercase", letterSpacing: "0.1em" }}
         >
           {tag}
@@ -557,12 +570,12 @@ function DockGlyph({ active = false }: { active?: boolean }) {
     <div
       className="w-7 h-7 rounded-md flex items-center justify-center"
       style={{
-        backgroundColor: active ? `${BRAND}33` : "transparent",
+        backgroundColor: active ? `${BRAND}1c` : "transparent",
       }}
     >
       <div
         className="w-3 h-3 rounded-[3px]"
-        style={{ backgroundColor: active ? BRAND : "rgba(255,255,255,0.25)" }}
+        style={{ backgroundColor: active ? BRAND : "rgba(0,0,0,0.2)" }}
       />
     </div>
   );
@@ -1065,16 +1078,13 @@ function ClosingCTA({ state }: { state: InstallState }) {
         </p>
         <div className="mt-9 flex flex-wrap items-center justify-center gap-3">
           <SmartInstallCTA state={state} />
-          <a
+          <NestedCTA
             href="#platforms"
-            className="group inline-flex items-center gap-2 px-5 py-2.5 rounded-sm ring-1 ring-black/15 text-neutral-700 hover:text-neutral-950 hover:ring-black/30 transition-fluid text-[15px]"
-            style={{ fontWeight: 500 }}
+            variant="ghost"
+            icon={<BracketArrow size={12} strokeWidth={1.75} />}
           >
             See all platforms
-            <span className="inline-flex transition-fluid group-hover:translate-x-[1.5px]">
-              <BracketArrow size={12} strokeWidth={1.75} />
-            </span>
-          </a>
+          </NestedCTA>
         </div>
       </div>
     </section>

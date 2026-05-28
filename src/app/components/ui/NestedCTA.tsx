@@ -105,10 +105,10 @@ function variantStyles(v: Variant): VariantSpec {
     case "ghost":
       // True ghost — no fill, just a hairline border. Background stays
       // transparent so the surface underneath (cream, white, INK) shows
-      // through. Ring darkens on hover; inner well stays subtle so the
-      // icon has a home, but it doesn't read as a filled button.
+      // through. Border is stronger than a pure-hairline so the button
+      // reads as a real CTA next to a filled primary, not a faint outline.
       return {
-        wrapper: "bg-transparent text-neutral-950 ring-1 ring-black/15 group-hover:ring-black/35",
+        wrapper: "bg-transparent text-neutral-950 ring-1 ring-black/25 group-hover:ring-black/50",
         well: "",
         wellHover: "",
         shadow: "",
