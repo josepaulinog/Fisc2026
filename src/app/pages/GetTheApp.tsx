@@ -48,7 +48,7 @@ export default function GetTheApp() {
           { label: "Get the app" },
         ]}
         title={<>Install the <GradientText>delegate portal.</GradientText></>}
-        subtitle="Your schedule, sessions, and delegate guide — saved to your home screen, ready offline, and a tap away during the four days in Port of Spain."
+        subtitle="Your schedule, sessions and delegate guide — saved to your home screen, offline, and a tap away across the four days in Port of Spain."
         image={HERO_GET_THE_APP}
         imageOverlayStrength={0.78}
         hasSunset
@@ -129,13 +129,7 @@ function HeroShowcase({ state }: { state: InstallState }) {
       {/* Ambient depth — only on the left side now; the right half is
           carried by the photograph. A single restrained brand-orange
           whisper still ties the section to the page's accent system. */}
-      <div
-        className="absolute inset-0 pointer-events-none"
-        style={{
-          background: `radial-gradient(ellipse at 8% 95%, rgba(255,255,255,0.7) 0%, transparent 45%), radial-gradient(ellipse at 30% 10%, ${BRAND}08 0%, transparent 40%)`,
-        }}
-        aria-hidden="true"
-      />
+
 
       <div className="relative max-w-7xl mx-auto px-5 md:px-6 pt-16 pb-20 md:pb-32 md:pt-24">
         <div className="grid lg:grid-cols-2 gap-12 lg:gap-10 items-center">
@@ -180,7 +174,7 @@ function HeroShowcase({ state }: { state: InstallState }) {
                 Installs in seconds
               </TrustItem>
               <TrustItem icon={<Sparkles size={14} strokeWidth={1.75} />}>
-                Same login, same data
+                Your sign-in carries over
               </TrustItem>
             </ul>
           </div>
@@ -271,7 +265,7 @@ function resolveStatus(state: InstallState) {
   if (state.isInstalled) {
     return {
       tone: "installed" as const,
-      label: "Installed on this device",
+      label: "Installed",
       headline: "You're all set.",
       copy: "The delegate portal is on this device's home screen. Launch it any time — it'll keep working when the venue Wi-Fi doesn't.",
     };
@@ -287,15 +281,15 @@ function resolveStatus(state: InstallState) {
   if (state.isIOS) {
     return {
       tone: "ios" as const,
-      label: "Detected: iPhone or iPad",
-      headline: "Two taps in Safari to add it.",
+      label: "iPhone · iPad",
+      headline: "Two taps in Safari to add the portal.",
       copy: "Apple doesn't expose a one-tap install on iOS, but Safari's share menu adds the portal to your home screen as a normal app icon. Walkthrough below.",
     };
   }
   return {
     tone: "wait" as const,
     label: "Open on your phone",
-    headline: "Installs best from a mobile browser.",
+    headline: "Install it from your phone.",
     copy: "On phones the portal becomes a true home-screen app. On desktop Chrome or Edge, the install icon sits at the right edge of the address bar. Pick your platform below.",
   };
 }
@@ -355,7 +349,7 @@ function SmartInstallCTA({ state }: { state: InstallState }) {
         variant="brand"
         icon={<BracketArrow size={13} strokeWidth={1.75} />}
       >
-        Show me the steps
+        See iOS steps
       </NestedCTA>
     );
   }
@@ -367,7 +361,7 @@ function SmartInstallCTA({ state }: { state: InstallState }) {
       variant="brand"
       icon={<BracketArrow size={13} strokeWidth={1.75} />}
     >
-      Pick your install path
+      See install steps
     </NestedCTA>
   );
 }
@@ -387,7 +381,7 @@ function PlatformGrid({ state }: { state: InstallState }) {
       icon: <AppleMark size={30} />,
       eyebrow: "iPhone / iPad",
       title: "Safari on iOS",
-      desc: "Apple doesn't expose a one-tap install — the share menu does it instead.",
+      desc: "Apple doesn't offer a one-tap install — Safari's share menu adds it instead.",
       steps: [
         {
           icon: <Share size={18} strokeWidth={1.5} />,
@@ -409,12 +403,12 @@ function PlatformGrid({ state }: { state: InstallState }) {
       icon: <AndroidMark size={30} />,
       eyebrow: "Android",
       title: "Chrome on Android",
-      desc: "The cleanest path — Chrome detects the portal and offers a one-tap install.",
+      desc: "The simplest path — Chrome offers a one-tap install.",
       steps: [
         {
           icon: <Smartphone size={18} strokeWidth={1.5} />,
           title: "Tap Install when prompted",
-          body: "Chrome surfaces an Install banner the first time you scroll. Or open the ⋮ menu and pick Install app.",
+          body: "Chrome surfaces an Install banner the first time you scroll. Or open the three-dot menu and pick Install app.",
         },
         {
           icon: <Plus size={18} strokeWidth={1.5} />,
@@ -431,7 +425,7 @@ function PlatformGrid({ state }: { state: InstallState }) {
       icon: <Monitor size={28} strokeWidth={1.5} />,
       eyebrow: "Mac / Windows / Linux",
       title: "Chrome or Edge on desktop",
-      desc: "Optional but handy — turns the portal into a windowed app on your dock.",
+      desc: "Optional — runs the portal as its own dock app.",
       steps: [
         {
           icon: <Monitor size={18} strokeWidth={1.5} />,
@@ -733,7 +727,7 @@ function Faq() {
     },
     {
       q: "Can I remove it?",
-      a: "Yes. Long-press the icon on your home screen and tap Remove (mobile), or right-click and Uninstall in desktop Chrome / Edge. No leftovers.",
+      a: "Yes — long-press the icon and tap Remove on mobile, or right-click and Uninstall on desktop Chrome / Edge. Nothing left behind.",
     },
     {
       q: "Does it work without internet?",
@@ -768,8 +762,8 @@ function Faq() {
               Quick answers.
             </h2>
             <p className="mt-5 text-neutral-600 max-w-md" style={{ lineHeight: 1.65 }}>
-              Five of the questions the team gets most often. Anything else, the delegate desk in
-              the Hyatt lobby on Day 1 will sort.
+              The five we hear most often. Anything else, the delegate desk in the Hyatt lobby on
+              Day 1 will sort it.
             </p>
           </div>
           <div className="lg:col-span-7">
