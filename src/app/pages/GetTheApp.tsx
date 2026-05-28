@@ -850,7 +850,7 @@ function ClosingCTA({ state }: { state: InstallState }) {
         {/* Flat panel — single container with a solid background and a
             hairline border. No nested tray, no gradient, no shadow. */}
         <div
-          className="rounded-md border border-black/10 py-20 md:py-28"
+          className="rounded-md py-20 md:py-28"
           style={{ backgroundColor: SHOWCASE_BG }}
         >
           <div className="max-w-5xl mx-auto px-5 md:px-6 text-center">
