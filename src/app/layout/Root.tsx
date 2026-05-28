@@ -35,6 +35,7 @@ function defaultTitleFor(pathname: string): string | null {
   if (pathname === "/gallery") return "Gallery";
   if (pathname === "/videos") return "Videos";
   if (pathname === "/media-coverage") return "Media coverage";
+  if (pathname === "/get-the-app") return "Get the app";
   if (pathname === "/profile") return "Your profile";
   if (pathname === "/sign-in") return "Sign in";
   return "Lost in transit"; // 404 catch-all
