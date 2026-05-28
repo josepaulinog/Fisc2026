@@ -1,12 +1,17 @@
 import { useState } from "react";
-import { motion } from "motion/react";
+import { motion, AnimatePresence } from "motion/react";
 import {
   Bell,
   CheckCircle,
+  ChevronDown,
+  Monitor,
   Plus,
   Share,
+  ShieldCheck,
   Smartphone,
+  Sparkles,
   WifiOff,
+  Zap,
 } from "lucide-react";
 import { PageHero, SectionLabel } from "../components/shared";
 import { NestedCTA } from "../components/ui/NestedCTA";
@@ -18,9 +23,10 @@ import { useInstallPrompt, type InstallState } from "../installPrompt";
  * /get-the-app — installable-PWA landing page.
  *
  * Public on purpose (not gated): delegates should be able to install before
- * signing in. The install panel auto-detects what the browser supports and
- * renders the right state — installed, one-tap install, iOS Safari walkthrough,
- * or a fallback for desktop browsers that don't expose beforeinstallprompt.
+ * signing in. The page renders a full multi-platform showcase regardless of
+ * the visiting browser so the install path is always discoverable — the
+ * "smart" CTA on top resolves to the one-tap prompt when available, and
+ * scrolls to the right platform card otherwise.
  */
 export default function GetTheApp() {
   const install = useInstallPrompt();
@@ -35,98 +41,248 @@ export default function GetTheApp() {
         ]}
         title={<>Install the delegate portal.</>}
         subtitle="Your schedule, sessions, and delegate guide — saved to your home screen, ready offline, and a tap away during the four days in Port of Spain."
+        hasSunset
       />
 
-      <section className="py-12 md:py-20 bg-white">
-        <div className="max-w-7xl mx-auto px-5 md:px-6">
-          <InstallPanel state={install} />
-        </div>
-      </section>
-
+      <HeroShowcase state={install} />
+      <PlatformGrid state={install} />
       <FeaturesStrip />
       <Faq />
+      <ClosingCTA state={install} />
     </>
   );
 }
 
-function InstallPanel({ state }: { state: InstallState }) {
+// ─── Brand glyphs ──────────────────────────────────────────────────────────
+// Inline SVGs for Apple / Android / Chrome marks. Lucide's stock "apple" icon
+// is the fruit, not the brand — and there's no Android icon at all. These are
+// hand-tuned at 24x24 viewBox to sit cleanly inside the same 44-48px square
+// wells the lucide icons use elsewhere on the page.
+
+function AppleMark({ size = 22 }: { size?: number }) {
+  return (
+    <svg
+      viewBox="0 0 24 24"
+      width={size}
+      height={size}
+      fill="currentColor"
+      aria-hidden="true"
+    >
+      <path d="M17.523 18.523c-.96 1.376-1.96 2.745-3.524 2.773-1.524.029-2.025-.911-3.77-.911-1.748 0-2.293.882-3.74.94-1.49.057-2.626-1.49-3.6-2.864-2.012-2.836-3.549-8.018-1.486-11.512.992-1.713 2.835-2.795 4.821-2.823 1.485-.028 2.882.99 3.788.99.905 0 2.609-1.221 4.396-1.04.748.03 2.846.297 4.193 2.243-.111.066-2.5 1.456-2.476 4.348.029 3.46 3.034 4.614 3.07 4.628-.029.087-.485 1.65-1.6 3.228zM12.03 7.25c.81-.978 1.347-2.34 1.2-3.696-1.16.046-2.563.768-3.398 1.747-.748.866-1.4 2.255-1.226 3.587 1.292.1 2.61-.66 3.424-1.638z" />
+    </svg>
+  );
+}
+
+function AndroidMark({ size = 22 }: { size?: number }) {
+  return (
+    <svg
+      viewBox="0 0 24 24"
+      width={size}
+      height={size}
+      fill="currentColor"
+      aria-hidden="true"
+    >
+      <path d="M17.6 9.48l1.84-3.18c.16-.31.04-.69-.26-.85a.637.637 0 0 0-.83.22l-1.88 3.24a11.43 11.43 0 0 0-8.94 0L5.65 5.67a.643.643 0 0 0-.87-.2c-.28.18-.37.54-.22.83L6.4 9.48A10.78 10.78 0 0 0 1 18h22a10.78 10.78 0 0 0-5.4-8.52zM7 15.25a1.25 1.25 0 1 1 0-2.5 1.25 1.25 0 0 1 0 2.5zm10 0a1.25 1.25 0 1 1 0-2.5 1.25 1.25 0 0 1 0 2.5z" />
+    </svg>
+  );
+}
+
+// ─── HeroShowcase ──────────────────────────────────────────────────────────
+// Sits flush under the PageHero, continuing the dark INK surface so the two
+// sections read as one cinematic moment. Floats the phone mockup on the right
+// with an ambient brand-orange glow halo; the left rail carries the smart
+// status badge, an "elevator pitch" line and the smart CTA pair.
+
+function HeroShowcase({ state }: { state: InstallState }) {
+  const status = resolveStatus(state);
+
+  return (
+    <section className="relative overflow-hidden" style={{ backgroundColor: INK }}>
+      {/* Ambient brand-orange halo bleeding from the right — ties the phone
+          mockup into the page's radial accent and matches the PageHero glow. */}
+      <div
+        className="absolute inset-0 pointer-events-none"
+        style={{
+          background: `radial-gradient(ellipse at 75% 30%, ${BRAND}24 0%, transparent 55%), radial-gradient(ellipse at 10% 90%, ${BRAND}10 0%, transparent 40%)`,
+        }}
+        aria-hidden="true"
+      />
+      {/* Subtle horizontal seam wash so the section reads as a continuation
+          of the PageHero, not a separate band. */}
+      <div
+        className="absolute inset-x-0 top-0 h-24 pointer-events-none"
+        style={{
+          background: "linear-gradient(180deg, rgba(0,0,0,0.35) 0%, transparent 100%)",
+        }}
+        aria-hidden="true"
+      />
+
+      <div className="relative max-w-7xl mx-auto px-5 md:px-6 pt-4 pb-20 md:pb-32 md:pt-10">
+        <div className="grid lg:grid-cols-12 gap-12 lg:gap-16 items-center">
+          {/* Left rail — status + smart CTA */}
+          <div className="lg:col-span-7 order-2 lg:order-1">
+            <StatusPill tone={status.tone}>{status.label}</StatusPill>
+
+            <h2
+              className="mt-6 tracking-[-0.02em] text-white"
+              style={{ fontSize: "clamp(1.85rem, 3.8vw, 2.85rem)", lineHeight: 1.05 }}
+            >
+              {status.headline}
+            </h2>
+            <p
+              className="mt-5 text-white/70 max-w-xl"
+              style={{ fontSize: "clamp(1rem, 1.1vw, 1.0625rem)", lineHeight: 1.65 }}
+            >
+              {status.copy}
+            </p>
+
+            <div className="mt-8 flex flex-wrap items-center gap-3">
+              <SmartInstallCTA state={state} />
+              <a
+                href="#platforms"
+                className="group inline-flex items-center gap-2 px-5 py-2.5 rounded-sm ring-1 ring-white/15 text-white/85 hover:text-white hover:ring-white/30 transition-fluid text-[15px]"
+                style={{ fontWeight: 500 }}
+              >
+                Pick your platform
+                <span className="inline-flex transition-fluid group-hover:translate-y-[1px]">
+                  <ChevronDown size={14} strokeWidth={1.75} />
+                </span>
+              </a>
+            </div>
+
+            {/* Trust strip — three reasons it's safe to install. The brand
+                orange dot accents read as a row of confidence ticks. */}
+            <ul className="mt-10 flex flex-wrap items-center gap-x-7 gap-y-3 text-white/65 text-sm">
+              <TrustItem icon={<ShieldCheck size={14} strokeWidth={1.75} />}>
+                No app store · no review
+              </TrustItem>
+              <TrustItem icon={<Zap size={14} strokeWidth={1.75} />}>
+                Installs in seconds
+              </TrustItem>
+              <TrustItem icon={<Sparkles size={14} strokeWidth={1.75} />}>
+                Same login, same data
+              </TrustItem>
+            </ul>
+          </div>
+
+          {/* Right rail — phone mockup */}
+          <div className="lg:col-span-5 order-1 lg:order-2 flex justify-center lg:justify-end">
+            <PhoneMockup />
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function TrustItem({
+  icon,
+  children,
+}: {
+  icon: React.ReactNode;
+  children: React.ReactNode;
+}) {
+  return (
+    <li className="inline-flex items-center gap-2">
+      <span
+        className="w-7 h-7 rounded-full flex items-center justify-center shrink-0"
+        style={{ backgroundColor: `${BRAND}20`, color: BRAND_SOFT }}
+      >
+        {icon}
+      </span>
+      <span>{children}</span>
+    </li>
+  );
+}
+
+function StatusPill({
+  tone,
+  children,
+}: {
+  tone: "ready" | "ios" | "wait" | "installed";
+  children: React.ReactNode;
+}) {
+  // Each state gets a distinct dot colour so the badge is scannable even
+  // before reading the label.
+  const dot =
+    tone === "installed"
+      ? "#34d399"
+      : tone === "ready"
+      ? BRAND
+      : tone === "ios"
+      ? "#a5b4fc"
+      : "#fbbf24";
+  return (
+    <span
+      className="inline-flex items-center gap-2 pl-2.5 pr-3.5 py-1.5 rounded-full bg-white/[0.06] ring-1 ring-white/15 backdrop-blur-md text-white/80 text-[11px] uppercase tracking-[0.18em]"
+      style={{ fontWeight: 500 }}
+    >
+      <motion.span
+        className="w-1.5 h-1.5 rounded-full"
+        style={{ backgroundColor: dot }}
+        animate={
+          tone === "ready" || tone === "installed"
+            ? { opacity: [1, 0.4, 1] }
+            : undefined
+        }
+        transition={{ duration: 1.8, repeat: Infinity, ease: [0.32, 0.72, 0, 1] }}
+      />
+      {children}
+    </span>
+  );
+}
+
+function resolveStatus(state: InstallState) {
+  if (state.isInstalled) {
+    return {
+      tone: "installed" as const,
+      label: "Installed on this device",
+      headline: "You're all set.",
+      copy: "The delegate portal is on this device's home screen. Launch it any time — it'll keep working when the venue Wi-Fi doesn't.",
+    };
+  }
+  if (state.canInstall) {
+    return {
+      tone: "ready" as const,
+      label: "Ready to install",
+      headline: "One tap. The portal lives on your home screen.",
+      copy: "Your browser supports a direct install. Tap the button and the delegate portal lands on your home screen or app drawer — no app store, no review.",
+    };
+  }
+  if (state.isIOS) {
+    return {
+      tone: "ios" as const,
+      label: "Detected: iPhone or iPad",
+      headline: "Two taps in Safari to add it.",
+      copy: "Apple doesn't expose a one-tap install on iOS, but Safari's share menu adds the portal to your home screen as a normal app icon. Walkthrough below.",
+    };
+  }
+  return {
+    tone: "wait" as const,
+    label: "Open on your phone",
+    headline: "Installs best from a mobile browser.",
+    copy: "On phones the portal becomes a true home-screen app. On desktop Chrome or Edge, the install icon sits at the right edge of the address bar. Pick your platform below.",
+  };
+}
+
+function SmartInstallCTA({ state }: { state: InstallState }) {
   const [busy, setBusy] = useState(false);
   const [outcome, setOutcome] = useState<"accepted" | "dismissed" | null>(null);
 
-  // 1. Already installed (or running standalone) — confirmation state.
+  // Already installed → success card replaces the CTA.
   if (state.isInstalled) {
     return (
-      <motion.div
-        initial={{ opacity: 0, y: 14 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true }}
-        className="rounded-2xl ring-1 ring-emerald-200/70 bg-emerald-50/60 p-7 md:p-10 flex flex-col md:flex-row md:items-center gap-5"
+      <span
+        className="inline-flex items-center gap-2.5 px-5 py-2.5 rounded-sm bg-emerald-500/15 ring-1 ring-emerald-400/30 text-emerald-200 text-[15px]"
+        style={{ fontWeight: 500 }}
       >
-        <div className="w-14 h-14 rounded-full flex items-center justify-center bg-emerald-100 text-emerald-700 shrink-0">
-          <CheckCircle size={26} strokeWidth={1.75} />
-        </div>
-        <div>
-          <h2
-            className="tracking-[-0.02em] text-neutral-950"
-            style={{ fontSize: "clamp(1.375rem, 2.5vw, 1.75rem)", lineHeight: 1.1 }}
-          >
-            You&rsquo;re all set.
-          </h2>
-          <p className="mt-2 text-neutral-700" style={{ lineHeight: 1.6 }}>
-            The delegate portal is installed on this device. Launch it from your home
-            screen any time — it&rsquo;ll keep working when the venue Wi-Fi doesn&rsquo;t.
-          </p>
-        </div>
-      </motion.div>
+        <CheckCircle size={16} strokeWidth={1.75} />
+        Installed
+      </span>
     );
   }
 
-  // 2. iOS Safari — beforeinstallprompt isn't supported. Walk them through Share → Add to Home Screen.
-  if (state.isIOS) {
-    return (
-      <motion.div
-        initial={{ opacity: 0, y: 14 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true }}
-        className="rounded-2xl bg-neutral-50 ring-1 ring-black/[0.06] p-7 md:p-10"
-      >
-        <SectionLabel>Install on iPhone or iPad</SectionLabel>
-        <h2
-          className="tracking-[-0.02em] text-neutral-950 max-w-2xl"
-          style={{ fontSize: "clamp(1.5rem, 3vw, 2rem)", lineHeight: 1.1 }}
-        >
-          Two taps in Safari.
-        </h2>
-        <p
-          className="mt-3 text-neutral-700 max-w-2xl"
-          style={{ lineHeight: 1.65 }}
-        >
-          Apple doesn&rsquo;t expose a one-tap install on iOS, but the portal still adds
-          to your home screen through Safari&rsquo;s share menu.
-        </p>
-        <ol className="mt-7 grid gap-4 sm:grid-cols-2 max-w-3xl">
-          <Step
-            n={1}
-            icon={<Share size={22} strokeWidth={1.5} />}
-            title="Tap the Share button"
-            body={<>At the bottom of Safari on iPhone, or top-right on iPad — the square with the upward arrow.</>}
-          />
-          <Step
-            n={2}
-            icon={<Plus size={22} strokeWidth={1.5} />}
-            title={'"Add to Home Screen"'}
-            body={<>Scroll the share sheet until you see it. Tap <strong>Add</strong> — the portal lands on your home screen as a regular app icon.</>}
-          />
-        </ol>
-        <p className="mt-6 text-neutral-500 text-sm">
-          Make sure you&rsquo;re using Safari (not Chrome or Firefox) on iOS — only Safari
-          can add to the home screen.
-        </p>
-      </motion.div>
-    );
-  }
-
-  // 3. Chromium / Android Chrome with a captured prompt — one-tap install.
+  // Can install directly via beforeinstallprompt — wire the prompt.
   if (state.canInstall) {
     const trigger = async () => {
       setBusy(true);
@@ -135,195 +291,585 @@ function InstallPanel({ state }: { state: InstallState }) {
       setBusy(false);
     };
     return (
+      <NestedCTA
+        onClick={trigger}
+        variant="brand"
+        icon={<BracketArrow size={13} strokeWidth={1.75} />}
+        className={busy ? "opacity-70 pointer-events-none" : ""}
+      >
+        {busy ? "Installing…" : outcome === "dismissed" ? "Try again" : "Install now"}
+      </NestedCTA>
+    );
+  }
+
+  // iOS — anchor straight to the Safari walkthrough card.
+  if (state.isIOS) {
+    return (
+      <NestedCTA
+        href="#ios"
+        variant="brand"
+        icon={<BracketArrow size={13} strokeWidth={1.75} />}
+      >
+        Show me the steps
+      </NestedCTA>
+    );
+  }
+
+  // Fallback — route to the platform grid.
+  return (
+    <NestedCTA
+      href="#platforms"
+      variant="brand"
+      icon={<BracketArrow size={13} strokeWidth={1.75} />}
+    >
+      Pick your install path
+    </NestedCTA>
+  );
+}
+
+// ─── PhoneMockup ───────────────────────────────────────────────────────────
+// CSS-only phone bezel + faux "FISC home" preview inside. Avoids a real
+// screenshot import so the mockup stays in sync with brand tokens if the
+// palette ever shifts. The slight -2deg rotation + ambient glow makes it
+// read as a hovering object rather than a flat illustration.
+
+function PhoneMockup() {
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 28, rotate: -4 }}
+      whileInView={{ opacity: 1, y: 0, rotate: -2 }}
+      viewport={{ once: true }}
+      transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
+      className="relative will-change-transform"
+    >
+      {/* Outer halo — soft brand-orange bloom behind the device. */}
+      <div
+        className="absolute -inset-10 pointer-events-none blur-3xl opacity-50"
+        style={{
+          background: `radial-gradient(circle at 50% 45%, ${BRAND}66 0%, transparent 60%)`,
+        }}
+        aria-hidden="true"
+      />
+
+      {/* Phone shell — outer aluminium ring (Double-Bezel outer shell). */}
+      <div
+        className="relative w-[260px] sm:w-[280px] aspect-[9/19.5] rounded-[2.6rem] p-[5px] shadow-[0_30px_70px_-20px_rgba(0,0,0,0.7),0_8px_24px_-8px_rgba(253,107,24,0.18)]"
+        style={{
+          background:
+            "linear-gradient(160deg, #2a2421 0%, #1a1614 45%, #0e0a08 100%)",
+          boxShadow:
+            "0 0 0 1px rgba(255,255,255,0.06), 0 30px 70px -20px rgba(0,0,0,0.7), 0 8px 24px -8px rgba(253,107,24,0.18), inset 0 1px 1px rgba(255,255,255,0.08)",
+        }}
+      >
+        {/* Inner screen — sits in the bezel like a glass plate in a tray. */}
+        <div
+          className="relative h-full w-full rounded-[2.3rem] overflow-hidden flex flex-col"
+          style={{
+            background: "linear-gradient(180deg, #1a1614 0%, #211a16 60%, #2c211b 100%)",
+          }}
+        >
+          {/* Dynamic island */}
+          <div className="absolute top-2 left-1/2 -translate-x-1/2 w-20 h-5 rounded-full bg-black z-10" />
+
+          {/* Status bar */}
+          <div className="relative z-10 flex items-center justify-between px-6 pt-3 text-white/80 text-[10px] tracking-tight font-medium">
+            <span>9:41</span>
+            <div className="flex items-center gap-1">
+              <div className="w-3 h-2 rounded-[1px] bg-white/80" />
+              <div className="w-3 h-2 rounded-[1px] bg-white/80" />
+              <div className="w-4 h-2 rounded-[1px] bg-white/80 relative">
+                <div className="absolute -right-0.5 top-0.5 w-0.5 h-1 bg-white/80 rounded-r-sm" />
+              </div>
+            </div>
+          </div>
+
+          {/* App content */}
+          <div className="relative z-0 flex-1 px-4 pt-7 pb-3 flex flex-col">
+            {/* Brand pill */}
+            <div className="inline-flex items-center gap-1.5 self-start px-2 py-0.5 rounded-full bg-white/[0.08] ring-1 ring-white/12 text-white/80 text-[7.5px] uppercase tracking-[0.22em]">
+              <span
+                className="w-1 h-1 rounded-full"
+                style={{ backgroundColor: BRAND }}
+              />
+              FISC 2026
+            </div>
+
+            {/* Greeting */}
+            <h4
+              className="mt-3 text-white tracking-tight"
+              style={{ fontSize: "1.05rem", lineHeight: 1.1, fontWeight: 600 }}
+            >
+              Day 1 · <span className="text-white/55">Mon Jun 29</span>
+            </h4>
+            <p
+              className="mt-1 text-white/55"
+              style={{ fontSize: "8.5px", lineHeight: 1.45 }}
+            >
+              Three sessions left today
+            </p>
+
+            {/* Session previews */}
+            <div className="mt-4 flex flex-col gap-2">
+              <MiniSession time="10:30" title="Opening Plenary" tag="Plenary" />
+              <MiniSession time="14:00" title="PFM in the Caribbean" tag="Panel" featured />
+              <MiniSession time="16:30" title="Reform Roundtable" tag="Closed" />
+            </div>
+
+            {/* Notification banner — ties to "Push for room changes" feature */}
+            <div className="mt-auto mb-2 flex items-center gap-2 px-2 py-1.5 rounded-[6px] bg-white/[0.06] ring-1 ring-white/10">
+              <span
+                className="w-5 h-5 rounded-full flex items-center justify-center shrink-0"
+                style={{ backgroundColor: `${BRAND}30`, color: BRAND_SOFT }}
+              >
+                <Bell size={10} strokeWidth={2} />
+              </span>
+              <div className="flex-1 min-w-0">
+                <div className="text-white/85 text-[8px] tracking-tight" style={{ fontWeight: 500 }}>
+                  Room change · 14:00 panel
+                </div>
+                <div className="text-white/45 text-[7px]">Now in Salon Tobago, 4th floor</div>
+              </div>
+            </div>
+
+            {/* Bottom dock */}
+            <div className="flex items-center justify-around pt-2 border-t border-white/[0.06]">
+              <DockGlyph active />
+              <DockGlyph />
+              <DockGlyph />
+              <DockGlyph />
+            </div>
+          </div>
+
+          {/* Screen glare — diagonal sheen for the "glass" feel */}
+          <div
+            className="absolute inset-0 pointer-events-none mix-blend-overlay opacity-25"
+            style={{
+              background:
+                "linear-gradient(135deg, rgba(255,255,255,0.18) 0%, transparent 30%, transparent 70%, rgba(255,255,255,0.06) 100%)",
+            }}
+            aria-hidden="true"
+          />
+        </div>
+      </div>
+
+      {/* Floating Apple/Android badge below — reinforces that the same app
+          works on both platforms. */}
       <motion.div
         initial={{ opacity: 0, y: 14 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
-        className="relative rounded-2xl overflow-hidden text-white p-8 md:p-12"
-        style={{ backgroundColor: INK }}
+        transition={{ duration: 0.6, delay: 0.3 }}
+        className="absolute -bottom-6 left-1/2 -translate-x-1/2 inline-flex items-center gap-2 px-3.5 py-2 rounded-full bg-white/[0.08] ring-1 ring-white/14 backdrop-blur-md text-white text-[11px]"
+        style={{ fontWeight: 500 }}
       >
-        <div
-          className="absolute inset-0 pointer-events-none"
-          style={{ background: `radial-gradient(circle at 85% 15%, ${BRAND}30, transparent 55%)` }}
-          aria-hidden="true"
-        />
-        <div className="relative grid md:grid-cols-12 gap-8 items-center">
-          <div className="md:col-span-7">
-            <SectionLabel tone="light">One tap to install</SectionLabel>
-            <h2
-              className="tracking-[-0.02em]"
-              style={{ fontSize: "clamp(1.75rem, 3.5vw, 2.5rem)", lineHeight: 1.05 }}
-            >
-              Add the portal to this device.
-            </h2>
-            <p className="mt-3 text-white/75 max-w-md" style={{ lineHeight: 1.6 }}>
-              Your browser supports direct install — tap the button and the portal
-              lands on your home screen or app drawer.
-            </p>
-          </div>
-          <div className="md:col-span-5 md:justify-self-end">
-            <NestedCTA
-              onClick={trigger}
-              variant="brand"
-              icon={<BracketArrow size={13} strokeWidth={1.75} />}
-              className={busy ? "opacity-70 pointer-events-none" : ""}
-            >
-              {busy ? "Installing…" : outcome === "dismissed" ? "Try again" : "Install the app"}
-            </NestedCTA>
-          </div>
-        </div>
-        {outcome === "dismissed" && (
-          <p className="relative mt-5 text-sm text-white/60">
-            You dismissed the prompt. Tap &ldquo;Try again&rdquo; if you change your
-            mind — or install later from your browser&rsquo;s menu.
-          </p>
-        )}
+        <AppleMark size={12} />
+        iOS
+        <span className="w-px h-2.5 bg-white/20 mx-0.5" />
+        <AndroidMark size={12} />
+        Android
+        <span className="w-px h-2.5 bg-white/20 mx-0.5" />
+        <Monitor size={12} strokeWidth={1.75} />
+        Desktop
       </motion.div>
-    );
-  }
-
-  // 4. Fallback — desktop Firefox/Safari, or the install event hasn't fired yet.
-  // Be honest about it instead of showing a button that doesn't do anything.
-  return (
-    <motion.div
-      initial={{ opacity: 0, y: 14 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true }}
-      className="rounded-2xl bg-neutral-50 ring-1 ring-black/[0.06] p-7 md:p-10"
-    >
-      <SectionLabel>Install from your phone</SectionLabel>
-      <h2
-        className="tracking-[-0.02em] text-neutral-950 max-w-2xl"
-        style={{ fontSize: "clamp(1.5rem, 3vw, 2rem)", lineHeight: 1.1 }}
-      >
-        Open this page on your device.
-      </h2>
-      <p
-        className="mt-3 text-neutral-700 max-w-2xl"
-        style={{ lineHeight: 1.65 }}
-      >
-        The portal installs best from a mobile browser. Open this page in{" "}
-        <strong>Chrome on Android</strong> or <strong>Safari on iPhone</strong>, then
-        look for &ldquo;Install app&rdquo; or &ldquo;Add to Home Screen&rdquo; in the
-        browser menu.
-      </p>
-      <p className="mt-4 text-neutral-500 text-sm">
-        On desktop Chrome or Edge, an install icon appears at the right edge of the
-        address bar — that works too.
-      </p>
     </motion.div>
   );
 }
 
-function Step({
-  n,
-  icon,
+function MiniSession({
+  time,
   title,
-  body,
+  tag,
+  featured = false,
 }: {
-  n: number;
-  icon: React.ReactNode;
-  title: React.ReactNode;
-  body: React.ReactNode;
+  time: string;
+  title: string;
+  tag: string;
+  featured?: boolean;
 }) {
   return (
-    <li className="rounded-md bg-white ring-1 ring-black/[0.06] p-5 md:p-6 flex gap-4">
-      <div className="shrink-0 w-10 h-10 rounded-md flex items-center justify-center text-neutral-700 bg-neutral-100">
-        {icon}
+    <div
+      className={`flex items-start gap-2 px-2.5 py-2 rounded-[8px] ${
+        featured
+          ? "ring-1 ring-white/15"
+          : "ring-1 ring-white/[0.07]"
+      }`}
+      style={{
+        background: featured
+          ? `linear-gradient(135deg, ${BRAND}22 0%, transparent 80%)`
+          : "rgba(255,255,255,0.025)",
+      }}
+    >
+      <div className="text-white/65 text-[8.5px] tracking-tight font-medium shrink-0 w-7 pt-0.5">
+        {time}
       </div>
-      <div>
+      <div className="flex-1 min-w-0">
         <div
-          className="text-[10.5px] tracking-[0.22em] uppercase text-neutral-500"
-          style={{ fontWeight: 500 }}
-        >
-          Step {n}
-        </div>
-        <h3
-          className="mt-1 tracking-tight text-neutral-950"
-          style={{ fontSize: "1.0625rem", lineHeight: 1.3 }}
+          className="text-white/95 truncate"
+          style={{ fontSize: "8.5px", lineHeight: 1.25, fontWeight: 500 }}
         >
           {title}
-        </h3>
-        <p
-          className="mt-1.5 text-neutral-700 text-sm"
-          style={{ lineHeight: 1.55 }}
+        </div>
+        <div
+          className="text-white/45 mt-0.5 inline-block px-1 py-px rounded-[3px] bg-white/[0.06]"
+          style={{ fontSize: "6.5px", textTransform: "uppercase", letterSpacing: "0.1em" }}
         >
-          {body}
-        </p>
+          {tag}
+        </div>
       </div>
-    </li>
+    </div>
   );
 }
+
+function DockGlyph({ active = false }: { active?: boolean }) {
+  return (
+    <div
+      className="w-7 h-7 rounded-md flex items-center justify-center"
+      style={{
+        backgroundColor: active ? `${BRAND}33` : "transparent",
+      }}
+    >
+      <div
+        className="w-3 h-3 rounded-[3px]"
+        style={{ backgroundColor: active ? BRAND : "rgba(255,255,255,0.25)" }}
+      />
+    </div>
+  );
+}
+
+// ─── PlatformGrid ──────────────────────────────────────────────────────────
+// The "three paths to home screen" — iOS / Android / Desktop. Each card uses
+// the Double-Bezel nested architecture (outer cream shell + inner white core)
+// with a brand glyph at top, headline, two-step walkthrough, and the right
+// card auto-highlights when the visitor's UA matches.
+
+function PlatformGrid({ state }: { state: InstallState }) {
+  const cards: PlatformCard[] = [
+    {
+      id: "ios",
+      brand: "Apple",
+      icon: <AppleMark size={26} />,
+      eyebrow: "iPhone / iPad",
+      title: "Safari on iOS",
+      desc: "Apple doesn't expose a one-tap install — the share menu does it instead.",
+      steps: [
+        {
+          icon: <Share size={18} strokeWidth={1.5} />,
+          title: "Tap the Share button",
+          body: "Bottom of Safari on iPhone, top-right on iPad — the square with the upward arrow.",
+        },
+        {
+          icon: <Plus size={18} strokeWidth={1.5} />,
+          title: '"Add to Home Screen"',
+          body: "Scroll the share sheet until you see it. Tap Add and the portal lands on your home screen.",
+        },
+      ],
+      footnote: "Must be Safari — Chrome and Firefox on iOS can't add to the home screen.",
+      isRecommended: state.isIOS,
+    },
+    {
+      id: "android",
+      brand: "Android",
+      icon: <AndroidMark size={26} />,
+      eyebrow: "Android",
+      title: "Chrome on Android",
+      desc: "The cleanest path — Chrome detects the portal and offers a one-tap install.",
+      steps: [
+        {
+          icon: <Smartphone size={18} strokeWidth={1.5} />,
+          title: "Tap Install when prompted",
+          body: "Chrome surfaces an Install banner the first time you scroll. Or open the ⋮ menu and pick Install app.",
+        },
+        {
+          icon: <Plus size={18} strokeWidth={1.5} />,
+          title: "Confirm Add to Home screen",
+          body: "Android adds the icon to your home screen or app drawer, depending on your launcher.",
+        },
+      ],
+      footnote: "Samsung Internet and Edge for Android work the same way through their menus.",
+      isRecommended: state.canInstall && !state.isIOS,
+    },
+    {
+      id: "desktop",
+      brand: "Desktop",
+      icon: <Monitor size={26} strokeWidth={1.5} />,
+      eyebrow: "Mac / Windows / Linux",
+      title: "Chrome or Edge on desktop",
+      desc: "Optional but handy — turns the portal into a windowed app on your dock.",
+      steps: [
+        {
+          icon: <Monitor size={18} strokeWidth={1.5} />,
+          title: "Click the install icon",
+          body: "Right edge of the address bar — a small monitor-with-arrow glyph appears once the page loads.",
+        },
+        {
+          icon: <CheckCircle size={18} strokeWidth={1.5} />,
+          title: "Confirm Install",
+          body: "Chrome / Edge launches the portal in its own window and adds a shortcut to your dock or Start menu.",
+        },
+      ],
+      footnote: "Safari on macOS doesn't currently support web app install — use Chrome or Edge.",
+      isRecommended: false,
+    },
+  ];
+
+  return (
+    <section id="platforms" className="relative py-20 md:py-28 bg-white">
+      <div className="max-w-7xl mx-auto px-5 md:px-6">
+        <div className="grid lg:grid-cols-12 gap-10 items-end mb-12 md:mb-16">
+          <div className="lg:col-span-6">
+            <SectionLabel>Three paths to home screen</SectionLabel>
+            <h2
+              className="tracking-[-0.02em] text-neutral-950"
+              style={{ fontSize: "clamp(1.875rem, 3.8vw, 2.75rem)", lineHeight: 1.05 }}
+            >
+              Choose your platform.
+            </h2>
+          </div>
+          <div className="lg:col-span-6 text-neutral-700" style={{ lineHeight: 1.65 }}>
+            <p>
+              Same portal, three install flows — the right one for the browser you're holding.
+              We've highlighted the card that matches this device.
+            </p>
+          </div>
+        </div>
+
+        <div className="grid md:grid-cols-3 gap-5 md:gap-6">
+          {cards.map((c, i) => (
+            <PlatformCardView key={c.id} card={c} index={i} />
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+type PlatformCard = {
+  id: string;
+  brand: string;
+  icon: React.ReactNode;
+  eyebrow: string;
+  title: string;
+  desc: string;
+  steps: { icon: React.ReactNode; title: string; body: string }[];
+  footnote: string;
+  isRecommended: boolean;
+};
+
+function PlatformCardView({ card, index }: { card: PlatformCard; index: number }) {
+  return (
+    <motion.div
+      id={card.id}
+      initial={{ opacity: 0, y: 24 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true }}
+      transition={{ duration: 0.7, delay: index * 0.08, ease: [0.22, 1, 0.36, 1] }}
+      className={`group relative rounded-[1.5rem] p-1.5 transition-fluid will-change-transform hover:-translate-y-1 ${
+        card.isRecommended
+          ? "shadow-[0_24px_60px_-30px_rgba(253,107,24,0.45)]"
+          : "shadow-[0_18px_50px_-30px_rgba(0,0,0,0.18)] hover:shadow-[0_28px_60px_-30px_rgba(0,0,0,0.22)]"
+      }`}
+      style={{
+        background: card.isRecommended
+          ? `linear-gradient(135deg, ${BRAND}22 0%, ${BRAND}06 50%, rgba(0,0,0,0.025) 100%)`
+          : "rgba(0,0,0,0.035)",
+      }}
+    >
+      {/* Recommended badge — floats over the top-right corner of the outer shell */}
+      {card.isRecommended && (
+        <div
+          className="absolute -top-2.5 right-4 z-10 inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-white text-[10px] uppercase tracking-[0.18em]"
+          style={{ backgroundColor: BRAND, fontWeight: 500 }}
+        >
+          <Sparkles size={10} strokeWidth={2} />
+          For this device
+        </div>
+      )}
+
+      {/* Inner core — mathematically smaller radius for concentric curves */}
+      <div
+        className="relative rounded-[calc(1.5rem-0.375rem)] bg-white p-7 md:p-8 ring-1 ring-black/[0.05] h-full"
+        style={{
+          boxShadow: "inset 0 1px 1px rgba(255,255,255,0.6), inset 0 -1px 0 rgba(0,0,0,0.02)",
+        }}
+      >
+        {/* Brand glyph in a textured square well */}
+        <div
+          className="w-14 h-14 rounded-[14px] flex items-center justify-center text-neutral-950 transition-fluid group-hover:scale-105"
+          style={{
+            background: "linear-gradient(135deg, #f5f3f0 0%, #ebe7e1 100%)",
+            boxShadow: "inset 0 1px 0 rgba(255,255,255,0.8), inset 0 -1px 0 rgba(0,0,0,0.04), 0 1px 0 rgba(0,0,0,0.03)",
+          }}
+        >
+          {card.icon}
+        </div>
+
+        {/* Eyebrow */}
+        <div
+          className="mt-6 text-[10.5px] uppercase tracking-[0.22em] text-neutral-500"
+          style={{ fontWeight: 500 }}
+        >
+          {card.eyebrow}
+        </div>
+
+        {/* Title */}
+        <h3
+          className="mt-1.5 tracking-tight text-neutral-950"
+          style={{ fontSize: "1.375rem", lineHeight: 1.2, fontWeight: 500 }}
+        >
+          {card.title}
+        </h3>
+
+        {/* Description */}
+        <p
+          className="mt-2.5 text-neutral-600 text-[14.5px]"
+          style={{ lineHeight: 1.55 }}
+        >
+          {card.desc}
+        </p>
+
+        {/* Step list */}
+        <ol className="mt-6 space-y-4 border-t border-black/[0.06] pt-5">
+          {card.steps.map((s, i) => (
+            <li key={i} className="flex gap-3.5">
+              <div className="shrink-0 flex flex-col items-center">
+                <div
+                  className="w-9 h-9 rounded-[10px] flex items-center justify-center text-neutral-700 transition-fluid group-hover:text-neutral-950"
+                  style={{
+                    background: "linear-gradient(135deg, #f8f6f3 0%, #ede9e2 100%)",
+                  }}
+                >
+                  {s.icon}
+                </div>
+                {i < card.steps.length - 1 && (
+                  <div className="w-px h-4 bg-black/[0.08] mt-1.5" aria-hidden="true" />
+                )}
+              </div>
+              <div className="pt-1 min-w-0">
+                <div
+                  className="text-[9.5px] uppercase tracking-[0.22em] text-neutral-400"
+                  style={{ fontWeight: 500 }}
+                >
+                  Step {i + 1}
+                </div>
+                <div
+                  className="mt-1 text-neutral-950 tracking-tight"
+                  style={{ fontSize: "0.95rem", lineHeight: 1.3, fontWeight: 500 }}
+                >
+                  {s.title}
+                </div>
+                <p className="mt-1 text-neutral-600 text-[13.5px]" style={{ lineHeight: 1.5 }}>
+                  {s.body}
+                </p>
+              </div>
+            </li>
+          ))}
+        </ol>
+
+        {/* Footnote */}
+        <p className="mt-5 pt-4 border-t border-black/[0.05] text-neutral-500 text-[12.5px]" style={{ lineHeight: 1.5 }}>
+          {card.footnote}
+        </p>
+      </div>
+    </motion.div>
+  );
+}
+
+// ─── FeaturesStrip ─────────────────────────────────────────────────────────
+// Three reasons to install. Cards lift on hover; the icon well shifts to
+// brand orange on lift to add internal kinetic tension.
 
 function FeaturesStrip() {
   const items = [
     {
-      icon: <WifiOff size={20} strokeWidth={1.5} />,
-      title: "Reads when Wi-Fi doesn’t",
-      body: "Your schedule, sessions and the delegate guide stay readable when the venue Wi-Fi gets crowded — the app saves pages you’ve visited.",
+      icon: <WifiOff size={22} strokeWidth={1.5} />,
+      title: "Reads when Wi-Fi doesn't",
+      body: "Your schedule, sessions and the delegate guide stay readable when the venue Wi-Fi gets crowded — the app caches pages you've visited.",
     },
     {
-      icon: <Smartphone size={20} strokeWidth={1.5} />,
+      icon: <Smartphone size={22} strokeWidth={1.5} />,
       title: "Opens like an app",
       body: "Launches from your home screen with no browser chrome — full-bleed, faster, and dedicated to the conference for the four days.",
     },
     {
-      icon: <Bell size={20} strokeWidth={1.5} />,
+      icon: <Bell size={22} strokeWidth={1.5} />,
       title: "Push for room changes",
-      body: "Opt in once and the portal can ping you for last-minute room changes, speaker swaps, and post-session materials drops.",
+      body: "Opt in once and the portal pings you for last-minute room changes, speaker swaps, and post-session materials drops.",
     },
   ];
   return (
-    <section className="py-12 md:py-20" style={{ backgroundColor: "#ededed" }}>
-      <div className="max-w-7xl mx-auto px-5 md:px-6">
-        <div className="grid lg:grid-cols-12 gap-10 items-end mb-10 md:mb-14">
-          <div className="lg:col-span-5">
+    <section
+      className="relative py-20 md:py-28 overflow-hidden"
+      style={{ backgroundColor: "#f6f4f0" }}
+    >
+      {/* Soft brand wash bleeding from the right */}
+      <div
+        className="absolute inset-0 pointer-events-none"
+        style={{
+          background: `radial-gradient(ellipse at 90% 0%, ${BRAND}10 0%, transparent 45%), radial-gradient(ellipse at 0% 100%, ${BRAND}08 0%, transparent 40%)`,
+        }}
+        aria-hidden="true"
+      />
+      <div className="relative max-w-7xl mx-auto px-5 md:px-6">
+        <div className="grid lg:grid-cols-12 gap-10 items-end mb-12 md:mb-16">
+          <div className="lg:col-span-6">
             <SectionLabel>What you get</SectionLabel>
             <h2
               className="tracking-[-0.02em] text-neutral-950"
-              style={{ fontSize: "clamp(1.75rem, 3.5vw, 2.5rem)", lineHeight: 1.05 }}
+              style={{ fontSize: "clamp(1.875rem, 3.8vw, 2.75rem)", lineHeight: 1.05 }}
             >
               Three reasons to install.
             </h2>
           </div>
           <div
-            className="lg:col-span-7 text-neutral-700"
+            className="lg:col-span-6 text-neutral-700"
             style={{ lineHeight: 1.65 }}
           >
             <p>
-              Installing makes the portal feel less like a website and more like a tool
-              for the week. Same content, better at hand.
+              Installing makes the portal feel less like a website and more like a tool for the
+              week. Same content, faster paths, better at hand.
             </p>
           </div>
         </div>
-        <div className="grid sm:grid-cols-3 gap-4 md:gap-5">
+        <div className="grid sm:grid-cols-3 gap-5 md:gap-6">
           {items.map((it, i) => (
             <motion.div
               key={it.title}
-              initial={{ opacity: 0, y: 16 }}
+              initial={{ opacity: 0, y: 18 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              transition={{ delay: i * 0.06 }}
-              className="rounded-md bg-white ring-1 ring-black/[0.06] p-6"
+              transition={{ delay: i * 0.07, duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
+              className="group relative rounded-[1.25rem] p-1.5 transition-fluid will-change-transform hover:-translate-y-1"
+              style={{ background: "rgba(0,0,0,0.04)" }}
             >
               <div
-                className="w-11 h-11 rounded-sm flex items-center justify-center shrink-0"
-                style={{ backgroundColor: `${BRAND_SOFT}33`, color: BRAND }}
+                className="rounded-[calc(1.25rem-0.375rem)] bg-white p-7 ring-1 ring-black/[0.04] h-full transition-fluid"
+                style={{
+                  boxShadow:
+                    "inset 0 1px 1px rgba(255,255,255,0.7), 0 12px 30px -20px rgba(0,0,0,0.12)",
+                }}
               >
-                {it.icon}
+                <div
+                  className="w-12 h-12 rounded-[12px] flex items-center justify-center transition-fluid group-hover:scale-110"
+                  style={{
+                    background: `linear-gradient(135deg, ${BRAND}1c 0%, ${BRAND}08 100%)`,
+                    color: BRAND,
+                  }}
+                >
+                  {it.icon}
+                </div>
+                <h3
+                  className="mt-5 tracking-tight text-neutral-950"
+                  style={{ fontSize: "1.1875rem", lineHeight: 1.3, fontWeight: 500 }}
+                >
+                  {it.title}
+                </h3>
+                <p
+                  className="mt-2.5 text-neutral-600 text-[14.5px]"
+                  style={{ lineHeight: 1.6 }}
+                >
+                  {it.body}
+                </p>
               </div>
-              <h3
-                className="mt-4 tracking-tight text-neutral-950"
-                style={{ fontSize: "1.125rem", lineHeight: 1.3 }}
-              >
-                {it.title}
-              </h3>
-              <p
-                className="mt-2 text-neutral-700 text-sm"
-                style={{ lineHeight: 1.6 }}
-              >
-                {it.body}
-              </p>
             </motion.div>
           ))}
         </div>
@@ -332,58 +878,160 @@ function FeaturesStrip() {
   );
 }
 
+// ─── Faq ───────────────────────────────────────────────────────────────────
+// Expanding accordion — Plus glyph rotates 45° to form an X on open, with a
+// smooth height animation via framer's AnimatePresence.
+
 function Faq() {
   const items: { q: string; a: React.ReactNode }[] = [
     {
       q: "How much storage does it use?",
-      a: "A few megabytes. The portal caches text and small images on demand — not the full media library.",
+      a: "A few megabytes. The portal caches text and small images on demand — not the full media library, and not videos.",
     },
     {
       q: "Can I remove it?",
-      a: "Yes. Long-press the icon on your home screen and tap Remove (mobile), or right-click and Uninstall (desktop Chrome/Edge).",
+      a: "Yes. Long-press the icon on your home screen and tap Remove (mobile), or right-click and Uninstall in desktop Chrome / Edge. No leftovers.",
     },
     {
       q: "Does it work without internet?",
-      a: "Pages you’ve already visited stay readable. New content — like a fresh agenda update — needs a connection.",
+      a: "Pages you've already visited stay readable. New content — like a fresh agenda update — needs a connection, then caches automatically.",
     },
     {
       q: "Does it collect more data than the website?",
-      a: "No. It’s the same portal in a leaner wrapper — same login, same data, no extra tracking.",
+      a: "No. It's the same portal in a leaner wrapper — same login, same data, no extra tracking. The cache lives on your device, not on our servers.",
+    },
+    {
+      q: "What if my browser doesn't show the install option?",
+      a: (
+        <>
+          Make sure you're on a supported browser — Safari on iOS, Chrome / Edge / Samsung Internet
+          on Android, Chrome or Edge on desktop. Firefox doesn't currently expose install for web
+          apps. If you're still stuck, the platform cards above walk through each path.
+        </>
+      ),
     },
   ];
+  const [open, setOpen] = useState<number | null>(0);
   return (
-    <section className="py-14 md:py-24 bg-white">
+    <section className="py-20 md:py-28 bg-white">
       <div className="max-w-7xl mx-auto px-5 md:px-6">
-        <div className="grid lg:grid-cols-12 gap-10">
+        <div className="grid lg:grid-cols-12 gap-12">
           <div className="lg:col-span-5">
             <SectionLabel>Common questions</SectionLabel>
             <h2
               className="tracking-[-0.02em] text-neutral-950"
-              style={{ fontSize: "clamp(1.75rem, 3.5vw, 2.5rem)", lineHeight: 1.05 }}
+              style={{ fontSize: "clamp(1.875rem, 3.8vw, 2.75rem)", lineHeight: 1.05 }}
             >
               Quick answers.
             </h2>
+            <p className="mt-5 text-neutral-600 max-w-md" style={{ lineHeight: 1.65 }}>
+              Five of the questions the team gets most often. Anything else, the delegate desk in
+              the Hyatt lobby on Day 1 will sort.
+            </p>
           </div>
           <div className="lg:col-span-7">
-            <dl className="divide-y divide-black/[0.06]">
-              {items.map((it) => (
-                <div key={it.q} className="py-5 first:pt-0 last:pb-0">
-                  <dt
-                    className="tracking-tight text-neutral-950"
-                    style={{ fontSize: "1.0625rem", lineHeight: 1.35, fontWeight: 500 }}
-                  >
-                    {it.q}
-                  </dt>
-                  <dd
-                    className="mt-2 text-neutral-700"
-                    style={{ lineHeight: 1.65 }}
-                  >
-                    {it.a}
-                  </dd>
-                </div>
-              ))}
-            </dl>
+            <ul className="divide-y divide-black/[0.06]">
+              {items.map((it, i) => {
+                const isOpen = open === i;
+                return (
+                  <li key={it.q} className="py-1">
+                    <button
+                      type="button"
+                      onClick={() => setOpen(isOpen ? null : i)}
+                      className="group w-full flex items-start gap-5 py-5 text-left transition-fluid"
+                      aria-expanded={isOpen}
+                    >
+                      <span
+                        className="flex-1 tracking-tight text-neutral-950"
+                        style={{ fontSize: "1.0625rem", lineHeight: 1.4, fontWeight: 500 }}
+                      >
+                        {it.q}
+                      </span>
+                      <span
+                        className={`w-9 h-9 rounded-full flex items-center justify-center shrink-0 transition-fluid ${
+                          isOpen
+                            ? "bg-neutral-950 text-white"
+                            : "bg-neutral-100 text-neutral-700 group-hover:bg-neutral-200"
+                        }`}
+                      >
+                        <motion.span
+                          animate={{ rotate: isOpen ? 45 : 0 }}
+                          transition={{ duration: 0.45, ease: [0.32, 0.72, 0, 1] }}
+                          className="inline-flex"
+                        >
+                          <Plus size={16} strokeWidth={1.75} />
+                        </motion.span>
+                      </span>
+                    </button>
+                    <AnimatePresence initial={false}>
+                      {isOpen && (
+                        <motion.div
+                          key="content"
+                          initial={{ height: 0, opacity: 0 }}
+                          animate={{ height: "auto", opacity: 1 }}
+                          exit={{ height: 0, opacity: 0 }}
+                          transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+                          className="overflow-hidden"
+                        >
+                          <div
+                            className="pb-6 pr-14 text-neutral-700"
+                            style={{ lineHeight: 1.7, fontSize: "0.9375rem" }}
+                          >
+                            {it.a}
+                          </div>
+                        </motion.div>
+                      )}
+                    </AnimatePresence>
+                  </li>
+                );
+              })}
+            </ul>
           </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+// ─── ClosingCTA ────────────────────────────────────────────────────────────
+// Final reinforcement band — dark INK, brand glow, the smart CTA again so the
+// install action is reachable without scrolling back to the top.
+
+function ClosingCTA({ state }: { state: InstallState }) {
+  const status = resolveStatus(state);
+  return (
+    <section className="relative overflow-hidden py-20 md:py-28" style={{ backgroundColor: INK }}>
+      <div
+        className="absolute inset-0 pointer-events-none"
+        style={{
+          background: `radial-gradient(ellipse at 50% 100%, ${BRAND}28 0%, transparent 60%), radial-gradient(ellipse at 50% 0%, ${BRAND}10 0%, transparent 50%)`,
+        }}
+        aria-hidden="true"
+      />
+      <div className="relative max-w-5xl mx-auto px-5 md:px-6 text-center">
+        <StatusPill tone={status.tone}>{status.label}</StatusPill>
+        <h2
+          className="mt-6 tracking-[-0.02em] text-white mx-auto max-w-3xl"
+          style={{ fontSize: "clamp(2rem, 5vw, 3.25rem)", lineHeight: 1.02 }}
+        >
+          Ready when you are.
+        </h2>
+        <p className="mt-5 text-white/70 mx-auto max-w-xl" style={{ lineHeight: 1.65 }}>
+          Drop the portal on your home screen now and it'll be a tap away for every session in
+          Port of Spain.
+        </p>
+        <div className="mt-9 flex flex-wrap items-center justify-center gap-3">
+          <SmartInstallCTA state={state} />
+          <a
+            href="#platforms"
+            className="group inline-flex items-center gap-2 px-5 py-2.5 rounded-sm ring-1 ring-white/15 text-white/85 hover:text-white hover:ring-white/30 transition-fluid text-[15px]"
+            style={{ fontWeight: 500 }}
+          >
+            See all platforms
+            <span className="inline-flex transition-fluid group-hover:translate-x-[1.5px]">
+              <BracketArrow size={12} strokeWidth={1.75} />
+            </span>
+          </a>
         </div>
       </div>
     </section>
