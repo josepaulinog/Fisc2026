@@ -191,6 +191,17 @@ export function Newsletter() {
                     )}
                   </form>
                 )}
+                <div className="mt-4 pl-2">
+                  <Link
+                    to="/get-the-app"
+                    className="group inline-flex items-center gap-1.5 text-white/60 hover:text-white text-sm transition-all duration-500 ease-[cubic-bezier(0.32,0.72,0,1)]"
+                  >
+                    Or install the delegate portal app
+                    <span className="inline-flex transition-transform duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] group-hover:translate-x-0.5 group-hover:-translate-y-[1px]">
+                      <BracketArrow size={11} strokeWidth={1.75} />
+                    </span>
+                  </Link>
+                </div>
               </div>
             </div>
           </div>

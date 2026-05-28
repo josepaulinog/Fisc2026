@@ -4,6 +4,7 @@ import {
   FileText,
   Play,
   Download,
+  Smartphone,
   Image as ImageIcon,
 } from "lucide-react";
 import logoUrl from "../imports/Asset_1.svg";
@@ -131,6 +132,7 @@ export const navItems: NavItem[] = [
       { label: "Gallery", to: "/gallery", gated: true },
       { label: "Media Coverage", to: "/media-coverage", gated: true },
       { label: "Delegate Community", to: "/attendees", gated: true },
+      { label: "Get the App", to: "/get-the-app" },
     ],
   },
 ];
@@ -356,6 +358,7 @@ export const resources: ResourceCard[] = [
   { icon: ImageIcon, label: "Photo Gallery", desc: "Curated photography from gala dinners, plenaries and pan-yard evenings.", to: "/gallery", gated: true },
   { icon: Mic, label: "Media Coverage", desc: "Press articles, broadcast clips and partner posts covering the conference.", to: "/media-coverage", gated: true },
   { icon: Globe, label: "Delegate Community", desc: "The ministers, secretaries and reformers shaping PFM across 10+ countries.", to: "/attendees", gated: true },
+  { icon: Smartphone, label: "Get the App", desc: "Install the delegate portal as a home-screen app — offline access, push reminders, one tap to launch.", to: "/get-the-app" },
 ];
 
 export const countries = [
