@@ -16,9 +16,8 @@ import {
 import { GradientText, PageHero, SectionLabel } from "../components/shared";
 import { NestedCTA } from "../components/ui/NestedCTA";
 import { BracketArrow } from "../components/ui/BracketArrow";
-import { BRAND } from "../data";
+import { BRAND, HERO_GET_THE_APP } from "../data";
 import { useInstallPrompt, type InstallState } from "../installPrompt";
-import hyattTrinidad from "../../imports/hyatt-trinidad.webp";
 import iphoneHero from "../../imports/iphone-mockup.jpg";
 
 // Local surface tokens. The PageHero and the global Footer keep the warm
@@ -50,7 +49,7 @@ export default function GetTheApp() {
         ]}
         title={<>Install the <GradientText>delegate portal.</GradientText></>}
         subtitle="Your schedule, sessions, and delegate guide — saved to your home screen, ready offline, and a tap away during the four days in Port of Spain."
-        image={hyattTrinidad}
+        image={HERO_GET_THE_APP}
         imageOverlayStrength={0.78}
         hasSunset
       />
@@ -525,7 +524,7 @@ function PlatformCardView({ card, index }: { card: PlatformCard; index: number }
 
       {/* Inner core — mathematically smaller radius for concentric curves */}
       <div
-        className="relative rounded-[calc(1.5rem-0.375rem)] bg-white p-7 md:p-8 ring-1 ring-black/[0.05] h-full"
+        className="relative rounded-[calc(1.5rem-0.375rem)] bg-white p-7 md:p-8 h-full"
         style={{
           boxShadow: "inset 0 1px 1px rgba(255,255,255,0.6), inset 0 -1px 0 rgba(0,0,0,0.02)",
         }}
@@ -685,7 +684,7 @@ function FeaturesStrip() {
               style={{ background: "rgba(0,0,0,0.04)" }}
             >
               <div
-                className="rounded-[calc(1.25rem-0.375rem)] bg-white p-7 ring-1 ring-black/[0.04] h-full transition-fluid"
+                className="rounded-[calc(1.25rem-0.375rem)] bg-white p-7 h-full transition-fluid"
                 style={{
                   boxShadow:
                     "inset 0 1px 1px rgba(255,255,255,0.7), 0 12px 30px -20px rgba(0,0,0,0.12)",
@@ -850,7 +849,7 @@ function ClosingCTA({ state }: { state: InstallState }) {
         {/* Doppelrand — outer hairline tray + inner panel, mirroring the
             Newsletter container in the footer so the page closes on a
             visually-consistent panel rather than a flat band. */}
-        <div className="rounded-md p-1.5 bg-black/[0.03] ring-1 ring-black/[0.05]">
+        <div className="rounded-md p-1.5 bg-black/[0.03]">
           <div
             className="relative overflow-hidden rounded-sm py-20 md:py-28"
             style={{ backgroundColor: SHOWCASE_BG }}
