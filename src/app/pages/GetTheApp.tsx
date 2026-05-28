@@ -131,7 +131,7 @@ function HeroShowcase({ state }: { state: InstallState }) {
         <img
           src={iphoneHero}
           alt=""
-          className="w-full h-full object-cover object-left"
+          className="w-full h-full object-contain object-left-top"
           loading="lazy"
           decoding="async"
         />
