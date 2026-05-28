@@ -18,11 +18,14 @@ import { NestedCTA } from "../components/ui/NestedCTA";
 import { BracketArrow } from "../components/ui/BracketArrow";
 import { BRAND, BRAND_SOFT } from "../data";
 import { useInstallPrompt, type InstallState } from "../installPrompt";
+import hyattTrinidad from "../../imports/hyatt-trinidad.webp";
 
-// Local dark surface — neutral charcoal, not the site-wide warm INK (#171311).
-// This page leans grayscale on purpose so the brand-orange accents pop rather
-// than blend into a warm-brown wash.
-const DARK = "#0c0c0e";
+// Local surface tokens. The PageHero and the global Footer keep the warm
+// site-wide INK treatment (handled in shared.tsx / Footer.tsx). Everything in
+// between leans light grayscale so brand-orange accents pop and the dark phone
+// mockup contrasts cleanly with its surroundings.
+const SHOWCASE_BG = "#e7e9ec";
+const SHOWCASE_FG = "#0c0c0e";
 
 /**
  * /get-the-app — installable-PWA landing page.
@@ -46,6 +49,8 @@ export default function GetTheApp() {
         ]}
         title={<>Install the delegate portal.</>}
         subtitle="Your schedule, sessions, and delegate guide — saved to your home screen, ready offline, and a tap away during the four days in Port of Spain."
+        image={hyattTrinidad}
+        imageOverlayStrength={0.85}
         hasSunset
       />
 
@@ -93,52 +98,46 @@ function AndroidMark({ size = 22 }: { size?: number }) {
 }
 
 // ─── HeroShowcase ──────────────────────────────────────────────────────────
-// Sits flush under the PageHero. Uses a cooler neutral charcoal (not the
-// site-wide warm INK) so the orange brand accents read as deliberate
-// highlights instead of vanishing into a brown wash. Floats the phone mockup
-// on the right; the left rail carries the smart status badge, an "elevator
-// pitch" line and the smart CTA pair.
+// Sits flush under the PageHero — now on a light cool-gray surface (the only
+// dark sections on this page are the PageHero and the global Footer). The
+// dark phone mockup pops against the gray; brand accents register as
+// deliberate highlights instead of vanishing into another dark band.
 
 function HeroShowcase({ state }: { state: InstallState }) {
   const status = resolveStatus(state);
 
   return (
-    <section className="relative overflow-hidden" style={{ backgroundColor: DARK }}>
-      {/* Ambient halo — a single restrained brand-orange wash behind the
-          phone mockup, plus a cooler neutral lift on the left. Reduced from
-          the previous heavier orange flood so the section reads as charcoal
-          first, brand accent second. */}
+    <section className="relative overflow-hidden" style={{ backgroundColor: SHOWCASE_BG }}>
+      {/* Ambient depth — light radial highlights on a gray surface read as
+          architectural lift rather than colour flood. A single restrained
+          brand-orange whisper sits behind the phone mockup so the section
+          still ties to the page's accent system. */}
       <div
         className="absolute inset-0 pointer-events-none"
         style={{
-          background: `radial-gradient(ellipse at 80% 35%, ${BRAND}14 0%, transparent 50%), radial-gradient(ellipse at 12% 90%, rgba(255,255,255,0.04) 0%, transparent 45%)`,
-        }}
-        aria-hidden="true"
-      />
-      {/* Subtle horizontal seam wash so the section reads as a continuation
-          of the PageHero, not a separate band. */}
-      <div
-        className="absolute inset-x-0 top-0 h-24 pointer-events-none"
-        style={{
-          background: "linear-gradient(180deg, rgba(0,0,0,0.35) 0%, transparent 100%)",
+          background: `radial-gradient(ellipse at 78% 32%, ${BRAND}12 0%, transparent 50%), radial-gradient(ellipse at 8% 95%, rgba(255,255,255,0.7) 0%, transparent 45%), radial-gradient(ellipse at 95% 95%, rgba(0,0,0,0.04) 0%, transparent 45%)`,
         }}
         aria-hidden="true"
       />
 
-      <div className="relative max-w-7xl mx-auto px-5 md:px-6 pt-4 pb-20 md:pb-32 md:pt-10">
+      <div className="relative max-w-7xl mx-auto px-5 md:px-6 pt-16 pb-20 md:pb-32 md:pt-24">
         <div className="grid lg:grid-cols-12 gap-12 lg:gap-16 items-center">
           {/* Left rail — status + smart CTA */}
           <div className="lg:col-span-7 order-2 lg:order-1">
-            <StatusPill tone={status.tone}>{status.label}</StatusPill>
+            <StatusPill tone={status.tone} surface="light">{status.label}</StatusPill>
 
             <h2
-              className="mt-6 tracking-[-0.02em] text-white"
-              style={{ fontSize: "clamp(1.85rem, 3.8vw, 2.85rem)", lineHeight: 1.05 }}
+              className="mt-6 tracking-[-0.02em]"
+              style={{
+                fontSize: "clamp(1.85rem, 3.8vw, 2.85rem)",
+                lineHeight: 1.05,
+                color: SHOWCASE_FG,
+              }}
             >
               {status.headline}
             </h2>
             <p
-              className="mt-5 text-white/70 max-w-xl"
+              className="mt-5 text-neutral-600 max-w-xl"
               style={{ fontSize: "clamp(1rem, 1.1vw, 1.0625rem)", lineHeight: 1.65 }}
             >
               {status.copy}
@@ -148,7 +147,7 @@ function HeroShowcase({ state }: { state: InstallState }) {
               <SmartInstallCTA state={state} />
               <a
                 href="#platforms"
-                className="group inline-flex items-center gap-2 px-5 py-2.5 rounded-sm ring-1 ring-white/15 text-white/85 hover:text-white hover:ring-white/30 transition-fluid text-[15px]"
+                className="group inline-flex items-center gap-2 px-5 py-2.5 rounded-sm ring-1 ring-black/15 text-neutral-700 hover:text-neutral-950 hover:ring-black/30 transition-fluid text-[15px]"
                 style={{ fontWeight: 500 }}
               >
                 Pick your platform
@@ -158,9 +157,8 @@ function HeroShowcase({ state }: { state: InstallState }) {
               </a>
             </div>
 
-            {/* Trust strip — three reasons it's safe to install. The brand
-                orange dot accents read as a row of confidence ticks. */}
-            <ul className="mt-10 flex flex-wrap items-center gap-x-7 gap-y-3 text-white/65 text-sm">
+            {/* Trust strip — three reasons it's safe to install. */}
+            <ul className="mt-10 flex flex-wrap items-center gap-x-7 gap-y-3 text-neutral-600 text-sm">
               <TrustItem icon={<ShieldCheck size={14} strokeWidth={1.75} />}>
                 No app store · no review
               </TrustItem>
@@ -194,7 +192,7 @@ function TrustItem({
     <li className="inline-flex items-center gap-2">
       <span
         className="w-7 h-7 rounded-full flex items-center justify-center shrink-0"
-        style={{ backgroundColor: `${BRAND}20`, color: BRAND_SOFT }}
+        style={{ backgroundColor: `${BRAND}1c`, color: BRAND }}
       >
         {icon}
       </span>
@@ -205,24 +203,30 @@ function TrustItem({
 
 function StatusPill({
   tone,
+  surface = "dark",
   children,
 }: {
   tone: "ready" | "ios" | "wait" | "installed";
+  surface?: "dark" | "light";
   children: React.ReactNode;
 }) {
   // Each state gets a distinct dot colour so the badge is scannable even
   // before reading the label.
   const dot =
     tone === "installed"
-      ? "#34d399"
+      ? "#10b981"
       : tone === "ready"
       ? BRAND
       : tone === "ios"
-      ? "#a5b4fc"
-      : "#fbbf24";
+      ? "#6366f1"
+      : "#d97706";
+  const pillStyles =
+    surface === "light"
+      ? "bg-white/70 ring-1 ring-black/[0.08] text-neutral-700 shadow-[0_1px_0_rgba(255,255,255,0.6),0_8px_22px_-14px_rgba(0,0,0,0.18)]"
+      : "bg-white/[0.06] ring-1 ring-white/15 backdrop-blur-md text-white/80";
   return (
     <span
-      className="inline-flex items-center gap-2 pl-2.5 pr-3.5 py-1.5 rounded-full bg-white/[0.06] ring-1 ring-white/15 backdrop-blur-md text-white/80 text-[11px] uppercase tracking-[0.18em]"
+      className={`inline-flex items-center gap-2 pl-2.5 pr-3.5 py-1.5 rounded-full text-[11px] uppercase tracking-[0.18em] ${pillStyles}`}
       style={{ fontWeight: 500 }}
     >
       <motion.span
@@ -1010,30 +1014,35 @@ function Faq() {
 }
 
 // ─── ClosingCTA ────────────────────────────────────────────────────────────
-// Final reinforcement band — same neutral charcoal as the hero showcase, with
-// the smart CTA again so the install action is reachable without scrolling
-// back to the top.
+// Final reinforcement band — same light gray as the hero showcase so the page
+// has only one dark moment (the PageHero at the top) before handing off to the
+// Footer's dark band. The smart CTA appears again so install is reachable
+// without scrolling back to the top.
 
 function ClosingCTA({ state }: { state: InstallState }) {
   const status = resolveStatus(state);
   return (
-    <section className="relative overflow-hidden py-20 md:py-28" style={{ backgroundColor: DARK }}>
+    <section className="relative overflow-hidden py-20 md:py-28" style={{ backgroundColor: SHOWCASE_BG }}>
       <div
         className="absolute inset-0 pointer-events-none"
         style={{
-          background: `radial-gradient(ellipse at 50% 110%, ${BRAND}1c 0%, transparent 55%), radial-gradient(ellipse at 50% 0%, rgba(255,255,255,0.03) 0%, transparent 45%)`,
+          background: `radial-gradient(ellipse at 50% 110%, ${BRAND}14 0%, transparent 55%), radial-gradient(ellipse at 50% 0%, rgba(255,255,255,0.6) 0%, transparent 45%)`,
         }}
         aria-hidden="true"
       />
       <div className="relative max-w-5xl mx-auto px-5 md:px-6 text-center">
-        <StatusPill tone={status.tone}>{status.label}</StatusPill>
+        <StatusPill tone={status.tone} surface="light">{status.label}</StatusPill>
         <h2
-          className="mt-6 tracking-[-0.02em] text-white mx-auto max-w-3xl"
-          style={{ fontSize: "clamp(2rem, 5vw, 3.25rem)", lineHeight: 1.02 }}
+          className="mt-6 tracking-[-0.02em] mx-auto max-w-3xl"
+          style={{
+            fontSize: "clamp(2rem, 5vw, 3.25rem)",
+            lineHeight: 1.02,
+            color: SHOWCASE_FG,
+          }}
         >
           Ready when you are.
         </h2>
-        <p className="mt-5 text-white/70 mx-auto max-w-xl" style={{ lineHeight: 1.65 }}>
+        <p className="mt-5 text-neutral-600 mx-auto max-w-xl" style={{ lineHeight: 1.65 }}>
           Drop the portal on your home screen now and it'll be a tap away for every session in
           Port of Spain.
         </p>
@@ -1041,7 +1050,7 @@ function ClosingCTA({ state }: { state: InstallState }) {
           <SmartInstallCTA state={state} />
           <a
             href="#platforms"
-            className="group inline-flex items-center gap-2 px-5 py-2.5 rounded-sm ring-1 ring-white/15 text-white/85 hover:text-white hover:ring-white/30 transition-fluid text-[15px]"
+            className="group inline-flex items-center gap-2 px-5 py-2.5 rounded-sm ring-1 ring-black/15 text-neutral-700 hover:text-neutral-950 hover:ring-black/30 transition-fluid text-[15px]"
             style={{ fontWeight: 500 }}
           >
             See all platforms
