@@ -50,7 +50,7 @@ export default function GetTheApp() {
         title={<>Install the <GradientText>delegate portal.</GradientText></>}
         subtitle="Your schedule, sessions, and delegate guide — saved to your home screen, ready offline, and a tap away during the four days in Port of Spain."
         image={hyattTrinidad}
-        imageOverlayStrength={0.5}
+        imageOverlayStrength={0.78}
         hasSunset
       />
 
