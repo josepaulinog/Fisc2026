@@ -16,9 +16,9 @@ import {
 import { GradientText, PageHero, SectionLabel } from "../components/shared";
 import { NestedCTA } from "../components/ui/NestedCTA";
 import { BracketArrow } from "../components/ui/BracketArrow";
-import { BRAND, HERO_GET_THE_APP } from "../data";
+import { BRAND } from "../data";
 import { useInstallPrompt, type InstallState } from "../installPrompt";
-import homeMobilePreview from "../../imports/home-mobile-preview.png";
+import hyattTrinidad from "../../imports/hyatt-trinidad.webp";
 
 // Local surface tokens. The PageHero and the global Footer keep the warm
 // site-wide INK treatment (handled in shared.tsx / Footer.tsx). Everything in
@@ -49,7 +49,7 @@ export default function GetTheApp() {
         ]}
         title={<>Install the <GradientText>delegate portal.</GradientText></>}
         subtitle="Your schedule, sessions, and delegate guide — saved to your home screen, ready offline, and a tap away during the four days in Port of Spain."
-        image={HERO_GET_THE_APP}
+        image={hyattTrinidad}
         imageOverlayStrength={0.78}
         hasSunset
       />
@@ -369,6 +369,69 @@ function SmartInstallCTA({ state }: { state: InstallState }) {
 // it read as a literal white background plate attached to the device — exactly
 // the wrong reading. Removed in favour of the cleaner floating-on-shelf look.)
 
+// Hardware side button — protrudes 2px outside the bezel on either edge, with
+// a darker face + thin inset highlight so it reads as a machined component
+// catching real ambient light rather than a flat painted bar.
+function SideButton({
+  side,
+  top,
+  height,
+}: {
+  side: "left" | "right";
+  top: string;
+  height: number;
+}) {
+  return (
+    <div
+      aria-hidden="true"
+      className="absolute pointer-events-none"
+      style={{
+        [side === "left" ? "left" : "right"]: -2,
+        top,
+        width: 3,
+        height,
+        borderRadius: side === "left" ? "2px 0 0 2px" : "0 2px 2px 0",
+        background:
+          "linear-gradient(180deg, #1d1d20 0%, #0c0c0e 50%, #1a1a1d 100%)",
+        boxShadow:
+          "inset 0 1px 0 rgba(255,255,255,0.08), inset 0 -1px 0 rgba(0,0,0,0.6)",
+      }}
+    />
+  );
+}
+
+// iOS-style status-bar icons. Drawn as small SVGs so the bars/wi-fi/battery
+// outlines stay crisp rather than reading as anonymous grey stubs.
+function SignalGlyph() {
+  return (
+    <svg width="13" height="9" viewBox="0 0 13 9" fill="currentColor" aria-hidden="true">
+      <rect x="0" y="6" width="2" height="3" rx="0.5" />
+      <rect x="3.5" y="4" width="2" height="5" rx="0.5" />
+      <rect x="7" y="2" width="2" height="7" rx="0.5" />
+      <rect x="10.5" y="0" width="2" height="9" rx="0.5" />
+    </svg>
+  );
+}
+function WifiGlyph() {
+  return (
+    <svg width="12" height="9" viewBox="0 0 14 10" fill="none" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" aria-hidden="true">
+      <path d="M1.6 4.2 A8 8 0 0 1 12.4 4.2" />
+      <path d="M3.6 6 A5 5 0 0 1 10.4 6" />
+      <path d="M5.6 7.7 A2.2 2.2 0 0 1 8.4 7.7" />
+      <circle cx="7" cy="9.1" r="0.7" fill="currentColor" stroke="none" />
+    </svg>
+  );
+}
+function BatteryGlyph() {
+  return (
+    <svg width="20" height="10" viewBox="0 0 22 10" fill="none" stroke="currentColor" strokeWidth="0.9" aria-hidden="true">
+      <rect x="0.5" y="0.5" width="18" height="9" rx="2" />
+      <rect x="20" y="3" width="1.4" height="4" rx="0.6" fill="currentColor" stroke="none" />
+      <rect x="2" y="2" width="15" height="6" rx="1" fill="currentColor" stroke="none" />
+    </svg>
+  );
+}
+
 function PhoneMockup() {
   return (
     <motion.div
@@ -389,7 +452,9 @@ function PhoneMockup() {
       />
 
       {/* Phone shell — outer aluminium ring (Double-Bezel outer shell). Sits
-          dead upright. */}
+          dead upright. Hardware side buttons hang off the left and right
+          edges; a thin gradient highlight runs along the top to catch the
+          light like a real machined frame. */}
       <div
         className="relative w-[260px] sm:w-[280px] aspect-[9/19.5] rounded-[2.6rem] p-[5px]"
         style={{
@@ -399,46 +464,125 @@ function PhoneMockup() {
             "0 0 0 1px rgba(255,255,255,0.06), 0 30px 70px -20px rgba(0,0,0,0.75), 0 8px 24px -8px rgba(0,0,0,0.4), inset 0 1px 1px rgba(255,255,255,0.08)",
         }}
       >
-        {/* Inner screen — an actual screenshot of the FISC homepage at mobile
-            viewport (captured at 390x844) sits inside the bezel. Replaces the
-            previous CSS recreation so the mockup tracks the real site exactly,
-            including the hero photo, country flag scroll and brand typography. */}
-        <div className="relative h-full w-full rounded-[2.3rem] overflow-hidden bg-white">
-          {/* Dynamic island — physical hardware cutout floats over the image. */}
-          <div className="absolute top-2 left-1/2 -translate-x-1/2 w-20 h-5 rounded-full bg-black z-10" />
+        {/* Top edge highlight — thin specular glint along the top bezel. */}
+        <div
+          aria-hidden="true"
+          className="absolute top-0 left-[18%] right-[18%] h-px rounded-full pointer-events-none"
+          style={{
+            background:
+              "linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.35) 50%, transparent 100%)",
+          }}
+        />
 
-          {/* Status bar — sits above the image so 9:41 + battery read on
-              the white space at the top of the screenshot. */}
-          <div className="absolute inset-x-0 top-0 z-[5] flex items-center justify-between px-6 pt-3 text-neutral-900 text-[10px] tracking-tight font-medium">
+        {/* Mute / silent switch — left side, near the top. */}
+        <SideButton side="left" top="13%" height={14} />
+        {/* Volume up. */}
+        <SideButton side="left" top="22%" height={26} />
+        {/* Volume down. */}
+        <SideButton side="left" top="31%" height={26} />
+        {/* Power / lock — right side, slightly lower than the mute switch. */}
+        <SideButton side="right" top="20%" height={42} />
+        {/* Inner screen — light theme mirroring the actual FISC mobile site
+            (white cards on cream/white, dark text, brand-orange accents).
+            Earlier iterations rendered a dark UI here but that diverged from
+            how the real site looks when delegates browse it on their phones. */}
+        <div
+          className="relative h-full w-full rounded-[2.3rem] overflow-hidden flex flex-col"
+          style={{
+            background: "linear-gradient(180deg, #ffffff 0%, #fafaf9 65%, #f4f3f0 100%)",
+          }}
+        >
+          {/* Dynamic island — black pill housing the front camera + sensor.
+              Two tiny lens dots inside make it read as actual hardware
+              rather than a featureless rectangle. */}
+          <div className="absolute top-2 left-1/2 -translate-x-1/2 w-20 h-5 rounded-full bg-black z-10 flex items-center justify-end pr-1.5 gap-1">
+            {/* Sensor cluster — flat dark dot. */}
+            <div className="w-1 h-1 rounded-full bg-[#15151a]" />
+            {/* Camera lens — subtle inner highlight, like a real glass aperture. */}
+            <div
+              className="w-2 h-2 rounded-full"
+              style={{
+                background:
+                  "radial-gradient(circle at 30% 30%, #2a2a35 0%, #0a0a0c 60%, #050507 100%)",
+                boxShadow: "inset 0 0 0 0.5px rgba(80,80,90,0.6)",
+              }}
+            />
+          </div>
+
+          {/* Status bar — dark glyphs on the white nav strip, matching iOS. */}
+          <div className="relative z-10 flex items-center justify-between px-6 pt-3 text-neutral-900 text-[10px] tracking-tight font-medium">
             <span>9:41</span>
-            <div className="flex items-center gap-1">
-              <div className="w-3 h-2 rounded-[1px] bg-neutral-900/80" />
-              <div className="w-3 h-2 rounded-[1px] bg-neutral-900/80" />
-              <div className="w-4 h-2 rounded-[1px] bg-neutral-900/80 relative">
-                <div className="absolute -right-0.5 top-0.5 w-0.5 h-1 bg-neutral-900/80 rounded-r-sm" />
-              </div>
+            <div className="flex items-center gap-1.5 text-neutral-900">
+              <SignalGlyph />
+              <WifiGlyph />
+              <BatteryGlyph />
             </div>
           </div>
 
-          {/* Live homepage screenshot fills the screen. Aspect (390:844)
-              matches the bezel inner aspect (9:19.5) so the image fits with
-              no crop. Pushed down a hair so the status bar gets clean
-              white space above the FreeBalance logo card. */}
-          <img
-            src={homeMobilePreview}
-            alt="FISC homepage at mobile viewport"
-            className="block w-full h-full object-cover object-top"
-            style={{ objectPosition: "center 22px" }}
-            loading="lazy"
-            decoding="async"
-          />
+          {/* App content */}
+          <div className="relative z-0 flex-1 px-4 pt-7 pb-3 flex flex-col">
+            {/* Brand pill — same vocab as SectionLabel: orange dot + uppercase
+                label on a subtle neutral chip. */}
+            <div className="inline-flex items-center gap-1.5 self-start px-2 py-0.5 rounded-full bg-neutral-100 ring-1 ring-black/[0.04] text-neutral-700 text-[7.5px] uppercase tracking-[0.22em]">
+              <span
+                className="w-1 h-1 rounded-full"
+                style={{ backgroundColor: BRAND }}
+              />
+              FISC 2026
+            </div>
+
+            {/* Greeting */}
+            <h4
+              className="mt-3 text-neutral-950 tracking-tight"
+              style={{ fontSize: "1.05rem", lineHeight: 1.1, fontWeight: 600 }}
+            >
+              Day 1 · <span className="text-neutral-500">Mon Jun 29</span>
+            </h4>
+            <p
+              className="mt-1 text-neutral-500"
+              style={{ fontSize: "8.5px", lineHeight: 1.45 }}
+            >
+              Three sessions left today
+            </p>
+
+            {/* Session previews */}
+            <div className="mt-4 flex flex-col gap-2">
+              <MiniSession time="10:30" title="Opening Plenary" tag="Plenary" />
+              <MiniSession time="14:00" title="PFM in the Caribbean" tag="Panel" featured />
+              <MiniSession time="16:30" title="Reform Roundtable" tag="Closed" />
+            </div>
+
+            {/* Notification banner — ties to "Push for room changes" feature */}
+            <div className="mt-auto mb-2 flex items-center gap-2 px-2 py-1.5 rounded-[6px] bg-white ring-1 ring-black/[0.06] shadow-[0_2px_8px_-4px_rgba(0,0,0,0.08)]">
+              <span
+                className="w-5 h-5 rounded-full flex items-center justify-center shrink-0"
+                style={{ backgroundColor: `${BRAND}1c`, color: BRAND }}
+              >
+                <Bell size={10} strokeWidth={2} />
+              </span>
+              <div className="flex-1 min-w-0">
+                <div className="text-neutral-950 text-[8px] tracking-tight" style={{ fontWeight: 500 }}>
+                  Room change · 14:00 panel
+                </div>
+                <div className="text-neutral-500 text-[7px]">Now in Salon Tobago, 4th floor</div>
+              </div>
+            </div>
+
+            {/* Bottom dock */}
+            <div className="flex items-center justify-around pt-2 border-t border-black/[0.06]">
+              <DockGlyph active />
+              <DockGlyph />
+              <DockGlyph />
+              <DockGlyph />
+            </div>
+          </div>
 
           {/* Screen glare — subtle diagonal sheen for the "glass" feel */}
           <div
-            className="absolute inset-0 pointer-events-none mix-blend-overlay opacity-25"
+            className="absolute inset-0 pointer-events-none mix-blend-overlay opacity-30"
             style={{
               background:
-                "linear-gradient(135deg, rgba(255,255,255,0.3) 0%, transparent 30%, transparent 70%, rgba(0,0,0,0.04) 100%)",
+                "linear-gradient(135deg, rgba(255,255,255,0.4) 0%, transparent 30%, transparent 70%, rgba(0,0,0,0.04) 100%)",
             }}
             aria-hidden="true"
           />
@@ -481,6 +625,67 @@ function PhoneMockup() {
         Desktop
       </motion.div>
     </motion.div>
+  );
+}
+
+function MiniSession({
+  time,
+  title,
+  tag,
+  featured = false,
+}: {
+  time: string;
+  title: string;
+  tag: string;
+  featured?: boolean;
+}) {
+  return (
+    <div
+      className={`flex items-start gap-2 px-2.5 py-2 rounded-[8px] ${
+        featured
+          ? "ring-1 ring-[#fd6b18]/25"
+          : "ring-1 ring-black/[0.06]"
+      } shadow-[0_2px_8px_-4px_rgba(0,0,0,0.06)]`}
+      style={{
+        background: featured
+          ? `linear-gradient(135deg, ${BRAND}14 0%, #ffffff 80%)`
+          : "#ffffff",
+      }}
+    >
+      <div className="text-neutral-500 text-[8.5px] tracking-tight font-medium shrink-0 w-7 pt-0.5">
+        {time}
+      </div>
+      <div className="flex-1 min-w-0">
+        <div
+          className="text-neutral-950 truncate"
+          style={{ fontSize: "8.5px", lineHeight: 1.25, fontWeight: 500 }}
+        >
+          {title}
+        </div>
+        <div
+          className="text-neutral-500 mt-0.5 inline-block px-1 py-px rounded-[3px] bg-neutral-100"
+          style={{ fontSize: "6.5px", textTransform: "uppercase", letterSpacing: "0.1em" }}
+        >
+          {tag}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function DockGlyph({ active = false }: { active?: boolean }) {
+  return (
+    <div
+      className="w-7 h-7 rounded-md flex items-center justify-center"
+      style={{
+        backgroundColor: active ? `${BRAND}1c` : "transparent",
+      }}
+    >
+      <div
+        className="w-3 h-3 rounded-[3px]"
+        style={{ backgroundColor: active ? BRAND : "rgba(0,0,0,0.2)" }}
+      />
+    </div>
   );
 }
 
