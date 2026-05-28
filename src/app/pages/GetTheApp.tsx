@@ -19,7 +19,7 @@ import { BracketArrow } from "../components/ui/BracketArrow";
 import { BRAND } from "../data";
 import { useInstallPrompt, type InstallState } from "../installPrompt";
 import hyattTrinidad from "../../imports/hyatt-trinidad.webp";
-import iphoneHero from "../../imports/get-the-app-hero.jpg";
+import iphoneHero from "../../imports/iphone-mockup.jpg";
 
 // Local surface tokens. The PageHero and the global Footer keep the warm
 // site-wide INK treatment (handled in shared.tsx / Footer.tsx). Everything in
