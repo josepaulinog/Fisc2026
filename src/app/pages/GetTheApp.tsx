@@ -172,7 +172,7 @@ function HeroShowcase({ state }: { state: InstallState }) {
             </div>
 
             {/* Trust strip — three reasons it's safe to install. */}
-            <ul className="mt-10 flex flex-wrap items-center gap-x-7 gap-y-3 text-neutral-600 text-sm">
+            <ul className="mt-10 flex flex-wrap items-center gap-x-7 gap-y-3 text-neutral-700 text-sm" style={{ fontWeight: 500 }}>
               <TrustItem icon={<ShieldCheck size={14} strokeWidth={1.75} />}>
                 No app store · no review
               </TrustItem>
@@ -502,19 +502,19 @@ function PlatformCardView({ card, index }: { card: PlatformCard; index: number }
       transition={{ duration: 0.7, delay: index * 0.08, ease: [0.22, 1, 0.36, 1] }}
       className={`group relative rounded-[1.5rem] p-1.5 transition-fluid will-change-transform hover:-translate-y-1 ${
         card.isRecommended
-          ? "shadow-[0_24px_60px_-30px_rgba(253,107,24,0.45)]"
-          : "shadow-[0_18px_50px_-30px_rgba(0,0,0,0.18)] hover:shadow-[0_28px_60px_-30px_rgba(0,0,0,0.22)]"
+          ? "shadow-[0_28px_60px_-28px_rgba(253,107,24,0.5),0_8px_22px_-14px_rgba(253,107,24,0.25)]"
+          : "shadow-[0_22px_45px_-22px_rgba(0,0,0,0.22),0_6px_16px_-10px_rgba(0,0,0,0.1)] hover:shadow-[0_32px_60px_-22px_rgba(0,0,0,0.28),0_10px_20px_-10px_rgba(0,0,0,0.14)]"
       }`}
       style={{
         background: card.isRecommended
-          ? `linear-gradient(135deg, ${BRAND}22 0%, ${BRAND}06 50%, rgba(0,0,0,0.025) 100%)`
-          : "rgba(0,0,0,0.035)",
+          ? `linear-gradient(135deg, ${BRAND}26 0%, ${BRAND}08 50%, rgba(0,0,0,0.04) 100%)`
+          : "rgba(0,0,0,0.05)",
       }}
     >
       {/* Recommended badge — floats over the top-right corner of the outer shell */}
       {card.isRecommended && (
         <div
-          className="absolute -top-2.5 right-4 z-10 inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-white text-[10px] uppercase tracking-[0.18em]"
+          className="absolute -top-2.5 right-4 z-10 inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-white text-[10px] uppercase tracking-[0.18em] shadow-[0_4px_12px_-2px_rgba(253,107,24,0.4)]"
           style={{ backgroundColor: BRAND, fontWeight: 500 }}
         >
           <Sparkles size={10} strokeWidth={2} />
@@ -526,7 +526,8 @@ function PlatformCardView({ card, index }: { card: PlatformCard; index: number }
       <div
         className="relative rounded-[calc(1.5rem-0.375rem)] bg-white p-7 md:p-8 h-full"
         style={{
-          boxShadow: "inset 0 1px 1px rgba(255,255,255,0.6), inset 0 -1px 0 rgba(0,0,0,0.02)",
+          boxShadow:
+            "inset 0 1px 1px rgba(255,255,255,0.7), inset 0 -1px 0 rgba(0,0,0,0.04), 0 1px 0 rgba(255,255,255,0.6)",
         }}
       >
         {/* Brand glyph — large polished black well so the Apple and Android
@@ -680,14 +681,14 @@ function FeaturesStrip() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: i * 0.07, duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
-              className="group relative rounded-[1.25rem] p-1.5 transition-fluid will-change-transform hover:-translate-y-1"
-              style={{ background: "rgba(0,0,0,0.04)" }}
+              className="group relative rounded-[1.25rem] p-1.5 transition-fluid will-change-transform hover:-translate-y-1 shadow-[0_18px_38px_-22px_rgba(0,0,0,0.18),0_4px_12px_-8px_rgba(0,0,0,0.08)] hover:shadow-[0_24px_46px_-22px_rgba(0,0,0,0.22),0_6px_14px_-8px_rgba(0,0,0,0.12)]"
+              style={{ background: "rgba(0,0,0,0.06)" }}
             >
               <div
                 className="rounded-[calc(1.25rem-0.375rem)] bg-white p-7 h-full transition-fluid"
                 style={{
                   boxShadow:
-                    "inset 0 1px 1px rgba(255,255,255,0.7), 0 12px 30px -20px rgba(0,0,0,0.12)",
+                    "inset 0 1px 1px rgba(255,255,255,0.7), inset 0 -1px 0 rgba(0,0,0,0.04)",
                 }}
               >
                 <div
@@ -849,7 +850,7 @@ function ClosingCTA({ state }: { state: InstallState }) {
         {/* Doppelrand — outer hairline tray + inner panel, mirroring the
             Newsletter container in the footer so the page closes on a
             visually-consistent panel rather than a flat band. */}
-        <div className="rounded-md p-1.5 bg-black/[0.03]">
+        <div className="rounded-md p-1.5 bg-black/[0.03] shadow-[0_24px_50px_-30px_rgba(0,0,0,0.18),0_4px_14px_-8px_rgba(0,0,0,0.08)]">
           <div
             className="relative overflow-hidden rounded-sm py-20 md:py-28"
             style={{ backgroundColor: SHOWCASE_BG }}
