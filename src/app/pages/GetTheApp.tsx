@@ -376,13 +376,13 @@ function PlatformGrid({ state }: { state: InstallState }) {
       brand: "Apple",
       icon: <AppleMark size={30} />,
       eyebrow: "iPhone / iPad",
-      title: "Safari on iOS",
-      desc: "Apple doesn't offer a one-tap install. Safari's share menu adds it instead.",
+      title: "Safari or Chrome on iOS",
+      desc: "Apple doesn't offer a one-tap install. The Share menu adds it instead.",
       steps: [
         {
           icon: <Share size={18} strokeWidth={1.5} />,
           title: "Tap the Share button",
-          body: "Bottom of Safari on iPhone, top-right on iPad.",
+          body: "Bottom of Safari on iPhone; top-right on iPad and in Chrome.",
         },
         {
           icon: <Plus size={18} strokeWidth={1.5} />,
@@ -390,7 +390,7 @@ function PlatformGrid({ state }: { state: InstallState }) {
           body: "Scroll the share sheet until you see it. Tap Add and the portal lands on your home screen.",
         },
       ],
-      footnote: "On iOS 16.4+, Chrome, Edge and Firefox install through their Share menus too. Older iOS still needs Safari.",
+      footnote: "On iOS 16.4+, Edge and Firefox install through their Share menus too. Older iOS still needs Safari.",
       isRecommended: state.isIOS,
     },
     {
