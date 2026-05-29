@@ -164,7 +164,7 @@ function HeroShowcase({ state }: { state: InstallState }) {
             {/* Trust strip — three reasons it's safe to install. */}
             <ul className="mt-10 flex flex-wrap items-center gap-x-7 gap-y-3 text-neutral-700 text-sm" style={{ fontWeight: 500 }}>
               <TrustItem icon={<ShieldCheck size={14} strokeWidth={1.75} />}>
-                No app stor
+                No app store
               </TrustItem>
               <TrustItem icon={<Zap size={14} strokeWidth={1.75} />}>
                 Installs in seconds
@@ -377,7 +377,7 @@ function PlatformGrid({ state }: { state: InstallState }) {
       icon: <AppleMark size={30} />,
       eyebrow: "iPhone / iPad",
       title: "Safari on iOS",
-      desc: "Apple doesn't offer a one-tap install — Safari's share menu adds it instead.",
+      desc: "Apple doesn't offer a one-tap install. Safari's share menu adds it instead.",
       steps: [
         {
           icon: <Share size={18} strokeWidth={1.5} />,
@@ -390,7 +390,7 @@ function PlatformGrid({ state }: { state: InstallState }) {
           body: "Scroll the share sheet until you see it. Tap Add and the portal lands on your home screen.",
         },
       ],
-      footnote: "Must be Safari — Chrome and Firefox on iOS can't add to the home screen.",
+      footnote: "On iOS 16.4+, Chrome, Edge and Firefox install through their Share menus too. Older iOS still needs Safari.",
       isRecommended: state.isIOS,
     },
     {
@@ -399,12 +399,12 @@ function PlatformGrid({ state }: { state: InstallState }) {
       icon: <AndroidMark size={30} />,
       eyebrow: "Android",
       title: "Chrome on Android",
-      desc: "The simplest path — Chrome offers a one-tap install.",
+      desc: "The simplest path. Chrome offers a one-tap install.",
       steps: [
         {
           icon: <Smartphone size={18} strokeWidth={1.5} />,
           title: "Tap Install when prompted",
-          body: "Chrome surfaces an Install banner the first time you scroll. Or open the three-dot menu and pick Install app.",
+          body: "Chrome usually offers an Install banner after a moment on the page. If you don't see one, open the three-dot menu and pick Install app.",
         },
         {
           icon: <Plus size={18} strokeWidth={1.5} />,
@@ -429,7 +429,7 @@ function PlatformGrid({ state }: { state: InstallState }) {
         {
           icon: <Monitor size={18} strokeWidth={1.5} />,
           title: "Click the install icon",
-          body: "Right edge of the address bar — a small monitor-with-arrow glyph appears once the page loads.",
+          body: "At the right edge of the address bar. A small monitor-with-arrow glyph appears once the page loads.",
         },
         {
           icon: <CheckCircle size={18} strokeWidth={1.5} />,
@@ -437,7 +437,7 @@ function PlatformGrid({ state }: { state: InstallState }) {
           body: "Chrome / Edge launches the portal in its own window and adds a shortcut to your dock or Start menu.",
         },
       ],
-      footnote: "Safari on macOS doesn't currently support web app install — use Chrome or Edge.",
+      footnote: "On macOS Sonoma+, Safari installs through File → Add to Dock. The address-bar install icon in Chrome and Edge works on every macOS.",
       isRecommended: false,
     },
   ];
@@ -617,12 +617,12 @@ function FeaturesStrip() {
     {
       icon: <WifiOff size={22} strokeWidth={1.5} />,
       title: "Reads when Wi-Fi doesn't",
-      body: "Your schedule, sessions and the delegate guide stay readable when the venue Wi-Fi gets crowded — the app caches pages you've visited.",
+      body: "Your schedule, sessions and the delegate guide stay readable when the venue Wi-Fi gets crowded. The app caches pages you've already visited.",
     },
     {
       icon: <Smartphone size={22} strokeWidth={1.5} />,
       title: "Opens like an app",
-      body: "Launches from your home screen with no browser chrome — full-bleed, faster, and dedicated to the conference for the four days.",
+      body: "Launches from your home screen with no browser chrome. Full-bleed and dedicated to the conference for the four days.",
     },
     {
       icon: <Bell size={22} strokeWidth={1.5} />,
@@ -660,8 +660,8 @@ function FeaturesStrip() {
             style={{ lineHeight: 1.65 }}
           >
             <p>
-              Installing makes the portal feel less like a website and more like a tool for the
-              week. Same content, faster paths, better at hand.
+              Installing turns the portal into something you reach for instead of search for.
+              Same content, faster at hand.
             </p>
           </div>
         </div>
@@ -733,7 +733,7 @@ function Faq() {
     },
     {
       q: "Does it collect more data than the website?",
-      a: "No. It's the same portal in a leaner wrapper — same login, same data, no extra tracking. The cache lives on your device, not on our servers.",
+      a: "No. Same portal, same login, no extra tracking. The cache lives on your device, not on our servers.",
     },
     {
       q: "What if my browser doesn't show the install option?",
