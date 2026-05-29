@@ -152,6 +152,14 @@ export function NestedCTA(props: Props) {
   // Arrow icons rotate +45° (clockwise) on hover so the up-right glyph
   // swings to point right. Non-arrow icons (Download, ChevronDown,
   // MapPin) keep the original magnetic up-right translate.
+  //
+  // The rotation gets its own slower, softer easing curve — the default
+  // 500ms iOS cubic-bezier landed hard on a 45° swing and read as a
+  // mechanical snap. 700ms with a smooth ease-out lets the arrow drift
+  // into place with a bit of follow-through.
+  const iconTransitionClass = arrow
+    ? "transition-transform duration-700 ease-[cubic-bezier(0.22,1,0.36,1)]"
+    : "transition-fluid";
   const iconHoverClass = arrow
     ? "group-hover:rotate-45"
     : "group-hover:translate-x-[1.5px] group-hover:-translate-y-[1.5px]";
@@ -169,7 +177,7 @@ export function NestedCTA(props: Props) {
       <span
         className={`w-10 h-10 rounded-sm flex items-center justify-center transition-fluid ${well} ${wellHover}`}
       >
-        <span className={`inline-flex transition-fluid ${iconHoverClass}`}>
+        <span className={`inline-flex ${iconTransitionClass} ${iconHoverClass}`}>
           {props.icon}
         </span>
       </span>

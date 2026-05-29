@@ -220,7 +220,7 @@ export function Header() {
                     <span
                       className="w-8 h-8 rounded-sm flex items-center justify-center transition-fluid group-hover:brightness-105"
                     >
-                      <span className="inline-flex transition-fluid group-hover:rotate-45">
+                      <span className="inline-flex transition-transform duration-700 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:rotate-45">
                         <BracketArrow size={11} strokeWidth={1.75} />
                       </span>
                     </span>

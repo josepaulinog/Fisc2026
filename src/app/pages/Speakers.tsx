@@ -49,7 +49,7 @@ function FeaturedCard({ s, accent = false }: { s: Speaker; accent?: boolean }) {
             className="w-10 h-10 rounded-full flex items-center justify-center backdrop-blur ring-1 ring-white/20"
             style={{ backgroundColor: accent ? BRAND : "rgba(255,255,255,0.1)" }}
           >
-            <BracketArrow size={14} strokeWidth={1.5} className="text-white transition-transform group-hover:rotate-45" />
+            <BracketArrow size={14} strokeWidth={1.5} className="text-white transition-transform duration-700 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:rotate-45" />
           </span>
         </div>
         <div className="absolute bottom-0 left-0 right-0 p-6 md:p-7">
