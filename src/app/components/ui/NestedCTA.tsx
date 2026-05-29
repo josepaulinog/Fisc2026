@@ -53,8 +53,10 @@ type Variant = "brand" | "ink" | "gray" | "ghost" | "glass";
 
 type CommonProps = {
   variant?: Variant;
-  /** Trailing icon — sits inside its own square well at the right edge. */
-  icon: ReactNode;
+  /** Trailing icon — sits inside its own square well at the right edge.
+   *  Optional; when omitted the well is not rendered and the right padding
+   *  is expanded to match the left, so the button reads as label-only. */
+  icon?: ReactNode;
   /** Optional prefix glyph (e.g. a lock for gated CTAs). */
   prefixIcon?: ReactNode;
   children: ReactNode;
@@ -142,8 +144,12 @@ export function NestedCTA(props: Props) {
   const { wrapper, well, wellHover, shadow, shadowHover, style } = variantStyles(variant);
   const arrow = isArrowIcon(props.icon);
 
+  // Right-edge padding tightens to pr-2 only when a trailing icon well is
+  // present — icon-less buttons get symmetric pr-6 to balance the label.
+  const rightPadding = props.icon ? "pr-2" : "pr-6";
+
   const sharedClasses =
-    `group inline-flex items-center gap-0 pl-6 pr-2 py-2 rounded-sm transition-fluid will-change-transform ` +
+    `group inline-flex items-center gap-0 pl-6 ${rightPadding} py-2 rounded-sm transition-fluid will-change-transform ` +
     `hover:scale-[1.012] active:scale-[0.98] ` +
     `focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 ` +
     `${variant === "glass" ? "focus-visible:ring-white/80" : "focus-visible:ring-neutral-950"} ` +
@@ -174,13 +180,15 @@ export function NestedCTA(props: Props) {
       <span className="text-[17px]" style={{ fontWeight: 600, letterSpacing: "-0.005em" }}>
         {props.children}
       </span>
-      <span
-        className={`w-10 h-10 rounded-sm flex items-center justify-center transition-fluid ${well} ${wellHover}`}
-      >
-        <span className={`inline-flex ${iconTransitionClass} ${iconHoverClass}`}>
-          {props.icon}
+      {props.icon && (
+        <span
+          className={`w-10 h-10 rounded-sm flex items-center justify-center transition-fluid ${well} ${wellHover}`}
+        >
+          <span className={`inline-flex ${iconTransitionClass} ${iconHoverClass}`}>
+            {props.icon}
+          </span>
         </span>
-      </span>
+      )}
     </>
   );
 

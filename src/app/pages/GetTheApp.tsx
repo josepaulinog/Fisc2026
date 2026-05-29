@@ -3,7 +3,6 @@ import { motion, AnimatePresence } from "motion/react";
 import {
   Bell,
   CheckCircle,
-  ChevronDown,
   Info,
   Monitor,
   Plus,
@@ -157,11 +156,7 @@ function HeroShowcase({ state }: { state: InstallState }) {
 
             <div className="mt-8 flex flex-wrap items-center gap-3">
               <SmartInstallCTA state={state} />
-              <NestedCTA
-                href="#platforms"
-                variant="ghost"
-                icon={<ChevronDown size={14} strokeWidth={1.75} />}
-              >
+              <NestedCTA href="#platforms" variant="ghost">
                 Pick your platform
               </NestedCTA>
             </div>
@@ -169,7 +164,7 @@ function HeroShowcase({ state }: { state: InstallState }) {
             {/* Trust strip — three reasons it's safe to install. */}
             <ul className="mt-10 flex flex-wrap items-center gap-x-7 gap-y-3 text-neutral-700 text-sm" style={{ fontWeight: 500 }}>
               <TrustItem icon={<ShieldCheck size={14} strokeWidth={1.75} />}>
-                No app store · no review
+                No app stor
               </TrustItem>
               <TrustItem icon={<Zap size={14} strokeWidth={1.75} />}>
                 Installs in seconds
@@ -276,7 +271,7 @@ function resolveStatus(state: InstallState) {
       tone: "ready" as const,
       label: "Ready to install",
       headline: "One tap. The portal lives on your home screen.",
-      copy: "Your browser supports a direct install. Tap the button and the delegate portal lands on your home screen or app drawer — no app store, no review.",
+      copy: "Your browser supports a direct install. Tap the button and the delegate portal lands on your home screen or app drawer.",
     };
   }
   if (state.isIOS) {
