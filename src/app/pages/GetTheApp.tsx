@@ -418,7 +418,10 @@ function PlatformGrid({ state }: { state: InstallState }) {
         },
       ],
       footnote: "Samsung Internet and Edge for Android work the same way through their menus.",
-      isRecommended: state.canInstall && !state.isIOS,
+      // Android-only — was previously `state.canInstall && !state.isIOS`,
+      // which fired on Chrome / Mac too (Chrome desktop also triggers
+      // beforeinstallprompt).
+      isRecommended: state.isAndroid,
     },
     {
       id: "desktop",
@@ -495,21 +498,15 @@ function PlatformCardView({ card, index }: { card: PlatformCard; index: number }
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
       transition={{ duration: 0.7, delay: index * 0.08, ease: [0.22, 1, 0.36, 1] }}
-      className={`group relative rounded-[1.5rem] p-1.5 transition-fluid will-change-transform hover:-translate-y-1 ${
-        card.isRecommended
-          ? "shadow-[0_28px_60px_-28px_rgba(253,107,24,0.5),0_8px_22px_-14px_rgba(253,107,24,0.25)]"
-          : "shadow-[0_22px_45px_-22px_rgba(0,0,0,0.22),0_6px_16px_-10px_rgba(0,0,0,0.1)] hover:shadow-[0_32px_60px_-22px_rgba(0,0,0,0.28),0_10px_20px_-10px_rgba(0,0,0,0.14)]"
-      }`}
-      style={{
-        background: card.isRecommended
-          ? `linear-gradient(135deg, ${BRAND}26 0%, ${BRAND}08 50%, rgba(0,0,0,0.04) 100%)`
-          : "rgba(0,0,0,0.05)",
-      }}
+      className="group relative rounded-[1.5rem] p-1.5 transition-fluid will-change-transform hover:-translate-y-1 shadow-[0_22px_45px_-22px_rgba(0,0,0,0.22),0_6px_16px_-10px_rgba(0,0,0,0.1)] hover:shadow-[0_32px_60px_-22px_rgba(0,0,0,0.28),0_10px_20px_-10px_rgba(0,0,0,0.14)]"
+      style={{ background: "rgba(0,0,0,0.05)" }}
     >
-      {/* Recommended badge — floats over the top-right corner of the outer shell */}
+      {/* Recommended badge — floats over the top-right corner. Only visual
+          differentiation now; the outer shell stays neutral so the card
+          doesn't read as "selected/active". */}
       {card.isRecommended && (
         <div
-          className="absolute -top-2.5 right-4 z-10 inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-white text-[10px] uppercase tracking-[0.18em] shadow-[0_4px_12px_-2px_rgba(253,107,24,0.4)]"
+          className="absolute -top-2.5 right-4 z-10 inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-white text-[10px] uppercase tracking-[0.18em]"
           style={{ backgroundColor: BRAND, fontWeight: 500 }}
         >
           <Sparkles size={10} strokeWidth={2} />

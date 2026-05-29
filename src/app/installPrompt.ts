@@ -59,6 +59,9 @@ export type InstallState = {
   isStandalone: boolean;
   /** iOS Safari — needs the manual Share → Add to Home Screen flow. */
   isIOS: boolean;
+  /** Android UA — distinguishes Chrome/Android from Chrome/Desktop, both of
+   *  which fire beforeinstallprompt and would otherwise look identical. */
+  isAndroid: boolean;
   /** Triggers the captured prompt. Resolves to the user's choice, or null when unavailable. */
   install: () => Promise<"accepted" | "dismissed" | null>;
 };
@@ -68,7 +71,7 @@ export function useInstallPrompt(): InstallState {
 
   const [media] = useState(() => {
     if (typeof window === "undefined") {
-      return { isStandalone: false, isIOS: false };
+      return { isStandalone: false, isIOS: false, isAndroid: false };
     }
     const isStandalone =
       window.matchMedia("(display-mode: standalone)").matches ||
@@ -79,7 +82,10 @@ export function useInstallPrompt(): InstallState {
       navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1;
     const isIOS =
       (/iPad|iPhone|iPod/.test(ua) && !/MSStream/i.test(ua)) || isIPad;
-    return { isStandalone, isIOS };
+    // Android UA. Chrome on Mac and Chrome on Android both fire
+    // beforeinstallprompt — we need the UA to tell them apart.
+    const isAndroid = /Android/.test(ua) && !isIOS;
+    return { isStandalone, isIOS, isAndroid };
   });
 
   return {
@@ -87,6 +93,7 @@ export function useInstallPrompt(): InstallState {
     isInstalled: installed || media.isStandalone,
     isStandalone: media.isStandalone,
     isIOS: media.isIOS,
+    isAndroid: media.isAndroid,
     install: async () => {
       const evt = deferred;
       if (!evt) return null;
