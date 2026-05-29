@@ -203,6 +203,28 @@ export function NestedCTA(props: Props) {
     );
   }
   if ("href" in props && props.href) {
+    // In-page hash anchors (e.g. "#platforms") must scroll within the SAME
+    // window — not open a new tab. Smooth-scroll to the target on click.
+    if (props.href.startsWith("#")) {
+      const targetId = props.href.slice(1);
+      return (
+        <a
+          href={props.href}
+          style={style}
+          className={sharedClasses}
+          onClick={(e) => {
+            const el = document.getElementById(targetId);
+            if (el) {
+              e.preventDefault();
+              el.scrollIntoView({ behavior: "smooth", block: "start" });
+            }
+          }}
+        >
+          {inner}
+        </a>
+      );
+    }
+    // External link — open in a new tab.
     return (
       <a href={props.href} target="_blank" rel="noreferrer" style={style} className={sharedClasses}>
         {inner}
