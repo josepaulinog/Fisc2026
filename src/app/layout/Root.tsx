@@ -42,10 +42,28 @@ function defaultTitleFor(pathname: string): string | null {
 }
 
 export function Root() {
-  const { pathname } = useLocation();
+  const { pathname, hash } = useLocation();
+  // On navigation, scroll to the top — unless the URL carries a hash (e.g.
+  // /get-the-app#platforms), in which case bring that section into view. In an
+  // SPA the target isn't in the DOM when the browser first reads the hash, so
+  // the native anchor jump silently fails; retry across a few frames until the
+  // section has rendered, then smooth-scroll to it.
   useEffect(() => {
+    if (hash) {
+      const id = decodeURIComponent(hash.slice(1));
+      let frames = 0;
+      let raf = requestAnimationFrame(function scrollToTarget() {
+        const el = document.getElementById(id);
+        if (el) {
+          el.scrollIntoView({ behavior: "smooth", block: "start" });
+        } else if (frames++ < 20) {
+          raf = requestAnimationFrame(scrollToTarget);
+        }
+      });
+      return () => cancelAnimationFrame(raf);
+    }
     window.scrollTo({ top: 0, behavior: "instant" as ScrollBehavior });
-  }, [pathname]);
+  }, [pathname, hash]);
 
   // Per-route document title. Detail pages (agenda/speakers) call
   // useDocumentTitle themselves with the resolved entity name, which
