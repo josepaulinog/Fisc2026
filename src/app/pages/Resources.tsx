@@ -61,7 +61,7 @@ export default function Resources() {
                             <Lock size={11} /> Gated
                           </span>
                         )}
-                        <ArrowUpRight size={18} className="text-neutral-400 group-hover:text-neutral-950 group-hover:-translate-y-1 group-hover:translate-x-1 transition-all" />
+                        <ArrowUpRight size={18} className="text-neutral-400 group-hover:text-neutral-950 group-hover:rotate-45 transition-all duration-700 ease-[cubic-bezier(0.22,1,0.36,1)]" />
                       </div>
                     </div>
                     <div className="mt-5 tracking-tight text-neutral-950" style={{ fontSize: "1.125rem" }}>{r.label}</div>

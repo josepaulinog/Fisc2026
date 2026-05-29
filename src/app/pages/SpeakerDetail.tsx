@@ -232,7 +232,7 @@ export default function SpeakerDetail() {
                             </span>
                             <ArrowUpRight
                               size={14}
-                              className="text-neutral-400 group-hover:text-neutral-950 group-hover:-translate-y-0.5 group-hover:translate-x-0.5 transition"
+                              className="text-neutral-400 group-hover:text-neutral-950 group-hover:rotate-45 transition-all duration-700 ease-[cubic-bezier(0.22,1,0.36,1)]"
                             />
                           </div>
                         </Link>
@@ -331,7 +331,7 @@ export default function SpeakerDetail() {
                 className="w-12 h-12 rounded-full flex items-center justify-center transition-transform duration-300"
                 style={{ backgroundColor: BRAND }}
               >
-                <BracketArrow size={16} strokeWidth={1.75} className="text-white transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
+                <BracketArrow size={16} strokeWidth={1.75} className="text-white transition-transform duration-700 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:rotate-45" />
               </span>
             </div>
           </Link>

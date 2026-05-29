@@ -32,7 +32,7 @@ function MediaCard({ m, i }: { m: MediaItem; i: number }) {
           <Icon size={12} />
           {m.type}
         </span>
-        <ArrowUpRight size={18} className="text-neutral-400 group-hover:text-neutral-950 group-hover:-translate-y-1 group-hover:translate-x-1 transition-all" />
+        <ArrowUpRight size={18} className="text-neutral-400 group-hover:text-neutral-950 group-hover:rotate-45 transition-all duration-700 ease-[cubic-bezier(0.22,1,0.36,1)]" />
       </div>
       <div className="tracking-tight text-neutral-950" style={{ fontSize: "1.125rem", lineHeight: 1.3 }}>{m.title}</div>
       {m.excerpt && (

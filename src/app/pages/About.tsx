@@ -197,7 +197,7 @@ export default function About() {
                 </div>
               </div>
               <button className="group/btn w-11 h-11 md:w-12 md:h-12 rounded-full bg-white/10 border border-white/30 backdrop-blur flex items-center justify-center hover:bg-white hover:text-neutral-950 active:scale-[0.95] transition-all duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] shrink-0">
-                <ArrowUpRight size={18} strokeWidth={1.5} className="transition-transform duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] group-hover/btn:translate-x-0.5 group-hover/btn:-translate-y-0.5" />
+                <ArrowUpRight size={18} strokeWidth={1.5} className="transition-transform duration-700 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover/btn:rotate-45" />
               </button>
             </div>
           </motion.div>

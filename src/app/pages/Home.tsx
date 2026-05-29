@@ -556,7 +556,7 @@ function CountdownAndActions() {
                     {nextMilestone.deadline.label}
                   </span>
                   <span className="w-7 h-7 rounded-sm bg-neutral-100 flex items-center justify-center transition-fluid group-hover:bg-neutral-950 group-hover:text-white ml-1">
-                    <BracketArrow size={11} strokeWidth={1.75} className="transition-fluid group-hover:translate-x-0.5 group-hover:-translate-y-[1px]" />
+                    <BracketArrow size={11} strokeWidth={1.75} className="transition-transform duration-700 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:rotate-45" />
                   </span>
                 </Link>
               )}
@@ -651,7 +651,7 @@ function CountdownAndActions() {
                   style={{ fontSize: TYPE.body, fontWeight: 500 }}
                 >
                   {isAuthed ? "Open delegate guide" : "Sign in to check items off"}
-                  <BracketArrow size={13} strokeWidth={1.75} className="transition-fluid group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
+                  <BracketArrow size={13} strokeWidth={1.75} className="transition-transform duration-700 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:rotate-45" />
                 </Link>
               </div>
               </BezelCard>

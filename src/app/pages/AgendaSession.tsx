@@ -247,7 +247,7 @@ export default function AgendaSession() {
                           <ArrowUpRight
                             size={14}
                             strokeWidth={1.75}
-                            className="text-neutral-400 transition-fluid group-hover:text-neutral-950 group-hover:-translate-y-0.5 group-hover:translate-x-0.5"
+                            className="text-neutral-400 group-hover:text-neutral-950 group-hover:rotate-45 transition-all duration-700 ease-[cubic-bezier(0.22,1,0.36,1)]"
                           />
                         </span>
                       );
@@ -429,7 +429,7 @@ export default function AgendaSession() {
                         </span>
                         <ArrowUpRight
                           size={16}
-                          className="text-neutral-400 group-hover:text-neutral-950 group-hover:-translate-y-0.5 group-hover:translate-x-0.5 transition"
+                          className="text-neutral-400 group-hover:text-neutral-950 group-hover:rotate-45 transition-all duration-700 ease-[cubic-bezier(0.22,1,0.36,1)]"
                         />
                       </div>
                     </div>
@@ -499,7 +499,7 @@ export default function AgendaSession() {
                   className="w-7 h-7 rounded-full flex items-center justify-center transition-transform duration-300"
                   style={{ backgroundColor: BRAND }}
                 >
-                  <BracketArrow size={12} strokeWidth={1.75} className="text-white transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
+                  <BracketArrow size={12} strokeWidth={1.75} className="text-white transition-transform duration-700 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:rotate-45" />
                 </span>
               </a>
 
