@@ -1,6 +1,18 @@
-import type { CSSProperties, MouseEventHandler, ReactNode } from "react";
+import { isValidElement, type CSSProperties, type MouseEventHandler, type ReactNode } from "react";
 import { Link } from "react-router";
+import { ArrowUpRight } from "lucide-react";
 import { BRAND } from "../../data";
+import { BracketArrow } from "./BracketArrow";
+
+// "Up-right" arrow icons used as trailing CTA glyphs. When NestedCTA
+// receives one of these, the hover effect rotates the arrow -45° so it
+// swings horizontal — instead of the magnetic up-right translate used
+// for non-arrow icons (Download, MapPin, ChevronDown, etc.).
+const ARROW_ICON_TYPES = new Set<unknown>([BracketArrow, ArrowUpRight]);
+
+function isArrowIcon(icon: ReactNode): boolean {
+  return isValidElement(icon) && ARROW_ICON_TYPES.has(icon.type);
+}
 
 /**
  * NestedCTA — the "button-in-button" pattern used across hero CTAs, section
@@ -128,6 +140,7 @@ function variantStyles(v: Variant): VariantSpec {
 export function NestedCTA(props: Props) {
   const variant: Variant = props.variant ?? "brand";
   const { wrapper, well, wellHover, shadow, shadowHover, style } = variantStyles(variant);
+  const arrow = isArrowIcon(props.icon);
 
   const sharedClasses =
     `group inline-flex items-center gap-0 pl-6 pr-2 py-2 rounded-sm transition-fluid will-change-transform ` +
@@ -135,6 +148,13 @@ export function NestedCTA(props: Props) {
     `focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 ` +
     `${variant === "glass" ? "focus-visible:ring-white/80" : "focus-visible:ring-neutral-950"} ` +
     `${shadow} ${shadowHover} ${wrapper} ${props.className ?? ""}`;
+
+  // Arrow icons rotate +45° (clockwise) on hover so the up-right glyph
+  // swings to point right. Non-arrow icons (Download, ChevronDown,
+  // MapPin) keep the original magnetic up-right translate.
+  const iconHoverClass = arrow
+    ? "group-hover:rotate-45"
+    : "group-hover:translate-x-[1.5px] group-hover:-translate-y-[1.5px]";
 
   const inner = (
     <>
@@ -149,10 +169,7 @@ export function NestedCTA(props: Props) {
       <span
         className={`w-10 h-10 rounded-sm flex items-center justify-center transition-fluid ${well} ${wellHover}`}
       >
-        {/* Icon: small diagonal translate only — no scale. The well's tone
-            shift carries the "lit" feeling; the icon just nudges enough to
-            feel responsive. */}
-        <span className="inline-flex transition-fluid group-hover:translate-x-[1.5px] group-hover:-translate-y-[1.5px]">
+        <span className={`inline-flex transition-fluid ${iconHoverClass}`}>
           {props.icon}
         </span>
       </span>

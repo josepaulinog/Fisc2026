@@ -174,7 +174,7 @@ export function Newsletter() {
                           className="absolute inset-0 transition-all duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] bg-gradient-to-r from-[#fd6b18] to-[#ff843a] group-hover:from-[#ff843a] group-hover:to-[#fd6b18]"
                         />
                         <span className="relative sm:hidden" style={{ fontSize: TYPE.body, fontWeight: 500 }}>Follow</span>
-                        <span className="relative inline-flex transition-transform duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] group-hover:translate-x-1 group-hover:-translate-y-0.5">
+                        <span className="relative inline-flex transition-transform duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] group-hover:rotate-45">
                           <BracketArrow
                             size={14}
                             strokeWidth={1.75}
@@ -197,7 +197,7 @@ export function Newsletter() {
                     className="group inline-flex items-center gap-1.5 text-white/60 hover:text-white text-sm transition-all duration-500 ease-[cubic-bezier(0.32,0.72,0,1)]"
                   >
                     Or install the delegate portal app
-                    <span className="inline-flex transition-transform duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] group-hover:translate-x-0.5 group-hover:-translate-y-[1px]">
+                    <span className="inline-flex transition-transform duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] group-hover:rotate-45">
                       <BracketArrow size={11} strokeWidth={1.75} />
                     </span>
                   </Link>
