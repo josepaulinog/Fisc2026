@@ -177,7 +177,10 @@ export function NestedCTA(props: Props) {
           {props.prefixIcon}
         </span>
       )}
-      <span className="text-[17px]" style={{ fontWeight: 600, letterSpacing: "-0.005em" }}>
+      <span
+        className="text-[17px] flex items-center min-h-10"
+        style={{ fontWeight: 600, letterSpacing: "-0.005em" }}
+      >
         {props.children}
       </span>
       {props.icon && (
