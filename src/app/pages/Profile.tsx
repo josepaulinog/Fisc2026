@@ -672,7 +672,7 @@ export default function Profile() {
                     ) : saveStatus === "saved" ? (
                       <Check size={14} strokeWidth={1.75} />
                     ) : (
-                      <span className="inline-flex transition-fluid group-hover:translate-x-[1.5px] group-hover:-translate-y-[1.5px]">
+                      <span className="inline-flex transition-transform duration-700 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:rotate-45">
                         <BracketArrow size={12} strokeWidth={1.75} />
                       </span>
                     )}

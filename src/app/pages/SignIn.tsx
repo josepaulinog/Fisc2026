@@ -420,7 +420,7 @@ export default function SignIn() {
                         <span
                           className="w-8 h-8 rounded-sm flex items-center justify-center transition-fluid group-hover:brightness-105"
                         >
-                          <span className="inline-flex transition-fluid group-hover:translate-x-[1.5px] group-hover:-translate-y-[1.5px]">
+                          <span className="inline-flex transition-transform duration-700 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:rotate-45">
                             <BracketArrow size={12} strokeWidth={1.75} />
                           </span>
                         </span>
