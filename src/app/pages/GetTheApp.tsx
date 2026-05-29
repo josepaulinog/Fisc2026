@@ -452,7 +452,7 @@ function PlatformGrid({ state }: { state: InstallState }) {
               className="tracking-[-0.02em] text-neutral-950"
               style={{ fontSize: "clamp(1.875rem, 3.8vw, 2.75rem)", lineHeight: 1.05 }}
             >
-              Choose your platform.
+              Pick your platform.
             </h2>
           </div>
           <div className="lg:col-span-6 text-neutral-700" style={{ lineHeight: 1.65 }}>
@@ -617,7 +617,7 @@ function FeaturesStrip() {
     {
       icon: <WifiOff size={22} strokeWidth={1.5} />,
       title: "Reads when Wi-Fi doesn't",
-      body: "Your schedule, sessions and the delegate guide stay readable when the venue Wi-Fi gets crowded. The app caches pages you've already visited.",
+      body: "Your schedule, sessions and the delegate guide stay readable when the venue Wi-Fi gets crowded. The portal caches pages you've already visited.",
     },
     {
       icon: <Smartphone size={22} strokeWidth={1.5} />,
@@ -626,8 +626,8 @@ function FeaturesStrip() {
     },
     {
       icon: <Bell size={22} strokeWidth={1.5} />,
-      title: "Push for room changes",
-      body: "Opt in once and the portal pings you for last-minute room changes, speaker swaps, and post-session materials drops.",
+      title: "Alerts when plans change",
+      body: "Opt in once and the portal notifies you of last-minute room changes, speaker swaps, and post-session materials drops.",
     },
   ];
   return (
@@ -661,7 +661,7 @@ function FeaturesStrip() {
           >
             <p>
               Installing turns the portal into something you reach for instead of search for.
-              Same content, faster at hand.
+              The same content, closer at hand.
             </p>
           </div>
         </div>
@@ -846,7 +846,7 @@ function ClosingCTA({ state }: { state: InstallState }) {
           style={{ backgroundColor: "#ededed" }}
         >
           <div className="max-w-5xl mx-auto px-5 md:px-6 text-center">
-            <StatusPill tone={status.tone} surface="light">{status.label}</StatusPill>
+            <SectionLabel>One last thing</SectionLabel>
             <h2
               className="mt-6 tracking-[-0.02em] mx-auto max-w-3xl"
               style={{
@@ -858,8 +858,7 @@ function ClosingCTA({ state }: { state: InstallState }) {
               Ready when you are.
             </h2>
             <p className="mt-5 text-neutral-600 mx-auto max-w-xl" style={{ lineHeight: 1.65 }}>
-              Drop the portal on your home screen now and it'll be a tap away for every session in
-              Port of Spain.
+              Drop the portal on your home screen now and it's ready before your first session.
             </p>
             <div className="mt-9 flex flex-wrap items-center justify-center gap-3">
               <SmartInstallCTA state={state} />
