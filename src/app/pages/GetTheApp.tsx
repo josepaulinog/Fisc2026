@@ -18,7 +18,7 @@ import { NestedCTA } from "../components/ui/NestedCTA";
 import { BracketArrow } from "../components/ui/BracketArrow";
 import { BRAND, HERO_GET_THE_APP } from "../data";
 import { useInstallPrompt, type InstallState } from "../installPrompt";
-import iphoneHero from "../../imports/iphone-mockup.jpg";
+import appMockup from "../../imports/app-mockup.jpg";
 
 // Local surface tokens. The PageHero and the global Footer keep the warm
 // site-wide INK treatment (handled in shared.tsx / Footer.tsx). Everything in
@@ -118,7 +118,7 @@ function HeroShowcase({ state }: { state: InstallState }) {
         aria-hidden="true"
       >
         <img
-          src={iphoneHero}
+          src={appMockup}
           alt=""
           className="w-full h-full object-cover object-left-top"
           loading="lazy"
@@ -181,8 +181,8 @@ function HeroShowcase({ state }: { state: InstallState }) {
               that bleeds to the section's right edge. */}
           <div className="lg:hidden order-1 -mx-5 md:-mx-6">
             <img
-              src={iphoneHero}
-              alt="Delegate holding the FISC portal on iPhone"
+              src={appMockup}
+              alt="Delegate holding the FISC 2026 portal on an iPhone"
               className="w-full h-auto block"
               loading="lazy"
               decoding="async"
