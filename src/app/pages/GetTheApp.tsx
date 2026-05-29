@@ -633,7 +633,7 @@ function FeaturesStrip() {
   return (
     <section
       className="relative py-20 md:py-28 overflow-hidden"
-      style={{ backgroundColor: "#f3f4f6" }}
+      style={{ backgroundColor: "#ededed" }}
     >
       {/* Soft tonal wash — single restrained orange whisper at the top-right
           corner so the band has accent without flooding warm. */}
@@ -843,7 +843,7 @@ function ClosingCTA({ state }: { state: InstallState }) {
             hairline border. No nested tray, no gradient, no shadow. */}
         <div
           className="rounded-md py-20 md:py-28"
-          style={{ backgroundColor: SHOWCASE_BG }}
+          style={{ backgroundColor: "#ededed" }}
         >
           <div className="max-w-5xl mx-auto px-5 md:px-6 text-center">
             <StatusPill tone={status.tone} surface="light">{status.label}</StatusPill>
