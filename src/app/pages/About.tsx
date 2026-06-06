@@ -2,6 +2,7 @@ import { motion } from "motion/react";
 import { ArrowUpRight, Globe, Linkedin, MessagesSquare, Twitter, Zap } from "lucide-react";
 import { ImageWithFallback } from "../components/figma/ImageWithFallback";
 import { GradientText, PageHero, SectionLabel } from "../components/shared";
+import { BezelCard } from "../components/ui/BezelCard";
 import { ABOUT_IMG, BRAND, HERO_ABOUT } from "../data";
 
 const APPROACH = [
@@ -80,9 +81,14 @@ export default function About() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: i * 0.08, duration: 0.5, ease: [0.32, 0.72, 0, 1] }}
-                className="group block rounded-xl p-1.5 bg-black/[0.02] hover:bg-black/[0.04] ring-1 ring-black/[0.04] hover:ring-black/[0.08] hover:-translate-y-0.5 shadow-sm hover:shadow-md active:scale-[0.98] transition-fluid"
+                className="group"
               >
-                <div className="h-full rounded-lg bg-white ring-1 ring-black/[0.03] shadow-[inset_0_1.5px_0_rgba(255,255,255,0.9)] p-5 md:p-7 group-hover:bg-[#fbfaf8]/40 transition-colors duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] flex flex-col items-start">
+                <BezelCard
+                  outerRadius="xl"
+                  innerRadius="lg"
+                  className="hover:bg-black/[0.04] hover:ring-black/[0.08] hover:-translate-y-0.5 shadow-sm hover:shadow-md active:scale-[0.98] transition-fluid h-full"
+                  innerClassName="h-full p-5 md:p-7 group-hover:bg-[#fbfaf8]/40 transition-colors duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] flex flex-col items-start"
+                >
                   <div
                     className="w-11 h-11 md:w-12 md:h-12 rounded-sm flex items-center justify-center mb-4 md:mb-5 transition-transform duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] group-hover:scale-105"
                     style={{ backgroundColor: `${BRAND}15`, color: BRAND }}
@@ -98,7 +104,7 @@ export default function About() {
                   >
                     {p.desc}
                   </p>
-                </div>
+                </BezelCard>
               </motion.div>
             ))}
           </div>
@@ -106,7 +112,7 @@ export default function About() {
       </section>
 
       {/* 18 EDITIONS — heritage moment */}
-      <section className="py-14 md:py-28" style={{ backgroundColor: "#ededed" }}>
+      <section className="py-14 md:py-28 bg-[var(--surface-paper)]">
         <div className="max-w-7xl mx-auto px-5 md:px-6">
           <div className="grid lg:grid-cols-12 gap-10 md:gap-16">
             <motion.div
@@ -179,7 +185,7 @@ export default function About() {
 
           <motion.div
             initial={{ opacity: 0, scale: 0.97 }} whileInView={{ opacity: 1, scale: 1 }} viewport={{ once: true }}
-            className="mt-12 md:mt-16 relative rounded-xl overflow-hidden aspect-square md:aspect-[21/9] group ring-1 ring-black/[0.08] shadow-sm hover:shadow-xl hover:shadow-black/[0.08] transition-[box-shadow] duration-500 ease-[cubic-bezier(0.32,0.72,0,1)]"
+            className="mt-12 md:mt-16 relative rounded-2xl overflow-hidden aspect-square md:aspect-[21/9] group ring-1 ring-black/[0.08] shadow-sm hover:shadow-xl hover:shadow-black/[0.08] transition-[box-shadow] duration-500 ease-[cubic-bezier(0.32,0.72,0,1)]"
           >
             <ImageWithFallback
               src={ABOUT_IMG}
@@ -240,7 +246,7 @@ export default function About() {
               >
                 <div className="flex items-baseline gap-4 md:gap-5">
                   <span
-                    className="tabular-nums tracking-tight text-neutral-300 shrink-0 transition-all duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] group-hover:text-[#fd6b18] group-hover:-translate-y-1 inline-block will-change-transform"
+                    className="tabular-nums tracking-tight text-neutral-300 shrink-0 transition-all duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] group-hover:text-[var(--brand)] group-hover:-translate-y-1 inline-block will-change-transform"
                     style={{ fontSize: "clamp(1.625rem, 2.5vw, 2rem)", lineHeight: 1, fontWeight: 300 }}
                   >
                     {b.n}
@@ -284,7 +290,7 @@ export default function About() {
                 aria-label={label}
                 target="_blank"
                 rel="noreferrer"
-                className="w-12 h-12 rounded-full ring-1 ring-black/[0.08] text-neutral-700 hover:text-white hover:bg-[#fd6b18] hover:ring-[#fd6b18] flex items-center justify-center active:scale-[0.98] transition-fluid"
+                className="w-12 h-12 rounded-full ring-1 ring-black/[0.08] text-neutral-700 hover:text-white hover:bg-[var(--brand)] hover:ring-[var(--brand)] flex items-center justify-center active:scale-[0.98] transition-fluid"
               >
                 <Icon size={18} strokeWidth={1.5} />
               </a>

@@ -29,7 +29,9 @@ type Props = {
   tone?: "light" | "dark";
   /** Override the inner-core radius differential. Default keeps a 4px
    *  step between outer (rounded-md / 6px) and inner (rounded-sm / 2px). */
-  innerRadius?: "sm" | "md";
+  innerRadius?: "sm" | "md" | "lg";
+  /** Override the outer tray radius. Default `rounded-md`. */
+  outerRadius?: "md" | "xl";
   /** Extra classes applied to the outer tray wrapper. */
   className?: string;
   /** Extra classes applied to the inner core div. */
@@ -40,6 +42,7 @@ export function BezelCard({
   children,
   tone = "light",
   innerRadius = "sm",
+  outerRadius = "md",
   className = "",
   innerClassName = "",
 }: Props) {
@@ -53,10 +56,12 @@ export function BezelCard({
       ? `bg-white border border-black/[0.03] ${SHADOW.innerHighlight}`
       : "";
 
-  const innerRadiusClass = innerRadius === "md" ? "rounded-md" : "rounded-sm";
+  const innerRadiusClass =
+    innerRadius === "lg" ? "rounded-lg" : innerRadius === "md" ? "rounded-md" : "rounded-sm";
+  const outerRadiusClass = outerRadius === "xl" ? "rounded-xl" : "rounded-md";
 
   return (
-    <div className={`rounded-md p-1.5 ${trayClasses} ${className}`}>
+    <div className={`${outerRadiusClass} p-1.5 ${trayClasses} ${className}`}>
       <div className={`${innerRadiusClass} overflow-hidden ${innerBase} ${innerClassName}`}>
         {children}
       </div>

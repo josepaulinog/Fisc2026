@@ -95,7 +95,7 @@ export function Header() {
                       className={({ isActive }) =>
                         `inline-flex items-center gap-1.5 pl-3 pr-3 py-2 rounded-sm transition-fluid font-medium active:scale-[0.98] ${
                           isActive
-                            ? "bg-neutral-300 text-neutral-900 shadow-[inset_0_1px_0_rgba(255,255,255,0.08)]"
+                            ? "bg-neutral-200 text-neutral-900 shadow-[inset_0_1px_0_rgba(255,255,255,0.08)]"
                             : "text-neutral-700 hover:text-neutral-950 hover:bg-black/[0.04]"
                         }`
                       }
@@ -129,7 +129,7 @@ export function Header() {
                               className={({ isActive }) =>
                                 `group/item flex items-center justify-between gap-3 px-4 py-2.5 transition-fluid ${
                                   isActive
-                                    ? "bg-neutral-300 text-neutral-900"
+                                    ? "bg-neutral-200 text-neutral-900"
                                     : "text-neutral-700 hover:bg-black/[0.03] hover:text-neutral-950"
                                 }`
                               }
@@ -162,7 +162,7 @@ export function Header() {
                     className={({ isActive }) =>
                       `inline-flex items-center gap-1.5 pl-3 pr-3 py-2 rounded-sm transition-fluid font-medium active:scale-[0.98] ${
                         isActive
-                          ? "bg-neutral-300 text-neutral-900 shadow-[inset_0_1px_0_rgba(255,255,255,0.08)]"
+                          ? "bg-neutral-200 text-neutral-900 shadow-[inset_0_1px_0_rgba(255,255,255,0.08)]"
                           : "text-neutral-700 hover:text-neutral-950 hover:bg-black/[0.04]"
                       }`
                     }
@@ -214,7 +214,7 @@ export function Header() {
                   </span>
                   <Link
                     to="/sign-in"
-                    className="cta-fill group hidden sm:inline-flex items-center gap-0 text-white pl-5 pr-1.5 py-1.5 rounded-sm transition-fluid will-change-transform hover:scale-[1.015] active:scale-[0.98] shadow-[0_3px_10px_-5px_rgba(0,0,0,0.28)] hover:shadow-[0_8px_20px_-8px_rgba(0,0,0,0.36)]"
+                    className="cta-fill group hidden sm:inline-flex items-center gap-0 text-white pl-5 pr-1.5 py-1.5 rounded-sm transition-fluid will-change-transform hover:scale-[1.012] active:scale-[0.98] shadow-[0_3px_10px_-5px_rgba(0,0,0,0.28)] hover:shadow-[0_8px_20px_-8px_rgba(0,0,0,0.36)]"
                   >
                     <span className="text-[17px]" style={{ fontWeight: 600 }}>Delegate sign in</span>
                     <span
@@ -298,7 +298,7 @@ export function Header() {
                   end
                   className={({ isActive }) =>
                     `block px-4 py-3 rounded-sm mb-1 transition ${
-                      isActive ? "bg-neutral-300 text-neutral-900" : "text-neutral-800 hover:bg-neutral-100"
+                      isActive ? "bg-neutral-200 text-neutral-900" : "text-neutral-800 hover:bg-neutral-100"
                     }`
                   }
                   style={{ fontSize: "1.125rem" }}
@@ -315,7 +315,7 @@ export function Header() {
                           to={n.to ?? n.children?.[0]?.to ?? "#"}
                           className={({ isActive }) =>
                             `flex-1 block px-4 py-3 rounded-sm transition ${
-                              isActive ? "bg-neutral-300 text-neutral-900" : "text-neutral-800 hover:bg-neutral-100"
+                              isActive ? "bg-neutral-200 text-neutral-900" : "text-neutral-800 hover:bg-neutral-100"
                             }`
                           }
                           style={{ fontSize: "1.125rem" }}
@@ -350,7 +350,7 @@ export function Header() {
                               className={({ isActive }) =>
                                 `flex items-center justify-between px-3 py-2.5 rounded-sm transition ${
                                   isActive
-                                    ? "bg-neutral-300 text-neutral-900"
+                                    ? "bg-neutral-200 text-neutral-900"
                                     : "text-neutral-700 hover:bg-neutral-100"
                                 }`
                               }

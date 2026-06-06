@@ -5,8 +5,11 @@ import { CountryFlag } from "../components/CountryFlag";
 import { ImageWithFallback } from "../components/figma/ImageWithFallback";
 import { GatedBody } from "../components/GatedBody";
 import { GradientText, PageHero } from "../components/shared";
-import { BRAND, BRAND_SOFT, HERO_ATTENDEES, attendees, type AttendeeEntry } from "../data";
+import { BRAND, HERO_ATTENDEES, attendees, type AttendeeEntry } from "../data";
 import { FilterTab } from "../components/ui/FilterTab";
+import { CHIP_HUE, chipTone } from "../tokens";
+
+const BRAND_CHIP = chipTone(CHIP_HUE.brand);
 
 function initialsOf(name: string) {
   return name
@@ -72,17 +75,17 @@ function AttendeeCard({ a, i }: { a: AttendeeEntry; i: number }) {
       </div>
       <div className="mt-4 flex items-center gap-2">
         {a.email && (
-          <a href={a.email} aria-label="Email" className="w-8 h-8 rounded-full ring-1 ring-black/10 text-neutral-500 hover:text-white hover:bg-[#fd6b18] hover:ring-transparent flex items-center justify-center transition-fluid active:scale-[0.95] focus-visible:ring-2 focus-visible:ring-neutral-950 focus-visible:ring-offset-2 focus:outline-none">
+          <a href={a.email} aria-label="Email" className="w-8 h-8 rounded-full ring-1 ring-black/10 text-neutral-500 hover:text-white hover:bg-[var(--brand)] hover:ring-transparent flex items-center justify-center transition-fluid active:scale-[0.95] focus-visible:ring-2 focus-visible:ring-neutral-950 focus-visible:ring-offset-2 focus:outline-none">
             <Mail size={13} />
           </a>
         )}
         {a.linkedin && (
-          <a href={a.linkedin} target="_blank" rel="noreferrer" aria-label="LinkedIn" className="w-8 h-8 rounded-full ring-1 ring-black/10 text-neutral-500 hover:text-white hover:bg-[#fd6b18] hover:ring-transparent flex items-center justify-center transition-fluid active:scale-[0.95] focus-visible:ring-2 focus-visible:ring-neutral-950 focus-visible:ring-offset-2 focus:outline-none">
+          <a href={a.linkedin} target="_blank" rel="noreferrer" aria-label="LinkedIn" className="w-8 h-8 rounded-full ring-1 ring-black/10 text-neutral-500 hover:text-white hover:bg-[var(--brand)] hover:ring-transparent flex items-center justify-center transition-fluid active:scale-[0.95] focus-visible:ring-2 focus-visible:ring-neutral-950 focus-visible:ring-offset-2 focus:outline-none">
             <Linkedin size={13} />
           </a>
         )}
         {a.twitter && (
-          <a href={a.twitter} target="_blank" rel="noreferrer" aria-label="X" className="w-8 h-8 rounded-full ring-1 ring-black/10 text-neutral-500 hover:text-white hover:bg-[#fd6b18] hover:ring-transparent flex items-center justify-center transition-fluid active:scale-[0.95] focus-visible:ring-2 focus-visible:ring-neutral-950 focus-visible:ring-offset-2 focus:outline-none">
+          <a href={a.twitter} target="_blank" rel="noreferrer" aria-label="X" className="w-8 h-8 rounded-full ring-1 ring-black/10 text-neutral-500 hover:text-white hover:bg-[var(--brand)] hover:ring-transparent flex items-center justify-center transition-fluid active:scale-[0.95] focus-visible:ring-2 focus-visible:ring-neutral-950 focus-visible:ring-offset-2 focus:outline-none">
             <Twitter size={13} />
           </a>
         )}
@@ -228,7 +231,7 @@ export default function Attendees() {
                       </div>
                     </div>
                   </div>
-                  <div className="w-9 h-9 rounded-full flex items-center justify-center tracking-tight shrink-0 tabular-nums" style={{ backgroundColor: BRAND_SOFT, color: "#7a3000" }}>
+                  <div className="w-9 h-9 rounded-full flex items-center justify-center tracking-tight shrink-0 tabular-nums" style={{ backgroundColor: BRAND_CHIP.bg, color: BRAND_CHIP.fg }}>
                     {n}
                   </div>
                 </div>

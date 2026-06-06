@@ -5,6 +5,7 @@ import { CountryFlag } from "./CountryFlag";
 import { ImageWithFallback } from "./figma/ImageWithFallback";
 import { Breadcrumbs, type BreadcrumbItem } from "./ui/Breadcrumbs";
 import { fadeUp, fadeUpTight, staggerHero } from "../motion";
+import { TYPE } from "../tokens";
 
 /**
  * GradientText — italic brand-orange phrase used to highlight accent word(s)
@@ -58,9 +59,8 @@ export function GradientText({
         background: GRADIENT_BY_TONE[effectiveTone],
         WebkitBackgroundClip: "text",
         WebkitTextFillColor: "transparent",
-        // Instrument Serif italic has different optical bounds than Libre Baskerville.
-        // It leans elegantly, so we still need inline padding to prevent clipping,
-        // but we can adjust it slightly for a tighter fit.
+        // Libre Baskerville italic leans elegantly — inline padding prevents
+        // the descenders/ascenders from clipping against adjacent text.
         paddingInline: "0.15em",
         marginInline: "-0.15em",
         // Libre Baskerville's natural italic sits a touch narrower than
@@ -97,7 +97,7 @@ export function SectionLabel({
   const isDark = tone === "dark";
   return (
     <span
-      className={`inline-flex items-center gap-2.5 mb-6 text-[10.5px] uppercase tracking-[0.22em] ${
+      className={`inline-flex items-center gap-2.5 mb-6 text-[11px] uppercase tracking-[0.22em] ${
         isDark ? "text-neutral-700" : "text-white/85"
       }`}
       style={{ fontWeight: 500 }}
@@ -152,8 +152,7 @@ export function Marquee() {
           {[...countries, ...countries].map((c, i) => (
             <span
               key={i}
-              className="inline-flex items-center gap-4 md:gap-5 text-white/85 tracking-[0.18em]"
-              style={{ fontSize: "0.9rem" }}
+              className="inline-flex items-center gap-4 md:gap-5 text-white/85 tracking-[0.18em] text-[0.9rem]"
             >
               <CountryFlag
                 country={c}
@@ -283,7 +282,7 @@ export function PageHero({
           // them breathing room without making the headline feel airy.
           // Mobile floor bumped from 2.5rem to 2.25rem (40 → 36px) so two-line
           // headlines clear the safe-area on a 360px viewport.
-          style={{ fontSize: "clamp(2.25rem, 7vw, 5rem)", lineHeight: 1.05 }}
+          style={{ fontSize: TYPE.hero, lineHeight: 1.05 }}
         >
           <GradientToneScope tone="light">{title}</GradientToneScope>
         </motion.h1>

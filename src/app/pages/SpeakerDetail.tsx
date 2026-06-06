@@ -137,7 +137,7 @@ export default function SpeakerDetail() {
                   <a
                     href={speaker.email}
                     aria-label="Email"
-                    className="w-10 h-10 rounded-full ring-1 ring-white/20 text-white/80 hover:text-white hover:bg-[#fd6b18] hover:ring-transparent flex items-center justify-center transition-fluid active:scale-[0.95] focus-visible:ring-2 focus-visible:ring-white focus:outline-none"
+                    className="w-10 h-10 rounded-full ring-1 ring-white/20 text-white/80 hover:text-white hover:bg-[var(--brand)] hover:ring-transparent flex items-center justify-center transition-fluid active:scale-[0.95] focus-visible:ring-2 focus-visible:ring-white focus:outline-none"
                   >
                     <Mail size={15} />
                   </a>
@@ -148,7 +148,7 @@ export default function SpeakerDetail() {
                     target="_blank"
                     rel="noreferrer"
                     aria-label="LinkedIn"
-                    className="w-10 h-10 rounded-full ring-1 ring-white/20 text-white/80 hover:text-white hover:bg-[#fd6b18] hover:ring-transparent flex items-center justify-center transition-fluid active:scale-[0.95] focus-visible:ring-2 focus-visible:ring-white focus:outline-none"
+                    className="w-10 h-10 rounded-full ring-1 ring-white/20 text-white/80 hover:text-white hover:bg-[var(--brand)] hover:ring-transparent flex items-center justify-center transition-fluid active:scale-[0.95] focus-visible:ring-2 focus-visible:ring-white focus:outline-none"
                   >
                     <Linkedin size={15} />
                   </a>
@@ -159,7 +159,7 @@ export default function SpeakerDetail() {
                     target="_blank"
                     rel="noreferrer"
                     aria-label="X / Twitter"
-                    className="w-10 h-10 rounded-full ring-1 ring-white/20 text-white/80 hover:text-white hover:bg-[#fd6b18] hover:ring-transparent flex items-center justify-center transition-fluid active:scale-[0.95] focus-visible:ring-2 focus-visible:ring-white focus:outline-none"
+                    className="w-10 h-10 rounded-full ring-1 ring-white/20 text-white/80 hover:text-white hover:bg-[var(--brand)] hover:ring-transparent flex items-center justify-center transition-fluid active:scale-[0.95] focus-visible:ring-2 focus-visible:ring-white focus:outline-none"
                   >
                     <Twitter size={15} />
                   </a>
@@ -250,7 +250,7 @@ export default function SpeakerDetail() {
 
       {/* Other speakers */}
       {otherSpeakers.length > 0 && (
-        <section className="py-12 md:py-20" style={{ backgroundColor: "#ededed" }}>
+        <section className="py-12 md:py-20 bg-[var(--surface-paper)]">
           <div className="max-w-7xl mx-auto px-5 md:px-6">
             <div className="flex flex-wrap items-end justify-between gap-4 mb-8 md:mb-10">
               <div>

@@ -16,7 +16,7 @@ import { ImageWithFallback } from "../components/figma/ImageWithFallback";
 import { PageHero, SectionLabel } from "../components/shared";
 import { BracketArrow } from "../components/ui/BracketArrow";
 import { NestedCTA } from "../components/ui/NestedCTA";
-import { chipTone } from "../tokens";
+import { CHIP_HUE, chipTone } from "../tokens";
 import portOfSpainMap from "../../imports/map-port-of-spain.png";
 import { useDocumentTitle } from "../motion";
 import {
@@ -67,14 +67,15 @@ function pathOf(loc: SessionLocator): string {
   return `/agenda/${daySlugFor(agenda[loc.dayIdx])}/${loc.sessionIdx}`;
 }
 
-// Topic-coloured pill matching the Materials page treatment.
+// Topic-coloured pill — mirrors Materials.tsx via chipTone(hue) so cards on
+// either page read as the same coordinated family.
 const TOPIC_TONES: Record<MaterialEntry["topic"], { bg: string; fg: string }> = {
-  PFM: { bg: "#fd6b1815", fg: "#fd6b18" },
-  AI: { bg: "#2563eb15", fg: "#2563eb" },
-  Performance: { bg: "#16a34a15", fg: "#16a34a" },
-  Assessments: { bg: "#a855f715", fg: "#a855f7" },
-  Product: { bg: "#0a0a0a15", fg: "#0a0a0a" },
-  Reform: { bg: "#c2410c15", fg: "#c2410c" },
+  PFM: chipTone(CHIP_HUE.pfm),
+  AI: chipTone(CHIP_HUE.ai),
+  Performance: chipTone(CHIP_HUE.performance),
+  Assessments: chipTone(CHIP_HUE.assessments),
+  Product: { bg: "oklch(95% 0 0)", fg: "oklch(35% 0 0)" },
+  Reform: chipTone(CHIP_HUE.reform),
 };
 
 export default function AgendaSession() {
@@ -273,7 +274,7 @@ export default function AgendaSession() {
 
       {/* Speakers */}
       {enrichedSpeakers.length > 0 && (
-        <section className="py-12 md:py-20" style={{ backgroundColor: "#ededed" }}>
+        <section className="py-12 md:py-20 bg-[var(--surface-paper)]">
           <div className="max-w-7xl mx-auto px-5 md:px-6">
             <div className="mb-8 md:mb-12">
               <SectionLabel>Speakers</SectionLabel>
@@ -442,7 +443,7 @@ export default function AgendaSession() {
       )}
 
       {/* Location & map */}
-      <section className="py-12 md:py-20" style={{ backgroundColor: "#ededed" }}>
+      <section className="py-12 md:py-20 bg-[var(--surface-paper)]">
         <div className="max-w-7xl mx-auto px-5 md:px-6">
           <div className="mb-8 md:mb-10">
             <SectionLabel>Where it happens</SectionLabel>

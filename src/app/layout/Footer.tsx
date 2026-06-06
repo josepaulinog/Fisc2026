@@ -138,7 +138,7 @@ export function Newsletter() {
                         error
                           ? "border-red-400 focus-within:ring-2 focus-within:ring-red-400/40"
                           : isFocused
-                          ? "border-[#fd6b18] ring-2 ring-[#fd6b18]/30 shadow-[0_0_15px_rgba(253,107,24,0.15)]"
+                          ? "border-[var(--brand)] ring-2 ring-[color:var(--brand)]/30 shadow-[0_0_15px_rgba(253,107,24,0.15)]"
                           : "border-neutral-200"
                       }`}
                     >
@@ -147,7 +147,7 @@ export function Newsletter() {
                           size={15}
                           strokeWidth={1.75}
                           className={`shrink-0 transition-all duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] ${
-                            isFocused ? "text-[#fd6b18] scale-110 translate-x-0.5" : "text-neutral-400"
+                            isFocused ? "text-[var(--brand)] scale-110 translate-x-0.5" : "text-neutral-400"
                           }`}
                         />
                         <input
@@ -171,7 +171,7 @@ export function Newsletter() {
                         className="group relative overflow-hidden inline-flex items-center justify-center gap-2 px-5 py-3 sm:py-0 sm:px-6 text-white font-medium transition-all duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] will-change-transform active:scale-[0.97] shrink-0"
                       >
                         <div
-                          className="absolute inset-0 transition-all duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] bg-gradient-to-r from-[#fd6b18] to-[#ff843a] group-hover:from-[#ff843a] group-hover:to-[#fd6b18]"
+                          className="absolute inset-0 transition-all duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] bg-gradient-to-r from-[var(--brand)] to-[#ff843a] group-hover:from-[#ff843a] group-hover:to-[var(--brand)]"
                         />
                         <span className="relative sm:hidden" style={{ fontSize: TYPE.body, fontWeight: 500 }}>Follow</span>
                         <span className="relative inline-flex transition-transform duration-700 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:rotate-45">
@@ -406,7 +406,7 @@ export function Footer({ variant = "compact" }: FooterProps = {}) {
                   key={label}
                   href="#"
                   aria-label={label}
-                  className="w-11 h-11 rounded-full ring-1 ring-white/20 text-white/80 flex items-center justify-center hover:text-white hover:bg-[#fd6b18] hover:ring-transparent transition-fluid active:scale-90 focus-ring"
+                  className="w-11 h-11 rounded-full ring-1 ring-white/20 text-white/80 flex items-center justify-center hover:text-white hover:bg-[var(--brand)] hover:ring-transparent transition-fluid active:scale-90 focus-ring"
                 >
                   <Icon size={16} />
                 </a>

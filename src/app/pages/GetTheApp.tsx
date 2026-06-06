@@ -24,7 +24,18 @@ import appMockup from "../../imports/app-mockup.jpg";
 // site-wide INK treatment (handled in shared.tsx / Footer.tsx). Everything in
 // between leans light grayscale so brand-orange accents pop and the dark phone
 // mockup contrasts cleanly with its surroundings.
-const SHOWCASE_BG = "#e7e9ec";
+import { CHIP_HUE, SURFACE, chipAccent } from "../tokens";
+
+// Status dot tones — pulled from the coordinated OKLCH hue family
+// (chipAccent locks lightness/chroma; only hue varies, so the four states
+// read as one family instead of four arbitrary brand colors).
+const STATUS_TONE = {
+  installed: chipAccent(CHIP_HUE.performance), // green
+  ready: chipAccent(CHIP_HUE.brand),           // orange (matches BRAND family)
+  ios: chipAccent(215),                        // blue
+  wait: chipAccent(CHIP_HUE.recap),            // warm amber
+} as const;
+const SHOWCASE_BG = SURFACE.fog;
 const SHOWCASE_FG = "#0c0c0e";
 
 /**
@@ -225,14 +236,7 @@ function StatusPill({
 }) {
   // Each state gets a distinct dot colour so the badge is scannable even
   // before reading the label.
-  const dot =
-    tone === "installed"
-      ? "#10b981"
-      : tone === "ready"
-      ? BRAND
-      : tone === "ios"
-      ? "#6366f1"
-      : "#d97706";
+  const dot = STATUS_TONE[tone];
   const pillStyles =
     surface === "light"
       ? "bg-white/70 ring-1 ring-black/[0.08] text-neutral-700 shadow-[0_1px_0_rgba(255,255,255,0.6),0_8px_22px_-14px_rgba(0,0,0,0.18)]"
@@ -302,7 +306,7 @@ function SmartInstallCTA({ state }: { state: InstallState }) {
     return (
       <span
         className="inline-flex items-center gap-0 pl-6 pr-2 py-2 rounded-sm text-white shadow-[0_3px_10px_-5px_rgba(16,185,129,0.45)]"
-        style={{ backgroundColor: "#059669" }}
+        style={{ backgroundColor: STATUS_TONE.installed }}
       >
         <span
           className="text-[17px]"
@@ -632,8 +636,7 @@ function FeaturesStrip() {
   ];
   return (
     <section
-      className="relative py-20 md:py-28 overflow-hidden"
-      style={{ backgroundColor: "#ededed" }}
+      className="relative py-20 md:py-28 overflow-hidden bg-[var(--surface-paper)]"
     >
       {/* Soft tonal wash — single restrained orange whisper at the top-right
           corner so the band has accent without flooding warm. */}
@@ -842,8 +845,7 @@ function ClosingCTA({ state }: { state: InstallState }) {
         {/* Flat panel — single container with a solid background and a
             hairline border. No nested tray, no gradient, no shadow. */}
         <div
-          className="rounded-md py-20 md:py-28"
-          style={{ backgroundColor: "#ededed" }}
+          className="rounded-md py-20 md:py-28 bg-[var(--surface-paper)]"
         >
           <div className="max-w-5xl mx-auto px-5 md:px-6 text-center">
             <SectionLabel>One last thing</SectionLabel>

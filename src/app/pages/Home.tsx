@@ -240,8 +240,7 @@ function CountdownAndActions() {
 
   return (
     <section
-      className="py-16 md:py-24 relative"
-      style={{ backgroundColor: "#ededed" }}
+      className="py-16 md:py-24 relative bg-[var(--surface-paper)]"
     >
       <div className="max-w-7xl mx-auto px-5 md:px-6">
         {/* About + photo collage — editorial intro row that grounds the
@@ -255,6 +254,7 @@ function CountdownAndActions() {
           initial="hidden"
           whileInView="show"
           viewport={REVEAL_VIEWPORT}
+          style={{ position: "relative" }}
           className="grid lg:grid-cols-12 gap-10 md:gap-12 items-center"
         >
           {/* Text column — children stagger via own staggerSection: eyebrow
@@ -356,7 +356,7 @@ function CountdownAndActions() {
                 <motion.div
                   variants={scaleIn}
                   style={{ y: tileTopLeftY }}
-                  className="group aspect-[4/5] relative overflow-hidden rounded-xl bg-neutral-100 shadow-sm hover:shadow-xl hover:shadow-black/[0.08] transition-[box-shadow] duration-500 ease-[cubic-bezier(0.32,0.72,0,1)]"
+                  className="group aspect-[4/5] relative overflow-hidden rounded-2xl bg-neutral-100 shadow-sm hover:shadow-xl hover:shadow-black/[0.08] transition-[box-shadow] duration-500 ease-[cubic-bezier(0.32,0.72,0,1)]"
                 >
                   <ImageWithFallback
                     src={COLLAGE_1}
@@ -369,7 +369,7 @@ function CountdownAndActions() {
                 <motion.div
                   variants={scaleIn}
                   style={{ y: tileBottomLeftY }}
-                  className="group aspect-square relative overflow-hidden rounded-xl bg-neutral-100 shadow-sm hover:shadow-xl hover:shadow-black/[0.08] transition-[box-shadow] duration-500 ease-[cubic-bezier(0.32,0.72,0,1)]"
+                  className="group aspect-square relative overflow-hidden rounded-2xl bg-neutral-100 shadow-sm hover:shadow-xl hover:shadow-black/[0.08] transition-[box-shadow] duration-500 ease-[cubic-bezier(0.32,0.72,0,1)]"
                 >
                   <ImageWithFallback
                     src={COLLAGE_3}
@@ -383,7 +383,7 @@ function CountdownAndActions() {
               <motion.div
                 variants={scaleIn}
                 style={{ y: tileRightY }}
-                className="group aspect-[3/5] relative overflow-hidden rounded-xl bg-neutral-100 shadow-sm hover:shadow-xl hover:shadow-black/[0.08] transition-[box-shadow] duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] mt-[6%]"
+                className="group aspect-[3/5] relative overflow-hidden rounded-2xl bg-neutral-100 shadow-sm hover:shadow-xl hover:shadow-black/[0.08] transition-[box-shadow] duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] mt-[6%]"
               >
                 <motion.div
                   className="absolute inset-0"
@@ -960,7 +960,7 @@ const CATEGORY_TONES: Record<SiteUpdate["category"], { bg: string; fg: string }>
 
 function WhatsNew() {
   return (
-    <section className="py-16 md:py-24" style={{ backgroundColor: "#ededed" }}>
+    <section className="py-16 md:py-24 bg-[var(--surface-paper)]">
       <div className="max-w-7xl mx-auto px-5 md:px-6">
         <div className="grid lg:grid-cols-12 gap-10 md:gap-16 items-end mb-10 md:mb-14">
           <div className="lg:col-span-6">
@@ -989,11 +989,13 @@ function WhatsNew() {
             const tone = CATEGORY_TONES[u.category];
             return (
               <motion.div key={u.title} variants={fadeUpTight}>
-                <Link
-                  to={u.to}
-                  className="group block rounded-xl p-1.5 bg-black/[0.02] hover:bg-black/[0.04] ring-1 ring-black/[0.04] hover:ring-black/[0.08] hover:-translate-y-0.5 shadow-sm hover:shadow-md transition-all duration-500 ease-[cubic-bezier(0.32,0.72,0,1)]"
-                >
-                  <div className="rounded-lg overflow-hidden bg-white border border-black/[0.03] shadow-[inset_0_1.5px_0_rgba(255,255,255,0.9)] p-5 md:p-6 group-hover:bg-[#fbfaf8]/40 transition-colors duration-500 ease-[cubic-bezier(0.32,0.72,0,1)]">
+                <Link to={u.to} className="group block">
+                  <BezelCard
+                    outerRadius="xl"
+                    innerRadius="lg"
+                    className="hover:bg-black/[0.04] hover:ring-black/[0.08] hover:-translate-y-0.5 shadow-sm hover:shadow-md transition-all duration-500 ease-[cubic-bezier(0.32,0.72,0,1)]"
+                    innerClassName="p-5 md:p-6 group-hover:bg-[#fbfaf8]/40 transition-colors duration-500 ease-[cubic-bezier(0.32,0.72,0,1)]"
+                  >
                     <div className="grid md:grid-cols-12 gap-3 md:gap-6 items-start md:items-center">
                       <div className="md:col-span-3 flex items-center gap-3">
                         <div className="text-xs tracking-[0.2em] uppercase text-neutral-500 shrink-0 tabular-nums">
@@ -1040,7 +1042,7 @@ function WhatsNew() {
                         )}
                       </div>
                     </div>
-                  </div>
+                  </BezelCard>
                 </Link>
               </motion.div>
             );

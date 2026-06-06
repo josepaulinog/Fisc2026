@@ -133,7 +133,7 @@ export default function Agenda() {
                 key={d.label}
                 onClick={() => selectDay(i)}
                 aria-pressed={isActive}
-                className={`snap-start shrink-0 px-3 md:px-5 py-2 md:py-3 rounded-sm text-left transition-fluid will-change-transform active:scale-[0.98] focus:outline-none focus-visible:ring-2 focus-visible:ring-neutral-950 focus-visible:ring-offset-2 focus-visible:ring-offset-[#ededed] ${
+                className={`snap-start shrink-0 px-3 md:px-5 py-2 md:py-3 rounded-sm text-left transition-fluid will-change-transform active:scale-[0.98] focus:outline-none focus-visible:ring-2 focus-visible:ring-neutral-950 focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--surface-paper)] ${
                   isActive
                     ? "text-white"
                     : "bg-white text-neutral-900 ring-1 ring-black/[0.07] hover:bg-neutral-50 hover:ring-black/[0.12] hover:shadow-[0_2px_10px_-6px_rgba(0,0,0,0.12)]"

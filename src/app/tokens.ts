@@ -19,7 +19,7 @@
 
 export const TYPE = {
   /** Once-per-page hero anchor. Used by Home/Hero only. */
-  display: "clamp(2.8rem, 8vw, 6em",
+  display: "clamp(2.8rem, 8vw, 6rem)",
   /** Inner-page hero (PageHero default). */
   hero: "clamp(2.5rem, 7vw, 6rem)",
   /** Section h2 — the biggest non-hero heading. */
@@ -166,6 +166,32 @@ export const RADIUS = {
   media: "rounded-2xl",
   /** Buttons, avatars, status dots, anything circular. */
   pill: "rounded-full",
+} as const;
+
+// ─── Surface colors ──────────────────────────────────────────────────────
+// Three named neutrals — one ink, two off-whites. The off-whites were being
+// reinvented as raw hex (#ededed, #e7e9ec, #f6f4ef) across nine files;
+// consolidating to two named tiers keeps section transitions intentional.
+
+export const SURFACE = {
+  /** Editorial deep — page footer, sign-in panel, dark sections. */
+  ink: "#0a0a0a",
+  /** Primary off-white — alternate section background between white pages. */
+  paper: "#ededed",
+  /** Cooler off-white — used sparingly for tech / product surfaces. */
+  fog: "#e7e9ec",
+} as const;
+
+// ─── Section padding rhythm ──────────────────────────────────────────────
+// Three discrete beats. Adopt one per section; never mix arbitrary values.
+
+export const SECTION_PAD = {
+  /** Tight — utility strips, compact lists. */
+  sm: "py-12 md:py-16",
+  /** Standard — most content sections. */
+  md: "py-16 md:py-24",
+  /** Generous — anchor / feature sections. */
+  lg: "py-20 md:py-32",
 } as const;
 
 // ─── Chip color tones (OKLCH) ────────────────────────────────────────────
