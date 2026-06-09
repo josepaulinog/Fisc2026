@@ -3,7 +3,7 @@ import { ArrowUpRight, Globe, Linkedin, MessagesSquare, Twitter, Zap } from "luc
 import { ImageWithFallback } from "../components/figma/ImageWithFallback";
 import { GradientText, PageHero, SectionLabel } from "../components/shared";
 import { BezelCard } from "../components/ui/BezelCard";
-import { ABOUT_IMG, BRAND, HERO_ABOUT } from "../data";
+import { ABOUT_IMG, BRAND, HERO_ABOUT, INK } from "../data";
 
 const APPROACH = [
   {
@@ -91,7 +91,7 @@ export default function About() {
                 >
                   <div
                     className="w-11 h-11 md:w-12 md:h-12 rounded-sm flex items-center justify-center mb-4 md:mb-5 transition-transform duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] group-hover:scale-105"
-                    style={{ backgroundColor: `${BRAND}15`, color: BRAND }}
+                    style={{ backgroundColor: `${INK}15`, color: INK }}
                   >
                     <p.icon size={20} strokeWidth={1.5} />
                   </div>

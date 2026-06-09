@@ -98,7 +98,7 @@ export default function Venue() {
                 >
                   <div
                     className="w-11 h-11 rounded-sm flex items-center justify-center shrink-0"
-                    style={{ backgroundColor: `${BRAND}15`, color: BRAND }}
+                    style={{ backgroundColor: `${INK}15`, color: INK }}
                   >
                     <f.icon size={18} strokeWidth={1.5} />
                   </div>
